@@ -4,7 +4,7 @@ const config = {
   parserOptions: {
     project: true,
   },
-  plugins: ["@typescript-eslint"],
+  plugins: ["simple-import-sort", "@typescript-eslint"],
   extends: [
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended-type-checked",
@@ -36,6 +36,9 @@ const config = {
       },
     ],
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+    // simple-import-sort
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
   },
 };
 
