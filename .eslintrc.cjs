@@ -19,6 +19,14 @@ const config = {
     // Feel free to reconfigure them to your own preference.
     "@typescript-eslint/array-type": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
+    "@typescript-eslint/ban-ts-comment": "warn",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-namespace": [
+      "error",
+      {
+        allowDeclarations: true,
+      },
+    ],
 
     "@typescript-eslint/consistent-type-imports": [
       "warn",
