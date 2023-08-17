@@ -26,3 +26,20 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 ## How do I deploy this?
 
 Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+
+## Postgres Database from [Fly.io](https://fly.io/) 🚀
+
+[Connect](https://fly.io/docs/flyctl/postgres-connect/) to your database instance to run queries (ex. \dt).
+
+```sh
+fly pg connect -a <postgres-app-name> -d <db-name>
+```
+
+The [local connection](https://fly.io/docs/postgres/connecting/connecting-with-flyctl/)
+to the database should first be enabled by tunneling the localhost port `5432`.
+The command must be left running while the database is used. So do not close the
+console!
+
+```sh
+flyctl proxy 5432 -a <postgres-app-name>
+```
