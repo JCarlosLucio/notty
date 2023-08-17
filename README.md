@@ -43,3 +43,22 @@ console!
 ```sh
 flyctl proxy 5432 -a <postgres-app-name>
 ```
+
+## NextAuth with the default DiscordProvider
+
+[Setting up the default DiscordProvider](https://create.t3.gg/en/usage/next-auth#setting-up-the-default-discordprovider)
+
+1. Head to [the Applications section in the Discord Developer Portal](https://discord.com/developers/applications), and click on “New Application”.
+2. In the settings menu, go to “OAuth2 => General”.
+
+- Copy the Client ID and paste it in `DISCORD_CLIENT_ID` in `.env`.
+
+- Under Client Secret, click “Reset Secret” and copy that string to `DISCORD_CLIENT_SECRET` in `.env`. Be careful as you won’t be able to see this secret again, and resetting it will cause the existing one to expire.
+- Click “Add Redirect” and paste in `<app url>/api/auth/callback/discord`.
+  (ex. for local development: `http://localhost:3000/api/auth/callback/discord`
+  )
+- Save your changes.
+- It is possible, but not recommended, to use the same Discord Application for both development and production. You could also consider [Mocking the Provider](https://github.com/trpc/trpc/blob/main/examples/next-prisma-websockets-starter/src/pages/api/auth/%5B...nextauth%5D.ts) during development.
+
+[More on NextAuth with T3](https://create.t3.gg/en/usage/next-auth)...  
+[More on Discord OAuth2](https://discord.com/developers/docs/topics/oauth2)...
