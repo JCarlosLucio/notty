@@ -11,6 +11,10 @@ const config = {
     "plugin:@typescript-eslint/stylistic-type-checked",
   ],
   rules: {
+    "import/prefer-default-export": "off",
+    eqeqeq: "error",
+    "no-console": "warn",
+    "no-var": "error",
     // These opinionated rules are enabled in stylistic-type-checked above.
     // Feel free to reconfigure them to your own preference.
     "@typescript-eslint/array-type": "off",
