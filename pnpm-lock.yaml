@@ -49,6 +49,9 @@ dependencies:
     version: 3.21.4
 
 devDependencies:
+  '@tanstack/react-query-devtools':
+    specifier: ^4.33.0
+    version: 4.33.0(@tanstack/react-query@4.29.25)(react-dom@18.2.0)(react@18.2.0)
   '@types/eslint':
     specifier: ^8.37.0
     version: 8.37.0
@@ -385,9 +388,30 @@ packages:
       zod: 3.21.4
     dev: false
 
+  /@tanstack/match-sorter-utils@8.8.4:
+    resolution: {integrity: sha512-rKH8LjZiszWEvmi01NR72QWZ8m4xmXre0OOwlRGnjU01Eqz/QnN+cqpty2PJ0efHblq09+KilvyR7lsbzmXVEw==}
+    engines: {node: '>=12'}
+    dependencies:
+      remove-accents: 0.4.2
+    dev: true
+
   /@tanstack/query-core@4.29.25:
     resolution: {integrity: sha512-DI4y4VC6Uw4wlTpOocEXDky69xeOScME1ezLKsj+hOk7DguC9fkqXtp6Hn39BVb9y0b5IBrY67q6kIX623Zj4Q==}
-    dev: false
+
+  /@tanstack/react-query-devtools@4.33.0(@tanstack/react-query@4.29.25)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-6gegkuDmOoiY5e6ZKj1id48vlCXchjfE/6tIpYO8dFlVMQ7t1bYna/Ce6qQJ69+kfEHbYiTTn2lj+FDjIBH7Hg==}
+    peerDependencies:
+      '@tanstack/react-query': ^4.33.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@tanstack/match-sorter-utils': 8.8.4
+      '@tanstack/react-query': 4.29.25(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      superjson: 1.13.1
+      use-sync-external-store: 1.2.0(react@18.2.0)
+    dev: true
 
   /@tanstack/react-query@4.29.25(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-c1+Ezu+XboYrdAMdusK2fTdRqXPMgPAnyoTrzHOZQqr8Hqz6PNvV9DSKl8agUo6nXX4np7fdWabIprt+838dLg==}
@@ -405,7 +429,6 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       use-sync-external-store: 1.2.0(react@18.2.0)
-    dev: false
 
   /@trpc/client@10.34.0(@trpc/server@10.34.0):
     resolution: {integrity: sha512-nqtDTIqSY/9syo2EjSy4WWWXPU9GsamEh9Tsg698gLAh1nhgFc5+/YYeb+Ne1pbvWGZ5/3t9Dcz3h4wMyyJ9gQ==}
@@ -1002,7 +1025,6 @@ packages:
     engines: {node: '>=12.13'}
     dependencies:
       is-what: 4.1.15
-    dev: false
 
   /cross-spawn@7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
@@ -1996,7 +2018,6 @@ packages:
   /is-what@4.1.15:
     resolution: {integrity: sha512-uKua1wfy3Yt+YqsD6mTUEa2zSi3G1oPlqTflgaPJ7z63vUGN5pxFpnQfeSLMFnJDEsdvOtkp1rUWkYjB4YfhgA==}
     engines: {node: '>=12.13'}
-    dev: false
 
   /isarray@2.0.5:
     resolution: {integrity: sha512-xHjhDr3cNBK0BzdUJSPXZntQUx/mwMS5Rw4A7lPJ90XGAO6ISP/ePDNuo0vhqOZU+UD5JoodwCAAoZQd3FeAKw==}
@@ -2618,7 +2639,6 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
-    dev: false
 
   /react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
@@ -2637,7 +2657,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       loose-envify: 1.4.0
-    dev: false
 
   /read-cache@1.0.0:
     resolution: {integrity: sha512-Owdv/Ft7IjOgm/i0xvNDZ1LrRANRfew4b2prF3OWMQLxLfu3bS8FVhCsrSCMK4lR56Y9ya+AThoTpDCTxCmpRA==}
@@ -2674,6 +2693,10 @@ packages:
       call-bind: 1.0.2
       define-properties: 1.2.0
       functions-have-names: 1.2.3
+    dev: true
+
+  /remove-accents@0.4.2:
+    resolution: {integrity: sha512-7pXIJqJOq5tFgG1A2Zxti3Ht8jJF337m4sowbuHsW30ZnkQFnDzy9qBNhgzX8ZLW4+UBcXiiR7SwR6pokHsxiA==}
     dev: true
 
   /resolve-from@4.0.0:
@@ -2743,7 +2766,6 @@ packages:
     resolution: {integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==}
     dependencies:
       loose-envify: 1.4.0
-    dev: false
 
   /semver@6.3.1:
     resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
@@ -2883,7 +2905,6 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       copy-anything: 3.0.5
-    dev: false
 
   /supports-color@7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
@@ -3084,7 +3105,6 @@ packages:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
       react: 18.2.0
-    dev: false
 
   /util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
