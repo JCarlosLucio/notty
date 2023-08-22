@@ -44,6 +44,12 @@ console!
 flyctl proxy 5432 -a <postgres-app-name>
 ```
 
+To sync db with Prisma schema:
+
+```sh
+npx prisma db push
+```
+
 ## NextAuth with the default DiscordProvider
 
 [Setting up the default DiscordProvider](https://create.t3.gg/en/usage/next-auth#setting-up-the-default-discordprovider)
