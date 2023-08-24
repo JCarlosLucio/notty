@@ -70,6 +70,10 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      backgroundImage: {
+        "primary-gradient":
+          "linear-gradient(to right, rgba(84,51,255,1), rgba(71,84,255,1), rgba(57,122,255,1), rgba(45,156,255,1), rgba(32,189,255,1), rgba(69,206,241,1), rgba(101,222,228,1), rgba(137,240,214,1), rgba(165,254,203,1), rgba(184,254,214,1), rgba(203,254,225,1), rgba(225,255,238,1))",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
