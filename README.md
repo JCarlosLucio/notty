@@ -50,6 +50,12 @@ To sync db with Prisma schema:
 npx prisma db push
 ```
 
+To watch in Prisma Studio:
+
+```sh
+npx prisma studio
+```
+
 ## NextAuth with the default DiscordProvider
 
 [Setting up the default DiscordProvider](https://create.t3.gg/en/usage/next-auth#setting-up-the-default-discordprovider)
