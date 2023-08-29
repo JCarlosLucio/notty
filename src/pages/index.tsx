@@ -13,15 +13,15 @@ export default function Home() {
         <meta name="description" content="A note taking app" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+      <main className="flex min-h-screen flex-col items-center justify-center bg-background">
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-          <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-            <span className="bg-gradient-to-r from-emerald-500 to-teal-200 bg-clip-text text-transparent">
+          <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
+            <span className="bg-gradient-to-r from-emerald-500 to-teal-300 bg-clip-text text-transparent">
               Notty
             </span>
           </h1>
           <div className="flex flex-col items-center gap-2">
-            <p className="text-2xl text-white">
+            <p className="text-2xl text-secondary-foreground">
               {hello.data ? hello.data.greeting : "Loading tRPC query..."}
             </p>
             <AuthShowcase />
