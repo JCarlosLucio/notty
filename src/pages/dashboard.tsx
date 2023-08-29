@@ -1,7 +1,8 @@
 import { type GetServerSideProps } from "next";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { getServerAuthSession } from "@/server/auth";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -33,6 +34,8 @@ const Dashboard = () => {
 
         <p>{sessionData?.user?.name}</p>
       </div>
+
+      <Button onClick={() => void signOut()}>Sign Out</Button>
     </div>
   );
 };
