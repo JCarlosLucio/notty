@@ -1,6 +1,7 @@
 import { type GetServerSideProps } from "next";
 import { useSession } from "next-auth/react";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getServerAuthSession } from "@/server/auth";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -22,7 +23,16 @@ const Dashboard = () => {
 
   return (
     <div>
-      <h1>This is your personal dashboard. {sessionData?.user?.name}</h1>
+      <div className="flex flex-row items-center gap-2">
+        <Avatar>
+          <AvatarImage src={sessionData?.user.image ?? undefined} />
+          <AvatarFallback>
+            {sessionData?.user.name?.at(0) ?? "N"}
+          </AvatarFallback>
+        </Avatar>
+
+        <p>{sessionData?.user?.name}</p>
+      </div>
     </div>
   );
 };
