@@ -5,6 +5,7 @@ import { type AppType } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 
+import Nav from "@/components/Nav";
 import { api } from "@/utils/api";
 
 const MyApp: AppType<{ session: Session | null }> = ({
@@ -13,6 +14,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
+      <Nav />
       <Component {...pageProps} />
       <ReactQueryDevtools initialIsOpen={false} />
     </SessionProvider>
