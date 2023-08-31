@@ -13,7 +13,7 @@ const Nav = () => {
           Notty
         </Link>
         <div className="flex items-center">
-          <div className="ml-5 flex h-7 items-center border-l border-gray-400 pl-5 dark:border-gray-500">
+          <div className="mr-5 flex h-7 items-center border-r pr-5">
             <ThemeToggle />
           </div>
         </div>
