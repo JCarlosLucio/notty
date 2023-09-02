@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
-import type * as z from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -12,11 +11,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { listCreateSchema } from "@/server/api/routers/list";
+import {
+  type ListCreateInput,
+  listCreateSchema,
+} from "@/server/api/routers/list";
 import { api } from "@/utils/api";
 
 const ListForm = () => {
-  const form = useForm<z.infer<typeof listCreateSchema>>({
+  const form = useForm<ListCreateInput>({
     resolver: zodResolver(listCreateSchema),
     defaultValues: {
       title: "",
@@ -31,13 +33,7 @@ const ListForm = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<z.infer<typeof listCreateSchema>> = (
-    values: z.infer<typeof listCreateSchema>
-  ) => {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-
+  const onSubmit: SubmitHandler<ListCreateInput> = (values) => {
     createList(values, {
       onSuccess: (_data) => {
         form.reset();
