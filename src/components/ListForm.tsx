@@ -12,6 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { api } from "@/utils/api";
 
 const ListSchema = z.object({
   title: z.string().trim().min(1, "Title is required"),
@@ -25,12 +26,27 @@ const ListForm = () => {
     },
   });
 
+  const { refetch: refetchList } = api.list.getAll.useQuery();
+
+  const { mutate: createList, isLoading } = api.list.create.useMutation({
+    onSuccess: (_data) => {
+      void refetchList();
+    },
+  });
+
   const onSubmit: SubmitHandler<z.infer<typeof ListSchema>> = (
     values: z.infer<typeof ListSchema>
   ) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
+
+    createList(values, {
+      onSuccess: (_data) => {
+        form.reset();
+        alert("list added");
+      },
+    });
   };
 
   return (
@@ -49,7 +65,13 @@ const ListForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? (
+            <span className="animate-pulse">Submiting...</span>
+          ) : (
+            <span>Submit</span>
+          )}
+        </Button>
       </form>
     </Form>
   );
