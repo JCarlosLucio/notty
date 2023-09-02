@@ -21,7 +21,7 @@ export const listRouter = createTRPCRouter({
     .input(createListSchema)
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.list.create({
+        return await ctx.prisma.list.create({
           data: {
             title: input.title,
             userId: ctx.session.user.id,
