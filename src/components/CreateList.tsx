@@ -12,14 +12,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
+  createListSchema,
   type ListCreateInput,
-  listCreateSchema,
 } from "@/server/api/routers/list";
 import { api } from "@/utils/api";
 
 const CreateList = () => {
   const form = useForm<ListCreateInput>({
-    resolver: zodResolver(listCreateSchema),
+    resolver: zodResolver(createListSchema),
     defaultValues: {
       title: "",
     },

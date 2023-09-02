@@ -2,11 +2,11 @@ import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 
-export const listCreateSchema = z.object({
+export const createListSchema = z.object({
   title: z.string().trim().min(1, "Title is required"),
 });
 
-export type ListCreateInput = z.infer<typeof listCreateSchema>;
+export type ListCreateInput = z.infer<typeof createListSchema>;
 
 export const listRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
@@ -25,7 +25,7 @@ export const listRouter = createTRPCRouter({
   }),
 
   create: protectedProcedure
-    .input(listCreateSchema)
+    .input(createListSchema)
     .mutation(async ({ ctx, input }) => {
       try {
         await ctx.prisma.list.create({
