@@ -17,7 +17,7 @@ import {
 } from "@/server/api/routers/list";
 import { api } from "@/utils/api";
 
-const ListForm = () => {
+const CreateList = () => {
   const form = useForm<ListCreateInput>({
     resolver: zodResolver(listCreateSchema),
     defaultValues: {
@@ -70,4 +70,4 @@ const ListForm = () => {
   );
 };
 
-export default ListForm;
+export default CreateList;

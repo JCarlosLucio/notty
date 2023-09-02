@@ -1,7 +1,7 @@
 import { type GetServerSideProps } from "next";
 import { signOut, useSession } from "next-auth/react";
 
-import ListForm from "@/components/ListForm";
+import CreateList from "@/components/CreateList";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { getServerAuthSession } from "@/server/auth";
@@ -41,7 +41,7 @@ const Dashboard = () => {
 
       <Button onClick={() => void signOut()}>Sign Out</Button>
 
-      <ListForm />
+      <CreateList />
 
       <div>
         <p>The lists</p>
