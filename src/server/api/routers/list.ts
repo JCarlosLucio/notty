@@ -6,8 +6,6 @@ export const createListSchema = z.object({
   title: z.string().trim().min(1, "Title is required"),
 });
 
-export type CreateListInput = z.infer<typeof createListSchema>;
-
 export const listRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
     try {

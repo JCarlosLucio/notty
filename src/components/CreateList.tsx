@@ -11,11 +11,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  type CreateListInput,
-  createListSchema,
-} from "@/server/api/routers/list";
-import { api } from "@/utils/api";
+import { createListSchema } from "@/server/api/routers/list";
+import { api, type RouterInputs } from "@/utils/api";
+
+type CreateListInput = RouterInputs["list"]["create"];
 
 const CreateList = () => {
   const form = useForm<CreateListInput>({
