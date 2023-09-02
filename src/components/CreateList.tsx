@@ -24,11 +24,11 @@ const CreateList = () => {
     },
   });
 
-  const { refetch: refetchList } = api.list.getAll.useQuery();
+  const ctx = api.useContext();
 
   const { mutate: createList, isLoading } = api.list.create.useMutation({
-    onSuccess: (_data) => {
-      void refetchList();
+    onSuccess: async (_data) => {
+      await ctx.list.getAll.invalidate();
     },
   });
 
