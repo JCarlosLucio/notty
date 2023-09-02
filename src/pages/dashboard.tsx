@@ -4,6 +4,7 @@ import { signOut, useSession } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { getServerAuthSession } from "@/server/auth";
+import { api } from "@/utils/api";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerAuthSession(ctx);
@@ -22,8 +23,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 const Dashboard = () => {
   const { data: sessionData } = useSession();
 
+  const { data: lists } = api.list.getAll.useQuery();
+
   return (
-    <div>
+    <main className="min-h-screen pt-16">
       <div className="flex flex-row items-center gap-2">
         <Avatar>
           <AvatarImage src={sessionData?.user.image ?? undefined} />
@@ -36,7 +39,13 @@ const Dashboard = () => {
       </div>
 
       <Button onClick={() => void signOut()}>Sign Out</Button>
-    </div>
+      <div>
+        <p>The lists</p>
+        {lists?.map((list) => (
+          <p key={list.id}>{list.title}</p>
+        ))}
+      </div>
+    </main>
   );
 };
 
