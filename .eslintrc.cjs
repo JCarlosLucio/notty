@@ -27,6 +27,14 @@ const config = {
         allowDeclarations: true,
       },
     ],
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        checksVoidReturn: {
+          attributes: false,
+        },
+      },
+    ],
 
     "@typescript-eslint/consistent-type-imports": [
       "warn",
