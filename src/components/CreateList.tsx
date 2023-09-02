@@ -27,8 +27,10 @@ const CreateList = () => {
   const ctx = api.useContext();
 
   const { mutate: createList, isLoading } = api.list.create.useMutation({
-    onSuccess: async (_data) => {
-      await ctx.list.getAll.invalidate();
+    onSuccess: (data) => {
+      ctx.list.getAll.setData(undefined, (oldData) => {
+        return oldData && data ? [...oldData, data] : oldData;
+      });
     },
   });
 
