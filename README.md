@@ -56,6 +56,12 @@ To watch in Prisma Studio:
 npx prisma studio
 ```
 
+Run migrations:
+
+```sh
+npx prisma migrate dev
+```
+
 ## NextAuth with the default DiscordProvider
 
 [Setting up the default DiscordProvider](https://create.t3.gg/en/usage/next-auth#setting-up-the-default-discordprovider)
