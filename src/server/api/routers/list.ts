@@ -2,6 +2,10 @@ import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 
+export const listCreateSchema = z.object({
+  title: z.string().trim().min(1, "Title is required"),
+});
+
 export const listRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
     try {
@@ -19,11 +23,7 @@ export const listRouter = createTRPCRouter({
   }),
 
   create: protectedProcedure
-    .input(
-      z.object({
-        title: z.string().trim().min(1, "Title is required"),
-      })
-    )
+    .input(listCreateSchema)
     .mutation(async ({ ctx, input }) => {
       try {
         await ctx.prisma.list.create({
