@@ -12,13 +12,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
+  type CreateListInput,
   createListSchema,
-  type ListCreateInput,
 } from "@/server/api/routers/list";
 import { api } from "@/utils/api";
 
 const CreateList = () => {
-  const form = useForm<ListCreateInput>({
+  const form = useForm<CreateListInput>({
     resolver: zodResolver(createListSchema),
     defaultValues: {
       title: "",
@@ -33,7 +33,7 @@ const CreateList = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<ListCreateInput> = (values) => {
+  const onSubmit: SubmitHandler<CreateListInput> = (values) => {
     createList(values, {
       onSuccess: (_data) => {
         form.reset();
