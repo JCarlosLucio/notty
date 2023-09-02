@@ -11,8 +11,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { createListSchema } from "@/server/api/routers/list";
 import { api, type RouterInputs } from "@/utils/api";
+import { createListSchema } from "@/utils/schemas";
 
 type CreateListInput = RouterInputs["list"]["create"];
 

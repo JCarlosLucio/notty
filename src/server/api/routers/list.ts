@@ -1,10 +1,5 @@
-import { z } from "zod";
-
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-
-export const createListSchema = z.object({
-  title: z.string().trim().min(1, "Title is required"),
-});
+import { createListSchema } from "@/utils/schemas";
 
 export const listRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
