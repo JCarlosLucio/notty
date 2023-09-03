@@ -29,7 +29,7 @@ const CreateList = () => {
   const { mutate: createList, isLoading } = api.list.create.useMutation({
     onSuccess: (data) => {
       ctx.list.getAll.setData(undefined, (oldData) => {
-        return oldData && data ? [...oldData, data] : oldData;
+        return oldData && data ? [data, ...oldData] : oldData;
       });
     },
   });
