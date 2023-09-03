@@ -27,9 +27,9 @@ const CreateList = () => {
   const ctx = api.useContext();
 
   const { mutate: createList, isLoading } = api.list.create.useMutation({
-    onSuccess: (data) => {
-      ctx.list.getAll.setData(undefined, (oldData) => {
-        return oldData && data ? [data, ...oldData] : oldData;
+    onSuccess: (createdList) => {
+      ctx.list.getAll.setData(undefined, (oldList) => {
+        return oldList && createdList ? [createdList, ...oldList] : oldList;
       });
     },
   });
