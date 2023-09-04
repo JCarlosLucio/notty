@@ -37,6 +37,12 @@ const CreateList = () => {
         description: "Your list was created.",
       });
     },
+    onError: () => {
+      toast({
+        variant: "destructive",
+        description: "Something went wrong.",
+      });
+    },
   });
 
   const onSubmit: SubmitHandler<CreateListInput> = (values) => {
