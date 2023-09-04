@@ -11,6 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterInputs } from "@/utils/api";
 import { createListSchema } from "@/utils/schemas";
 
@@ -23,7 +24,7 @@ const CreateList = () => {
       title: "",
     },
   });
-
+  const { toast } = useToast();
   const ctx = api.useContext();
 
   const { mutate: createList, isLoading } = api.list.create.useMutation({
@@ -32,7 +33,9 @@ const CreateList = () => {
         return oldList && createdList ? [createdList, ...oldList] : oldList;
       });
       form.reset();
-      alert("list added");
+      toast({
+        description: "Your list was created.",
+      });
     },
   });
 
