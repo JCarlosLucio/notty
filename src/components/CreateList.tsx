@@ -31,16 +31,13 @@ const CreateList = () => {
       ctx.list.getAll.setData(undefined, (oldList) => {
         return oldList && createdList ? [createdList, ...oldList] : oldList;
       });
+      form.reset();
+      alert("list added");
     },
   });
 
   const onSubmit: SubmitHandler<CreateListInput> = (values) => {
-    createList(values, {
-      onSuccess: (_data) => {
-        form.reset();
-        alert("list added");
-      },
-    });
+    createList(values);
   };
 
   return (
