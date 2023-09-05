@@ -1,5 +1,7 @@
+import { TRPCError } from "@trpc/server";
+
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-import { createListSchema } from "@/utils/schemas";
+import { createListSchema, deleteListSchema } from "@/utils/schemas";
 
 export const listRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
@@ -29,6 +31,34 @@ export const listRouter = createTRPCRouter({
         });
       } catch (error) {
         console.log("error posting list", error);
+      }
+    }),
+
+  delete: protectedProcedure
+    .input(deleteListSchema)
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const list = await ctx.prisma.list.findUnique({
+          where: {
+            id: input.id,
+          },
+        });
+
+        const listBelongsToUser = list?.userId === ctx.session.user.id;
+
+        if (!listBelongsToUser) {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+
+        await ctx.prisma.list.delete({
+          where: {
+            id: input.id,
+          },
+        });
+
+        return input.id;
+      } catch (error) {
+        console.log("error deleting list", error);
       }
     }),
 });
