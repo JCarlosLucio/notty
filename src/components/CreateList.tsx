@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { PlusIcon } from "@radix-ui/react-icons";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
@@ -68,12 +69,12 @@ const CreateList = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? (
-            <span className="animate-pulse">Submiting...</span>
-          ) : (
-            <span>Submit</span>
-          )}
+        <Button
+          type="submit"
+          disabled={isLoading}
+          className={isLoading ? "animate-pulse" : ""}
+        >
+          <PlusIcon />
         </Button>
       </form>
     </Form>
