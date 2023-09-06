@@ -24,10 +24,10 @@ const ListItem = ({ list, ...props }: ListItemProps) => {
         description: "Your list was deleted.",
       });
     },
-    onError: () => {
+    onError: (error) => {
       toast({
         variant: "destructive",
-        description: "Something went wrong",
+        description: `Something went wrong: ${error.message}`,
       });
     },
   });
