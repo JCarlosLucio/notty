@@ -5,60 +5,48 @@ import { createListSchema, deleteListSchema } from "@/utils/schemas";
 
 export const listRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
-    try {
-      return await ctx.prisma.list.findMany({
-        where: {
-          userId: ctx.session.user.id,
-        },
-        orderBy: {
-          updatedAt: "desc",
-        },
-      });
-    } catch (error) {
-      console.log("error getting list", error);
-    }
+    return await ctx.prisma.list.findMany({
+      where: {
+        userId: ctx.session.user.id,
+      },
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
   }),
 
   create: protectedProcedure
     .input(createListSchema)
     .mutation(async ({ ctx, input }) => {
-      try {
-        return await ctx.prisma.list.create({
-          data: {
-            title: input.title,
-            userId: ctx.session.user.id,
-          },
-        });
-      } catch (error) {
-        console.log("error posting list", error);
-      }
+      return await ctx.prisma.list.create({
+        data: {
+          title: input.title,
+          userId: ctx.session.user.id,
+        },
+      });
     }),
 
   delete: protectedProcedure
     .input(deleteListSchema)
     .mutation(async ({ ctx, input }) => {
-      try {
-        const list = await ctx.prisma.list.findUnique({
-          where: {
-            id: input.id,
-          },
-        });
+      const list = await ctx.prisma.list.findUnique({
+        where: {
+          id: input.id,
+        },
+      });
 
-        const listBelongsToUser = list?.userId === ctx.session.user.id;
+      const listBelongsToUser = list?.userId === ctx.session.user.id;
 
-        if (!listBelongsToUser) {
-          throw new TRPCError({ code: "FORBIDDEN" });
-        }
-
-        await ctx.prisma.list.delete({
-          where: {
-            id: input.id,
-          },
-        });
-
-        return input.id;
-      } catch (error) {
-        console.log("error deleting list", error);
+      if (!listBelongsToUser) {
+        throw new TRPCError({ code: "FORBIDDEN" });
       }
+
+      await ctx.prisma.list.delete({
+        where: {
+          id: input.id,
+        },
+      });
+
+      return input.id;
     }),
 });
