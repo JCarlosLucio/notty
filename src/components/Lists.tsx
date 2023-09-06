@@ -1,6 +1,5 @@
-import { Cross2Icon } from "@radix-ui/react-icons";
-
 import CreateList from "@/components/CreateList";
+import ListItem from "@/components/ListItem";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -10,33 +9,10 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useToast } from "@/components/ui/use-toast";
 import { api } from "@/utils/api";
 
 const Lists = () => {
   const { data: lists } = api.list.getAll.useQuery();
-
-  const { toast } = useToast();
-  const ctx = api.useContext();
-
-  const { mutate: deleteList } = api.list.delete.useMutation({
-    onSuccess: (deletedListId) => {
-      ctx.list.getAll.setData(undefined, (oldList) => {
-        return oldList && deletedListId
-          ? oldList.filter((list) => list.id !== deletedListId)
-          : oldList;
-      });
-      toast({
-        description: "Your list was deleted.",
-      });
-    },
-    onError: () => {
-      toast({
-        variant: "destructive",
-        description: "Something went wrong.",
-      });
-    },
-  });
 
   return (
     <>
@@ -54,16 +30,7 @@ const Lists = () => {
           </SheetHeader>
           <div>
             {lists?.map((list) => (
-              <p key={list.id}>
-                {list.title}
-                <Button
-                  variant="destructive"
-                  size="icon"
-                  onClick={() => deleteList({ id: list.id })}
-                >
-                  <Cross2Icon />
-                </Button>
-              </p>
+              <ListItem key={list.id} list={list} />
             ))}
           </div>
         </SheetContent>
