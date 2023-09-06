@@ -51,12 +51,15 @@ const CreateList = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex items-end space-x-2"
+      >
         <FormField
           control={form.control}
           name="title"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="w-full">
               <FormLabel>Title</FormLabel>
               <FormControl>
                 <Input placeholder="Your list title..." {...field} />
