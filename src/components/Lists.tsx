@@ -1,3 +1,5 @@
+import { ChevronRightIcon } from "@radix-ui/react-icons";
+
 import CreateList from "@/components/CreateList";
 import ListItem from "@/components/ListItem";
 import { Button } from "@/components/ui/button";
@@ -18,7 +20,9 @@ const Lists = () => {
     <>
       <Sheet key="lists-sheet">
         <SheetTrigger asChild>
-          <Button variant="outline">My Lists</Button>
+          <Button variant="secondary" size="lg">
+            My Lists <ChevronRightIcon />
+          </Button>
         </SheetTrigger>
         <SheetContent side="left">
           <SheetHeader>
