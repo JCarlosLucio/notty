@@ -1,5 +1,9 @@
 import { z } from "zod";
 
+export const getByIdListSchema = z.object({
+  id: z.string(),
+});
+
 export const createListSchema = z.object({
   title: z
     .string()
