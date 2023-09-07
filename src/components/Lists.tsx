@@ -17,29 +17,27 @@ const Lists = () => {
   const { data: lists } = api.list.getAll.useQuery();
 
   return (
-    <>
-      <Sheet key="lists-sheet">
-        <SheetTrigger asChild>
-          <Button variant="secondary" size="lg">
-            My Lists <ChevronRightIcon />
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left">
-          <SheetHeader>
-            <SheetTitle>My Lists</SheetTitle>
-            <SheetDescription>
-              Manage your lists. {lists?.length}
-            </SheetDescription>
-            <CreateList />
-          </SheetHeader>
-          <div>
-            {lists?.map((list) => (
-              <ListItem key={list.id} list={list} />
-            ))}
-          </div>
-        </SheetContent>
-      </Sheet>
-    </>
+    <Sheet key="lists-sheet">
+      <SheetTrigger asChild>
+        <Button variant="secondary" size="lg">
+          My Lists <ChevronRightIcon />
+        </Button>
+      </SheetTrigger>
+      <SheetContent side="left">
+        <SheetHeader>
+          <SheetTitle>My Lists</SheetTitle>
+          <SheetDescription>
+            Manage your lists. {lists?.length}
+          </SheetDescription>
+          <CreateList />
+        </SheetHeader>
+        <div>
+          {lists?.map((list) => (
+            <ListItem key={list.id} list={list} />
+          ))}
+        </div>
+      </SheetContent>
+    </Sheet>
   );
 };
 
