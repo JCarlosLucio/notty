@@ -13,7 +13,11 @@ import {
 } from "@/components/ui/sheet";
 import { api } from "@/utils/api";
 
-const Lists = () => {
+type ListsProps = {
+  currentListId?: string;
+};
+
+const Lists = ({ currentListId }: ListsProps) => {
   const { data: lists } = api.list.getAll.useQuery();
 
   return (
@@ -33,7 +37,12 @@ const Lists = () => {
         </SheetHeader>
         <div className="flex flex-col gap-1 pt-3">
           {lists?.map((list) => (
-            <Button key={list.id} asChild size="lg">
+            <Button
+              key={list.id}
+              asChild
+              variant={currentListId === list.id ? "secondary" : "ghost"}
+              size="lg"
+            >
               <Link href={`/dashboard/${list.id}`}>{list.title}</Link>
             </Button>
           ))}
