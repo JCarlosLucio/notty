@@ -17,6 +17,10 @@ export const listRouter = createTRPCRouter({
         },
       });
 
+      if (!list) {
+        throw new TRPCError({ code: "NOT_FOUND" });
+      }
+
       const listBelongsToUser = list?.userId === ctx.session.user.id;
 
       if (!listBelongsToUser) {
