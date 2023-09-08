@@ -1,7 +1,7 @@
 import { ChevronRightIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
 
 import CreateList from "@/components/CreateList";
-import ListItem from "@/components/ListItem";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -31,9 +31,11 @@ const Lists = () => {
           </SheetDescription>
           <CreateList />
         </SheetHeader>
-        <div>
+        <div className="flex flex-col gap-1 pt-3">
           {lists?.map((list) => (
-            <ListItem key={list.id} list={list} />
+            <Button key={list.id} asChild size="lg">
+              <Link href={`/dashboard/${list.id}`}>{list.title}</Link>
+            </Button>
           ))}
         </div>
       </SheetContent>
