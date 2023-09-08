@@ -17,7 +17,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return { props: { session } };
 };
 
-const Dashboard = () => {
+const ListPage = () => {
   return (
     <main className="min-h-screen pt-16">
       <Lists />
@@ -25,4 +25,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default ListPage;
