@@ -1,7 +1,9 @@
 import { type GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 
 import Lists from "@/components/Lists";
 import { getServerAuthSession } from "@/server/auth";
+import { api } from "@/utils/api";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerAuthSession(ctx);
@@ -18,9 +20,17 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const ListPage = () => {
+  const router = useRouter();
+  const listId = router.query.listId ?? "";
+
+  const { data: currentList } = api.list.getById.useQuery({
+    id: Array.isArray(listId) ? (listId[0] ? listId[0] : "") : listId,
+  });
+
   return (
     <main className="min-h-screen pt-16">
-      <Lists />
+      <h1>{currentList?.title}</h1>
+      <Lists currentListId={currentList?.id} />
     </main>
   );
 };
