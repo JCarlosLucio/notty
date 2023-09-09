@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+// LIST
 export const getByIdListSchema = z.object({
   id: z.string(),
 });
@@ -14,4 +15,14 @@ export const createListSchema = z.object({
 
 export const deleteListSchema = z.object({
   id: z.string(),
+});
+
+// NOTE
+export const createNoteSchema = z.object({
+  listId: z.string(),
+  content: z
+    .string()
+    .trim()
+    .min(1, "Content is required")
+    .max(256, "Content must contain at most 256 characters"),
 });
