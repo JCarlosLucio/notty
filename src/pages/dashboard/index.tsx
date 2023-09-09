@@ -1,5 +1,6 @@
 import { type GetServerSideProps } from "next";
 
+import CreateList from "@/components/CreateList";
 import Lists from "@/components/Lists";
 import { getServerAuthSession } from "@/server/auth";
 
@@ -21,6 +22,7 @@ const Dashboard = () => {
   return (
     <main className="min-h-screen pt-16">
       <h1>Your dashboard</h1>
+      <CreateList />
       <Lists />
     </main>
   );
