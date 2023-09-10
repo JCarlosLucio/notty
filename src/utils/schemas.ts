@@ -18,6 +18,10 @@ export const deleteListSchema = z.object({
 });
 
 // NOTE
+export const getAllNoteSchema = z.object({
+  listId: z.string(),
+});
+
 export const createNoteSchema = z.object({
   listId: z.string(),
   content: z
