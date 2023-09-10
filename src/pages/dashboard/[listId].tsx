@@ -1,6 +1,7 @@
 import { type GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 
+import CreateNote from "@/components/CreateNote";
 import Lists from "@/components/Lists";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/utils/api";
@@ -29,8 +30,9 @@ const ListPage = () => {
 
   return (
     <main className="min-h-screen pt-16">
-      <h1>{currentList?.title}</h1>
       <Lists currentListId={currentList?.id} />
+      <h1>{currentList?.title}</h1>
+      {currentList && <CreateNote listId={currentList.id} />}
     </main>
   );
 };
