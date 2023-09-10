@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon } from "@radix-ui/react-icons";
+import { useRouter } from "next/router";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
@@ -27,15 +28,19 @@ const CreateList = () => {
   });
   const { toast } = useToast();
   const ctx = api.useContext();
+  const router = useRouter();
 
   const { mutate: createList, isLoading } = api.list.create.useMutation({
-    onSuccess: (createdList) => {
+    onSuccess: async (createdList) => {
       ctx.list.getAll.setData(undefined, (oldList) => {
         return oldList && createdList ? [createdList, ...oldList] : oldList;
       });
       form.reset();
       toast({
         description: "Your list was created.",
+      });
+      await router.push(`/dashboard/${createdList.id}`, undefined, {
+        shallow: true,
       });
     },
     onError: () => {
