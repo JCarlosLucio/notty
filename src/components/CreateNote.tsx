@@ -28,9 +28,13 @@ const CreateNote = ({ listId }: CreateNoteProps) => {
     },
   });
   const { toast } = useToast();
+  const ctx = api.useContext();
 
   const { mutate: createNote, isLoading } = api.note.create.useMutation({
-    onSuccess: () => {
+    onSuccess: (createdNote) => {
+      ctx.note.getAll.setData({ listId }, (oldNotes) => {
+        return oldNotes && createdNote ? [createdNote, ...oldNotes] : oldNotes;
+      });
       form.reset();
       toast({
         description: "Your note was created.",
