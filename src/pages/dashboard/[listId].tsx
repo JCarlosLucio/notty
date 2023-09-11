@@ -1,7 +1,7 @@
 import { type GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 
-import CreateNote from "@/components/CreateNote";
+import ListDetails from "@/components/ListDetails";
 import Lists from "@/components/Lists";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/utils/api";
@@ -32,9 +32,7 @@ const ListPage = () => {
     <main className="min-h-screen pt-16">
       <Lists currentListId={currentList?.id} />
 
-      <h1>{currentList?.title}</h1>
-
-      {currentList && <CreateNote listId={currentList.id} />}
+      {currentList && <ListDetails list={currentList} />}
 
       {notes?.map((note) => {
         return <p key={note.id}>{note.content}</p>;
