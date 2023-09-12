@@ -21,9 +21,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 const Dashboard = () => {
   return (
     <main className="min-h-screen pt-16">
-      <h1>Your dashboard</h1>
-      <CreateList />
       <Lists />
+      <div className="flex w-full flex-col items-center justify-center">
+        <div className="flex w-full flex-col gap-4 lg:w-1/3">
+          <h1 className="text-center text-5xl">Your dashboard</h1>
+
+          <CreateList />
+        </div>
+      </div>
     </main>
   );
 };
