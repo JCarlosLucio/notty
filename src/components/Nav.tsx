@@ -37,7 +37,14 @@ const Nav = () => {
             <Button
               size="lg"
               variant="secondary"
-              onClick={sessionData ? () => void signOut() : () => void signIn()}
+              onClick={
+                sessionData
+                  ? () => void signOut()
+                  : () =>
+                      void signIn("discord", {
+                        callbackUrl: "/dashboard",
+                      })
+              }
             >
               {sessionData ? "Sign out" : "Sign in"}
             </Button>
