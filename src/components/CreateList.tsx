@@ -31,7 +31,7 @@ const CreateList = () => {
   const router = useRouter();
 
   const { mutate: createList, isLoading } = api.list.create.useMutation({
-    onSuccess: async (createdList) => {
+    onSuccess: (createdList) => {
       ctx.list.getAll.setData(undefined, (oldList) => {
         return oldList && createdList ? [createdList, ...oldList] : oldList;
       });
@@ -39,7 +39,7 @@ const CreateList = () => {
       toast({
         description: "Your list was created.",
       });
-      await router.push(`/dashboard/${createdList.id}`, undefined, {
+      void router.push(`/dashboard/${createdList.id}`, undefined, {
         shallow: true,
       });
     },
