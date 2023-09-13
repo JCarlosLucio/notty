@@ -35,7 +35,6 @@ const Nav = () => {
               </>
             )}
             <Button
-              size="lg"
               variant="secondary"
               onClick={
                 sessionData
