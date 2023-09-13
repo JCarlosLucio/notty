@@ -1,4 +1,5 @@
 import { type GetServerSideProps } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
 
 import ListDetails from "@/components/ListDetails";
@@ -29,15 +30,21 @@ const ListPage = () => {
   const { data: notes } = api.note.getAll.useQuery({ listId: id });
 
   return (
-    <main className="min-h-screen pt-16">
-      <Lists currentListId={currentList?.id} />
+    <>
+      <Head>
+        <title>{currentList?.title}</title>
+      </Head>
 
-      {currentList && <ListDetails list={currentList} />}
+      <main className="min-h-screen pt-16">
+        <Lists currentListId={currentList?.id} />
 
-      {notes?.map((note) => {
-        return <p key={note.id}>{note.content}</p>;
-      })}
-    </main>
+        {currentList && <ListDetails list={currentList} />}
+
+        {notes?.map((note) => {
+          return <p key={note.id}>{note.content}</p>;
+        })}
+      </main>
+    </>
   );
 };
 
