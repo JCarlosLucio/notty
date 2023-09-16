@@ -5,7 +5,7 @@ import UserSessionPopover from "@/components/UserSessionPopover";
 
 const Nav = () => {
   return (
-    <header className="fixed z-20 h-16 w-full border-b bg-background/60 px-5 backdrop-blur-md md:px-32 2xl:px-60">
+    <header className="fixed z-20 h-16 w-full bg-background/60 px-5 backdrop-blur-md md:px-32 2xl:px-60">
       <nav className="flex h-full items-center justify-between">
         <Link
           href="/"
