@@ -23,7 +23,7 @@ const Lists = ({ currentListId }: ListsProps) => {
   return (
     <Sheet key="lists-sheet">
       <SheetTrigger asChild>
-        <Button className="ml-3 mt-3" variant="secondary" size="lg">
+        <Button className="ml-3 mt-3" variant="blur" size="lg">
           My Lists <ChevronRightIcon />
         </Button>
       </SheetTrigger>
