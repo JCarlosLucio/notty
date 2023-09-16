@@ -57,10 +57,7 @@ const CreateList = () => {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex items-end space-x-2"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="title"
@@ -68,19 +65,21 @@ const CreateList = () => {
             <FormItem className="w-full">
               <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input placeholder="Your list title..." {...field} />
+                <div className="flex items-center gap-2">
+                  <Input placeholder="Your list title..." {...field} />
+                  <Button
+                    type="submit"
+                    disabled={isLoading}
+                    className={isLoading ? "animate-pulse" : ""}
+                  >
+                    <PlusIcon />
+                  </Button>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button
-          type="submit"
-          disabled={isLoading}
-          className={isLoading ? "animate-pulse" : ""}
-        >
-          <PlusIcon />
-        </Button>
       </form>
     </Form>
   );
