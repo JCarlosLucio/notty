@@ -1,7 +1,7 @@
 import { boardRouter } from "@/server/api/routers/board";
 import { exampleRouter } from "@/server/api/routers/example";
 import { listRouter } from "@/server/api/routers/list";
-import { noteRouter } from "@/server/api/routers/notes";
+import { noteRouter } from "@/server/api/routers/note";
 import { createTRPCRouter } from "@/server/api/trpc";
 
 /**
