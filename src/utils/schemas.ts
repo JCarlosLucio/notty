@@ -23,6 +23,7 @@ export const getAllListSchema = z.object({
 });
 
 export const createListSchema = z.object({
+  boardId: z.string(),
   title: z
     .string()
     .trim()
