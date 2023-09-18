@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+// BOARD
+export const getByIdBoardSchema = z.object({
+  id: z.string(),
+});
+
 // LIST
 export const getByIdListSchema = z.object({
   id: z.string(),
