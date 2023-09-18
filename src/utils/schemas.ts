@@ -10,6 +10,10 @@ export const getByIdListSchema = z.object({
   id: z.string(),
 });
 
+export const getAllListSchema = z.object({
+  boardId: z.string(),
+});
+
 export const createListSchema = z.object({
   title: z
     .string()
