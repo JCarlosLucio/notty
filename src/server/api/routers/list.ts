@@ -52,18 +52,6 @@ export const listRouter = createTRPCRouter({
   delete: protectedProcedure
     .input(deleteListSchema)
     .mutation(async ({ ctx, input }) => {
-      const list = await ctx.prisma.list.findUnique({
-        where: {
-          id: input.id,
-        },
-      });
-
-      const listBelongsToUser = list?.userId === ctx.session.user.id;
-
-      if (!listBelongsToUser) {
-        throw new TRPCError({ code: "FORBIDDEN" });
-      }
-
       await ctx.prisma.list.delete({
         where: {
           id: input.id,
