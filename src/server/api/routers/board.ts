@@ -25,4 +25,15 @@ export const boardRouter = createTRPCRouter({
 
       return board;
     }),
+
+  getAll: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.board.findMany({
+      where: {
+        userId: ctx.session.user.id,
+      },
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
+  }),
 });
