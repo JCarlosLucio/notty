@@ -1,5 +1,3 @@
-import { TRPCError } from "@trpc/server";
-
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { createNoteSchema, getAllNoteSchema } from "@/utils/schemas";
 
@@ -7,7 +5,7 @@ export const noteRouter = createTRPCRouter({
   getAll: protectedProcedure
     .input(getAllNoteSchema)
     .query(async ({ ctx, input }) => {
-      const notes = await ctx.prisma.note.findMany({
+      return await ctx.prisma.note.findMany({
         where: {
           listId: input.listId,
         },
@@ -15,12 +13,6 @@ export const noteRouter = createTRPCRouter({
           updatedAt: "desc",
         },
       });
-
-      if (!notes) {
-        throw new TRPCError({ code: "NOT_FOUND" });
-      }
-
-      return notes;
     }),
 
   create: protectedProcedure
