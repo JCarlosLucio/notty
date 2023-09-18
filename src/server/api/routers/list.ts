@@ -21,12 +21,6 @@ export const listRouter = createTRPCRouter({
         throw new TRPCError({ code: "NOT_FOUND" });
       }
 
-      const listBelongsToUser = list?.userId === ctx.session.user.id;
-
-      if (!listBelongsToUser) {
-        throw new TRPCError({ code: "FORBIDDEN" });
-      }
-
       return list;
     }),
 
