@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-import { getByIdBoardSchema } from "@/utils/schemas";
+import { createBoardSchema, getByIdBoardSchema } from "@/utils/schemas";
 
 export const boardRouter = createTRPCRouter({
   getById: protectedProcedure
@@ -36,4 +36,15 @@ export const boardRouter = createTRPCRouter({
       },
     });
   }),
+
+  create: protectedProcedure
+    .input(createBoardSchema)
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.prisma.board.create({
+        data: {
+          title: input.title,
+          userId: ctx.session.user.id,
+        },
+      });
+    }),
 });
