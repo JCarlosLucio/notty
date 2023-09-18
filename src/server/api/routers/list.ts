@@ -4,6 +4,7 @@ import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import {
   createListSchema,
   deleteListSchema,
+  getAllListSchema,
   getByIdListSchema,
 } from "@/utils/schemas";
 
@@ -24,16 +25,18 @@ export const listRouter = createTRPCRouter({
       return list;
     }),
 
-  getAll: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.list.findMany({
-      where: {
-        userId: ctx.session.user.id,
-      },
-      orderBy: {
-        updatedAt: "desc",
-      },
-    });
-  }),
+  getAll: protectedProcedure
+    .input(getAllListSchema)
+    .query(async ({ ctx, input }) => {
+      return await ctx.prisma.list.findMany({
+        where: {
+          boardId: input.boardId,
+        },
+        orderBy: {
+          updatedAt: "desc",
+        },
+      });
+    }),
 
   create: protectedProcedure
     .input(createListSchema)
