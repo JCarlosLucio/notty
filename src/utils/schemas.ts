@@ -13,6 +13,10 @@ export const createBoardSchema = z.object({
     .max(256, "Title must contain at most 256 characters"),
 });
 
+export const deleteBoardSchema = z.object({
+  id: z.string(),
+});
+
 // LIST
 export const getByIdListSchema = z.object({
   id: z.string(),
