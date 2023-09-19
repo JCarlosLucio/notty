@@ -2,8 +2,8 @@ import { type GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-import ListDetails from "@/components/ListDetails";
-import Lists from "@/components/Lists";
+import BoardDetails from "@/components/BoardDetails";
+import Boards from "@/components/Boards";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/utils/api";
 
@@ -21,31 +21,31 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return { props: { session } };
 };
 
-const ListPage = () => {
+const BoardPage = () => {
   const router = useRouter();
-  const listId = router.query.listId ?? "";
-  const id = Array.isArray(listId) ? (listId[0] ? listId[0] : "") : listId;
+  const boardId = router.query.boardId ?? "";
+  const id = Array.isArray(boardId) ? (boardId[0] ? boardId[0] : "") : boardId;
 
-  const { data: currentList } = api.list.getById.useQuery({ id });
-  const { data: notes } = api.note.getAll.useQuery({ listId: id });
+  const { data: currentBoard } = api.board.getById.useQuery({ id });
+  const { data: lists } = api.list.getAll.useQuery({ boardId: id });
 
   return (
     <>
       <Head>
-        <title>{currentList?.title}</title>
+        <title>{currentBoard?.title}</title>
       </Head>
 
       <main className="min-h-screen pt-16">
-        <Lists currentListId={currentList?.id} />
+        <Boards currentBoardId={currentBoard?.id} />
 
-        {currentList && <ListDetails list={currentList} />}
+        {currentBoard && <BoardDetails board={currentBoard} />}
 
-        {notes?.map((note) => {
-          return <p key={note.id}>{note.content}</p>;
+        {lists?.map((list) => {
+          return <p key={list.id}>{list.title}</p>;
         })}
       </main>
     </>
   );
 };
 
-export default ListPage;
+export default BoardPage;
