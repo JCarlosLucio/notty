@@ -1,7 +1,7 @@
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 
-import CreateList from "@/components/CreateList";
+import CreateBoard from "@/components/CreateBoard";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -13,37 +13,37 @@ import {
 } from "@/components/ui/sheet";
 import { api } from "@/utils/api";
 
-type ListsProps = {
-  currentListId?: string;
+type BoardsProps = {
+  currentBoardId?: string;
 };
 
-const Lists = ({ currentListId }: ListsProps) => {
-  const { data: lists } = api.list.getAll.useQuery();
+const Boards = ({ currentBoardId }: BoardsProps) => {
+  const { data: boards } = api.board.getAll.useQuery();
 
   return (
-    <Sheet key="lists-sheet">
+    <Sheet key="boards-sheet">
       <SheetTrigger asChild>
         <Button className="ml-3 mt-3" variant="blur" size="lg">
-          My Lists <ChevronRightIcon />
+          My Boards <ChevronRightIcon />
         </Button>
       </SheetTrigger>
       <SheetContent side="left">
         <SheetHeader>
-          <SheetTitle>My Lists</SheetTitle>
+          <SheetTitle>My Boards</SheetTitle>
           <SheetDescription>
-            Manage your lists. {lists?.length}
+            Manage your boards. {boards?.length}
           </SheetDescription>
-          <CreateList />
+          <CreateBoard />
         </SheetHeader>
         <div className="flex flex-col gap-1 pt-3">
-          {lists?.map((list) => (
+          {boards?.map((board) => (
             <Button
-              key={list.id}
+              key={board.id}
               asChild
-              variant={currentListId === list.id ? "secondary" : "ghost"}
+              variant={currentBoardId === board.id ? "secondary" : "ghost"}
               size="lg"
             >
-              <Link href={`/dashboard/${list.id}`}>{list.title}</Link>
+              <Link href={`/b/${board.id}`}>{board.title}</Link>
             </Button>
           ))}
         </div>
@@ -52,4 +52,4 @@ const Lists = ({ currentListId }: ListsProps) => {
   );
 };
 
-export default Lists;
+export default Boards;
