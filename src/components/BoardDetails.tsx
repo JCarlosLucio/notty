@@ -1,6 +1,6 @@
 import { type ComponentPropsWithoutRef } from "react";
 
-import CreateNote from "@/components/CreateNote";
+import CreateList from "@/components/CreateList";
 import {
   Card,
   CardContent,
@@ -28,7 +28,7 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <CreateNote listId={board.id} />
+          <CreateList boardId={board.id} />
         </CardContent>
       </Card>
     </div>
