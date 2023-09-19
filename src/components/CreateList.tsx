@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon } from "@radix-ui/react-icons";
-import { useRouter } from "next/router";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
@@ -18,29 +17,27 @@ import { api, type RouterInputs } from "@/utils/api";
 import { createListSchema } from "@/utils/schemas";
 
 type CreateListInput = RouterInputs["list"]["create"];
+type CreateListProps = { boardId: string };
 
-const CreateList = () => {
+const CreateList = ({ boardId }: CreateListProps) => {
   const form = useForm<CreateListInput>({
     resolver: zodResolver(createListSchema),
     defaultValues: {
+      boardId,
       title: "",
     },
   });
   const { toast } = useToast();
   const ctx = api.useContext();
-  const router = useRouter();
 
   const { mutate: createList, isLoading } = api.list.create.useMutation({
     onSuccess: (createdList) => {
-      ctx.list.getAll.setData(undefined, (oldList) => {
+      ctx.list.getAll.setData({ boardId }, (oldList) => {
         return oldList && createdList ? [createdList, ...oldList] : oldList;
       });
       form.reset();
       toast({
         description: "Your list was created.",
-      });
-      void router.push(`/dashboard/${createdList.id}`, undefined, {
-        shallow: true,
       });
     },
     onError: () => {
