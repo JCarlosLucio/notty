@@ -10,11 +10,11 @@ import {
 } from "@/components/ui/card";
 import { type RouterOutputs } from "@/utils/api";
 
-type ListDetailsProps = {
-  list: RouterOutputs["list"]["getById"];
+type BoardDetailsProps = {
+  board: RouterOutputs["board"]["getById"];
 } & ComponentPropsWithoutRef<"div">;
 
-const ListDetails = ({ list, ...props }: ListDetailsProps) => {
+const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
   return (
     <div
       className="flex w-full flex-col items-center justify-center"
@@ -22,17 +22,17 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
     >
       <Card className="w-full lg:w-1/3">
         <CardHeader>
-          <CardTitle className="text-center text-5xl">{list.title}</CardTitle>
+          <CardTitle className="text-center text-5xl">{board.title}</CardTitle>
           <CardDescription className="text-center">
-            {list.updatedAt.toDateString()}
+            {board.updatedAt.toDateString()}
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <CreateNote listId={list.id} />
+          <CreateNote listId={board.id} />
         </CardContent>
       </Card>
     </div>
   );
 };
 
-export default ListDetails;
+export default BoardDetails;
