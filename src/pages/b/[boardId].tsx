@@ -37,7 +37,7 @@ const BoardPage = () => {
         <title>{currentBoard?.title}</title>
       </Head>
 
-      <main className="min-h-screen pt-16">
+      <main className="relative min-h-screen p-4 pt-20">
         <Boards currentBoardId={currentBoard?.id} />
 
         {currentBoard && <BoardDetails board={currentBoard} />}

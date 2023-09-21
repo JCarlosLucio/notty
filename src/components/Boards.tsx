@@ -23,7 +23,7 @@ const Boards = ({ currentBoardId }: BoardsProps) => {
   return (
     <Sheet key="boards-sheet">
       <SheetTrigger asChild>
-        <Button className="ml-3 mt-3" variant="blur" size="lg">
+        <Button className="absolute" variant="blur" size="lg">
           My Boards <ChevronRightIcon />
         </Button>
       </SheetTrigger>
