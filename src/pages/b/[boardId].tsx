@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 
 import BoardDetails from "@/components/BoardDetails";
 import Boards from "@/components/Boards";
+import CreateList from "@/components/CreateList";
+import List from "@/components/List";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/utils/api";
 
@@ -40,9 +42,12 @@ const BoardPage = () => {
 
         {currentBoard && <BoardDetails board={currentBoard} />}
 
-        {lists?.map((list) => {
-          return <p key={list.id}>{list.title}</p>;
-        })}
+        <div className="flex items-start gap-2 py-4">
+          {lists?.map((list) => {
+            return <List key={list.id} list={list} />;
+          })}
+          <CreateList boardId={id} />
+        </div>
       </main>
     </>
   );
