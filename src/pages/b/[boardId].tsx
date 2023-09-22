@@ -40,14 +40,16 @@ const BoardPage = () => {
       <main className="relative min-h-screen p-4 pt-20">
         <Boards currentBoardId={currentBoard?.id} />
 
-        {currentBoard && <BoardDetails board={currentBoard} />}
+        <BoardDetails board={currentBoard} />
 
-        <div className="flex items-start gap-2 py-4">
-          {lists?.map((list) => {
-            return <List key={list.id} list={list} />;
-          })}
-          <CreateList boardId={id} />
-        </div>
+        {currentBoard && (
+          <div className="flex items-start gap-2 py-4">
+            {lists?.map((list) => {
+              return <List key={list.id} list={list} />;
+            })}
+            <CreateList boardId={id} />
+          </div>
+        )}
       </main>
     </>
   );

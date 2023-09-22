@@ -1,5 +1,6 @@
 import { type ComponentPropsWithoutRef } from "react";
 
+import CreateBoard from "@/components/CreateBoard";
 import CreateList from "@/components/CreateList";
 import {
   Card,
@@ -11,7 +12,7 @@ import {
 import { type RouterOutputs } from "@/utils/api";
 
 type BoardDetailsProps = {
-  board: RouterOutputs["board"]["getById"];
+  board?: RouterOutputs["board"]["getById"];
 } & ComponentPropsWithoutRef<"div">;
 
 const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
@@ -22,13 +23,15 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
     >
       <Card className="w-full lg:w-1/3">
         <CardHeader>
-          <CardTitle className="text-center text-5xl">{board.title}</CardTitle>
+          <CardTitle className="text-center text-5xl">
+            {board?.title ?? "Board not found"}
+          </CardTitle>
           <CardDescription className="text-center">
-            {board.updatedAt.toDateString()}
+            {board?.updatedAt.toDateString() ?? "Create one?"}
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <CreateList boardId={board.id} />
+          {board ? <CreateList boardId={board.id} /> : <CreateBoard />}
         </CardContent>
       </Card>
     </div>
