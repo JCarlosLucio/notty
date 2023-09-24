@@ -1,7 +1,6 @@
 import { type ComponentPropsWithoutRef } from "react";
 
 import CreateBoard from "@/components/CreateBoard";
-import CreateList from "@/components/CreateList";
 import {
   Card,
   CardContent,
@@ -30,9 +29,11 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
             {board?.updatedAt.toDateString() ?? "Create one?"}
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          {board ? <CreateList boardId={board.id} /> : <CreateBoard />}
-        </CardContent>
+        {!board && (
+          <CardContent>
+            <CreateBoard />
+          </CardContent>
+        )}
       </Card>
     </div>
   );
