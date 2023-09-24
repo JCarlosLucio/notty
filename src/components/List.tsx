@@ -8,7 +8,7 @@ const List = ({ list }: ListProps) => {
   const { data: notes } = api.note.getAll.useQuery({ listId: list.id });
 
   return (
-    <Card className="w-full lg:w-80">
+    <Card className="w-full shrink-0 lg:w-80">
       <CardHeader className="p-4 pb-0">
         <CardTitle className="text-xl">{list.title}</CardTitle>
       </CardHeader>
