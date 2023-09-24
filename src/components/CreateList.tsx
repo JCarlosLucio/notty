@@ -33,7 +33,7 @@ const CreateList = ({ boardId }: CreateListProps) => {
   const { mutate: createList, isLoading } = api.list.create.useMutation({
     onSuccess: (createdList) => {
       ctx.list.getAll.setData({ boardId }, (oldList) => {
-        return oldList && createdList ? [createdList, ...oldList] : oldList;
+        return oldList && createdList ? [...oldList, createdList] : oldList;
       });
       form.reset();
       toast({
