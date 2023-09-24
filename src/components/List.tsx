@@ -9,8 +9,8 @@ const List = ({ list }: ListProps) => {
 
   return (
     <Card className="w-full shrink-0 lg:w-80">
-      <CardHeader className="p-4 pb-0">
-        <CardTitle className="text-xl">{list.title}</CardTitle>
+      <CardHeader className="p-3 pb-0">
+        <CardTitle className="text-md">{list.title}</CardTitle>
       </CardHeader>
       <CardContent className="p-3">
         {notes ? (
