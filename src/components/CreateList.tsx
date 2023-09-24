@@ -59,7 +59,7 @@ const CreateList = ({ boardId }: CreateListProps) => {
           control={form.control}
           name="title"
           render={({ field }) => (
-            <FormItem className="w-full">
+            <FormItem className="w-full lg:w-80">
               <FormLabel>Title</FormLabel>
               <FormControl>
                 <div className="flex items-center gap-2">
