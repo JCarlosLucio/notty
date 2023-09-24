@@ -37,13 +37,13 @@ const BoardPage = () => {
         <title>{currentBoard?.title}</title>
       </Head>
 
-      <main className="relative min-h-screen p-4 pt-20">
+      <main className="relative flex h-screen min-h-screen flex-col gap-4 pl-4 pt-20">
         <Boards currentBoardId={currentBoard?.id} />
 
         <BoardDetails board={currentBoard} />
 
         {currentBoard && (
-          <div className="flex items-start gap-2 py-4">
+          <div className="flex h-full items-start gap-2 overflow-x-scroll">
             {lists?.map((list) => {
               return <List key={list.id} list={list} />;
             })}
