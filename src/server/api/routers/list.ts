@@ -33,7 +33,7 @@ export const listRouter = createTRPCRouter({
           boardId: input.boardId,
         },
         orderBy: {
-          updatedAt: "desc",
+          updatedAt: "asc",
         },
       });
     }),
