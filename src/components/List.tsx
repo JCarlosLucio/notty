@@ -1,4 +1,5 @@
 import CreateNote from "@/components/CreateNote";
+import Note from "@/components/Note";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { api, type RouterOutputs } from "@/utils/api";
 
@@ -15,7 +16,7 @@ const List = ({ list }: ListProps) => {
       <CardContent className="p-3">
         {notes ? (
           notes.map((note) => {
-            return <p key={note.id}>{note.content}</p>;
+            return <Note key={note.id} note={note} />;
           })
         ) : (
           <p>Loading...</p>
