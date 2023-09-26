@@ -37,7 +37,13 @@ const BoardPage = () => {
         <title>{currentBoard?.title}</title>
       </Head>
 
-      <main className="relative flex h-screen min-h-screen flex-col gap-4 pl-4 pt-20">
+      <main
+        className="relative flex h-screen min-h-screen flex-col gap-4 pl-4 pt-20"
+        style={{
+          backgroundImage: "url(https://picsum.photos/1920/1080)",
+          backgroundSize: "cover",
+        }}
+      >
         <Boards currentBoardId={currentBoard?.id} />
 
         <BoardDetails board={currentBoard} />
