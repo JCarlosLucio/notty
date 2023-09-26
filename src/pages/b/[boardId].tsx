@@ -27,7 +27,7 @@ const BoardPage = () => {
   const boardId = router.query.boardId ?? "";
   const id = Array.isArray(boardId) ? (boardId[0] ? boardId[0] : "") : boardId;
 
-  const { data: currentBoard } = api.board.getById.useQuery({ id });
+  const { data: currentBoard, isLoading } = api.board.getById.useQuery({ id });
 
   return (
     <>
@@ -44,7 +44,11 @@ const BoardPage = () => {
       >
         <Boards currentBoardId={currentBoard?.id} />
 
-        <BoardDetails board={currentBoard} />
+        {isLoading ? (
+          <h1>Loading...</h1>
+        ) : (
+          <BoardDetails board={currentBoard} />
+        )}
 
         {currentBoard && <BoardLists boardId={id} />}
       </main>
