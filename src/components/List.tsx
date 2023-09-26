@@ -1,3 +1,6 @@
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+
 import CreateNote from "@/components/CreateNote";
 import Note from "@/components/Note";
 import {
@@ -8,14 +11,44 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { api, type RouterOutputs } from "@/utils/api";
+import { cn } from "@/utils/utils";
 
 type ListProps = { list: RouterOutputs["list"]["getById"] };
 
 const List = ({ list }: ListProps) => {
   const { data: notes } = api.note.getAll.useQuery({ listId: list.id });
 
+  const {
+    setNodeRef,
+    attributes,
+    listeners,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: list.id,
+    data: {
+      type: "Column",
+      list,
+    },
+  });
+
+  const style = {
+    transition,
+    transform: CSS.Translate.toString(transform),
+  };
+
   return (
-    <Card className="flex max-h-full w-full shrink-0 flex-col lg:w-72">
+    <Card
+      ref={setNodeRef}
+      className={cn(
+        "flex max-h-full w-full shrink-0 flex-col lg:w-72",
+        isDragging && "border-2 border-destructive opacity-70"
+      )}
+      style={style}
+      {...attributes}
+      {...listeners}
+    >
       <CardHeader className="shrink-0 p-3 pb-0">
         <CardTitle className="text-md">{list.title}</CardTitle>
       </CardHeader>
