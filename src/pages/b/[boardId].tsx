@@ -3,9 +3,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 
 import BoardDetails from "@/components/BoardDetails";
+import BoardLists from "@/components/BoardLists";
 import Boards from "@/components/Boards";
-import CreateList from "@/components/CreateList";
-import List from "@/components/List";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/utils/api";
 
@@ -29,7 +28,6 @@ const BoardPage = () => {
   const id = Array.isArray(boardId) ? (boardId[0] ? boardId[0] : "") : boardId;
 
   const { data: currentBoard } = api.board.getById.useQuery({ id });
-  const { data: lists } = api.list.getAll.useQuery({ boardId: id });
 
   return (
     <>
@@ -48,15 +46,7 @@ const BoardPage = () => {
 
         <BoardDetails board={currentBoard} />
 
-        {currentBoard && (
-          <div className="flex h-full items-start gap-2 overflow-x-scroll pb-2">
-            {lists?.map((list) => {
-              return <List key={list.id} list={list} />;
-            })}
-
-            <CreateList boardId={id} />
-          </div>
-        )}
+        {currentBoard && <BoardLists boardId={id} />}
       </main>
     </>
   );
