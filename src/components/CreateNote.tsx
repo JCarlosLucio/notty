@@ -33,7 +33,7 @@ const CreateNote = ({ listId }: CreateNoteProps) => {
   const { mutate: createNote, isLoading } = api.note.create.useMutation({
     onSuccess: (createdNote) => {
       ctx.note.getAll.setData({ listId }, (oldNotes) => {
-        return oldNotes && createdNote ? [createdNote, ...oldNotes] : oldNotes;
+        return oldNotes && createdNote ? [...oldNotes, createdNote] : oldNotes;
       });
       form.reset();
       toast({
