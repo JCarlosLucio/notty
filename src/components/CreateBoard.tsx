@@ -33,9 +33,7 @@ const CreateBoard = () => {
   const { mutate: createBoard, isLoading } = api.board.create.useMutation({
     onSuccess: (createdBoard) => {
       ctx.board.getAll.setData(undefined, (oldBoard) => {
-        return oldBoard && createdBoard
-          ? [createdBoard, ...oldBoard]
-          : oldBoard;
+        return oldBoard ? [...oldBoard, createdBoard] : oldBoard;
       });
       form.reset();
       toast({
