@@ -2,7 +2,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 import CreateNote from "@/components/CreateNote";
-import Note from "@/components/Note";
+import ListNotes from "@/components/ListNotes";
 import {
   Card,
   CardContent,
@@ -10,14 +10,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { api, type RouterOutputs } from "@/utils/api";
+import { type RouterOutputs } from "@/utils/api";
 import { cn } from "@/utils/utils";
 
 type ListProps = { list: RouterOutputs["list"]["getById"] };
 
 const List = ({ list }: ListProps) => {
-  const { data: notes } = api.note.getAll.useQuery({ listId: list.id });
-
   const {
     setNodeRef,
     attributes,
@@ -53,13 +51,7 @@ const List = ({ list }: ListProps) => {
         <CardTitle className="text-md">{list.title}</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-2 overflow-hidden p-3 hover:overflow-y-scroll ">
-        {notes ? (
-          notes.map((note) => {
-            return <Note key={note.id} note={note} />;
-          })
-        ) : (
-          <p>Loading...</p>
-        )}
+        <ListNotes listId={list.id} />
       </CardContent>
       <CardFooter className="shrink-0 p-3 pt-0">
         <CreateNote listId={list.id} />
