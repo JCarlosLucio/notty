@@ -28,7 +28,7 @@ const List = ({ list }: ListProps) => {
   } = useSortable({
     id: list.id,
     data: {
-      type: "Column",
+      type: "List",
       list,
     },
   });
