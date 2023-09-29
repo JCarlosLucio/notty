@@ -7,6 +7,7 @@ import {
   getAllListSchema,
   getByIdListSchema,
 } from "@/utils/schemas";
+import { midString } from "@/utils/sorting";
 
 export const listRouter = createTRPCRouter({
   getById: protectedProcedure
@@ -41,10 +42,23 @@ export const listRouter = createTRPCRouter({
   create: protectedProcedure
     .input(createListSchema)
     .mutation(async ({ ctx, input }) => {
+      const lists = await ctx.prisma.list.findMany({
+        where: {
+          boardId: input.boardId,
+        },
+        orderBy: {
+          position: "asc",
+        },
+      });
+
+      const lastItem = lists.at(-1);
+      const lastPosition = lastItem ? lastItem.position : "";
+
       return await ctx.prisma.list.create({
         data: {
           title: input.title,
           boardId: input.boardId,
+          position: midString(lastPosition, ""),
         },
       });
     }),
