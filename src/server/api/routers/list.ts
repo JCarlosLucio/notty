@@ -34,7 +34,7 @@ export const listRouter = createTRPCRouter({
           boardId: input.boardId,
         },
         orderBy: {
-          updatedAt: "asc",
+          position: "asc",
         },
       });
     }),
