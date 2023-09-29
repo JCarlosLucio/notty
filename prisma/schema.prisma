@@ -81,8 +81,9 @@ model Board {
 }
 
 model List {
-    id    String @id @default(cuid())
-    title String
+    id       String @id @default(cuid())
+    title    String
+    position String
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
