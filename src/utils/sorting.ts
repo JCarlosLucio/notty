@@ -42,3 +42,57 @@ export function midString(prev: string, next: string) {
   }
   return str + String.fromCharCode(Math.ceil((p + n) / 2)); // append middle character
 }
+
+/**
+ * Generate lexicographically equally-spaced keys. For resetting the keys of a sorted list.
+ * @param num The number of strings to generate.
+ * @returns The list of strings.
+ */
+export function seqString(num: number) {
+  const chars = Math.floor(Math.log(num) / Math.log(26)) + 1;
+  const prev = Math.pow(26, chars - 1);
+  const ratio = chars > 1 ? (num + 1 - prev) / prev : num;
+  const part = Math.floor(ratio);
+  const alpha = [partialAlphabet(part), partialAlphabet(part + 1)];
+  const leapStep = ratio % 1;
+  let leapTotal = 0.5;
+  let first = true;
+  const strings: string[] = [];
+  generateStrings(chars - 1, "");
+  return strings;
+
+  function generateStrings(full: number, str: string) {
+    if (full) {
+      for (let i = 0; i < 26; i++) {
+        generateStrings(full - 1, str + String.fromCharCode(97 + i));
+      }
+    } else {
+      if (!first) strings.push(stripTrailingAs(str));
+      else first = false;
+      const leap = Math.floor((leapTotal += leapStep));
+      leapTotal %= 1;
+      for (let i = 0; i < part + leap; i++) {
+        strings.push(str + alpha?.[leap]?.[i]);
+      }
+    }
+  }
+
+  function stripTrailingAs(str: string) {
+    let last = str.length - 1;
+    while (str.charAt(last) === "a") --last;
+    return str.slice(0, last + 1);
+  }
+
+  function partialAlphabet(num: number) {
+    const magic = [
+      0, 4096, 65792, 528416, 1081872, 2167048, 2376776, 4756004, 4794660,
+      5411476, 9775442, 11097386, 11184810, 22369621,
+    ];
+    let bits = num < 13 ? magic[num] ?? 0 : 33554431 - (magic[25 - num] ?? 0);
+    const chars = [];
+    for (let i = 1; i < 26; i++, bits >>= 1) {
+      if (bits & 1) chars.push(String.fromCharCode(97 + i));
+    }
+    return chars;
+  }
+}
