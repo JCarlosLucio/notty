@@ -1,18 +1,24 @@
 import {
   DndContext,
+  DragOverlay,
   PointerSensor,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
 import { SortableContext } from "@dnd-kit/sortable";
+import { useState } from "react";
+import { createPortal } from "react-dom";
 
 import CreateList from "@/components/CreateList";
 import List from "@/components/List";
-import { api } from "@/utils/api";
+import { api, type RouterOutputs } from "@/utils/api";
 
 type BoardProps = { boardId: string };
+type IList = RouterOutputs["list"]["getById"];
 
 const BoardLists = ({ boardId }: BoardProps) => {
+  const [activeList, setActiveList] = useState<IList | null>(null);
+
   const { data: lists } = api.list.getAll.useQuery({ boardId });
 
   const sensors = useSensors(
@@ -36,6 +42,10 @@ const BoardLists = ({ boardId }: BoardProps) => {
 
         <CreateList boardId={boardId} />
       </div>
+      {createPortal(
+        <DragOverlay>{activeList && <List list={activeList} />}</DragOverlay>,
+        document.body
+      )}
     </DndContext>
   );
 };
