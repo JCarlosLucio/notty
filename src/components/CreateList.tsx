@@ -23,7 +23,7 @@ const CreateList = ({ boardId }: CreateListProps) => {
   const form = useForm<CreateListInput>({
     resolver: zodResolver(createListSchema),
     defaultValues: {
-      boardId,
+      boardId: "",
       title: "",
     },
   });
@@ -49,6 +49,7 @@ const CreateList = ({ boardId }: CreateListProps) => {
   });
 
   const onSubmit: SubmitHandler<CreateListInput> = (values) => {
+    values.boardId = boardId;
     createList(values);
   };
 
