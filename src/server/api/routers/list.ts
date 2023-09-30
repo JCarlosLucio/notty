@@ -67,6 +67,13 @@ export const listRouter = createTRPCRouter({
   move: protectedProcedure
     .input(moveListSchema)
     .mutation(async ({ ctx, input }) => {
+      if (input.id === input.targetId) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "id cannot be targetId",
+        });
+      }
+
       const lists = await ctx.prisma.list.findMany({
         where: {
           boardId: input.boardId,
