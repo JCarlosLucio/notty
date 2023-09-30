@@ -35,6 +35,12 @@ export const createListSchema = z.object({
     .max(256, "Title must contain at most 256 characters"),
 });
 
+export const moveListSchema = z.object({
+  id: z.string(),
+  targetId: z.string(),
+  boardId: z.string(),
+});
+
 export const deleteListSchema = z.object({
   id: z.string(),
 });
