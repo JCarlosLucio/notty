@@ -6,6 +6,7 @@ import {
   deleteListSchema,
   getAllListSchema,
   getByIdListSchema,
+  moveListSchema,
 } from "@/utils/schemas";
 import { midString } from "@/utils/sorting";
 
@@ -59,6 +60,41 @@ export const listRouter = createTRPCRouter({
           title: input.title,
           boardId: input.boardId,
           position: midString(lastPosition, ""),
+        },
+      });
+    }),
+
+  move: protectedProcedure
+    .input(moveListSchema)
+    .mutation(async ({ ctx, input }) => {
+      const lists = await ctx.prisma.list.findMany({
+        where: {
+          boardId: input.boardId,
+        },
+        orderBy: {
+          position: "asc",
+        },
+      });
+
+      const activeIdx = lists.findIndex((l) => l.id === input.id);
+      const targetIdx = lists.findIndex((l) => l.id === input.targetId);
+
+      let prevIdx = targetIdx - 1;
+      let nextIdx = targetIdx;
+
+      if (activeIdx < targetIdx) {
+        prevIdx++;
+        nextIdx++;
+      }
+      const prevPos = lists[prevIdx]?.position ?? "";
+      const nextPos = lists[nextIdx]?.position ?? "";
+
+      return await ctx.prisma.list.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          position: midString(prevPos, nextPos),
         },
       });
     }),
