@@ -23,7 +23,7 @@ const CreateNote = ({ listId }: CreateNoteProps) => {
   const form = useForm<CreateNoteInput>({
     resolver: zodResolver(createNoteSchema),
     defaultValues: {
-      listId,
+      listId: "",
       content: "",
     },
   });
@@ -49,6 +49,7 @@ const CreateNote = ({ listId }: CreateNoteProps) => {
   });
 
   const onSubmit: SubmitHandler<CreateNoteInput> = (values) => {
+    values.listId = listId;
     createNote(values);
   };
 
