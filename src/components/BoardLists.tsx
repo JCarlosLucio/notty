@@ -1,5 +1,6 @@
 import {
   DndContext,
+  type DragEndEvent,
   DragOverlay,
   type DragStartEvent,
   PointerSensor,
@@ -74,8 +75,28 @@ const BoardLists = ({ boardId }: BoardProps) => {
     }
   }
 
+  function onDragEnd(e: DragEndEvent) {
+    setActiveList(null);
+
+    const { active, over } = e;
+    if (!over) return;
+
+    const activeId = active.id;
+    const overId = over.id;
+    if (activeId === overId) return;
+
+    const isActiveAList = active.data.current?.type === "List";
+    if (!isActiveAList) return;
+
+    moveList({ id: activeId.toString(), targetId: overId.toString(), boardId });
+  }
+
   return (
-    <DndContext sensors={sensors} onDragStart={onDragStart}>
+    <DndContext
+      sensors={sensors}
+      onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
+    >
       <div className="flex h-full items-start gap-2 overflow-x-scroll border border-yellow-500 pb-2">
         {lists && (
           <SortableContext items={lists}>
