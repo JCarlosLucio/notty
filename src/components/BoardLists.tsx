@@ -6,7 +6,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { SortableContext } from "@dnd-kit/sortable";
+import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 
@@ -21,6 +21,43 @@ const BoardLists = ({ boardId }: BoardProps) => {
   const [activeList, setActiveList] = useState<IList | null>(null);
 
   const { data: lists } = api.list.getAll.useQuery({ boardId });
+
+  const ctx = api.useContext();
+
+  const { mutate: moveList } = api.list.move.useMutation({
+    onMutate: async ({ id, targetId, boardId }) => {
+      // cancel outgoing fetches (so they don't overwrite our optimistic update)
+      await ctx.list.getAll.cancel({ boardId });
+
+      // Get all data from queryCache
+      const previousList = ctx.list.getAll.getData();
+
+      // optimistically update data with updated post
+      ctx.list.getAll.setData({ boardId }, (oldList) => {
+        if (oldList) {
+          const activeIdx = oldList.findIndex((l) => l.id === id);
+          const overIdx = oldList.findIndex((l) => l.id === targetId);
+
+          return arrayMove(oldList, activeIdx, overIdx);
+        }
+        return oldList;
+      });
+
+      return { previousList };
+    },
+    onSuccess: (updatedList, { id, boardId }) => {
+      ctx.list.getAll.setData({ boardId }, (oldList) => {
+        if (oldList) {
+          return oldList.map((l) => (l.id === id ? updatedList : l));
+        }
+
+        return oldList;
+      });
+    },
+    onError: (_err, { boardId }, context) => {
+      ctx.list.getAll.setData({ boardId }, context?.previousList);
+    },
+  });
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
