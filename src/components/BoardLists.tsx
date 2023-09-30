@@ -1,6 +1,7 @@
 import {
   DndContext,
   DragOverlay,
+  type DragStartEvent,
   PointerSensor,
   useSensor,
   useSensors,
@@ -29,8 +30,15 @@ const BoardLists = ({ boardId }: BoardProps) => {
     })
   );
 
+  function onDragStart(e: DragStartEvent) {
+    const { active } = e;
+    if (active.data.current?.type === "List") {
+      setActiveList(active.data.current.list as IList);
+    }
+  }
+
   return (
-    <DndContext sensors={sensors}>
+    <DndContext sensors={sensors} onDragStart={onDragStart}>
       <div className="flex h-full items-start gap-2 overflow-x-scroll border border-yellow-500 pb-2">
         {lists && (
           <SortableContext items={lists}>
