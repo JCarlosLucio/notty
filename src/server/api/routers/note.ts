@@ -10,7 +10,7 @@ export const noteRouter = createTRPCRouter({
           listId: input.listId,
         },
         orderBy: {
-          updatedAt: "asc",
+          position: "asc",
         },
       });
     }),
