@@ -13,14 +13,16 @@ import { createPortal } from "react-dom";
 
 import CreateList from "@/components/CreateList";
 import List from "@/components/List";
+import Note from "@/components/Note";
 import { api, type RouterOutputs } from "@/utils/api";
 
 type BoardProps = { boardId: string };
 type IList = RouterOutputs["list"]["getById"];
+type INote = RouterOutputs["note"]["create"];
 
 const BoardLists = ({ boardId }: BoardProps) => {
   const [activeList, setActiveList] = useState<IList | null>(null);
-
+  const [activeNote, setActiveNote] = useState<INote | null>(null);
   const { data: lists } = api.list.getAll.useQuery({ boardId });
 
   const ctx = api.useContext();
@@ -72,11 +74,18 @@ const BoardLists = ({ boardId }: BoardProps) => {
     const { active } = e;
     if (active.data.current?.type === "List") {
       setActiveList(active.data.current.list as IList);
+      return;
+    }
+
+    if (active.data.current?.type === "Note") {
+      setActiveNote(active.data.current.note as INote);
+      return;
     }
   }
 
   function onDragEnd(e: DragEndEvent) {
     setActiveList(null);
+    setActiveNote(null);
 
     const { active, over } = e;
     if (!over) return;
@@ -109,7 +118,10 @@ const BoardLists = ({ boardId }: BoardProps) => {
         <CreateList boardId={boardId} />
       </div>
       {createPortal(
-        <DragOverlay>{activeList && <List list={activeList} />}</DragOverlay>,
+        <DragOverlay>
+          {activeList && <List list={activeList} />}
+          {activeNote && <Note note={activeNote} />}
+        </DragOverlay>,
         document.body
       )}
     </DndContext>
