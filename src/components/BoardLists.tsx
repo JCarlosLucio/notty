@@ -17,12 +17,12 @@ import Note from "@/components/Note";
 import { api, type RouterOutputs } from "@/utils/api";
 
 type BoardProps = { boardId: string };
-type IList = RouterOutputs["list"]["getById"];
-type INote = RouterOutputs["note"]["create"];
+type ActiveList = RouterOutputs["list"]["getById"];
+type ActiveNote = RouterOutputs["note"]["create"];
 
 const BoardLists = ({ boardId }: BoardProps) => {
-  const [activeList, setActiveList] = useState<IList | null>(null);
-  const [activeNote, setActiveNote] = useState<INote | null>(null);
+  const [activeList, setActiveList] = useState<ActiveList | null>(null);
+  const [activeNote, setActiveNote] = useState<ActiveNote | null>(null);
   const { data: lists } = api.list.getAll.useQuery({ boardId });
 
   const ctx = api.useContext();
@@ -73,12 +73,12 @@ const BoardLists = ({ boardId }: BoardProps) => {
   function onDragStart(e: DragStartEvent) {
     const { active } = e;
     if (active.data.current?.type === "List") {
-      setActiveList(active.data.current.list as IList);
+      setActiveList(active.data.current.list as ActiveList);
       return;
     }
 
     if (active.data.current?.type === "Note") {
-      setActiveNote(active.data.current.note as INote);
+      setActiveNote(active.data.current.note as ActiveNote);
       return;
     }
   }
