@@ -1,6 +1,7 @@
 import {
   DndContext,
   type DragEndEvent,
+  type DragOverEvent,
   DragOverlay,
   type DragStartEvent,
   PointerSensor,
@@ -23,6 +24,8 @@ type ActiveNote = RouterOutputs["note"]["create"];
 const BoardLists = ({ boardId }: BoardProps) => {
   const [activeList, setActiveList] = useState<ActiveList | null>(null);
   const [activeNote, setActiveNote] = useState<ActiveNote | null>(null);
+  const [prevOverListId, setPrevOverListId] = useState<string | null>(null);
+
   const { data: lists } = api.list.getAll.useQuery({ boardId });
 
   const ctx = api.useContext();
@@ -79,13 +82,76 @@ const BoardLists = ({ boardId }: BoardProps) => {
 
     if (active.data.current?.type === "Note") {
       setActiveNote(active.data.current.note as ActiveNote);
+      setPrevOverListId((active.data.current.note as ActiveNote).listId);
       return;
     }
+  }
+
+  function onDragOver(e: DragOverEvent) {
+    const { active, over } = e;
+    if (!over) return;
+
+    const activeId = active.id;
+    const overId = over.id;
+
+    if (activeId === overId) return;
+
+    const isActiveANote = active.data.current?.type === "Note";
+    const isOverANote = over.data.current?.type === "Note";
+
+    console.log("DRAG OVER");
+    console.log("active", active, { isActiveANote });
+    console.log("over", over, { isOverANote });
+
+    // TODO: Move list to desired index temporarily
+
+    if (!isActiveANote) return;
+
+    let overListId: string | null = null;
+    // Im dropping a Note over another Note
+    if (isActiveANote && isOverANote) {
+      console.log("OVER NOTE");
+      const currOverNote = over.data.current?.note as ActiveNote | undefined;
+      overListId = currOverNote?.listId ?? null;
+    }
+
+    const isOverAList = over.data.current?.type === "List";
+
+    // Im dropping a Note over a List
+    if (isActiveANote && isOverAList) {
+      console.log("OVER LIST");
+      const currOverList = over.data.current?.list as ActiveList | undefined;
+      overListId = currOverList?.id ?? null;
+    }
+
+    if (!overListId) return;
+
+    // Remove activeNote from the previous over list
+    if (prevOverListId) {
+      ctx.note.getAll.setData({ listId: prevOverListId }, (oldNotes) => {
+        if (oldNotes && activeNote) {
+          return oldNotes.filter((n) => n.id !== activeNote.id);
+        }
+        return oldNotes;
+      });
+    }
+
+    // Add activeNote to the current over list (temporarily)
+    ctx.note.getAll.setData({ listId: overListId }, (oldNotes) => {
+      const hasActiveNote = oldNotes?.some((n) => n?.id === activeNote?.id);
+
+      if (oldNotes && activeNote && !hasActiveNote) {
+        setPrevOverListId(overListId);
+        return [activeNote, ...oldNotes];
+      }
+      return oldNotes;
+    });
   }
 
   function onDragEnd(e: DragEndEvent) {
     setActiveList(null);
     setActiveNote(null);
+    setPrevOverListId(null);
 
     const { active, over } = e;
     if (!over) return;
@@ -104,6 +170,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
     <DndContext
       sensors={sensors}
       onDragStart={onDragStart}
+      onDragOver={onDragOver}
       onDragEnd={onDragEnd}
     >
       <div className="flex h-full items-start gap-2 overflow-x-scroll border border-yellow-500 pb-2">
