@@ -1,5 +1,11 @@
+import { TRPCError } from "@trpc/server";
+
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-import { createNoteSchema, getAllNoteSchema } from "@/utils/schemas";
+import {
+  createNoteSchema,
+  getAllNoteSchema,
+  moveNoteSchema,
+} from "@/utils/schemas";
 import { midString } from "@/utils/sorting";
 
 export const noteRouter = createTRPCRouter({
@@ -36,6 +42,49 @@ export const noteRouter = createTRPCRouter({
           listId: input.listId,
           content: input.content,
           position: midString(lastPosition, ""),
+        },
+      });
+    }),
+
+  move: protectedProcedure
+    .input(moveNoteSchema)
+    .mutation(async ({ ctx, input }) => {
+      if (input.id === input.targetId) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "id cannot be targetId",
+        });
+      }
+
+      const notes = await ctx.prisma.note.findMany({
+        where: {
+          listId: input.listId,
+        },
+        orderBy: {
+          position: "asc",
+        },
+      });
+
+      const activeIdx = notes.findIndex((n) => n.id === input.id);
+      const targetIdx = notes.findIndex((n) => n.id === input.targetId);
+
+      let prevIdx = targetIdx - 1;
+      let nextIdx = targetIdx;
+
+      if (activeIdx < targetIdx) {
+        prevIdx++;
+        nextIdx++;
+      }
+
+      const prevPos = notes[prevIdx]?.position ?? "";
+      const nextPos = notes[nextIdx]?.position ?? "";
+
+      return await ctx.prisma.note.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          position: midString(prevPos, nextPos),
         },
       });
     }),
