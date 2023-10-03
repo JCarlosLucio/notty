@@ -1,5 +1,3 @@
-import { TRPCError } from "@trpc/server";
-
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import {
   createNoteSchema,
@@ -49,13 +47,6 @@ export const noteRouter = createTRPCRouter({
   move: protectedProcedure
     .input(moveNoteSchema)
     .mutation(async ({ ctx, input }) => {
-      if (input.id === input.targetId) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "id cannot be targetId",
-        });
-      }
-
       const notes = await ctx.prisma.note.findMany({
         where: {
           listId: input.listId,
@@ -76,6 +67,12 @@ export const noteRouter = createTRPCRouter({
         nextIdx++;
       }
 
+      // only happens when moving to new list and placed at the top
+      if (input.id === input.targetId) {
+        prevIdx = -1;
+        nextIdx = 0;
+      }
+
       const prevPos = notes[prevIdx]?.position ?? "";
       const nextPos = notes[nextIdx]?.position ?? "";
 
@@ -85,6 +82,7 @@ export const noteRouter = createTRPCRouter({
         },
         data: {
           position: midString(prevPos, nextPos),
+          listId: input.listId,
         },
       });
     }),
