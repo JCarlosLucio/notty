@@ -58,3 +58,9 @@ export const createNoteSchema = z.object({
     .min(1, "Content is required")
     .max(256, "Content must contain at most 256 characters"),
 });
+
+export const moveNoteSchema = z.object({
+  id: z.string(),
+  targetId: z.string(),
+  listId: z.string(),
+});
