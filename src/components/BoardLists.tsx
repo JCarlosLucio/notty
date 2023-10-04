@@ -25,6 +25,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
   const [activeList, setActiveList] = useState<ActiveList | null>(null);
   const [activeNote, setActiveNote] = useState<ActiveNote | null>(null);
   const [prevOverListId, setPrevOverListId] = useState<string | null>(null);
+  const [prevOverNoteId, setPrevOverNoteId] = useState<string | null>(null);
 
   const { data: lists } = api.list.getAll.useQuery({ boardId });
 
@@ -65,6 +66,30 @@ const BoardLists = ({ boardId }: BoardProps) => {
     },
   });
 
+  const { mutate: moveNote } = api.note.move.useMutation({
+    onMutate: async ({ listId }) => {
+      // cancel outgoing fetches (so they don't overwrite our optimistic update)
+      await ctx.note.getAll.cancel({ listId });
+
+      // Get all data from queryCache
+      const previousNotes = ctx.note.getAll.getData();
+
+      return { previousNotes };
+    },
+    onSuccess: (updatedNote, { id, listId }) => {
+      ctx.note.getAll.setData({ listId }, (oldNotes) => {
+        if (oldNotes) {
+          return oldNotes.map((l) => (l.id === id ? updatedNote : l));
+        }
+
+        return oldNotes;
+      });
+    },
+    onError: (_err, { listId }, context) => {
+      ctx.note.getAll.setData({ listId }, context?.previousNotes);
+    },
+  });
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -75,6 +100,9 @@ const BoardLists = ({ boardId }: BoardProps) => {
 
   function onDragStart(e: DragStartEvent) {
     const { active } = e;
+    console.log("ON DRAG START");
+    console.log(active.data.current);
+
     if (active.data.current?.type === "List") {
       setActiveList(active.data.current.list as ActiveList);
       return;
@@ -94,33 +122,36 @@ const BoardLists = ({ boardId }: BoardProps) => {
     const activeId = active.id;
     const overId = over.id;
 
-    if (activeId === overId) return;
-
     const isActiveANote = active.data.current?.type === "Note";
     const isOverANote = over.data.current?.type === "Note";
 
     console.log("DRAG OVER");
     console.log("active", active, { isActiveANote });
     console.log("over", over, { isOverANote });
+    console.log("prevOverListId", prevOverListId);
+    console.log("activeId === overId", activeId === overId);
 
+    if (activeId === overId) return;
     // TODO: Move list to desired index temporarily
 
     if (!isActiveANote) return;
 
     let overListId: string | null = null;
-    // Im dropping a Note over another Note
+    // Dropping a Note over another Note
     if (isActiveANote && isOverANote) {
-      console.log("OVER NOTE");
       const currOverNote = over.data.current?.note as ActiveNote | undefined;
+      console.log("OVER NOTE", "prevOverNoteId", currOverNote?.id);
+      setPrevOverNoteId(currOverNote?.id ?? null);
       overListId = currOverNote?.listId ?? null;
     }
 
     const isOverAList = over.data.current?.type === "List";
 
-    // Im dropping a Note over a List
+    // Dropping a Note over a List
     if (isActiveANote && isOverAList) {
       console.log("OVER LIST");
       const currOverList = over.data.current?.list as ActiveList | undefined;
+      setPrevOverNoteId(null);
       overListId = currOverList?.id ?? null;
     }
 
@@ -142,7 +173,17 @@ const BoardLists = ({ boardId }: BoardProps) => {
 
       if (oldNotes && activeNote && !hasActiveNote) {
         setPrevOverListId(overListId);
-        return [activeNote, ...oldNotes];
+
+        // Move activeNote to the correct position
+        const newNotes = [activeNote, ...oldNotes];
+
+        // const activeIdx = newNotes.findIndex((n) => n.id === activeNote.id);
+        // const overIdx = isOverANote
+        //   ? newNotes.findIndex((n) => n.id === over.id)
+        //   : activeIdx;
+
+        // return arrayMove(newNotes, activeIdx, overIdx);
+        return newNotes;
       }
       return oldNotes;
     });
@@ -151,19 +192,61 @@ const BoardLists = ({ boardId }: BoardProps) => {
   function onDragEnd(e: DragEndEvent) {
     setActiveList(null);
     setActiveNote(null);
-    setPrevOverListId(null);
 
     const { active, over } = e;
+
+    console.log("DRAG END");
+    console.log("active", active);
+    console.log("over", over);
+    console.log("prevOverListId", prevOverListId);
+    console.log("prevOverNoteId", prevOverNoteId);
+
     if (!over) return;
 
     const activeId = active.id;
     const overId = over.id;
-    if (activeId === overId) return;
-
     const isActiveAList = active.data.current?.type === "List";
-    if (!isActiveAList) return;
+    const isActiveANote = active.data.current?.type === "Note";
+    const isOverAList = over.data.current?.type === "List";
 
-    moveList({ id: activeId.toString(), targetId: overId.toString(), boardId });
+    if (isActiveAList) {
+      if (activeId === overId) return;
+      moveList({
+        id: activeId.toString(),
+        targetId: overId.toString(),
+        boardId,
+      });
+    }
+
+    if (isActiveANote) {
+      const currActiveNote = active.data.current?.note as
+        | ActiveNote
+        | undefined;
+
+      if (!prevOverListId) return;
+
+      const isMovingLists = currActiveNote?.listId !== prevOverListId;
+
+      // TWO cases when moving lists and moving to the top of the list
+      //    1. Just over the list prevOverNoteId === null
+      //        1a. This gives position "n" (really bad cause it could be duplicated)
+      //    2. Over the first note but coming from top - prevOverNoteId === first item id
+      //        2a. Correct position
+      //    3. Over itself but prevOverNoteId is not being set correctly (sets first item id)
+      //        3a. prevOverNoteId === first item id && over.id === over.id
+      //        3b. Sets it to the second position when it should be first
+
+      // When over a only list set targetId === active.id
+      if (isMovingLists && isOverAList) {
+        moveNote({
+          id: activeId.toString(),
+          targetId: activeId.toString(),
+          listId: prevOverListId,
+        });
+      }
+    }
+
+    setPrevOverListId(null);
   }
 
   return (
