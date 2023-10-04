@@ -47,6 +47,9 @@ export const noteRouter = createTRPCRouter({
   move: protectedProcedure
     .input(moveNoteSchema)
     .mutation(async ({ ctx, input }) => {
+      /**
+       * Sorts notes within list, moves notes to a list, moves notes to a list and sorts it within that list.
+       */
       const notes = await ctx.prisma.note.findMany({
         where: {
           listId: input.listId,
@@ -62,8 +65,9 @@ export const noteRouter = createTRPCRouter({
       let prevIdx = targetIdx;
       let nextIdx = targetIdx + 1;
 
-      // only happens when moving to new list and placed at the top
+      // When move is over a list (not over a note) then id === targetId so we place it at the top of the list
       if (input.id === input.targetId) {
+        // this values are to place the note at the TOP with the correct position
         prevIdx = -1;
         nextIdx = 0;
       }
