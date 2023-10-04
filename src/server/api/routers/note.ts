@@ -59,13 +59,8 @@ export const noteRouter = createTRPCRouter({
       const activeIdx = notes.findIndex((n) => n.id === input.id);
       const targetIdx = notes.findIndex((n) => n.id === input.targetId);
 
-      let prevIdx = targetIdx - 1;
-      let nextIdx = targetIdx;
-
-      if (activeIdx < targetIdx) {
-        prevIdx++;
-        nextIdx++;
-      }
+      let prevIdx = targetIdx;
+      let nextIdx = targetIdx + 1;
 
       // only happens when moving to new list and placed at the top
       if (input.id === input.targetId) {
