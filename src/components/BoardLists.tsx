@@ -227,20 +227,22 @@ const BoardLists = ({ boardId }: BoardProps) => {
 
       const isMovingLists = currActiveNote?.listId !== prevOverListId;
 
-      // TWO cases when moving lists and moving to the top of the list
-      //    1. Just over the list prevOverNoteId === null
-      //        1a. This gives position "n" (really bad cause it could be duplicated)
-      //    2. Over the first note but coming from top - prevOverNoteId === first item id
-      //        2a. Correct position
-      //    3. Over itself but prevOverNoteId is not being set correctly (sets first item id)
-      //        3a. prevOverNoteId === first item id && over.id === over.id
-      //        3b. Sets it to the second position when it should be first
-
-      // When over a only list set targetId === active.id
+      // Move to the top of the list when only moving to another list
       if (isMovingLists && isOverAList) {
+        // When over a only list set targetId === active.id
         moveNote({
           id: activeId.toString(),
           targetId: activeId.toString(),
+          listId: prevOverListId,
+        });
+      }
+
+      // Sort note within a list to the correct position
+      // if place is in another list it also moves the note to the correct list
+      if (isOverANote) {
+        moveNote({
+          id: activeId.toString(),
+          targetId: overId.toString(),
           listId: prevOverListId,
         });
       }
