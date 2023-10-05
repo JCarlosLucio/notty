@@ -198,7 +198,6 @@ const BoardLists = ({ boardId }: BoardProps) => {
     const isActiveAList = active.data.current?.type === "List";
     const isActiveANote = active.data.current?.type === "Note";
     const isOverANote = over.data.current?.type === "Note";
-    const isOverAList = over.data.current?.type === "List";
 
     if (isActiveAList) {
       if (activeId === overId) return;
@@ -229,25 +228,17 @@ const BoardLists = ({ boardId }: BoardProps) => {
         return oldNotes;
       });
 
-      // Move to the top of the list when only moving to another list
-      if (isMovingLists && isOverAList) {
-        // When over a only list set targetId === active.id
-        moveNote({
-          id: activeId.toString(),
-          targetId: activeId.toString(),
-          listId: prevOverListId,
-        });
-      }
+      // Move to the top of the list when only moving to another list (targetId === activeId)
+      const targetId =
+        isMovingLists && !isOverANote ? activeId.toString() : overId.toString();
 
       // Sort note within a list to the correct position
       // if place is in another list it also moves the note to the correct list
-      if (isOverANote) {
-        moveNote({
-          id: activeId.toString(),
-          targetId: overId.toString(),
-          listId: prevOverListId,
-        });
-      }
+      moveNote({
+        id: activeId.toString(),
+        targetId,
+        listId: prevOverListId,
+      });
     }
 
     setPrevOverListId(null);
