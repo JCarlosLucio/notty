@@ -30,8 +30,12 @@ const Note = ({ note }: NoteProps) => {
   return (
     <Button
       ref={setNodeRef}
-      variant="blur"
-      className={isDragging ? "border-2 border-destructive" : ""}
+      variant="secondary"
+      className={
+        isDragging
+          ? "border-2 border-destructive opacity-50"
+          : "bg-secondary/60"
+      }
       style={style}
       {...attributes}
       {...listeners}
