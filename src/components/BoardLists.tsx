@@ -25,7 +25,6 @@ const BoardLists = ({ boardId }: BoardProps) => {
   const [activeList, setActiveList] = useState<ActiveList | null>(null);
   const [activeNote, setActiveNote] = useState<ActiveNote | null>(null);
   const [prevOverListId, setPrevOverListId] = useState<string | null>(null);
-  const [prevOverNoteId, setPrevOverNoteId] = useState<string | null>(null);
 
   const { data: lists } = api.list.getAll.useQuery({ boardId });
 
@@ -130,8 +129,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
     // Dropping a Note over another Note
     if (isActiveANote && isOverANote) {
       const currOverNote = over.data.current?.note as ActiveNote | undefined;
-      console.log("OVER NOTE", "prevOverNoteId", currOverNote?.id);
-      setPrevOverNoteId(currOverNote?.id ?? null);
+      console.log("OVER NOTE");
       overListId = currOverNote?.listId ?? null;
     }
 
@@ -141,7 +139,6 @@ const BoardLists = ({ boardId }: BoardProps) => {
     if (isActiveANote && isOverAList) {
       console.log("OVER LIST");
       const currOverList = over.data.current?.list as ActiveList | undefined;
-      setPrevOverNoteId(null);
       overListId = currOverList?.id ?? null;
     }
 
@@ -179,7 +176,6 @@ const BoardLists = ({ boardId }: BoardProps) => {
     console.log("active", active);
     console.log("over", over);
     console.log("prevOverListId", prevOverListId);
-    console.log("prevOverNoteId", prevOverNoteId);
 
     if (!over) return;
 
