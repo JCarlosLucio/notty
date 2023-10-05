@@ -32,23 +32,14 @@ const BoardLists = ({ boardId }: BoardProps) => {
   const ctx = api.useContext();
 
   const { mutate: moveList } = api.list.move.useMutation({
-    onMutate: async ({ id, targetId, boardId }) => {
+    onMutate: async ({ boardId }) => {
       // cancel outgoing fetches (so they don't overwrite our optimistic update)
       await ctx.list.getAll.cancel({ boardId });
 
       // Get all data from queryCache
       const previousList = ctx.list.getAll.getData();
 
-      // optimistically update data with updated post
-      ctx.list.getAll.setData({ boardId }, (oldList) => {
-        if (oldList) {
-          const activeIdx = oldList.findIndex((l) => l.id === id);
-          const overIdx = oldList.findIndex((l) => l.id === targetId);
-
-          return arrayMove(oldList, activeIdx, overIdx);
-        }
-        return oldList;
-      });
+      // optimistical update is done in onDragEnd
 
       return { previousList };
     },
@@ -132,7 +123,6 @@ const BoardLists = ({ boardId }: BoardProps) => {
     console.log("activeId === overId", activeId === overId);
 
     if (activeId === overId) return;
-    // TODO: Move list to desired index temporarily
 
     if (!isActiveANote) return;
 
@@ -198,9 +188,23 @@ const BoardLists = ({ boardId }: BoardProps) => {
     const isActiveAList = active.data.current?.type === "List";
     const isActiveANote = active.data.current?.type === "Note";
     const isOverANote = over.data.current?.type === "Note";
+    const isOverAList = over.data.current?.type === "List";
 
     if (isActiveAList) {
+      // Move activeList to the correct position
+      ctx.list.getAll.setData({ boardId }, (oldList) => {
+        if (oldList && activeList && isOverAList) {
+          const activeIdx = oldList.findIndex((l) => l.id === activeList.id);
+          const overIdx = oldList.findIndex((l) => l.id === over.id);
+
+          return arrayMove(oldList, activeIdx, overIdx);
+        }
+        return oldList;
+      });
+
       if (activeId === overId) return;
+
+      // Save the sorting of the list to the correct position
       moveList({
         id: activeId.toString(),
         targetId: overId.toString(),
@@ -230,9 +234,9 @@ const BoardLists = ({ boardId }: BoardProps) => {
 
       // Move to the top of the list when only moving to another list (targetId === activeId)
       const targetId =
-        isMovingLists && !isOverANote ? activeId.toString() : overId.toString();
+        isMovingLists && isOverAList ? activeId.toString() : overId.toString();
 
-      // Sort note within a list to the correct position
+      // Save the sorting of the note within a list to the correct position
       // if place is in another list it also moves the note to the correct list
       moveNote({
         id: activeId.toString(),
