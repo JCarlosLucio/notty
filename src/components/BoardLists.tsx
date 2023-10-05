@@ -167,23 +167,13 @@ const BoardLists = ({ boardId }: BoardProps) => {
       });
     }
 
-    // Add activeNote to the current over list (temporarily)
+    // Add activeNote to the current over list (temporarily) for the sorting/moving animations of notes
     ctx.note.getAll.setData({ listId: overListId }, (oldNotes) => {
       const hasActiveNote = oldNotes?.some((n) => n?.id === activeNote?.id);
 
       if (oldNotes && activeNote && !hasActiveNote) {
         setPrevOverListId(overListId);
-
-        // Move activeNote to the correct position
-        const newNotes = [activeNote, ...oldNotes];
-
-        // const activeIdx = newNotes.findIndex((n) => n.id === activeNote.id);
-        // const overIdx = isOverANote
-        //   ? newNotes.findIndex((n) => n.id === over.id)
-        //   : activeIdx;
-
-        // return arrayMove(newNotes, activeIdx, overIdx);
-        return newNotes;
+        return [activeNote, ...oldNotes];
       }
       return oldNotes;
     });
@@ -207,6 +197,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
     const overId = over.id;
     const isActiveAList = active.data.current?.type === "List";
     const isActiveANote = active.data.current?.type === "Note";
+    const isOverANote = over.data.current?.type === "Note";
     const isOverAList = over.data.current?.type === "List";
 
     if (isActiveAList) {
@@ -226,6 +217,17 @@ const BoardLists = ({ boardId }: BoardProps) => {
       if (!prevOverListId) return;
 
       const isMovingLists = currActiveNote?.listId !== prevOverListId;
+
+      // Move activeNote to the correct position
+      ctx.note.getAll.setData({ listId: prevOverListId }, (oldNotes) => {
+        if (oldNotes && activeNote && isOverANote) {
+          const activeIdx = oldNotes.findIndex((n) => n.id === activeNote.id);
+          const overIdx = oldNotes.findIndex((n) => n.id === over.id);
+
+          return arrayMove(oldNotes, activeIdx, overIdx);
+        }
+        return oldNotes;
+      });
 
       // Move to the top of the list when only moving to another list
       if (isMovingLists && isOverAList) {
