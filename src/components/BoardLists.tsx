@@ -155,32 +155,19 @@ const BoardLists = ({ boardId }: BoardProps) => {
     const overId = over.id;
 
     const isActiveANote = active.data.current?.type === "Note";
-    const isOverANote = over.data.current?.type === "Note";
 
     console.log({ isActiveANote });
-    console.log({ isOverANote });
     console.log("activeId === overId", activeId === overId);
 
     if (activeId === overId) return;
 
     if (!isActiveANote) return;
 
-    let overListId: string | null = null;
-    // Dropping a Note over another Note
-    if (isActiveANote && isOverANote) {
-      const currOverNote = over.data.current?.note as ActiveNote | undefined;
-      console.log("OVER NOTE");
-      overListId = currOverNote?.listId ?? null;
-    }
-
-    const isOverAList = over.data.current?.type === "List";
-
-    // Dropping a Note over a List
-    if (isActiveANote && isOverAList) {
-      console.log("OVER LIST");
-      const currOverList = over.data.current?.list as ActiveList | undefined;
-      overListId = currOverList?.id ?? null;
-    }
+    // Dragging over a Note over another Note
+    const currOverNote = over.data.current?.note as ActiveNote | undefined;
+    // Dragging over a Note over a List
+    const currOverList = over.data.current?.list as ActiveList | undefined;
+    const overListId = currOverNote?.listId ?? currOverList?.id;
 
     if (!overListId) return;
 
@@ -192,7 +179,6 @@ const BoardLists = ({ boardId }: BoardProps) => {
     // Add activeNote to the current over list (temporarily) for the sorting/moving animations of notes
     ctx.note.getAll.setData({ listId: overListId }, (oldNotes) => {
       const hasActiveNote = oldNotes?.some((n) => n?.id === activeNote?.id);
-
       if (oldNotes && activeNote && !hasActiveNote) {
         setPrevOverListId(overListId);
         return [activeNote, ...oldNotes];
