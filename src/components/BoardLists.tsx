@@ -1,5 +1,6 @@
 import {
   DndContext,
+  type DragCancelEvent,
   type DragEndEvent,
   type DragOverEvent,
   DragOverlay,
@@ -88,6 +89,27 @@ const BoardLists = ({ boardId }: BoardProps) => {
     })
   );
 
+  const removeNoteFromList = (listId: string, noteId?: string) => {
+    ctx.note.getAll.setData({ listId }, (oldNotes) => {
+      if (oldNotes && noteId) {
+        return oldNotes.filter((n) => n.id !== noteId);
+      }
+      return oldNotes;
+    });
+  };
+
+  const addNoteToListAndSort = (listId: string, note?: ActiveNote) => {
+    ctx.note.getAll.setData({ listId }, (oldNotes) => {
+      if (oldNotes) {
+        const newNotes = note ? [note, ...oldNotes] : [...oldNotes];
+        return newNotes.sort((a, b) =>
+          a.position < b.position ? -1 : a.position === b.position ? 0 : 1
+        );
+      }
+      return oldNotes;
+    });
+  };
+
   function onDragStart(e: DragStartEvent) {
     const { active } = e;
 
@@ -105,28 +127,6 @@ const BoardLists = ({ boardId }: BoardProps) => {
 
   function onDragOver(e: DragOverEvent) {
     const { active, over } = e;
-
-    const removeNoteFromList = (listId: string, noteId?: string) => {
-      ctx.note.getAll.setData({ listId }, (oldNotes) => {
-        if (oldNotes && noteId) {
-          return oldNotes.filter((n) => n.id !== noteId);
-        }
-        return oldNotes;
-      });
-    };
-
-    const addNoteToListAndSort = (listId: string, note?: ActiveNote) => {
-      ctx.note.getAll.setData({ listId }, (oldNotes) => {
-        if (oldNotes) {
-          const newNotes = note ? [note, ...oldNotes] : [...oldNotes];
-          return newNotes.sort((a, b) =>
-            a.position < b.position ? -1 : a.position === b.position ? 0 : 1
-          );
-        }
-        return oldNotes;
-      });
-    };
-
     // is dropped outside list/note then reset lists
     if (!over) {
       if (!prevOverListId || !activeNote) return;
@@ -249,12 +249,31 @@ const BoardLists = ({ boardId }: BoardProps) => {
     setPrevOverListId(null);
   }
 
+  function onDragCancel(_e: DragCancelEvent) {
+    if (!prevOverListId || !activeNote) return;
+    // Has visited other lists
+    if (prevOverListId !== activeNote.listId) {
+      // Removes from last visited
+      removeNoteFromList(prevOverListId, activeNote?.id);
+      // Re-add to original list and sort
+      addNoteToListAndSort(activeNote.listId, activeNote);
+    } else {
+      // last visited is original list so just sort list
+      addNoteToListAndSort(activeNote.listId);
+    }
+
+    setActiveList(null);
+    setActiveNote(null);
+    setPrevOverListId(null);
+  }
+
   return (
     <DndContext
       sensors={sensors}
       onDragStart={onDragStart}
       onDragOver={onDragOver}
       onDragEnd={onDragEnd}
+      onDragCancel={onDragCancel}
     >
       <div className="flex h-full items-start gap-2 overflow-x-scroll border border-yellow-500 pb-2">
         {lists && (
