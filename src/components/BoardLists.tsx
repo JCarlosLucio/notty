@@ -112,42 +112,39 @@ const BoardLists = ({ boardId }: BoardProps) => {
     console.log("over", over);
     console.log("prevOverListId", prevOverListId);
 
+    const removeNoteFromList = (listId: string, noteId?: string) => {
+      ctx.note.getAll.setData({ listId }, (oldNotes) => {
+        if (oldNotes && noteId) {
+          return oldNotes.filter((n) => n.id !== noteId);
+        }
+        return oldNotes;
+      });
+    };
+
+    const addNoteToListAndSort = (listId: string, note?: ActiveNote) => {
+      ctx.note.getAll.setData({ listId }, (oldNotes) => {
+        if (oldNotes) {
+          const newNotes = note ? [note, ...oldNotes] : [...oldNotes];
+          return newNotes.sort((a, b) =>
+            a.position < b.position ? -1 : a.position === b.position ? 0 : 1
+          );
+        }
+        return oldNotes;
+      });
+    };
+
     if (!over) {
-      // if has visited other lists (prevOverListId !== activeNote.listId)
-      //    Remove from last visited list
-      //    Re add to original list (activeNote.listId) and sort
-      // if last visited is original list ( prevOverListId === activeNote.listID)
-      //    Sort original list
-
+      // is dropped outside list/note then reset lists
       if (!prevOverListId || !activeNote) return;
-
+      // Has visited other lists
       if (prevOverListId !== activeNote.listId) {
         // Removes from last visited
-        ctx.note.getAll.setData({ listId: prevOverListId }, (oldNotes) => {
-          if (oldNotes && activeNote) {
-            return oldNotes.filter((n) => n.id !== activeNote.id);
-          }
-          return oldNotes;
-        });
-
-        // Re add to original list (activeNote.listId) and sort
-        ctx.note.getAll.setData({ listId: activeNote.listId }, (oldNotes) => {
-          if (oldNotes && activeNote) {
-            return [activeNote, ...oldNotes].sort((a, b) =>
-              a.position < b.position ? -1 : a.position === b.position ? 0 : 1
-            );
-          }
-          return oldNotes;
-        });
+        removeNoteFromList(prevOverListId, activeNote?.id);
+        // Re add to original list and sort
+        addNoteToListAndSort(activeNote.listId, activeNote);
       } else {
-        ctx.note.getAll.setData({ listId: prevOverListId }, (oldNotes) => {
-          if (oldNotes && activeNote) {
-            return [...oldNotes].sort((a, b) =>
-              a.position < b.position ? -1 : a.position === b.position ? 0 : 1
-            );
-          }
-          return oldNotes;
-        });
+        // last visited is original list so just sort list
+        addNoteToListAndSort(activeNote.listId);
       }
 
       setPrevOverListId(activeNote.listId);
@@ -189,12 +186,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
 
     // Remove activeNote from the previous over list
     if (prevOverListId) {
-      ctx.note.getAll.setData({ listId: prevOverListId }, (oldNotes) => {
-        if (oldNotes && activeNote) {
-          return oldNotes.filter((n) => n.id !== activeNote.id);
-        }
-        return oldNotes;
-      });
+      removeNoteFromList(prevOverListId, activeNote?.id);
     }
 
     // Add activeNote to the current over list (temporarily) for the sorting/moving animations of notes
