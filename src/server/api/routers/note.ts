@@ -59,7 +59,6 @@ export const noteRouter = createTRPCRouter({
         },
       });
 
-      const activeIdx = notes.findIndex((n) => n.id === input.id);
       const targetIdx = notes.findIndex((n) => n.id === input.targetId);
 
       let prevIdx = targetIdx;
