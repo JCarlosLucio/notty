@@ -90,8 +90,6 @@ const BoardLists = ({ boardId }: BoardProps) => {
 
   function onDragStart(e: DragStartEvent) {
     const { active } = e;
-    console.log("==== DRAG START ====");
-    console.log(active.data.current);
 
     if (active.data.current?.type === "List") {
       setActiveList(active.data.current.list as ActiveList);
@@ -107,10 +105,6 @@ const BoardLists = ({ boardId }: BoardProps) => {
 
   function onDragOver(e: DragOverEvent) {
     const { active, over } = e;
-    console.log("==== DRAG OVER ====");
-    console.log("active", active);
-    console.log("over", over);
-    console.log("prevOverListId", prevOverListId);
 
     const removeNoteFromList = (listId: string, noteId?: string) => {
       ctx.note.getAll.setData({ listId }, (oldNotes) => {
@@ -153,15 +147,9 @@ const BoardLists = ({ boardId }: BoardProps) => {
 
     const activeId = active.id;
     const overId = over.id;
-
     const isActiveANote = active.data.current?.type === "Note";
 
-    console.log({ isActiveANote });
-    console.log("activeId === overId", activeId === overId);
-
-    if (activeId === overId) return;
-
-    if (!isActiveANote) return;
+    if (activeId === overId || !isActiveANote) return;
 
     // Dragging over a Note over another Note
     const currOverNote = over.data.current?.note as ActiveNote | undefined;
@@ -189,11 +177,6 @@ const BoardLists = ({ boardId }: BoardProps) => {
 
   function onDragEnd(e: DragEndEvent) {
     const { active, over } = e;
-
-    console.log("==== DRAG END ====");
-    console.log("active", active);
-    console.log("over", over);
-    console.log("prevOverListId", prevOverListId);
 
     if (!over) {
       setActiveList(null);
