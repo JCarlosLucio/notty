@@ -90,7 +90,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
 
   function onDragStart(e: DragStartEvent) {
     const { active } = e;
-    console.log("ON DRAG START");
+    console.log("==== DRAG START ====");
     console.log(active.data.current);
 
     if (active.data.current?.type === "List") {
@@ -107,7 +107,52 @@ const BoardLists = ({ boardId }: BoardProps) => {
 
   function onDragOver(e: DragOverEvent) {
     const { active, over } = e;
-    if (!over) return;
+    console.log("==== DRAG OVER ====");
+    console.log("active", active);
+    console.log("over", over);
+    console.log("prevOverListId", prevOverListId);
+
+    if (!over) {
+      // if has visited other lists (prevOverListId !== activeNote.listId)
+      //    Remove from last visited list
+      //    Re add to original list (activeNote.listId) and sort
+      // if last visited is original list ( prevOverListId === activeNote.listID)
+      //    Sort original list
+
+      if (!prevOverListId || !activeNote) return;
+
+      if (prevOverListId !== activeNote.listId) {
+        // Removes from last visited
+        ctx.note.getAll.setData({ listId: prevOverListId }, (oldNotes) => {
+          if (oldNotes && activeNote) {
+            return oldNotes.filter((n) => n.id !== activeNote.id);
+          }
+          return oldNotes;
+        });
+
+        // Re add to original list (activeNote.listId) and sort
+        ctx.note.getAll.setData({ listId: activeNote.listId }, (oldNotes) => {
+          if (oldNotes && activeNote) {
+            return [activeNote, ...oldNotes].sort((a, b) =>
+              a.position < b.position ? -1 : a.position === b.position ? 0 : 1
+            );
+          }
+          return oldNotes;
+        });
+      } else {
+        ctx.note.getAll.setData({ listId: prevOverListId }, (oldNotes) => {
+          if (oldNotes && activeNote) {
+            return [...oldNotes].sort((a, b) =>
+              a.position < b.position ? -1 : a.position === b.position ? 0 : 1
+            );
+          }
+          return oldNotes;
+        });
+      }
+
+      setPrevOverListId(activeNote.listId);
+      return;
+    }
 
     const activeId = active.id;
     const overId = over.id;
@@ -115,10 +160,8 @@ const BoardLists = ({ boardId }: BoardProps) => {
     const isActiveANote = active.data.current?.type === "Note";
     const isOverANote = over.data.current?.type === "Note";
 
-    console.log("DRAG OVER");
-    console.log("active", active, { isActiveANote });
-    console.log("over", over, { isOverANote });
-    console.log("prevOverListId", prevOverListId);
+    console.log({ isActiveANote });
+    console.log({ isOverANote });
     console.log("activeId === overId", activeId === overId);
 
     if (activeId === overId) return;
