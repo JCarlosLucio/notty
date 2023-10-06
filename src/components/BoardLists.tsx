@@ -127,14 +127,14 @@ const BoardLists = ({ boardId }: BoardProps) => {
       });
     };
 
+    // is dropped outside list/note then reset lists
     if (!over) {
-      // is dropped outside list/note then reset lists
       if (!prevOverListId || !activeNote) return;
       // Has visited other lists
       if (prevOverListId !== activeNote.listId) {
         // Removes from last visited
         removeNoteFromList(prevOverListId, activeNote?.id);
-        // Re add to original list and sort
+        // Re-add to original list and sort
         addNoteToListAndSort(activeNote.listId, activeNote);
       } else {
         // last visited is original list so just sort list
@@ -214,6 +214,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
       });
     }
 
+    // Moved activeNote to the correct position
     if (isActiveANote) {
       if (!prevOverListId) return;
 
