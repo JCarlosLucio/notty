@@ -275,7 +275,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
       onDragEnd={onDragEnd}
       onDragCancel={onDragCancel}
     >
-      <div className="flex h-full items-start gap-2 overflow-x-scroll border border-yellow-500 pb-2">
+      <div className="flex h-full items-start gap-2 overflow-x-scroll pb-2">
         {lists && (
           <SortableContext items={lists}>
             {lists.map((list) => {
