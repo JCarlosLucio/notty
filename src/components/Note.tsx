@@ -1,5 +1,6 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { type CSSProperties } from "react";
 
 import { Button } from "@/components/ui/button";
 import { type RouterOutputs } from "@/utils/api";
@@ -22,9 +23,10 @@ const Note = ({ note }: NoteProps) => {
     },
   });
 
-  const style = {
+  const style: CSSProperties = {
     transition,
     transform: CSS.Translate.toString(transform),
+    width: "100%",
   };
 
   return (
