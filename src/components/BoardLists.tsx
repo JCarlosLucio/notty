@@ -188,17 +188,19 @@ const BoardLists = ({ boardId }: BoardProps) => {
   }
 
   function onDragEnd(e: DragEndEvent) {
-    setActiveList(null);
-    setActiveNote(null);
-
     const { active, over } = e;
 
-    console.log("DRAG END");
+    console.log("==== DRAG END ====");
     console.log("active", active);
     console.log("over", over);
     console.log("prevOverListId", prevOverListId);
 
-    if (!over) return;
+    if (!over) {
+      setActiveList(null);
+      setActiveNote(null);
+      setPrevOverListId(null);
+      return;
+    }
 
     const activeId = active.id;
     const overId = over.id;
@@ -230,13 +232,9 @@ const BoardLists = ({ boardId }: BoardProps) => {
     }
 
     if (isActiveANote) {
-      const currActiveNote = active.data.current?.note as
-        | ActiveNote
-        | undefined;
-
       if (!prevOverListId) return;
 
-      const isMovingLists = currActiveNote?.listId !== prevOverListId;
+      const isMovingLists = activeNote?.listId !== prevOverListId;
 
       // Move activeNote to the correct position
       ctx.note.getAll.setData({ listId: prevOverListId }, (oldNotes) => {
@@ -262,6 +260,8 @@ const BoardLists = ({ boardId }: BoardProps) => {
       });
     }
 
+    setActiveList(null);
+    setActiveNote(null);
     setPrevOverListId(null);
   }
 
