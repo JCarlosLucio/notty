@@ -35,25 +35,20 @@ const BoardLists = ({ boardId }: BoardProps) => {
     onMutate: async ({ boardId }) => {
       // cancel outgoing fetches (so they don't overwrite our optimistic update)
       await ctx.list.getAll.cancel({ boardId });
-
-      // Get all data from queryCache
-      const previousList = ctx.list.getAll.getData();
-
       // optimistical update is done in onDragEnd
-
-      return { previousList };
     },
     onSuccess: (updatedList, { id, boardId }) => {
+      // update the updatedList in the correct place
       ctx.list.getAll.setData({ boardId }, (oldList) => {
         if (oldList) {
           return oldList.map((l) => (l.id === id ? updatedList : l));
         }
-
         return oldList;
       });
     },
-    onError: (_err, { boardId }, context) => {
-      ctx.list.getAll.setData({ boardId }, context?.previousList);
+    onError: (_err) => {
+      // ! list invalidate also show toast
+      void ctx.list.invalidate();
     },
   });
 
@@ -61,23 +56,20 @@ const BoardLists = ({ boardId }: BoardProps) => {
     onMutate: async ({ listId }) => {
       // cancel outgoing fetches (so they don't overwrite our optimistic update)
       await ctx.note.getAll.cancel({ listId });
-
-      // Get all data from queryCache
-      const previousNotes = ctx.note.getAll.getData();
-
-      return { previousNotes };
+      // optimistical update is done in onDragEnd
     },
     onSuccess: (updatedNote, { id, listId }) => {
+      // update the updatedNote in the correct place
       ctx.note.getAll.setData({ listId }, (oldNotes) => {
         if (oldNotes) {
           return oldNotes.map((l) => (l.id === id ? updatedNote : l));
         }
-
         return oldNotes;
       });
     },
-    onError: (_err, { listId }, context) => {
-      ctx.note.getAll.setData({ listId }, context?.previousNotes);
+    onError: (_err) => {
+      // ! note invalidate also show toast
+      void ctx.note.invalidate();
     },
   });
 
