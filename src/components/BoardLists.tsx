@@ -114,6 +114,20 @@ const BoardLists = ({ boardId }: BoardProps) => {
     });
   };
 
+  const resetNotesOnLists = (prevListId: string, activeNote: ActiveNote) => {
+    if (!prevListId || !activeNote) return;
+    // Has visited other lists
+    if (prevListId !== activeNote.listId) {
+      // Removes from last visited
+      removeNoteFromList(prevListId, activeNote?.id);
+      // Re-add to original list and sort
+      addNoteToListAndSort(activeNote.listId, activeNote);
+    } else {
+      // last visited is original list so just sort list
+      addNoteToListAndSort(activeNote.listId);
+    }
+  };
+
   function onDragStart(e: DragStartEvent) {
     const { active } = e;
     console.log("==== DRAG START ====");
@@ -147,17 +161,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
     if (!over) {
       console.log("RESETTING !over");
       if (!prevOverListId || !activeNote) return;
-      // Has visited other lists
-      if (prevOverListId !== activeNote.listId) {
-        // Removes from last visited
-        removeNoteFromList(prevOverListId, activeNote?.id);
-        // Re-add to original list and sort
-        addNoteToListAndSort(activeNote.listId, activeNote);
-      } else {
-        // last visited is original list so just sort list
-        addNoteToListAndSort(activeNote.listId);
-      }
-
+      resetNotesOnLists(prevOverListId, activeNote);
       setPrevOverListId(activeNote.listId);
       return;
     }
@@ -299,17 +303,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
   function onDragCancel(_e: DragCancelEvent) {
     console.log("==== DRAG CANCEL ====");
     if (!prevOverListId || !activeNote) return;
-    // Has visited other lists
-    if (prevOverListId !== activeNote.listId) {
-      // Removes from last visited
-      removeNoteFromList(prevOverListId, activeNote?.id);
-      // Re-add to original list and sort
-      addNoteToListAndSort(activeNote.listId, activeNote);
-    } else {
-      // last visited is original list so just sort list
-      addNoteToListAndSort(activeNote.listId);
-    }
-
+    resetNotesOnLists(prevOverListId, activeNote);
     setActiveList(null);
     setActiveNote(null);
     setPrevOverListId(null);
