@@ -8,7 +8,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -61,7 +60,6 @@ const CreateNote = ({ listId }: CreateNoteProps) => {
           name="content"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Note</FormLabel>
               <FormControl>
                 <div className="flex items-center gap-2">
                   <Input placeholder="Your note..." {...field} />
