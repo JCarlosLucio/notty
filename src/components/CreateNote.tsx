@@ -62,7 +62,7 @@ const CreateNote = ({ listId }: CreateNoteProps) => {
             <FormItem className="w-full">
               <FormControl>
                 <div className="flex items-center gap-2">
-                  <Input placeholder="Your note..." {...field} />
+                  <Input placeholder="Add note" {...field} />
                   <Button
                     type="submit"
                     disabled={isLoading}
