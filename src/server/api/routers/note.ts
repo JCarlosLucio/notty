@@ -59,10 +59,16 @@ export const noteRouter = createTRPCRouter({
         },
       });
 
+      const activeIdx = notes.findIndex((n) => n.id === input.id);
       const targetIdx = notes.findIndex((n) => n.id === input.targetId);
 
-      let prevIdx = targetIdx;
-      let nextIdx = targetIdx + 1;
+      let prevIdx = targetIdx - 1;
+      let nextIdx = targetIdx;
+
+      if (activeIdx < targetIdx) {
+        prevIdx++;
+        nextIdx++;
+      }
 
       // When move is over a list (not over a note) then id === targetId so we place it at the top of the list
       if (input.id === input.targetId) {
@@ -73,6 +79,25 @@ export const noteRouter = createTRPCRouter({
 
       const prevPos = notes[prevIdx]?.position ?? "";
       const nextPos = notes[nextIdx]?.position ?? "";
+
+      // ! something something id is not on list id - put at the top
+      // ! if it is then check if activeIndex < targetId - update idxs accordingly
+
+      console.log(
+        "moving note",
+        { "id==targetId": input.id === input.targetId },
+        notes,
+        {
+          id: input.id,
+          target: input.targetId,
+          list: input.listId,
+          activeIdx,
+          prevIdx,
+          nextIdx,
+          prevPos,
+          nextPos,
+        }
+      );
 
       return await ctx.prisma.note.update({
         where: {

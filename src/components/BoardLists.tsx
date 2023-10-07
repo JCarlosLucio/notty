@@ -92,13 +92,17 @@ const BoardLists = ({ boardId }: BoardProps) => {
   const removeNoteFromList = (listId: string, noteId?: string) => {
     ctx.note.getAll.setData({ listId }, (oldNotes) => {
       if (oldNotes && noteId) {
+        console.log("remove from ", listId);
         return oldNotes.filter((n) => n.id !== noteId);
       }
+      console.log("DIDNT remove from ", listId);
+
       return oldNotes;
     });
   };
 
   const addNoteToListAndSort = (listId: string, note?: ActiveNote) => {
+    console.log(note ? "add to " : "just sort ", listId);
     ctx.note.getAll.setData({ listId }, (oldNotes) => {
       if (oldNotes) {
         const newNotes = note ? [note, ...oldNotes] : [...oldNotes];
@@ -112,6 +116,8 @@ const BoardLists = ({ boardId }: BoardProps) => {
 
   function onDragStart(e: DragStartEvent) {
     const { active } = e;
+    console.log("==== DRAG START ====");
+    console.log(active.data.current);
 
     if (active.data.current?.type === "List") {
       setActiveList(active.data.current.list as ActiveList);
@@ -127,8 +133,19 @@ const BoardLists = ({ boardId }: BoardProps) => {
 
   function onDragOver(e: DragOverEvent) {
     const { active, over } = e;
+
+    console.log(
+      "****** DRAG OVER ********************************************"
+    );
+    console.log("active", active);
+    console.log("over", over);
+    console.log("prevOverListId", prevOverListId);
+
+    // ! FIX DUPLICATED NOTE WHEN SLOWLY MOVING BETWEEN LISTS
+
     // is dropped outside list/note then reset lists
     if (!over) {
+      console.log("RESETTING !over");
       if (!prevOverListId || !activeNote) return;
       // Has visited other lists
       if (prevOverListId !== activeNote.listId) {
@@ -149,25 +166,49 @@ const BoardLists = ({ boardId }: BoardProps) => {
     const overId = over.id;
     const isActiveANote = active.data.current?.type === "Note";
 
-    if (activeId === overId || !isActiveANote) return;
+    console.log({ isActiveANote });
+    console.log("activeId === overId", activeId === overId);
 
+    // // ! MAYBE REMOVE activeId === overId return
+    // ! if (activeId === overId) return;
+    if (activeId === overId) return; // * this is needed to prevent duplication of notes
+
+    if (!isActiveANote) return;
+
+    // ! overListId when over == active
     // Dragging over a Note over another Note
     const currOverNote = over.data.current?.note as ActiveNote | undefined;
     // Dragging over a Note over a List
     const currOverList = over.data.current?.list as ActiveList | undefined;
     const overListId = currOverNote?.listId ?? currOverList?.id;
 
+    console.log("overListId", overListId);
+
     if (!overListId) return;
+
+    // * Fixes duplication when slowly moving note to another list
+    if (prevOverListId === overListId) return;
 
     // Remove activeNote from the previous over list
     if (prevOverListId) {
       removeNoteFromList(prevOverListId, activeNote?.id);
     }
 
+    //! if (activeId === overId) return;
+
     // Add activeNote to the current over list (temporarily) for the sorting/moving animations of notes
     ctx.note.getAll.setData({ listId: overListId }, (oldNotes) => {
       const hasActiveNote = oldNotes?.some((n) => n?.id === activeNote?.id);
       if (oldNotes && activeNote && !hasActiveNote) {
+        console.log(
+          "added at TOP",
+          overListId,
+          activeNote.id,
+          activeNote.listId
+        );
+        console.log("Set prevOverListId to ", overListId);
+        // ! there are some issues when setPrevOverListId is called
+        // ! sometimes it doesn't fire correctly or fast enough (not even using a function to set the state)
         setPrevOverListId(overListId);
         return [activeNote, ...oldNotes];
       }
@@ -177,6 +218,11 @@ const BoardLists = ({ boardId }: BoardProps) => {
 
   function onDragEnd(e: DragEndEvent) {
     const { active, over } = e;
+
+    console.log("**** DRAG END ****");
+    console.log("active", active);
+    console.log("over", over);
+    console.log("prevOverListId", prevOverListId);
 
     if (!over) {
       setActiveList(null);
@@ -216,6 +262,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
 
     // Moved activeNote to the correct position
     if (isActiveANote) {
+      console.log("origin Note", activeNote);
       if (!prevOverListId) return;
 
       const isMovingLists = activeNote?.listId !== prevOverListId;
@@ -250,6 +297,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
   }
 
   function onDragCancel(_e: DragCancelEvent) {
+    console.log("==== DRAG CANCEL ====");
     if (!prevOverListId || !activeNote) return;
     // Has visited other lists
     if (prevOverListId !== activeNote.listId) {
