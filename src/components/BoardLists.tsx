@@ -16,6 +16,7 @@ import { createPortal } from "react-dom";
 import CreateList from "@/components/CreateList";
 import List from "@/components/List";
 import Note from "@/components/Note";
+import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterOutputs } from "@/utils/api";
 
 type BoardProps = { boardId: string };
@@ -29,6 +30,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
 
   const { data: lists } = api.list.getAll.useQuery({ boardId });
 
+  const { toast } = useToast();
   const ctx = api.useContext();
 
   const { mutate: moveList } = api.list.move.useMutation({
@@ -47,7 +49,10 @@ const BoardLists = ({ boardId }: BoardProps) => {
       });
     },
     onError: (_err) => {
-      // ! list invalidate also show toast
+      toast({
+        variant: "destructive",
+        description: "Something went wrong.",
+      });
       void ctx.list.invalidate();
     },
   });
@@ -68,7 +73,10 @@ const BoardLists = ({ boardId }: BoardProps) => {
       });
     },
     onError: (_err) => {
-      // ! note invalidate also show toast
+      toast({
+        variant: "destructive",
+        description: "Something went wrong.",
+      });
       void ctx.note.invalidate();
     },
   });
