@@ -87,7 +87,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
       activationConstraint: {
         distance: 10,
       },
-    })
+    }),
   );
 
   const removeNoteFromList = (listId: string, noteId?: string) => {
@@ -104,7 +104,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
       if (oldNotes) {
         const newNotes = note ? [note, ...oldNotes] : [...oldNotes];
         return newNotes.sort((a, b) =>
-          a.position < b.position ? -1 : a.position === b.position ? 0 : 1
+          a.position < b.position ? -1 : a.position === b.position ? 0 : 1,
         );
       }
       return oldNotes;
@@ -292,7 +292,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
           {activeList && <List list={activeList} />}
           {activeNote && <Note note={activeNote} />}
         </DragOverlay>,
-        document.body
+        document.body,
       )}
     </DndContext>
   );
