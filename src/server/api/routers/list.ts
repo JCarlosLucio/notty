@@ -14,7 +14,7 @@ export const listRouter = createTRPCRouter({
   getById: protectedProcedure
     .input(getByIdListSchema)
     .query(async ({ ctx, input }) => {
-      const list = await ctx.prisma.list.findUnique({
+      const list = await ctx.db.list.findUnique({
         where: {
           id: input.id,
         },
@@ -30,7 +30,7 @@ export const listRouter = createTRPCRouter({
   getAll: protectedProcedure
     .input(getAllListSchema)
     .query(async ({ ctx, input }) => {
-      return await ctx.prisma.list.findMany({
+      return await ctx.db.list.findMany({
         where: {
           boardId: input.boardId,
         },
@@ -43,7 +43,7 @@ export const listRouter = createTRPCRouter({
   create: protectedProcedure
     .input(createListSchema)
     .mutation(async ({ ctx, input }) => {
-      const lists = await ctx.prisma.list.findMany({
+      const lists = await ctx.db.list.findMany({
         where: {
           boardId: input.boardId,
         },
@@ -55,7 +55,7 @@ export const listRouter = createTRPCRouter({
       const lastItem = lists.at(-1);
       const lastPosition = lastItem ? lastItem.position : "";
 
-      return await ctx.prisma.list.create({
+      return await ctx.db.list.create({
         data: {
           title: input.title,
           boardId: input.boardId,
@@ -74,7 +74,7 @@ export const listRouter = createTRPCRouter({
         });
       }
 
-      const lists = await ctx.prisma.list.findMany({
+      const lists = await ctx.db.list.findMany({
         where: {
           boardId: input.boardId,
         },
@@ -96,7 +96,7 @@ export const listRouter = createTRPCRouter({
       const prevPos = lists[prevIdx]?.position ?? "";
       const nextPos = lists[nextIdx]?.position ?? "";
 
-      return await ctx.prisma.list.update({
+      return await ctx.db.list.update({
         where: {
           id: input.id,
         },
@@ -109,7 +109,7 @@ export const listRouter = createTRPCRouter({
   delete: protectedProcedure
     .input(deleteListSchema)
     .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.list.delete({
+      await ctx.db.list.delete({
         where: {
           id: input.id,
         },

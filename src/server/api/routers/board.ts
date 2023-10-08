@@ -11,7 +11,7 @@ export const boardRouter = createTRPCRouter({
   getById: protectedProcedure
     .input(getByIdBoardSchema)
     .query(async ({ ctx, input }) => {
-      const board = await ctx.prisma.board.findUnique({
+      const board = await ctx.db.board.findUnique({
         where: {
           id: input.id,
         },
@@ -31,7 +31,7 @@ export const boardRouter = createTRPCRouter({
     }),
 
   getAll: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.board.findMany({
+    return await ctx.db.board.findMany({
       where: {
         userId: ctx.session.user.id,
       },
@@ -44,7 +44,7 @@ export const boardRouter = createTRPCRouter({
   create: protectedProcedure
     .input(createBoardSchema)
     .mutation(async ({ ctx, input }) => {
-      return await ctx.prisma.board.create({
+      return await ctx.db.board.create({
         data: {
           title: input.title,
           userId: ctx.session.user.id,
@@ -55,7 +55,7 @@ export const boardRouter = createTRPCRouter({
   delete: protectedProcedure
     .input(deleteBoardSchema)
     .mutation(async ({ ctx, input }) => {
-      const board = await ctx.prisma.board.findUnique({
+      const board = await ctx.db.board.findUnique({
         where: {
           id: input.id,
         },
@@ -67,7 +67,7 @@ export const boardRouter = createTRPCRouter({
         throw new TRPCError({ code: "FORBIDDEN" });
       }
 
-      await ctx.prisma.board.delete({
+      await ctx.db.board.delete({
         where: {
           id: input.id,
         },

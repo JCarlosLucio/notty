@@ -10,7 +10,7 @@ export const noteRouter = createTRPCRouter({
   getAll: protectedProcedure
     .input(getAllNoteSchema)
     .query(async ({ ctx, input }) => {
-      return await ctx.prisma.note.findMany({
+      return await ctx.db.note.findMany({
         where: {
           listId: input.listId,
         },
@@ -23,7 +23,7 @@ export const noteRouter = createTRPCRouter({
   create: protectedProcedure
     .input(createNoteSchema)
     .mutation(async ({ ctx, input }) => {
-      const notes = await ctx.prisma.note.findMany({
+      const notes = await ctx.db.note.findMany({
         where: {
           listId: input.listId,
         },
@@ -35,7 +35,7 @@ export const noteRouter = createTRPCRouter({
       const lastItem = notes.at(-1);
       const lastPosition = lastItem ? lastItem.position : "";
 
-      return await ctx.prisma.note.create({
+      return await ctx.db.note.create({
         data: {
           listId: input.listId,
           content: input.content,
@@ -50,7 +50,7 @@ export const noteRouter = createTRPCRouter({
       /**
        * Sorts notes within list, moves notes to a list, moves notes to a list and sorts it within that list.
        */
-      const notes = await ctx.prisma.note.findMany({
+      const notes = await ctx.db.note.findMany({
         where: {
           listId: input.listId,
         },
@@ -80,7 +80,7 @@ export const noteRouter = createTRPCRouter({
       const prevPos = notes[prevIdx]?.position ?? "";
       const nextPos = notes[nextIdx]?.position ?? "";
 
-      return await ctx.prisma.note.update({
+      return await ctx.db.note.update({
         where: {
           id: input.id,
         },
