@@ -215,7 +215,12 @@ const BoardLists = ({ boardId }: BoardProps) => {
         return oldList;
       });
 
-      if (activeId === overId) return; // is in the start position
+      if (activeId === overId) {
+        setActiveList(null);
+        setActiveNote(null);
+        setPrevOverListId(null);
+        return; // is in the start position
+      }
 
       // Save the sorting of the list to the correct position
       moveList({
