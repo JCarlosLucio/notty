@@ -3,6 +3,7 @@ import { PlusIcon } from "@radix-ui/react-icons";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -54,32 +55,37 @@ const CreateList = ({ boardId }: CreateListProps) => {
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
-          control={form.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem className="w-full lg:w-80">
-              <FormLabel>Title</FormLabel>
-              <FormControl>
-                <div className="flex items-center gap-2">
-                  <Input placeholder="Your list title..." {...field} />
-                  <Button
-                    type="submit"
-                    disabled={isLoading}
-                    className={isLoading ? "animate-pulse" : ""}
-                  >
-                    <PlusIcon />
-                  </Button>
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </form>
-    </Form>
+    <Card className="flex max-h-full w-full shrink-0 flex-col bg-card-foreground/60 text-card lg:w-72">
+      <CardContent className="flex flex-col gap-2 overflow-hidden p-3">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem className="w-full lg:max-w-7xl">
+                  <FormLabel className="font-bold">Add List</FormLabel>
+                  <FormControl>
+                    <div className="flex items-center gap-2">
+                      <Input placeholder="Add list" {...field} />
+                      <Button
+                        type="submit"
+                        variant="secondary"
+                        disabled={isLoading}
+                        className={isLoading ? "animate-pulse" : ""}
+                      >
+                        <PlusIcon />
+                      </Button>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   );
 };
 
