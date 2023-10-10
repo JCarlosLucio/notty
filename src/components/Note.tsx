@@ -42,7 +42,7 @@ const Note = ({ note }: NoteProps) => {
       {...attributes}
       {...listeners}
     >
-      <span className="w-full text-start">{note.content}</span>
+      <span className="w-full truncate text-start">{note.content}</span>
     </Button>
   );
 };
