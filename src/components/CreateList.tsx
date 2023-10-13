@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon } from "@radix-ui/react-icons";
+import { type MouseEvent, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
@@ -14,6 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
+import useClickAway from "@/hooks/useClickAway";
 import { api, type RouterInputs } from "@/utils/api";
 import { createListSchema } from "@/utils/schemas";
 
@@ -27,6 +29,12 @@ const CreateList = ({ boardId }: CreateListProps) => {
       boardId: "",
       title: "",
     },
+  });
+  const [show, setShow] = useState(false);
+  const innerRef = useClickAway<HTMLDivElement>(() => {
+    if (show) {
+      setShow(false);
+    }
   });
   const { toast } = useToast();
   const ctx = api.useContext();
@@ -54,8 +62,27 @@ const CreateList = ({ boardId }: CreateListProps) => {
     createList(values);
   };
 
+  const handleShowForm = (e: MouseEvent) => {
+    e.stopPropagation(); // stops triggering click away
+    setShow(true);
+  };
+
+  if (!show) {
+    return (
+      <Button size="lg" className="w-72" onClick={handleShowForm}>
+        <span className="inline-flex items-center gap-2">
+          <PlusIcon />
+          <span>Add List</span>
+        </span>
+      </Button>
+    );
+  }
+
   return (
-    <Card className="flex max-h-full w-full shrink-0 flex-col bg-card-foreground/60 text-card lg:w-72">
+    <Card
+      ref={innerRef}
+      className="flex max-h-full w-full shrink-0 flex-col bg-card-foreground/60 text-card lg:w-72"
+    >
       <CardContent className="flex flex-col gap-2 overflow-hidden p-3">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
