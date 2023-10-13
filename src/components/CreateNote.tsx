@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon } from "@radix-ui/react-icons";
+import { type MouseEvent, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
+import useClickAway from "@/hooks/useClickAway";
 import { api, type RouterInputs } from "@/utils/api";
 import { createNoteSchema } from "@/utils/schemas";
 
@@ -25,6 +27,12 @@ const CreateNote = ({ listId }: CreateNoteProps) => {
       listId: "",
       content: "",
     },
+  });
+  const [show, setShow] = useState(false);
+  const innerRef = useClickAway<HTMLDivElement>(() => {
+    if (show) {
+      setShow(false);
+    }
   });
   const { toast } = useToast();
   const ctx = api.useContext();
@@ -52,32 +60,50 @@ const CreateNote = ({ listId }: CreateNoteProps) => {
     createNote(values);
   };
 
+  const handleShowForm = (e: MouseEvent) => {
+    e.stopPropagation(); // stops triggering click away
+    setShow(true);
+  };
+
+  if (!show) {
+    return (
+      <Button variant="ghost" className="w-full" onClick={handleShowForm}>
+        <span className="inline-flex items-center gap-2">
+          <PlusIcon />
+          <span>Add Note</span>
+        </span>
+      </Button>
+    );
+  }
+
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-        <FormField
-          control={form.control}
-          name="content"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormControl>
-                <div className="flex items-center gap-2">
-                  <Input placeholder="Add note" {...field} />
-                  <Button
-                    type="submit"
-                    disabled={isLoading}
-                    className={isLoading ? "animate-pulse" : ""}
-                  >
-                    <PlusIcon />
-                  </Button>
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </form>
-    </Form>
+    <div ref={innerRef}>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+          <FormField
+            control={form.control}
+            name="content"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormControl>
+                  <div className="flex items-center gap-2">
+                    <Input placeholder="Add note" {...field} />
+                    <Button
+                      type="submit"
+                      disabled={isLoading}
+                      className={isLoading ? "animate-pulse" : ""}
+                    >
+                      <PlusIcon />
+                    </Button>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </form>
+      </Form>
+    </div>
   );
 };
 
