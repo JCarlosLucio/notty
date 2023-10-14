@@ -94,7 +94,7 @@ const CreateList = ({ boardId }: CreateListProps) => {
                   <FormLabel className="font-bold">Add List</FormLabel>
                   <FormControl>
                     <div className="flex items-center gap-2">
-                      <Input placeholder="Add list" {...field} />
+                      <Input placeholder="Add list" autoFocus {...field} />
                       <Button
                         type="submit"
                         variant="secondary"

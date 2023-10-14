@@ -66,7 +66,11 @@ const CreateBoard = () => {
               <FormLabel>Title</FormLabel>
               <FormControl>
                 <div className="flex items-center gap-2">
-                  <Input placeholder="Your board title..." {...field} />
+                  <Input
+                    placeholder="Your board title..."
+                    autoFocus
+                    {...field}
+                  />
                   <Button
                     type="submit"
                     disabled={isLoading}
