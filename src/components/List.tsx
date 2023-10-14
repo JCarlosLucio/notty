@@ -41,7 +41,7 @@ const List = ({ list }: ListProps) => {
       ref={setNodeRef}
       className={cn(
         "flex max-h-full w-full shrink-0 flex-col lg:w-72",
-        isDragging && "border-2 border-destructive opacity-70",
+        isDragging && "border-2 border-destructive opacity-70 [&>*]:invisible",
       )}
       style={style}
       {...attributes}
