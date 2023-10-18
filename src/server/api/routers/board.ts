@@ -5,6 +5,7 @@ import {
   createBoardSchema,
   deleteBoardSchema,
   getByIdBoardSchema,
+  updateBoardSchema,
 } from "@/utils/schemas";
 
 export const boardRouter = createTRPCRouter({
@@ -74,5 +75,18 @@ export const boardRouter = createTRPCRouter({
       });
 
       return input.id;
+    }),
+
+  update: protectedProcedure
+    .input(updateBoardSchema)
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db.board.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          title: input.title,
+        },
+      });
     }),
 });
