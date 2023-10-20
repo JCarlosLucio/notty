@@ -18,10 +18,11 @@ import { updateBoardSchema } from "@/utils/schemas";
 
 type UpdateBoardProps = {
   board: RouterOutputs["board"]["getById"];
+  cb?: () => void;
 } & ComponentPropsWithoutRef<"div">;
 type UpdateBoardInput = RouterInputs["board"]["update"];
 
-const UpdateBoard = ({ board }: UpdateBoardProps) => {
+const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
   const form = useForm<UpdateBoardInput>({
     resolver: zodResolver(updateBoardSchema),
     defaultValues: {
@@ -46,6 +47,7 @@ const UpdateBoard = ({ board }: UpdateBoardProps) => {
       toast({
         description: "Your board was updated.",
       });
+      cb?.();
     },
     onError: () => {
       toast({
