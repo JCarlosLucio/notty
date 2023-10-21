@@ -7,6 +7,7 @@ import {
   getAllListSchema,
   getByIdListSchema,
   moveListSchema,
+  updateListSchema,
 } from "@/utils/schemas";
 import { midString } from "@/utils/sorting";
 
@@ -116,5 +117,18 @@ export const listRouter = createTRPCRouter({
       });
 
       return input.id;
+    }),
+
+  update: protectedProcedure
+    .input(updateListSchema)
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.list.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          title: input.title,
+        },
+      });
     }),
 });
