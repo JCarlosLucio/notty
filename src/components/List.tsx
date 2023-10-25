@@ -2,14 +2,9 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 import CreateNote from "@/components/CreateNote";
+import ListDetails from "@/components/ListDetails";
 import ListNotes from "@/components/ListNotes";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { type RouterOutputs } from "@/utils/api";
 import { cn } from "@/utils/utils";
 
@@ -47,9 +42,7 @@ const List = ({ list }: ListProps) => {
       {...attributes}
       {...listeners}
     >
-      <CardHeader className="shrink-0 p-3 pb-0">
-        <CardTitle className="text-md">{list.title}</CardTitle>
-      </CardHeader>
+      <ListDetails list={list} />
       <CardContent className="flex flex-col gap-2 overflow-hidden p-3 hover:overflow-y-scroll ">
         <ListNotes listId={list.id} />
       </CardContent>
