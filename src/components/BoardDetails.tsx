@@ -28,57 +28,60 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
       {...props}
     >
       <Card>
-        <CardHeader className="flex flex-row items-center gap-2 px-3 py-3">
-          {board ? (
-            <Dialog>
-              <DialogTrigger asChild>
-                <CardTitle className="cursor-pointer text-center text-2xl">
+        {board ? (
+          <Dialog>
+            <DialogTrigger asChild>
+              <CardHeader className="group flex cursor-pointer flex-row rounded-xl bg-secondary/70 p-3">
+                <CardTitle className="pl-6 pr-2 text-center text-2xl">
                   {board.title}
                 </CardTitle>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-2xl">
-                {showUpdateBoard ? (
-                  <div className="flex flex-row items-end gap-2">
-                    <div className="w-full">
-                      <UpdateBoard
-                        board={board}
-                        cb={() => setShowUpdateBoard(false)}
-                      />
-                    </div>
+                <Pencil1Icon className="invisible group-hover:visible" />
+              </CardHeader>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-2xl">
+              {showUpdateBoard ? (
+                <div className="flex flex-row items-end gap-2">
+                  <div className="w-full">
+                    <UpdateBoard
+                      board={board}
+                      cb={() => setShowUpdateBoard(false)}
+                    />
+                  </div>
+                  <Button
+                    variant="destructive"
+                    onClick={() => setShowUpdateBoard(false)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              ) : (
+                <DialogHeader>
+                  <div className="flex flex-row gap-2">
+                    <DialogTitle className="text-2xl">
+                      {board.title}
+                    </DialogTitle>
                     <Button
-                      variant="destructive"
-                      onClick={() => setShowUpdateBoard(false)}
+                      size="icon"
+                      variant="ghost"
+                      onClick={() => setShowUpdateBoard(true)}
                     >
-                      Cancel
+                      <Pencil1Icon />
                     </Button>
                   </div>
-                ) : (
-                  <DialogHeader>
-                    <div className="flex flex-row gap-2">
-                      <DialogTitle className="text-2xl">
-                        {board.title}
-                      </DialogTitle>
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        onClick={() => setShowUpdateBoard(true)}
-                      >
-                        <Pencil1Icon />
-                      </Button>
-                    </div>
-                    <DialogDescription>
-                      {board.updatedAt.toDateString()}
-                    </DialogDescription>
-                  </DialogHeader>
-                )}
-              </DialogContent>
-            </Dialog>
-          ) : (
+                  <DialogDescription>
+                    {board.updatedAt.toDateString()}
+                  </DialogDescription>
+                </DialogHeader>
+              )}
+            </DialogContent>
+          </Dialog>
+        ) : (
+          <CardHeader className="flex flex-row justify-center p-3">
             <CardTitle className="text-center text-2xl">
               Board not found
             </CardTitle>
-          )}
-        </CardHeader>
+          </CardHeader>
+        )}
         {!board && (
           <CardContent>
             <CreateBoard />
