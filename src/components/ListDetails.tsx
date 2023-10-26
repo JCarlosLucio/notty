@@ -28,7 +28,7 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
           className="group flex shrink-0 cursor-pointer flex-row rounded-t-xl bg-secondary/70 p-3"
           {...props}
         >
-          <CardTitle className="w-full truncate pl-3 text-center text-2xl">
+          <CardTitle className="w-full truncate pl-3 text-center text-xl">
             {list.title}
           </CardTitle>
           <Pencil1Icon className="invisible group-hover:visible" />
