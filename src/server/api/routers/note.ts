@@ -1,12 +1,30 @@
+import { TRPCError } from "@trpc/server";
+
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import {
   createNoteSchema,
   getAllNoteSchema,
+  getByIdNoteSchema,
   moveNoteSchema,
 } from "@/utils/schemas";
 import { midString } from "@/utils/sorting";
 
 export const noteRouter = createTRPCRouter({
+  getById: protectedProcedure
+    .input(getByIdNoteSchema)
+    .query(async ({ ctx, input }) => {
+      const note = await ctx.db.note.findUnique({
+        where: {
+          id: input.id,
+        },
+      });
+
+      if (!note) {
+        throw new TRPCError({ code: "NOT_FOUND" });
+      }
+
+      return note;
+    }),
   getAll: protectedProcedure
     .input(getAllNoteSchema)
     .query(async ({ ctx, input }) => {
