@@ -2,7 +2,8 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { type CSSProperties } from "react";
 
-import { Button } from "@/components/ui/button";
+import NoteDetails from "@/components/NoteDetails";
+import { Card, CardHeader } from "@/components/ui/card";
 import { type RouterOutputs } from "@/utils/api";
 
 type NoteProps = { note: RouterOutputs["note"]["create"] };
@@ -30,20 +31,22 @@ const Note = ({ note }: NoteProps) => {
   };
 
   return (
-    <Button
+    <Card
       ref={setNodeRef}
-      variant="secondary"
       className={
         isDragging
-          ? "border-2 border-destructive opacity-50"
-          : "bg-secondary/60"
+          ? "rounded-md border-2 border-destructive opacity-50"
+          : "rounded-md bg-secondary/60 hover:bg-secondary/70"
       }
       style={style}
       {...attributes}
       {...listeners}
     >
-      <span className="w-full truncate text-start">{note.content}</span>
-    </Button>
+      <CardHeader className="group flex flex-row items-center space-y-0 p-2">
+        <p className="w-full truncate pl-1">{note.content}</p>
+        <NoteDetails note={note} className="invisible group-hover:visible" />
+      </CardHeader>
+    </Card>
   );
 };
 
