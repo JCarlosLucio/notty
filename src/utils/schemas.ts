@@ -64,6 +64,10 @@ export const updateListSchema = z.object({
 });
 
 // NOTE
+export const getByIdNoteSchema = z.object({
+  id: z.string(),
+});
+
 export const getAllNoteSchema = z.object({
   listId: z.string(),
 });
