@@ -37,7 +37,7 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
     onSuccess: (updatedList) => {
       ctx.list.getAll.setData({ boardId: list.boardId }, (oldList) => {
         return oldList
-          ? oldList.map((b) => (b.id === updatedList.id ? updatedList : b))
+          ? oldList.map((l) => (l.id === updatedList.id ? updatedList : l))
           : oldList;
       });
       form.reset();
