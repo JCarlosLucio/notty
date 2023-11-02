@@ -6,6 +6,7 @@ import {
   getAllNoteSchema,
   getByIdNoteSchema,
   moveNoteSchema,
+  updateNoteSchema,
 } from "@/utils/schemas";
 import { midString } from "@/utils/sorting";
 
@@ -105,6 +106,19 @@ export const noteRouter = createTRPCRouter({
         data: {
           position: midString(prevPos, nextPos),
           listId: input.listId,
+        },
+      });
+    }),
+
+  update: protectedProcedure
+    .input(updateNoteSchema)
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.note.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          content: input.content,
         },
       });
     }),
