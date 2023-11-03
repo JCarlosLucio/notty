@@ -10,6 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import UpdateNote from "@/components/UpdateNote";
 import { type RouterOutputs } from "@/utils/api";
 
 type NoteDetailsProps = {
@@ -29,7 +30,9 @@ const NoteDetails = ({ note, ...props }: NoteDetailsProps) => {
       <DialogContent className="sm:max-w-2xl">
         {showUpdateNote ? (
           <div className="flex flex-row items-end gap-2">
-            <div className="w-full">{/* TODO: Add UpdateNote component */}</div>
+            <div className="w-full">
+              <UpdateNote note={note} cb={() => setShowUpdateNote(false)} />
+            </div>
             <Button
               variant="destructive"
               onClick={() => setShowUpdateNote(false)}
