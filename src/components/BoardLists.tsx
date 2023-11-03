@@ -68,7 +68,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
       // update the updatedNote in the correct place
       ctx.note.getAll.setData({ listId }, (oldNotes) => {
         if (oldNotes) {
-          return oldNotes.map((l) => (l.id === id ? updatedNote : l));
+          return oldNotes.map((n) => (n.id === id ? updatedNote : n));
         }
         return oldNotes;
       });
