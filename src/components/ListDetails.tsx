@@ -34,7 +34,7 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
           <Pencil1Icon className="invisible group-hover:visible" />
         </CardHeader>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-2xl">
+      <DialogContent className="sm:max-w-2xl" data-no-dnd="true">
         {showUpdateList ? (
           <div className="flex flex-row items-end gap-2">
             <div className="w-full">
