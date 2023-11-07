@@ -5,7 +5,6 @@ import {
   type DragOverEvent,
   DragOverlay,
   type DragStartEvent,
-  PointerSensor,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
@@ -18,6 +17,7 @@ import List from "@/components/List";
 import Note from "@/components/Note";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterOutputs } from "@/utils/api";
+import { PointerSensor } from "@/utils/dnd";
 
 type BoardProps = { boardId: string };
 type ActiveList = RouterOutputs["list"]["getById"];
