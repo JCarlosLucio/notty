@@ -75,9 +75,10 @@ model Board {
 }
 
 model List {
-    id       String @id @default(cuid())
+    id       String  @id @default(cuid())
     title    String
     position String
+    color    String?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
