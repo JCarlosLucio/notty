@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
@@ -35,6 +36,11 @@ function AuthShowcase() {
       <p className="text-center text-2xl text-secondary-foreground">
         {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
       </p>
+      {sessionData && (
+        <Button asChild size="lg" variant="secondary">
+          <Link href="/dashboard">Dashboard</Link>
+        </Button>
+      )}
       <Button
         size="lg"
         variant="secondary"
