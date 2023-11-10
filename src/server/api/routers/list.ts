@@ -128,6 +128,7 @@ export const listRouter = createTRPCRouter({
         },
         data: {
           title: input.title,
+          color: input.color,
         },
       });
     }),
