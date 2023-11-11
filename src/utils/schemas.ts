@@ -61,7 +61,7 @@ export const updateListSchema = z.object({
     .trim()
     .min(1, "Title is required")
     .max(256, "Title must contain at most 256 characters"),
-  color: z.string().optional(),
+  color: z.string().nullable(),
 });
 
 // NOTE
