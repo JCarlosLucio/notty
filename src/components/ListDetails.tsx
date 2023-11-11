@@ -26,6 +26,7 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
       <DialogTrigger asChild>
         <CardHeader
           className="group flex shrink-0 cursor-pointer flex-row rounded-t-xl bg-secondary/70 p-3"
+          style={{ backgroundColor: list.color ?? "" }}
           {...props}
         >
           <CardTitle className="w-full truncate pl-3 text-center text-xl">
