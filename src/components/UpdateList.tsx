@@ -64,7 +64,7 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
   return (
     <Form {...form}>
       <form
-        className="flex flex-col gap-3"
+        className="flex flex-col gap-4"
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <FormField
@@ -72,7 +72,7 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
           name="title"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Title</FormLabel>
+              <FormLabel>Update Title</FormLabel>
               <FormControl>
                 <div className="flex items-center gap-2">
                   <Input
@@ -91,14 +91,23 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
           name="color"
           render={({ field: { value, onChange, onBlur } }) => (
             <FormItem className="w-full">
-              <FormLabel>Color</FormLabel>
-              <FormControl>
-                <HexAlphaColorPicker
-                  color={value ?? undefined}
-                  onChange={onChange}
-                  onBlur={onBlur}
-                />
-              </FormControl>
+              <FormLabel>Update Color</FormLabel>
+              <div className="flex justify-center gap-20 rounded-lg border p-5">
+                <div className="flex flex-col gap-3">
+                  <h6>Current color</h6>
+                  <div
+                    className="h-10 w-full rounded-lg"
+                    style={{ backgroundColor: value ?? undefined }}
+                  />
+                </div>
+                <FormControl>
+                  <HexAlphaColorPicker
+                    color={value ?? undefined}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                  />
+                </FormControl>
+              </div>
             </FormItem>
           )}
         />
