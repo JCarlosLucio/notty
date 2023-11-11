@@ -29,7 +29,7 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
     defaultValues: {
       title: list.title,
       id: "",
-      color: list.color ?? undefined,
+      color: list.color,
     },
   });
   const { toast } = useToast();
@@ -94,7 +94,7 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
               <FormLabel>Color</FormLabel>
               <FormControl>
                 <HexAlphaColorPicker
-                  color={value}
+                  color={value ?? undefined}
                   onChange={onChange}
                   onBlur={onBlur}
                 />
