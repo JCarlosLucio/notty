@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type ComponentPropsWithoutRef } from "react";
+import { HexAlphaColorPicker } from "react-colorful";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
@@ -28,6 +29,7 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
     defaultValues: {
       title: list.title,
       id: "",
+      color: list.color ?? undefined,
     },
   });
   const { toast } = useToast();
@@ -61,7 +63,10 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        className="flex flex-col gap-3"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
         <FormField
           control={form.control}
           name="title"
@@ -75,19 +80,35 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
                     autoFocus
                     {...field}
                   />
-                  <Button
-                    type="submit"
-                    disabled={isLoading}
-                    className={isLoading ? "animate-pulse" : ""}
-                  >
-                    Save
-                  </Button>
                 </div>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="color"
+          render={({ field: { value, onChange, onBlur } }) => (
+            <FormItem className="w-full">
+              <FormLabel>Color</FormLabel>
+              <FormControl>
+                <HexAlphaColorPicker
+                  color={value}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <Button
+          type="submit"
+          disabled={isLoading}
+          className={isLoading ? "animate-pulse" : ""}
+        >
+          Save
+        </Button>
       </form>
     </Form>
   );
