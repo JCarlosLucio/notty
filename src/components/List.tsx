@@ -8,9 +8,12 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { type RouterOutputs } from "@/utils/api";
 import { cn } from "@/utils/utils";
 
-type ListProps = { list: RouterOutputs["list"]["getById"] };
+type ListProps = {
+  list: RouterOutputs["list"]["getById"];
+  className?: string;
+};
 
-const List = ({ list }: ListProps) => {
+const List = ({ list, className }: ListProps) => {
   const {
     setNodeRef,
     attributes,
@@ -37,6 +40,7 @@ const List = ({ list }: ListProps) => {
       className={cn(
         "flex max-h-full w-full shrink-0 flex-col lg:w-72",
         isDragging && "border-2 border-destructive opacity-70 [&>*]:invisible",
+        className,
       )}
       style={style}
       {...attributes}
