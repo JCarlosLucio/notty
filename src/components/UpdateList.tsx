@@ -99,6 +99,12 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
                     className="h-10 w-full rounded-lg"
                     style={{ backgroundColor: value ?? undefined }}
                   />
+                  <Button
+                    type="button"
+                    onClick={() => form.setValue("color", null)}
+                  >
+                    Remove color
+                  </Button>
                 </div>
                 <FormControl>
                   <HexAlphaColorPicker
