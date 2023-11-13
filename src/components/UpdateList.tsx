@@ -1,5 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type ComponentPropsWithoutRef } from "react";
+import {
+  type ComponentPropsWithoutRef,
+  type MouseEventHandler,
+  useState,
+} from "react";
 import { HexAlphaColorPicker } from "react-colorful";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
@@ -32,6 +36,7 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
       color: list.color,
     },
   });
+  const [showUpdateColor, setShowUpdateColor] = useState<boolean>(!!list.color);
   const { toast } = useToast();
   const ctx = api.useContext();
 
@@ -59,6 +64,15 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
   const onSubmit: SubmitHandler<UpdateListInput> = (values) => {
     values.id = list.id;
     updateList(values);
+  };
+
+  const handleAddColor: MouseEventHandler<HTMLButtonElement> = () => {
+    setShowUpdateColor(true);
+  };
+
+  const handleRemoveColor: MouseEventHandler<HTMLButtonElement> = () => {
+    form.setValue("color", null, { shouldDirty: true });
+    setShowUpdateColor(false);
   };
 
   return (
@@ -93,26 +107,29 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
             <FormItem className="w-full">
               <FormLabel>Update Color</FormLabel>
               <div className="flex justify-center gap-20 rounded-lg border p-5">
-                <div className="flex flex-col gap-3">
-                  <h6>Current color</h6>
-                  <div
-                    className="h-10 w-full rounded-lg"
-                    style={{ backgroundColor: value ?? undefined }}
-                  />
-                  <Button
-                    type="button"
-                    onClick={() => form.setValue("color", null)}
-                  >
-                    Remove color
-                  </Button>
-                </div>
-                <FormControl>
-                  <HexAlphaColorPicker
-                    color={value ?? undefined}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                  />
-                </FormControl>
+                {showUpdateColor ? (
+                  <>
+                    <div className="flex flex-col gap-3">
+                      <h6>Current color</h6>
+                      <div
+                        className="h-10 w-full rounded-lg border"
+                        style={{ backgroundColor: value ?? undefined }}
+                      />
+                      <Button type="button" onClick={handleRemoveColor}>
+                        Remove color
+                      </Button>
+                    </div>
+                    <FormControl>
+                      <HexAlphaColorPicker
+                        color={value ?? undefined}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                      />
+                    </FormControl>
+                  </>
+                ) : (
+                  <Button onClick={handleAddColor}>Add color</Button>
+                )}
               </div>
             </FormItem>
           )}
