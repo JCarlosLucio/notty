@@ -47,10 +47,10 @@ const List = ({ list, className }: ListProps) => {
       {...listeners}
     >
       <ListDetails list={list} />
-      <CardContent className="flex flex-col gap-2 overflow-hidden p-3 hover:overflow-y-scroll ">
+      <CardContent className="flex flex-col gap-2 overflow-hidden p-3 pb-0 hover:overflow-y-scroll ">
         <ListNotes listId={list.id} />
       </CardContent>
-      <CardFooter className="shrink-0 p-3 pt-0">
+      <CardFooter className="shrink-0 p-3">
         <CreateNote listId={list.id} />
       </CardFooter>
     </Card>
