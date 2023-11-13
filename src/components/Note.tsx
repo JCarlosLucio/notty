@@ -42,9 +42,9 @@ const Note = ({ note }: NoteProps) => {
       {...attributes}
       {...listeners}
     >
-      <CardHeader className="group flex flex-row items-center space-y-0 p-2">
+      <CardHeader className="group flex h-12 flex-row items-center gap-1 space-y-0 p-2">
         <p className="w-full truncate pl-1">{note.content}</p>
-        <NoteDetails note={note} className="invisible group-hover:visible" />
+        <NoteDetails note={note} className="hidden group-hover:flex" />
       </CardHeader>
     </Card>
   );
