@@ -136,7 +136,7 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
         />
         <Button
           type="submit"
-          disabled={isLoading}
+          disabled={isLoading || !form.formState.isDirty}
           className={isLoading ? "animate-pulse" : ""}
         >
           Save
