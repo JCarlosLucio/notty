@@ -5,10 +5,14 @@ import { type CSSProperties } from "react";
 import NoteDetails from "@/components/NoteDetails";
 import { Card, CardHeader } from "@/components/ui/card";
 import { type RouterOutputs } from "@/utils/api";
+import { cn } from "@/utils/utils";
 
-type NoteProps = { note: RouterOutputs["note"]["create"] };
+type NoteProps = {
+  note: RouterOutputs["note"]["create"];
+  className?: string;
+};
 
-const Note = ({ note }: NoteProps) => {
+const Note = ({ note, className }: NoteProps) => {
   const {
     setNodeRef,
     attributes,
@@ -33,11 +37,11 @@ const Note = ({ note }: NoteProps) => {
   return (
     <Card
       ref={setNodeRef}
-      className={
-        isDragging
-          ? "rounded-md border-2 border-destructive opacity-50"
-          : "rounded-md bg-secondary/60 hover:bg-secondary/70"
-      }
+      className={cn(
+        "rounded-md bg-secondary/60 hover:bg-secondary/70",
+        isDragging && "border-2 border-destructive opacity-50",
+        className,
+      )}
       style={style}
       {...attributes}
       {...listeners}
