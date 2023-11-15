@@ -125,6 +125,12 @@ const BoardLists = ({ boardId }: BoardProps) => {
     }
   };
 
+  const resetActiveItems = () => {
+    setActiveList(null);
+    setActiveNote(null);
+    setPrevOverListId(null);
+  };
+
   function onDragStart(e: DragStartEvent) {
     const { active } = e;
 
@@ -190,9 +196,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
     const { active, over } = e;
 
     if (!over) {
-      setActiveList(null);
-      setActiveNote(null);
-      setPrevOverListId(null);
+      resetActiveItems();
       return;
     }
 
@@ -216,9 +220,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
       });
 
       if (activeId === overId) {
-        setActiveList(null);
-        setActiveNote(null);
-        setPrevOverListId(null);
+        resetActiveItems();
         return; // is in the start position
       }
 
@@ -260,17 +262,13 @@ const BoardLists = ({ boardId }: BoardProps) => {
       });
     }
 
-    setActiveList(null);
-    setActiveNote(null);
-    setPrevOverListId(null);
+    resetActiveItems();
   }
 
   function onDragCancel(_e: DragCancelEvent) {
     if (!prevOverListId || !activeNote) return;
     resetNotesOnLists(prevOverListId, activeNote);
-    setActiveList(null);
-    setActiveNote(null);
-    setPrevOverListId(null);
+    resetActiveItems();
   }
 
   return (
