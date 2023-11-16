@@ -83,7 +83,7 @@ model List {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    board   Board  @relation(fields: [boardId], references: [id])
+    board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
     boardId String
 
     notes Note[]
@@ -97,6 +97,6 @@ model Note {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    list   List   @relation(fields: [listId], references: [id])
+    list   List   @relation(fields: [listId], references: [id], onDelete: Cascade)
     listId String
 }
