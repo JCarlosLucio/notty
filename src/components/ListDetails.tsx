@@ -35,7 +35,7 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
           <Pencil1Icon className="invisible group-hover:visible" />
         </CardHeader>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-2xl" data-no-dnd="true">
+      <DialogContent className="p-0 sm:max-w-2xl" data-no-dnd="true">
         {showUpdateList ? (
           <div className="flex flex-row items-end gap-2">
             <div className="w-full">
@@ -50,7 +50,10 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
           </div>
         ) : (
           <DialogHeader>
-            <div className="flex flex-row gap-2">
+            <div
+              className="flex flex-row gap-2 rounded-t-md p-6 pb-3"
+              style={{ backgroundColor: list.color ?? undefined }}
+            >
               <DialogTitle className="text-2xl">{list.title}</DialogTitle>
               <Button
                 size="icon"
@@ -60,7 +63,7 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
                 <Pencil1Icon />
               </Button>
             </div>
-            <DialogDescription>
+            <DialogDescription className="p-6 pt-3">
               {list.updatedAt.toDateString()}
             </DialogDescription>
           </DialogHeader>
