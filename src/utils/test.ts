@@ -34,3 +34,7 @@ export const resetDB = async () => {
   );
   await db.$transaction(boardsToInsert);
 };
+
+export const getBoardsInDB = async () => {
+  return await db.board.findMany();
+};
