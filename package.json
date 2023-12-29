@@ -10,7 +10,9 @@
     "postinstall": "prisma generate",
     "lint": "next lint --fix --dir src",
     "format": "prettier --list-different --write \"./src/**/*.{ts,tsx,md}\"",
-    "start": "next start"
+    "start": "next start",
+    "pretest": "DATABASE_URL=file:./test.sqlite prisma db push",
+    "test": "bun test"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.0.8",
