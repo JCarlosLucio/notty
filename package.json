@@ -47,6 +47,7 @@
   },
   "devDependencies": {
     "@tanstack/react-query-devtools": "^4.33.0",
+    "@types/bun": "^1.0.0",
     "@types/eslint": "^8.56.0",
     "@types/node": "^20.10.5",
     "@types/prettier": "^2.7.3",
