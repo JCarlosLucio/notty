@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, test } from "bun:test";
 
 import { type AppRouter, appRouter } from "@/server/api/root";
 import { createInnerTRPCContext } from "@/server/api/trpc";
-import { initialBoards, resetDB, testUser } from "@/utils/test";
+import { getBoardsInDB, initialBoards, resetDB, testUser } from "@/utils/test";
 
 type BoardInput = inferProcedureInput<AppRouter["board"]["create"]>;
 
@@ -41,11 +41,13 @@ describe("Boards", () => {
   describe("creating boards", () => {
     test("should create a board", async () => {
       const newBoard = await caller.board.create(testBoardInput);
+      const boards = await getBoardsInDB();
 
       expect(newBoard).toMatchObject({
         title: testBoardInput.title,
         userId: testUser.id,
       });
+      expect(boards).toHaveLength(initialBoards.length + 1);
     });
   });
 });
