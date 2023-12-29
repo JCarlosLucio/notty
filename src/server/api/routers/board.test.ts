@@ -41,13 +41,15 @@ describe("Boards", () => {
   describe("creating boards", () => {
     test("should create a board", async () => {
       const newBoard = await caller.board.create(testBoardInput);
-      const boards = await getBoardsInDB();
+      const boardsAfter = await getBoardsInDB();
+      const titles = boardsAfter.map((b) => b.title);
 
       expect(newBoard).toMatchObject({
         title: testBoardInput.title,
         userId: testUser.id,
       });
-      expect(boards).toHaveLength(initialBoards.length + 1);
+      expect(boardsAfter).toHaveLength(initialBoards.length + 1);
+      expect(titles).toContain(testBoardInput.title);
     });
   });
 });
