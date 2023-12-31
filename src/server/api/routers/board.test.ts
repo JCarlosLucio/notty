@@ -38,6 +38,16 @@ describe("Boards", () => {
     });
   });
 
+  describe("getting boards by id", () => {
+    test("should get board by id", async () => {
+      const boards = await getBoardsInDB();
+      const boardToGet = boards[0];
+      const board = await caller.board.getById({ id: boardToGet?.id ?? "" });
+
+      expect(board).toMatchObject(boardToGet ?? {});
+    });
+  });
+
   describe("creating boards", () => {
     test("should create a board", async () => {
       const newBoard = await caller.board.create(testBoardInput);
