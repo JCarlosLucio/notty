@@ -100,5 +100,14 @@ describe("Boards", () => {
         await unauthorizedCaller.board.create(testBoardInput);
       }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
     });
+
+    test("should throw 'Title is required' when title is empty string", async () => {
+      expect(async () => {
+        await caller.board.create({ title: "" });
+      }).toThrow("Title is required");
+
+      const boardsAfter = await getBoardsInDB();
+      expect(boardsAfter).toHaveLength(initialBoards.length);
+    });
   });
 });
