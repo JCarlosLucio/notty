@@ -16,6 +16,9 @@ const testSession = {
 const ctx = createInnerTRPCContext({ session: testSession });
 const caller = appRouter.createCaller(ctx);
 
+const unauthorizedCtx = createInnerTRPCContext({ session: null });
+const unauthorizedCaller = appRouter.createCaller(unauthorizedCtx);
+
 describe("Boards", () => {
   beforeEach(async () => {
     await resetDB();
@@ -29,11 +32,8 @@ describe("Boards", () => {
     });
 
     test("should throw UNAUTHORIZED when getting boards without session", () => {
-      const ctx = createInnerTRPCContext({ session: null });
-      const caller = appRouter.createCaller(ctx);
-
       expect(async () => {
-        await caller.board.getAll();
+        await unauthorizedCaller.board.getAll();
       }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
     });
   });
@@ -48,11 +48,8 @@ describe("Boards", () => {
     });
 
     test("should throw UNAUTHORIZED when getting board by id without session", () => {
-      const ctx = createInnerTRPCContext({ session: null });
-      const caller = appRouter.createCaller(ctx);
-
       expect(async () => {
-        await caller.board.getById({ id: "whatever" });
+        await unauthorizedCaller.board.getById({ id: "whatever" });
       }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
     });
 
@@ -99,11 +96,8 @@ describe("Boards", () => {
     });
 
     test("should throw UNAUTHORIZED when creating board without session", () => {
-      const ctx = createInnerTRPCContext({ session: null });
-      const caller = appRouter.createCaller(ctx);
-
       expect(async () => {
-        await caller.board.create(testBoardInput);
+        await unauthorizedCaller.board.create(testBoardInput);
       }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
     });
   });
