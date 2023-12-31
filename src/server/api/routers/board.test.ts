@@ -47,7 +47,7 @@ describe("Boards", () => {
       expect(board).toMatchObject(boardToGet ?? {});
     });
 
-    test("should throw NOT_FOUND when board not found while getting board by id", () => {
+    test("should throw NOT_FOUND when board not found", () => {
       expect(async () => {
         await caller.board.getById({ id: "notindb" });
       }).toThrow(new TRPCError({ code: "NOT_FOUND" }));
