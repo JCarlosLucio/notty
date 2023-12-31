@@ -97,5 +97,14 @@ describe("Boards", () => {
       expect(boardsAfter).toHaveLength(initialBoards.length + 1);
       expect(titles).toContain(testBoardInput.title);
     });
+
+    test("should throw UNAUTHORIZED when creating board without session", () => {
+      const ctx = createInnerTRPCContext({ session: null });
+      const caller = appRouter.createCaller(ctx);
+
+      expect(async () => {
+        await caller.board.create(testBoardInput);
+      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+    });
   });
 });
