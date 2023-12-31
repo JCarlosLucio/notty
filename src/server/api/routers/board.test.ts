@@ -52,6 +52,27 @@ describe("Boards", () => {
         await caller.board.getById({ id: "notindb" });
       }).toThrow(new TRPCError({ code: "NOT_FOUND" }));
     });
+
+    test("should throw FORBIDDEN when user is not owner", async () => {
+      const boards = await getBoardsInDB();
+      const boardToGet = boards[0];
+
+      const notOwnerSession = {
+        user: {
+          id: "not_owner",
+          name: "NotOwner",
+          email: "notowner@example.com",
+        },
+        expires: "1",
+      };
+
+      const ctx = createInnerTRPCContext({ session: notOwnerSession });
+      const forbiddenCaller = appRouter.createCaller(ctx);
+
+      expect(async () => {
+        await forbiddenCaller.board.getById({ id: boardToGet?.id ?? "" });
+      }).toThrow(new TRPCError({ code: "FORBIDDEN" }));
+    });
   });
 
   describe("creating boards", () => {
