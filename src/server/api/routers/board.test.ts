@@ -47,6 +47,15 @@ describe("Boards", () => {
       expect(board).toMatchObject(boardToGet ?? {});
     });
 
+    test("should throw UNAUTHORIZED when getting board by id without session", () => {
+      const ctx = createInnerTRPCContext({ session: null });
+      const caller = appRouter.createCaller(ctx);
+
+      expect(async () => {
+        await caller.board.getById({ id: "whatever" });
+      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+    });
+
     test("should throw NOT_FOUND when board not found", () => {
       expect(async () => {
         await caller.board.getById({ id: "notindb" });
