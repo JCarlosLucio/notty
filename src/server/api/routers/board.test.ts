@@ -28,7 +28,7 @@ describe("Boards", () => {
       expect(boards).toHaveLength(initialBoards.length);
     });
 
-    test("should throw when getting boards without session", () => {
+    test("should throw UNAUTHORIZED when getting boards without session", () => {
       const ctx = createInnerTRPCContext({ session: null });
       const caller = appRouter.createCaller(ctx);
 
