@@ -110,4 +110,19 @@ describe("Boards", () => {
       expect(boardsAfter).toHaveLength(initialBoards.length);
     });
   });
+
+  describe("deleting boards", () => {
+    test("should delete a board", async () => {
+      const boards = await getBoardsInDB();
+      const boardToDelete = boards[0];
+
+      await caller.board.delete({ id: boardToDelete?.id ?? "" });
+
+      const boardsAfter = await getBoardsInDB();
+      expect(boardsAfter).toHaveLength(boards.length - 1);
+
+      const titles = boardsAfter.map((b) => b.title);
+      expect(titles).not.toContain(boardToDelete?.title);
+    });
+  });
 });
