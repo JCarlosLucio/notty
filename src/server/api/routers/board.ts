@@ -80,6 +80,18 @@ export const boardRouter = createTRPCRouter({
   update: protectedProcedure
     .input(updateBoardSchema)
     .mutation(async ({ ctx, input }) => {
+      const board = await ctx.db.board.findUnique({
+        where: {
+          id: input.id,
+        },
+      });
+
+      const boardBelongsToUser = board?.userId === ctx.session.user.id;
+
+      if (!boardBelongsToUser) {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+
       return await ctx.db.board.update({
         where: {
           id: input.id,
