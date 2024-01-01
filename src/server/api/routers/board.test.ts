@@ -124,5 +124,32 @@ describe("Boards", () => {
       const titles = boardsAfter.map((b) => b.title);
       expect(titles).not.toContain(boardToDelete?.title);
     });
+
+    test("should throw FORBIDDEN when user is not owner", async () => {
+      const boards = await getBoardsInDB();
+      const boardToDelete = boards[0];
+
+      const notOwnerSession = {
+        user: {
+          id: "not_owner",
+          name: "NotOwner",
+          email: "notowner@example.com",
+        },
+        expires: "1",
+      };
+
+      const ctx = createInnerTRPCContext({ session: notOwnerSession });
+      const forbiddenCaller = appRouter.createCaller(ctx);
+
+      expect(async () => {
+        await forbiddenCaller.board.delete({ id: boardToDelete?.id ?? "" });
+      }).toThrow(new TRPCError({ code: "FORBIDDEN" }));
+
+      const boardsAfter = await getBoardsInDB();
+      expect(boardsAfter).toHaveLength(boards.length);
+
+      const titles = boardsAfter.map((b) => b.title);
+      expect(titles).toContain(boardToDelete?.title);
+    });
   });
 });
