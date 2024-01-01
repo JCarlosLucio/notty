@@ -125,6 +125,12 @@ describe("Boards", () => {
       expect(titles).not.toContain(boardToDelete?.title);
     });
 
+    test("should throw UNAUTHORIZED when deleting board without session", () => {
+      expect(async () => {
+        await unauthorizedCaller.board.delete({ id: "whatever" });
+      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+    });
+
     test("should throw FORBIDDEN when user is not owner", async () => {
       const boards = await getBoardsInDB();
       const boardToDelete = boards[0];
