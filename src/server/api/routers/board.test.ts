@@ -152,4 +152,25 @@ describe("Boards", () => {
       expect(titles).toContain(boardToDelete?.title);
     });
   });
+
+  describe("updating boards", () => {
+    test("should update a board", async () => {
+      const boards = await getBoardsInDB();
+      const boardToUpdate = boards[0];
+
+      const updatedTitle = "Updated title";
+
+      const updatedBoard = await caller.board.update({
+        id: boardToUpdate?.id ?? "",
+        title: updatedTitle,
+      });
+
+      expect(updatedBoard.title).toBe(updatedTitle);
+
+      const boardsAfter = await getBoardsInDB();
+      const titles = boardsAfter.map((b) => b.title);
+      expect(titles).not.toContain(boardToUpdate?.title);
+      expect(titles).toContain(updatedTitle);
+    });
+  });
 });
