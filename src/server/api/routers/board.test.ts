@@ -178,5 +178,36 @@ describe("Boards", () => {
       expect(titles).not.toContain(boardToUpdate?.title);
       expect(titles).toContain(updatedTitle);
     });
+
+    test("should throw FORBIDDEN when user is not owner", async () => {
+      const boards = await getBoardsInDB();
+      const boardToUpdate = boards[0];
+
+      const notOwnerSession = {
+        user: {
+          id: "not_owner",
+          name: "NotOwner",
+          email: "notowner@example.com",
+        },
+        expires: "1",
+      };
+
+      const ctx = createInnerTRPCContext({ session: notOwnerSession });
+      const forbiddenCaller = appRouter.createCaller(ctx);
+
+      const updatedTitle = "Updated title";
+
+      expect(async () => {
+        await forbiddenCaller.board.update({
+          id: boardToUpdate?.id ?? "",
+          title: updatedTitle,
+        });
+      }).toThrow(new TRPCError({ code: "FORBIDDEN" }));
+
+      const boardsAfter = await getBoardsInDB();
+
+      const titles = boardsAfter.map((b) => b.title);
+      expect(titles).not.toContain(updatedTitle);
+    });
   });
 });
