@@ -28,8 +28,8 @@ const notOwnerSession = {
   expires: "1",
 };
 
-const forbiddenCtx = createInnerTRPCContext({ session: notOwnerSession });
-const forbiddenCaller = appRouter.createCaller(forbiddenCtx);
+const notOwnerCtx = createInnerTRPCContext({ session: notOwnerSession });
+const notOwnerCaller = appRouter.createCaller(notOwnerCtx);
 
 describe("Boards", () => {
   beforeEach(async () => {
@@ -76,7 +76,7 @@ describe("Boards", () => {
       const boardToGet = boards[0];
 
       expect(async () => {
-        await forbiddenCaller.board.getById({ id: boardToGet?.id ?? "" });
+        await notOwnerCaller.board.getById({ id: boardToGet?.id ?? "" });
       }).toThrow(new TRPCError({ code: "FORBIDDEN" }));
     });
   });
@@ -136,7 +136,7 @@ describe("Boards", () => {
       const boardToDelete = boards[0];
 
       expect(async () => {
-        await forbiddenCaller.board.delete({ id: boardToDelete?.id ?? "" });
+        await notOwnerCaller.board.delete({ id: boardToDelete?.id ?? "" });
       }).toThrow(new TRPCError({ code: "FORBIDDEN" }));
 
       const boardsAfter = await getBoardsInDB();
@@ -174,7 +174,7 @@ describe("Boards", () => {
       const updatedTitle = "Updated title";
 
       expect(async () => {
-        await forbiddenCaller.board.update({
+        await notOwnerCaller.board.update({
           id: boardToUpdate?.id ?? "",
           title: updatedTitle,
         });
