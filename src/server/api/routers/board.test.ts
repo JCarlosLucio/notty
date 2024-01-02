@@ -19,6 +19,18 @@ const caller = appRouter.createCaller(ctx);
 const unauthorizedCtx = createInnerTRPCContext({ session: null });
 const unauthorizedCaller = appRouter.createCaller(unauthorizedCtx);
 
+const notOwnerSession = {
+  user: {
+    id: "not_owner",
+    name: "NotOwner",
+    email: "notowner@example.com",
+  },
+  expires: "1",
+};
+
+const forbiddenCtx = createInnerTRPCContext({ session: notOwnerSession });
+const forbiddenCaller = appRouter.createCaller(forbiddenCtx);
+
 describe("Boards", () => {
   beforeEach(async () => {
     await resetDB();
@@ -62,18 +74,6 @@ describe("Boards", () => {
     test("should throw FORBIDDEN when user is not owner", async () => {
       const boards = await getBoardsInDB();
       const boardToGet = boards[0];
-
-      const notOwnerSession = {
-        user: {
-          id: "not_owner",
-          name: "NotOwner",
-          email: "notowner@example.com",
-        },
-        expires: "1",
-      };
-
-      const ctx = createInnerTRPCContext({ session: notOwnerSession });
-      const forbiddenCaller = appRouter.createCaller(ctx);
 
       expect(async () => {
         await forbiddenCaller.board.getById({ id: boardToGet?.id ?? "" });
@@ -135,18 +135,6 @@ describe("Boards", () => {
       const boards = await getBoardsInDB();
       const boardToDelete = boards[0];
 
-      const notOwnerSession = {
-        user: {
-          id: "not_owner",
-          name: "NotOwner",
-          email: "notowner@example.com",
-        },
-        expires: "1",
-      };
-
-      const ctx = createInnerTRPCContext({ session: notOwnerSession });
-      const forbiddenCaller = appRouter.createCaller(ctx);
-
       expect(async () => {
         await forbiddenCaller.board.delete({ id: boardToDelete?.id ?? "" });
       }).toThrow(new TRPCError({ code: "FORBIDDEN" }));
@@ -182,18 +170,6 @@ describe("Boards", () => {
     test("should throw FORBIDDEN when user is not owner", async () => {
       const boards = await getBoardsInDB();
       const boardToUpdate = boards[0];
-
-      const notOwnerSession = {
-        user: {
-          id: "not_owner",
-          name: "NotOwner",
-          email: "notowner@example.com",
-        },
-        expires: "1",
-      };
-
-      const ctx = createInnerTRPCContext({ session: notOwnerSession });
-      const forbiddenCaller = appRouter.createCaller(ctx);
 
       const updatedTitle = "Updated title";
 
