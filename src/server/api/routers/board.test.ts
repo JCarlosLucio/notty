@@ -39,9 +39,14 @@ describe("Boards", () => {
     test("should get board by id", async () => {
       const boards = await getBoardsInDB();
       const boardToGet = boards[0];
-      const board = await caller.board.getById({ id: boardToGet?.id ?? "" });
 
-      expect(board).toMatchObject(boardToGet ?? {});
+      if (!boardToGet) {
+        return expect().fail("Couldn't get board in test");
+      }
+
+      const board = await caller.board.getById({ id: boardToGet.id });
+
+      expect(board).toMatchObject(boardToGet);
     });
 
     test("should throw UNAUTHORIZED when getting board by id without session", () => {
@@ -60,8 +65,12 @@ describe("Boards", () => {
       const boards = await getBoardsInDB();
       const boardToGet = boards[0];
 
+      if (!boardToGet) {
+        return expect().fail("Couldn't get board in test");
+      }
+
       expect(async () => {
-        await notOwnerCaller.board.getById({ id: boardToGet?.id ?? "" });
+        await notOwnerCaller.board.getById({ id: boardToGet.id });
       }).toThrow(new TRPCError({ code: "FORBIDDEN" }));
     });
   });
@@ -101,7 +110,11 @@ describe("Boards", () => {
       const boards = await getBoardsInDB();
       const boardToDelete = boards[0];
 
-      await caller.board.delete({ id: boardToDelete?.id ?? "" });
+      if (!boardToDelete) {
+        return expect().fail("Couldn't get board in test");
+      }
+
+      await caller.board.delete({ id: boardToDelete.id });
 
       const boardsAfter = await getBoardsInDB();
       expect(boardsAfter).toHaveLength(boards.length - 1);
@@ -120,8 +133,12 @@ describe("Boards", () => {
       const boards = await getBoardsInDB();
       const boardToDelete = boards[0];
 
+      if (!boardToDelete) {
+        return expect().fail("Couldn't get board in test");
+      }
+
       expect(async () => {
-        await notOwnerCaller.board.delete({ id: boardToDelete?.id ?? "" });
+        await notOwnerCaller.board.delete({ id: boardToDelete.id });
       }).toThrow(new TRPCError({ code: "FORBIDDEN" }));
 
       const boardsAfter = await getBoardsInDB();
@@ -137,10 +154,14 @@ describe("Boards", () => {
       const boards = await getBoardsInDB();
       const boardToUpdate = boards[0];
 
+      if (!boardToUpdate) {
+        return expect().fail("Couldn't get board in test");
+      }
+
       const updatedTitle = "Updated title";
 
       const updatedBoard = await caller.board.update({
-        id: boardToUpdate?.id ?? "",
+        id: boardToUpdate.id,
         title: updatedTitle,
       });
 
@@ -156,11 +177,15 @@ describe("Boards", () => {
       const boards = await getBoardsInDB();
       const boardToUpdate = boards[0];
 
+      if (!boardToUpdate) {
+        return expect().fail("Couldn't get board in test");
+      }
+
       const updatedTitle = "Updated title";
 
       expect(async () => {
         await notOwnerCaller.board.update({
-          id: boardToUpdate?.id ?? "",
+          id: boardToUpdate.id,
           title: updatedTitle,
         });
       }).toThrow(new TRPCError({ code: "FORBIDDEN" }));
