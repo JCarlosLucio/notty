@@ -1,35 +1,20 @@
 import { type inferProcedureInput, TRPCError } from "@trpc/server";
 import { beforeEach, describe, expect, test } from "bun:test";
 
-import { type AppRouter, appRouter } from "@/server/api/root";
-import { createInnerTRPCContext } from "@/server/api/trpc";
-import { getBoardsInDB, initialBoards, resetDB, testUser } from "@/utils/test";
+import { type AppRouter } from "@/server/api/root";
+import {
+  caller,
+  getBoardsInDB,
+  initialBoards,
+  notOwnerCaller,
+  resetDB,
+  testUser,
+  unauthorizedCaller,
+} from "@/utils/test";
 
 type BoardInput = inferProcedureInput<AppRouter["board"]["create"]>;
 
 const testBoardInput: BoardInput = { title: "Board Test" };
-const testSession = {
-  user: testUser,
-  expires: "1",
-};
-
-const ctx = createInnerTRPCContext({ session: testSession });
-const caller = appRouter.createCaller(ctx);
-
-const unauthorizedCtx = createInnerTRPCContext({ session: null });
-const unauthorizedCaller = appRouter.createCaller(unauthorizedCtx);
-
-const notOwnerSession = {
-  user: {
-    id: "not_owner",
-    name: "NotOwner",
-    email: "notowner@example.com",
-  },
-  expires: "1",
-};
-
-const notOwnerCtx = createInnerTRPCContext({ session: notOwnerSession });
-const notOwnerCaller = appRouter.createCaller(notOwnerCtx);
 
 describe("Boards", () => {
   beforeEach(async () => {
