@@ -9,9 +9,52 @@ export const testUser = {
   email: "email@example.com",
 };
 
+// positions n,u,x,z
+export const intialNotes = [
+  {
+    content: "1st NOTE seed",
+    position: "n",
+  },
+  {
+    content: "2nd NOTE seed",
+    position: "u",
+  },
+  {
+    content: "3rd NOTE seed",
+    position: "x",
+  },
+  {
+    content: "4th NOTE seed",
+    position: "z",
+  },
+];
+export const initialLists = [
+  {
+    title: "1st LIST seed",
+    position: "n",
+    notes: {
+      create: intialNotes,
+    },
+  },
+  {
+    title: "2nd LIST seed",
+    position: "u",
+  },
+  {
+    title: "3rd LIST seed",
+    position: "x",
+  },
+];
 export const initialBoards = [
-  { title: "first board" },
-  { title: "second board" },
+  {
+    title: "1st BOARD seed",
+    lists: {
+      create: initialLists,
+    },
+  },
+  {
+    title: "2nd BOARD seed",
+  },
 ];
 
 const testSession = {
@@ -46,18 +89,22 @@ export const resetDB = async () => {
   const deleteUsers = db.user.deleteMany();
   await db.$transaction([deleteBoards, deleteUsers]);
 
-  // Add test user
-  await db.user.create({
-    data: testUser,
+  // Seed db
+  // Add user with boards, lists, and notes.
+  // https://www.prisma.io/docs/orm/prisma-client/queries/transactions#nested-writes
+  // https://www.prisma.io/docs/orm/prisma-migrate/workflows/seeding#example-seed-scripts
+  await db.user.upsert({
+    where: {
+      id: testUser.id,
+    },
+    update: {},
+    create: {
+      ...testUser,
+      boards: {
+        create: initialBoards,
+      },
+    },
   });
-
-  // Add initial boards (not using createMany because sqlite doesn't support it)
-  // https://www.prisma.io/docs/orm/reference/prisma-client-reference#remarks-9
-  // https://github.com/prisma/prisma/issues/10710#issuecomment-1198906656
-  const boardsToInsert = initialBoards.map((board) =>
-    db.board.create({ data: { ...board, userId: testUser.id } }),
-  );
-  await db.$transaction(boardsToInsert);
 };
 
 export const getBoardsInDB = async () => {
