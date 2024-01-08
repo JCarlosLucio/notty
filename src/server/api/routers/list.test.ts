@@ -63,5 +63,11 @@ describe("lists", () => {
 
       expect(list).toMatchObject(listToGet);
     });
+
+    test("should throw UNAUTHORIZED when getting list by id without session", () => {
+      expect(async () => {
+        await unauthorizedCaller.list.getById({ id: "whatever" });
+      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+    });
   });
 });
