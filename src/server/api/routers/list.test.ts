@@ -1,6 +1,13 @@
+import { TRPCError } from "@trpc/server";
 import { beforeEach, describe, expect, test } from "bun:test";
 
-import { caller, getBoardsInDB, initialLists, resetDB } from "@/utils/test";
+import {
+  caller,
+  getBoardsInDB,
+  initialLists,
+  resetDB,
+  unauthorizedCaller,
+} from "@/utils/test";
 
 describe("lists", () => {
   beforeEach(async () => {
@@ -19,6 +26,19 @@ describe("lists", () => {
       const lists = await caller.list.getAll({ boardId: board.id });
 
       expect(lists).toHaveLength(initialLists.length);
+    });
+
+    test("should throw UNAUTHORIZED when getting lists without session", async () => {
+      const boards = await getBoardsInDB();
+      const board = boards[0];
+
+      if (!board) {
+        return expect().fail("Couldn't get board in test");
+      }
+
+      expect(async () => {
+        await unauthorizedCaller.list.getAll({ boardId: board.id });
+      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
     });
   });
 });
