@@ -110,3 +110,7 @@ export const resetDB = async () => {
 export const getBoardsInDB = async () => {
   return await db.board.findMany();
 };
+
+export const getListsInDB = async (boardId: string) => {
+  return await db.list.findMany({ where: { boardId } });
+};
