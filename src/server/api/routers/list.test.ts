@@ -117,5 +117,21 @@ describe("lists", () => {
         await unauthorizedCaller.list.create(testListInput);
       }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
     });
+
+    test("should throw 'Title is required' when title is empty string", async () => {
+      const boards = await getBoardsInDB();
+      const board = boards[0];
+
+      if (!board) {
+        return expect().fail("Couldn't get board in test");
+      }
+
+      expect(async () => {
+        await caller.list.create({ title: "", boardId: board.id });
+      }).toThrow("Title is required");
+
+      const listsAfter = await getListsInDB(board.id);
+      expect(listsAfter).toHaveLength(initialLists.length);
+    });
   });
 });
