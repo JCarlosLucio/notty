@@ -1,6 +1,7 @@
-import { TRPCError } from "@trpc/server";
+import { type inferProcedureInput, TRPCError } from "@trpc/server";
 import { beforeEach, describe, expect, test } from "bun:test";
 
+import { type AppRouter } from "@/server/api/root";
 import {
   caller,
   getBoardsInDB,
@@ -9,6 +10,8 @@ import {
   resetDB,
   unauthorizedCaller,
 } from "@/utils/test";
+
+type ListInput = inferProcedureInput<AppRouter["list"]["create"]>;
 
 describe("lists", () => {
   beforeEach(async () => {
@@ -68,6 +71,34 @@ describe("lists", () => {
       expect(async () => {
         await unauthorizedCaller.list.getById({ id: "whatever" });
       }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+    });
+  });
+
+  describe("creating lists", () => {
+    test("should create a list", async () => {
+      const boards = await getBoardsInDB();
+      const board = boards[0];
+
+      if (!board) {
+        return expect().fail("Couldn't get board in test");
+      }
+      const testListInput: ListInput = {
+        title: "List Test",
+        boardId: board.id,
+      };
+
+      const newList = await caller.list.create(testListInput);
+      const listsAfter = await getListsInDB(board.id);
+      const titles = listsAfter.map((b) => b.title);
+
+      expect(newList).toMatchObject({
+        title: testListInput.title,
+        position: "z",
+        color: null,
+        boardId: board.id,
+      });
+      expect(listsAfter).toHaveLength(initialLists.length + 1);
+      expect(titles).toContain(testListInput.title);
     });
   });
 });
