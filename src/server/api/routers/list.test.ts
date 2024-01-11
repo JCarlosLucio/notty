@@ -100,5 +100,22 @@ describe("lists", () => {
       expect(listsAfter).toHaveLength(initialLists.length + 1);
       expect(titles).toContain(testListInput.title);
     });
+
+    test("should throw UNAUTHORIZED when creating list without session", async () => {
+      const boards = await getBoardsInDB();
+      const board = boards[0];
+
+      if (!board) {
+        return expect().fail("Couldn't get board in test");
+      }
+      const testListInput: ListInput = {
+        title: "List Test",
+        boardId: board.id,
+      };
+
+      expect(async () => {
+        await unauthorizedCaller.list.create(testListInput);
+      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+    });
   });
 });
