@@ -134,4 +134,30 @@ describe("Lists", () => {
       expect(listsAfter).toHaveLength(initialLists.length);
     });
   });
+
+  describe("deleting lists", () => {
+    test("should delete a list", async () => {
+      const boards = await getBoardsInDB();
+      const board = boards[0];
+
+      if (!board) {
+        return expect().fail("Couldn't get board in test");
+      }
+
+      const lists = await getListsInDB(board.id);
+      const listToDelete = lists[0];
+
+      if (!listToDelete) {
+        return expect().fail("Couldn't get list in test");
+      }
+
+      await caller.list.delete({ id: listToDelete.id });
+
+      const listsAfter = await getListsInDB(board.id);
+      expect(listsAfter).toHaveLength(initialLists.length - 1);
+
+      const titles = listsAfter.map((li) => li.title);
+      expect(titles).not.toContain(listToDelete.title);
+    });
+  });
 });
