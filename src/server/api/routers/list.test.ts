@@ -166,4 +166,43 @@ describe("Lists", () => {
       }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
     });
   });
+
+  describe("updating lists", () => {
+    test("should update a list", async () => {
+      const boards = await getBoardsInDB();
+      const board = boards[0];
+
+      if (!board) {
+        return expect().fail("Couldn't get board in test");
+      }
+
+      const lists = await getListsInDB(board.id);
+      const listToUpdate = lists[0];
+
+      if (!listToUpdate) {
+        return expect().fail("Couldn't get list in test");
+      }
+
+      const updatedTitle = "Updated title";
+      const updatedColor = "#FF0000";
+
+      const updatedList = await caller.list.update({
+        id: listToUpdate.id,
+        title: updatedTitle,
+        color: updatedColor,
+      });
+
+      expect(updatedList.title).toBe(updatedTitle);
+      expect(updatedList.color).toBe(updatedColor);
+
+      const listsAfter = await getListsInDB(board.id);
+
+      const titles = listsAfter.map((li) => li.title);
+      expect(titles).not.toContain(listToUpdate.title);
+      expect(titles).toContain(updatedList.title);
+
+      const colors = listsAfter.map((li) => li.color);
+      expect(colors).toContain(updatedColor);
+    });
+  });
 });
