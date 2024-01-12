@@ -159,5 +159,11 @@ describe("Lists", () => {
       const titles = listsAfter.map((li) => li.title);
       expect(titles).not.toContain(listToDelete.title);
     });
+
+    test("should throw UNAUTHORIZED when deleting list without session", () => {
+      expect(async () => {
+        await unauthorizedCaller.list.delete({ id: "whatever" });
+      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+    });
   });
 });
