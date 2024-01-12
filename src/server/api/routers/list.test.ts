@@ -13,7 +13,7 @@ import {
 
 type ListInput = inferProcedureInput<AppRouter["list"]["create"]>;
 
-describe("lists", () => {
+describe("Lists", () => {
   beforeEach(async () => {
     await resetDB();
   });
