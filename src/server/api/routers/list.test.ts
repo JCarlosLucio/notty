@@ -209,5 +209,14 @@ describe("Lists", () => {
       const colors = listsAfter.map((li) => li.color);
       expect(colors).toContain(testUpdateInput.color);
     });
+
+    test("should throw UNAUTHORIZED when updating list without session", () => {
+      expect(async () => {
+        await unauthorizedCaller.list.update({
+          id: "whatever",
+          ...partialUpdateInput,
+        });
+      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+    });
   });
 });
