@@ -11,7 +11,16 @@ import {
   unauthorizedCaller,
 } from "@/utils/test";
 
-type ListInput = inferProcedureInput<AppRouter["list"]["create"]>;
+type ListCreateInput = inferProcedureInput<AppRouter["list"]["create"]>;
+type ListUpdateInput = inferProcedureInput<AppRouter["list"]["update"]>;
+
+const partialCreateInput: Omit<ListCreateInput, "boardId"> = {
+  title: "Created title",
+};
+const partialUpdateInput: Omit<ListUpdateInput, "id"> = {
+  title: "Updated title",
+  color: "#FF0000",
+};
 
 describe("Lists", () => {
   beforeEach(async () => {
@@ -82,9 +91,9 @@ describe("Lists", () => {
       if (!board) {
         return expect().fail("Couldn't get board in test");
       }
-      const testListInput: ListInput = {
-        title: "List Test",
+      const testListInput: ListCreateInput = {
         boardId: board.id,
+        ...partialCreateInput,
       };
 
       const newList = await caller.list.create(testListInput);
@@ -92,10 +101,9 @@ describe("Lists", () => {
       const titles = listsAfter.map((b) => b.title);
 
       expect(newList).toMatchObject({
-        title: testListInput.title,
         position: "z",
         color: null,
-        boardId: board.id,
+        ...testListInput,
       });
       expect(listsAfter).toHaveLength(initialLists.length + 1);
       expect(titles).toContain(testListInput.title);
@@ -108,9 +116,9 @@ describe("Lists", () => {
       if (!board) {
         return expect().fail("Couldn't get board in test");
       }
-      const testListInput: ListInput = {
-        title: "List Test",
+      const testListInput: ListCreateInput = {
         boardId: board.id,
+        ...partialCreateInput,
       };
 
       expect(async () => {
@@ -183,26 +191,23 @@ describe("Lists", () => {
         return expect().fail("Couldn't get list in test");
       }
 
-      const updatedTitle = "Updated title";
-      const updatedColor = "#FF0000";
-
-      const updatedList = await caller.list.update({
+      const testUpdateInput: ListUpdateInput = {
         id: listToUpdate.id,
-        title: updatedTitle,
-        color: updatedColor,
-      });
+        ...partialUpdateInput,
+      };
 
-      expect(updatedList.title).toBe(updatedTitle);
-      expect(updatedList.color).toBe(updatedColor);
+      const updatedList = await caller.list.update(testUpdateInput);
+
+      expect(updatedList).toMatchObject(testUpdateInput);
 
       const listsAfter = await getListsInDB(board.id);
 
       const titles = listsAfter.map((li) => li.title);
       expect(titles).not.toContain(listToUpdate.title);
-      expect(titles).toContain(updatedList.title);
+      expect(titles).toContain(testUpdateInput.title);
 
       const colors = listsAfter.map((li) => li.color);
-      expect(colors).toContain(updatedColor);
+      expect(colors).toContain(testUpdateInput.color);
     });
   });
 });
