@@ -12,9 +12,13 @@ import {
   unauthorizedCaller,
 } from "@/utils/test";
 
-type BoardInput = inferProcedureInput<AppRouter["board"]["create"]>;
+type BoardCreateInput = inferProcedureInput<AppRouter["board"]["create"]>;
+type BoardUpdateInput = inferProcedureInput<AppRouter["board"]["update"]>;
 
-const testBoardInput: BoardInput = { title: "Board Test" };
+const testBoardInput: BoardCreateInput = { title: "Board Test" };
+const partialUpdateInput: Omit<BoardUpdateInput, "id"> = {
+  title: "Updated title",
+};
 
 describe("Boards", () => {
   beforeEach(async () => {
@@ -145,7 +149,7 @@ describe("Boards", () => {
       expect(boardsAfter).toHaveLength(boards.length);
 
       const titles = boardsAfter.map((b) => b.title);
-      expect(titles).toContain(boardToDelete?.title);
+      expect(titles).toContain(boardToDelete.title);
     });
   });
 
@@ -158,19 +162,19 @@ describe("Boards", () => {
         return expect().fail("Couldn't get board in test");
       }
 
-      const updatedTitle = "Updated title";
-
-      const updatedBoard = await caller.board.update({
+      const testUpdateInput: BoardUpdateInput = {
         id: boardToUpdate.id,
-        title: updatedTitle,
-      });
+        ...partialUpdateInput,
+      };
 
-      expect(updatedBoard.title).toBe(updatedTitle);
+      const updatedBoard = await caller.board.update(testUpdateInput);
+
+      expect(updatedBoard.title).toBe(testUpdateInput.title);
 
       const boardsAfter = await getBoardsInDB();
       const titles = boardsAfter.map((b) => b.title);
-      expect(titles).not.toContain(boardToUpdate?.title);
-      expect(titles).toContain(updatedTitle);
+      expect(titles).not.toContain(boardToUpdate.title);
+      expect(titles).toContain(testUpdateInput.title);
     });
 
     test("should throw FORBIDDEN when user is not owner", async () => {
@@ -181,19 +185,18 @@ describe("Boards", () => {
         return expect().fail("Couldn't get board in test");
       }
 
-      const updatedTitle = "Updated title";
+      const testUpdateInput = {
+        id: boardToUpdate.id,
+        ...partialUpdateInput,
+      };
 
       expect(async () => {
-        await notOwnerCaller.board.update({
-          id: boardToUpdate.id,
-          title: updatedTitle,
-        });
+        await notOwnerCaller.board.update(testUpdateInput);
       }).toThrow(new TRPCError({ code: "FORBIDDEN" }));
 
       const boardsAfter = await getBoardsInDB();
-
       const titles = boardsAfter.map((b) => b.title);
-      expect(titles).not.toContain(updatedTitle);
+      expect(titles).not.toContain(testUpdateInput.title);
     });
   });
 });
