@@ -265,5 +265,34 @@ describe("Lists", () => {
       expect(positionsAfter[0]).toBe(targetList.position);
       expect(positionsAfter[1]).toBe(expectedNewPosition);
     });
+
+    test("should throw BAD_REQUEST when moving list id is targetId", async () => {
+      const boards = await getBoardsInDB();
+      const board = boards[0];
+
+      if (!board) {
+        return expect().fail("Couldn't get board in test");
+      }
+
+      const lists = await getListsInDB(board.id);
+      const listToMove = lists[0];
+
+      if (!listToMove) {
+        return expect().fail("Couldn't get list in test");
+      }
+
+      expect(async () => {
+        await caller.list.move({
+          id: listToMove.id,
+          boardId: board.id,
+          targetId: listToMove.id,
+        });
+      }).toThrow(
+        new TRPCError({
+          code: "BAD_REQUEST",
+          message: "id cannot be targetId",
+        }),
+      );
+    });
   });
 });
