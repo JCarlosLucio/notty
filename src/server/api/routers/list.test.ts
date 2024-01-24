@@ -230,8 +230,12 @@ describe("Lists", () => {
       }
 
       const lists = await getListsInDB(board.id);
-      const listToMove = lists[0];
-      const targetList = lists[1];
+
+      const originIdx = 0;
+      const listToMove = lists[originIdx];
+
+      const targetIdx = 1;
+      const targetList = lists[targetIdx];
 
       if (!listToMove || !targetList) {
         return expect().fail("Couldn't get list in test");
@@ -246,10 +250,8 @@ describe("Lists", () => {
       const expectedNewPosition = "w";
 
       expect(movedList).toMatchObject({
-        id: listToMove.id,
-        title: listToMove.title,
-        color: listToMove.color,
-        boardId: listToMove.boardId,
+        ...listToMove,
+        updatedAt: movedList.updatedAt,
         position: expectedNewPosition,
       });
 
@@ -257,13 +259,16 @@ describe("Lists", () => {
       const sortedListsAfter = listsAfter.toSorted(
         (a, b) => a.position.charCodeAt(0) - b.position.charCodeAt(0),
       );
+
+      const expectedTargetNewIdx = targetIdx - 1;
+
       const titlesAfter = sortedListsAfter.map((li) => li.title);
-      expect(titlesAfter[0]).toBe(targetList.title);
-      expect(titlesAfter[1]).toBe(listToMove.title);
+      expect(titlesAfter[expectedTargetNewIdx]).toBe(targetList.title);
+      expect(titlesAfter[targetIdx]).toBe(listToMove.title);
 
       const positionsAfter = sortedListsAfter.map((li) => li.position);
-      expect(positionsAfter[0]).toBe(targetList.position);
-      expect(positionsAfter[1]).toBe(expectedNewPosition);
+      expect(positionsAfter[expectedTargetNewIdx]).toBe(targetList.position);
+      expect(positionsAfter[targetIdx]).toBe(expectedNewPosition);
     });
 
     test("should throw BAD_REQUEST when moving list id is targetId", async () => {
