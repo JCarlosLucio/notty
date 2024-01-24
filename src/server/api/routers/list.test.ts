@@ -300,6 +300,22 @@ describe("Lists", () => {
       );
     });
 
+    test("should throw UNAUTHORIZED when moving list without session", async () => {
+      const boards = await getBoardsInDB();
+      const board = boards[0];
+
+      if (!board) {
+        return expect().fail("Couldn't get board in test");
+      }
+      expect(async () => {
+        await unauthorizedCaller.list.move({
+          id: "whatever",
+          targetId: "whichever",
+          boardId: board.id,
+        });
+      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+    });
+
     test("should move first list to last place", async () => {
       const boards = await getBoardsInDB();
       const board = boards[0];
