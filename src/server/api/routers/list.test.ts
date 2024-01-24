@@ -299,5 +299,55 @@ describe("Lists", () => {
         }),
       );
     });
+
+    test("should move first list to last place", async () => {
+      const boards = await getBoardsInDB();
+      const board = boards[0];
+
+      if (!board) {
+        return expect().fail("Couldn't get board in test");
+      }
+
+      const lists = await getListsInDB(board.id);
+
+      const originIdx = 0;
+      const listToMove = lists[originIdx];
+
+      const targetIdx = lists.length - 1;
+      const targetList = lists[targetIdx];
+
+      if (!listToMove || !targetList) {
+        return expect().fail("Couldn't get list in test");
+      }
+
+      const movedList = await caller.list.move({
+        id: listToMove.id,
+        boardId: board.id,
+        targetId: targetList.id,
+      });
+
+      const expectedNewPosition = "z";
+
+      expect(movedList).toMatchObject({
+        ...listToMove,
+        updatedAt: movedList.updatedAt,
+        position: expectedNewPosition,
+      });
+
+      const listsAfter = await getListsInDB(board.id);
+      const sortedListsAfter = listsAfter.toSorted(
+        (a, b) => a.position.charCodeAt(0) - b.position.charCodeAt(0),
+      );
+
+      const expectedTargetNewIdx = targetIdx - 1;
+
+      const titlesAfter = sortedListsAfter.map((li) => li.title);
+      expect(titlesAfter[expectedTargetNewIdx]).toBe(targetList.title);
+      expect(titlesAfter[targetIdx]).toBe(listToMove.title);
+
+      const positionsAfter = sortedListsAfter.map((li) => li.position);
+      expect(positionsAfter[expectedTargetNewIdx]).toBe(targetList.position);
+      expect(positionsAfter[targetIdx]).toBe(expectedNewPosition);
+    });
   });
 });
