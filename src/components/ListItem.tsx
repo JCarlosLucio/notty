@@ -15,7 +15,7 @@ const ListItem = ({ list, ...props }: ListItemProps) => {
 
   const { mutate: deleteList, isLoading } = api.list.delete.useMutation({
     onSuccess: (deletedListId) => {
-      ctx.list.getAll.setData(undefined, (oldList) => {
+      ctx.list.getAll.setData({ boardId: list.boardId }, (oldList) => {
         return oldList && deletedListId
           ? oldList.filter((list) => list.id !== deletedListId)
           : oldList;
