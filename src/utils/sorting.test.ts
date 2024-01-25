@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 
-import { midString } from "@/utils/sorting";
+import { midString, seqString } from "@/utils/sorting";
 
 describe("sorting", () => {
   describe("midString", () => {
@@ -49,6 +49,59 @@ describe("sorting", () => {
       expect(midString("xxxabc", "yabc")).toBe("xz");
       expect(midString("dogabc", "qwertyabc")).toBe("k");
       expect(midString("prefix", "preffix")).toBe("prefh");
+    });
+  });
+
+  describe("seqString", () => {
+    test("should return an empty array when given 0 or less as the number of strings", () => {
+      expect(seqString(0)).toEqual([]);
+      expect(seqString(-20)).toEqual([]);
+    });
+
+    test("should generate lexicographically equally-spaced keys for a small number of strings", () => {
+      const result = seqString(5);
+      expect(result).toEqual(["e", "j", "n", "r", "w"]);
+    });
+
+    test("should handle cases where the number of strings is a power of 26", () => {
+      const result = seqString(26);
+      expect(result).toEqual([
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "nn",
+        "o",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z",
+      ]);
+    });
+
+    test("should generate lexicographically equally-spaced keys for a large number of strings", () => {
+      const result = seqString(1000);
+      // Check some random keys in the result
+      expect(result[0]).toBe("ab");
+      expect(result[99]).toBe("cpn");
+      expect(result[499]).toBe("mzn");
+      expect(result[999]).toBe("zz");
     });
   });
 });
