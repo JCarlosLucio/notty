@@ -416,7 +416,7 @@ describe("Lists", () => {
       expect(positionsAfter[targetIdx]).toBe(expectedNewPosition);
     });
 
-    test.only("should move last list to second place", async () => {
+    test("should move last list to second place", async () => {
       const boards = await getBoardsInDB();
       const board = boards[0];
 
