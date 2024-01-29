@@ -271,51 +271,6 @@ describe("Lists", () => {
       expect(positionsAfter[targetIdx]).toBe(expectedNewPosition);
     });
 
-    test("should throw BAD_REQUEST when moving list id is targetId", async () => {
-      const boards = await getBoardsInDB();
-      const board = boards[0];
-
-      if (!board) {
-        return expect().fail("Couldn't get board in test");
-      }
-
-      const lists = await getListsInDB(board.id);
-      const listToMove = lists[0];
-
-      if (!listToMove) {
-        return expect().fail("Couldn't get list in test");
-      }
-
-      expect(async () => {
-        await caller.list.move({
-          id: listToMove.id,
-          boardId: board.id,
-          targetId: listToMove.id,
-        });
-      }).toThrow(
-        new TRPCError({
-          code: "BAD_REQUEST",
-          message: "id cannot be targetId",
-        }),
-      );
-    });
-
-    test("should throw UNAUTHORIZED when moving list without session", async () => {
-      const boards = await getBoardsInDB();
-      const board = boards[0];
-
-      if (!board) {
-        return expect().fail("Couldn't get board in test");
-      }
-      expect(async () => {
-        await unauthorizedCaller.list.move({
-          id: "whatever",
-          targetId: "whichever",
-          boardId: board.id,
-        });
-      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
-    });
-
     test("should move first list to last place", async () => {
       const boards = await getBoardsInDB();
       const board = boards[0];
@@ -416,7 +371,7 @@ describe("Lists", () => {
       expect(positionsAfter[targetIdx]).toBe(expectedNewPosition);
     });
 
-    test.only("should move last list to second place", async () => {
+    test("should move last list to second place", async () => {
       const boards = await getBoardsInDB();
       const board = boards[0];
 
@@ -464,6 +419,51 @@ describe("Lists", () => {
       const positionsAfter = sortedListsAfter.map((li) => li.position);
       expect(positionsAfter[expectedTargetNewIdx]).toBe(targetList.position);
       expect(positionsAfter[targetIdx]).toBe(expectedNewPosition);
+    });
+
+    test("should throw BAD_REQUEST when moving list id is targetId", async () => {
+      const boards = await getBoardsInDB();
+      const board = boards[0];
+
+      if (!board) {
+        return expect().fail("Couldn't get board in test");
+      }
+
+      const lists = await getListsInDB(board.id);
+      const listToMove = lists[0];
+
+      if (!listToMove) {
+        return expect().fail("Couldn't get list in test");
+      }
+
+      expect(async () => {
+        await caller.list.move({
+          id: listToMove.id,
+          boardId: board.id,
+          targetId: listToMove.id,
+        });
+      }).toThrow(
+        new TRPCError({
+          code: "BAD_REQUEST",
+          message: "id cannot be targetId",
+        }),
+      );
+    });
+
+    test("should throw UNAUTHORIZED when moving list without session", async () => {
+      const boards = await getBoardsInDB();
+      const board = boards[0];
+
+      if (!board) {
+        return expect().fail("Couldn't get board in test");
+      }
+      expect(async () => {
+        await unauthorizedCaller.list.move({
+          id: "whatever",
+          targetId: "whichever",
+          boardId: board.id,
+        });
+      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
     });
   });
 });

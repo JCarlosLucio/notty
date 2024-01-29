@@ -49,6 +49,10 @@ export function midString(prev: string, next: string) {
  * @returns The list of strings.
  */
 export function seqString(num: number) {
+  if (num < 1) {
+    return [];
+  }
+
   const chars = Math.floor(Math.log(num) / Math.log(26)) + 1;
   const prev = Math.pow(26, chars - 1);
   const ratio = chars > 1 ? (num + 1 - prev) / prev : num;
