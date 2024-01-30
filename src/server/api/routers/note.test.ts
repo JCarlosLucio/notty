@@ -41,5 +41,11 @@ describe("Notes", () => {
 
       expect(note).toMatchObject(noteToGet);
     });
+
+    test("should throw UNAUTHORIZED when getting note by id without session", () => {
+      expect(async () => {
+        await unauthorizedCaller.note.getById({ id: "whatever" });
+      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+    });
   });
 });
