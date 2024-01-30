@@ -140,3 +140,9 @@ export const getListInDB = async () => {
 
   return list;
 };
+
+export const getNotesInDB = async () => {
+  const list = await getListInDB();
+
+  return await db.note.findMany({ where: { listId: list.id } });
+};
