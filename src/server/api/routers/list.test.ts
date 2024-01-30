@@ -4,7 +4,8 @@ import { beforeEach, describe, expect, test } from "bun:test";
 import { type AppRouter } from "@/server/api/root";
 import {
   caller,
-  getBoardsInDB,
+  getBoardInDB,
+  getListInDB,
   getListsInDB,
   initialLists,
   resetDB,
@@ -29,12 +30,7 @@ describe("Lists", () => {
 
   describe("getting lists", () => {
     test("should get lists", async () => {
-      const boards = await getBoardsInDB();
-      const board = boards[0];
-
-      if (!board) {
-        return expect().fail("Couldn't get board in test");
-      }
+      const board = await getBoardInDB();
 
       const lists = await caller.list.getAll({ boardId: board.id });
 
@@ -42,12 +38,7 @@ describe("Lists", () => {
     });
 
     test("should throw UNAUTHORIZED when getting lists without session", async () => {
-      const boards = await getBoardsInDB();
-      const board = boards[0];
-
-      if (!board) {
-        return expect().fail("Couldn't get board in test");
-      }
+      const board = await getBoardInDB();
 
       expect(async () => {
         await unauthorizedCaller.list.getAll({ boardId: board.id });
@@ -57,19 +48,7 @@ describe("Lists", () => {
 
   describe("getting lists by id", () => {
     test("should get list by id", async () => {
-      const boards = await getBoardsInDB();
-      const board = boards[0];
-
-      if (!board) {
-        return expect().fail("Couldn't get board in test");
-      }
-
-      const lists = await getListsInDB(board.id);
-      const listToGet = lists[0];
-
-      if (!listToGet) {
-        return expect().fail("Couldn't get list in test");
-      }
+      const listToGet = await getListInDB();
 
       const list = await caller.list.getById({ id: listToGet.id });
 
@@ -85,19 +64,16 @@ describe("Lists", () => {
 
   describe("creating lists", () => {
     test("should create a list", async () => {
-      const boards = await getBoardsInDB();
-      const board = boards[0];
+      const board = await getBoardInDB();
 
-      if (!board) {
-        return expect().fail("Couldn't get board in test");
-      }
       const testListInput: ListCreateInput = {
         boardId: board.id,
         ...partialCreateInput,
       };
 
       const newList = await caller.list.create(testListInput);
-      const listsAfter = await getListsInDB(board.id);
+
+      const listsAfter = await getListsInDB();
       const titles = listsAfter.map((b) => b.title);
 
       expect(newList).toMatchObject({
@@ -110,12 +86,8 @@ describe("Lists", () => {
     });
 
     test("should throw UNAUTHORIZED when creating list without session", async () => {
-      const boards = await getBoardsInDB();
-      const board = boards[0];
+      const board = await getBoardInDB();
 
-      if (!board) {
-        return expect().fail("Couldn't get board in test");
-      }
       const testListInput: ListCreateInput = {
         boardId: board.id,
         ...partialCreateInput,
@@ -127,41 +99,24 @@ describe("Lists", () => {
     });
 
     test("should throw 'Title is required' when title is empty string", async () => {
-      const boards = await getBoardsInDB();
-      const board = boards[0];
-
-      if (!board) {
-        return expect().fail("Couldn't get board in test");
-      }
+      const board = await getBoardInDB();
 
       expect(async () => {
         await caller.list.create({ title: "", boardId: board.id });
       }).toThrow("Title is required");
 
-      const listsAfter = await getListsInDB(board.id);
+      const listsAfter = await getListsInDB();
       expect(listsAfter).toHaveLength(initialLists.length);
     });
   });
 
   describe("deleting lists", () => {
     test("should delete a list", async () => {
-      const boards = await getBoardsInDB();
-      const board = boards[0];
-
-      if (!board) {
-        return expect().fail("Couldn't get board in test");
-      }
-
-      const lists = await getListsInDB(board.id);
-      const listToDelete = lists[0];
-
-      if (!listToDelete) {
-        return expect().fail("Couldn't get list in test");
-      }
+      const listToDelete = await getListInDB();
 
       await caller.list.delete({ id: listToDelete.id });
 
-      const listsAfter = await getListsInDB(board.id);
+      const listsAfter = await getListsInDB();
       expect(listsAfter).toHaveLength(initialLists.length - 1);
 
       const titles = listsAfter.map((li) => li.title);
@@ -177,19 +132,7 @@ describe("Lists", () => {
 
   describe("updating lists", () => {
     test("should update a list", async () => {
-      const boards = await getBoardsInDB();
-      const board = boards[0];
-
-      if (!board) {
-        return expect().fail("Couldn't get board in test");
-      }
-
-      const lists = await getListsInDB(board.id);
-      const listToUpdate = lists[0];
-
-      if (!listToUpdate) {
-        return expect().fail("Couldn't get list in test");
-      }
+      const listToUpdate = await getListInDB();
 
       const testUpdateInput: ListUpdateInput = {
         id: listToUpdate.id,
@@ -200,7 +143,7 @@ describe("Lists", () => {
 
       expect(updatedList).toMatchObject(testUpdateInput);
 
-      const listsAfter = await getListsInDB(board.id);
+      const listsAfter = await getListsInDB();
 
       const titles = listsAfter.map((li) => li.title);
       expect(titles).not.toContain(listToUpdate.title);
@@ -222,14 +165,8 @@ describe("Lists", () => {
 
   describe("moving lists", () => {
     test("should move a list", async () => {
-      const boards = await getBoardsInDB();
-      const board = boards[0];
-
-      if (!board) {
-        return expect().fail("Couldn't get board in test");
-      }
-
-      const lists = await getListsInDB(board.id);
+      const board = await getBoardInDB();
+      const lists = await getListsInDB();
 
       const originIdx = 0;
       const listToMove = lists[originIdx];
@@ -255,7 +192,7 @@ describe("Lists", () => {
         position: expectedNewPosition,
       });
 
-      const listsAfter = await getListsInDB(board.id);
+      const listsAfter = await getListsInDB();
       const sortedListsAfter = listsAfter.toSorted(
         (a, b) => a.position.charCodeAt(0) - b.position.charCodeAt(0),
       );
@@ -272,14 +209,8 @@ describe("Lists", () => {
     });
 
     test("should move first list to last place", async () => {
-      const boards = await getBoardsInDB();
-      const board = boards[0];
-
-      if (!board) {
-        return expect().fail("Couldn't get board in test");
-      }
-
-      const lists = await getListsInDB(board.id);
+      const board = await getBoardInDB();
+      const lists = await getListsInDB();
 
       const originIdx = 0;
       const listToMove = lists[originIdx];
@@ -305,7 +236,7 @@ describe("Lists", () => {
         position: expectedNewPosition,
       });
 
-      const listsAfter = await getListsInDB(board.id);
+      const listsAfter = await getListsInDB();
       const sortedListsAfter = listsAfter.toSorted(
         (a, b) => a.position.charCodeAt(0) - b.position.charCodeAt(0),
       );
@@ -322,14 +253,8 @@ describe("Lists", () => {
     });
 
     test("should move second list to first place", async () => {
-      const boards = await getBoardsInDB();
-      const board = boards[0];
-
-      if (!board) {
-        return expect().fail("Couldn't get board in test");
-      }
-
-      const lists = await getListsInDB(board.id);
+      const board = await getBoardInDB();
+      const lists = await getListsInDB();
 
       const originIdx = 1;
       const listToMove = lists[originIdx];
@@ -355,7 +280,7 @@ describe("Lists", () => {
         position: expectedNewPosition,
       });
 
-      const listsAfter = await getListsInDB(board.id);
+      const listsAfter = await getListsInDB();
       const sortedListsAfter = listsAfter.toSorted(
         (a, b) => a.position.charCodeAt(0) - b.position.charCodeAt(0),
       );
@@ -372,14 +297,8 @@ describe("Lists", () => {
     });
 
     test("should move last list to second place", async () => {
-      const boards = await getBoardsInDB();
-      const board = boards[0];
-
-      if (!board) {
-        return expect().fail("Couldn't get board in test");
-      }
-
-      const lists = await getListsInDB(board.id);
+      const board = await getBoardInDB();
+      const lists = await getListsInDB();
 
       const originIdx = lists.length - 1;
       const listToMove = lists[originIdx];
@@ -405,7 +324,7 @@ describe("Lists", () => {
         position: expectedNewPosition,
       });
 
-      const listsAfter = await getListsInDB(board.id);
+      const listsAfter = await getListsInDB();
       const sortedListsAfter = listsAfter.toSorted(
         (a, b) => a.position.charCodeAt(0) - b.position.charCodeAt(0),
       );
@@ -422,15 +341,8 @@ describe("Lists", () => {
     });
 
     test("should throw BAD_REQUEST when moving list id is targetId", async () => {
-      const boards = await getBoardsInDB();
-      const board = boards[0];
-
-      if (!board) {
-        return expect().fail("Couldn't get board in test");
-      }
-
-      const lists = await getListsInDB(board.id);
-      const listToMove = lists[0];
+      const board = await getBoardInDB();
+      const listToMove = await getListInDB();
 
       if (!listToMove) {
         return expect().fail("Couldn't get list in test");
@@ -451,12 +363,8 @@ describe("Lists", () => {
     });
 
     test("should throw UNAUTHORIZED when moving list without session", async () => {
-      const boards = await getBoardsInDB();
-      const board = boards[0];
+      const board = await getBoardInDB();
 
-      if (!board) {
-        return expect().fail("Couldn't get board in test");
-      }
       expect(async () => {
         await unauthorizedCaller.list.move({
           id: "whatever",
