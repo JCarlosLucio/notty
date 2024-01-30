@@ -10,7 +10,7 @@ export const testUser = {
 };
 
 // positions n,u,x,z
-export const intialNotes = [
+export const initialNotes = [
   {
     content: "1st NOTE seed",
     position: "n",
@@ -33,7 +33,7 @@ export const initialLists = [
     title: "1st LIST seed",
     position: "n",
     notes: {
-      create: intialNotes,
+      create: initialNotes,
     },
   },
   {
