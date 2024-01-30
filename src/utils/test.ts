@@ -129,3 +129,14 @@ export const getListsInDB = async () => {
 
   return await db.list.findMany({ where: { boardId: board.id } });
 };
+
+export const getListInDB = async () => {
+  const lists = await getListsInDB();
+  const list = lists[0];
+
+  if (!list) {
+    throw new Error("Couldn't get list in test");
+  }
+
+  return list;
+};
