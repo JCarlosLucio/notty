@@ -124,6 +124,8 @@ export const getBoardInDB = async () => {
   return board;
 };
 
-export const getListsInDB = async (boardId: string) => {
-  return await db.list.findMany({ where: { boardId } });
+export const getListsInDB = async () => {
+  const board = await getBoardInDB();
+
+  return await db.list.findMany({ where: { boardId: board.id } });
 };
