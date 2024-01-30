@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, test } from "bun:test";
 import { type AppRouter } from "@/server/api/root";
 import {
   caller,
+  getBoardInDB,
   getBoardsInDB,
   initialBoards,
   notOwnerCaller,
@@ -41,12 +42,7 @@ describe("Boards", () => {
 
   describe("getting boards by id", () => {
     test("should get board by id", async () => {
-      const boards = await getBoardsInDB();
-      const boardToGet = boards[0];
-
-      if (!boardToGet) {
-        return expect().fail("Couldn't get board in test");
-      }
+      const boardToGet = await getBoardInDB();
 
       const board = await caller.board.getById({ id: boardToGet.id });
 
@@ -66,12 +62,7 @@ describe("Boards", () => {
     });
 
     test("should throw FORBIDDEN when user is not owner", async () => {
-      const boards = await getBoardsInDB();
-      const boardToGet = boards[0];
-
-      if (!boardToGet) {
-        return expect().fail("Couldn't get board in test");
-      }
+      const boardToGet = await getBoardInDB();
 
       expect(async () => {
         await notOwnerCaller.board.getById({ id: boardToGet.id });
@@ -111,17 +102,12 @@ describe("Boards", () => {
 
   describe("deleting boards", () => {
     test("should delete a board", async () => {
-      const boards = await getBoardsInDB();
-      const boardToDelete = boards[0];
-
-      if (!boardToDelete) {
-        return expect().fail("Couldn't get board in test");
-      }
+      const boardToDelete = await getBoardInDB();
 
       await caller.board.delete({ id: boardToDelete.id });
 
       const boardsAfter = await getBoardsInDB();
-      expect(boardsAfter).toHaveLength(boards.length - 1);
+      expect(boardsAfter).toHaveLength(initialBoards.length - 1);
 
       const titles = boardsAfter.map((b) => b.title);
       expect(titles).not.toContain(boardToDelete?.title);
@@ -134,19 +120,14 @@ describe("Boards", () => {
     });
 
     test("should throw FORBIDDEN when user is not owner", async () => {
-      const boards = await getBoardsInDB();
-      const boardToDelete = boards[0];
-
-      if (!boardToDelete) {
-        return expect().fail("Couldn't get board in test");
-      }
+      const boardToDelete = await getBoardInDB();
 
       expect(async () => {
         await notOwnerCaller.board.delete({ id: boardToDelete.id });
       }).toThrow(new TRPCError({ code: "FORBIDDEN" }));
 
       const boardsAfter = await getBoardsInDB();
-      expect(boardsAfter).toHaveLength(boards.length);
+      expect(boardsAfter).toHaveLength(initialBoards.length);
 
       const titles = boardsAfter.map((b) => b.title);
       expect(titles).toContain(boardToDelete.title);
@@ -155,12 +136,7 @@ describe("Boards", () => {
 
   describe("updating boards", () => {
     test("should update a board", async () => {
-      const boards = await getBoardsInDB();
-      const boardToUpdate = boards[0];
-
-      if (!boardToUpdate) {
-        return expect().fail("Couldn't get board in test");
-      }
+      const boardToUpdate = await getBoardInDB();
 
       const testUpdateInput: BoardUpdateInput = {
         id: boardToUpdate.id,
@@ -178,12 +154,7 @@ describe("Boards", () => {
     });
 
     test("should throw FORBIDDEN when user is not owner", async () => {
-      const boards = await getBoardsInDB();
-      const boardToUpdate = boards[0];
-
-      if (!boardToUpdate) {
-        return expect().fail("Couldn't get board in test");
-      }
+      const boardToUpdate = await getBoardInDB();
 
       const testUpdateInput = {
         id: boardToUpdate.id,
