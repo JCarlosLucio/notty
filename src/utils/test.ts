@@ -146,3 +146,14 @@ export const getNotesInDB = async () => {
 
   return await db.note.findMany({ where: { listId: list.id } });
 };
+
+export const getNoteInDB = async () => {
+  const notes = await getNotesInDB();
+  const note = notes[0];
+
+  if (!note) {
+    throw new Error("Coulnt't get note in test");
+  }
+
+  return note;
+};
