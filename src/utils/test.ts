@@ -108,6 +108,8 @@ export const resetDB = async () => {
 };
 
 export const getBoardsInDB = async () => {
+  if (env.NODE_ENV !== "test") throw Error("Can only get while testing");
+
   return await db.board.findMany();
 };
 
