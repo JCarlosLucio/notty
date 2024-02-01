@@ -91,5 +91,16 @@ describe("Notes", () => {
         await unauthorizedCaller.note.create(testNoteInput);
       }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
     });
+
+    test("should throw 'Content is required' when content is empty string", async () => {
+      const list = await getListInDB();
+
+      expect(async () => {
+        await caller.note.create({ content: "", listId: list.id });
+      }).toThrow("Content is required");
+
+      const notesAfter = await getNotesInDB();
+      expect(notesAfter).toHaveLength(initialNotes.length);
+    });
   });
 });
