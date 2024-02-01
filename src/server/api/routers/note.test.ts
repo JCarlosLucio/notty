@@ -138,4 +138,49 @@ describe("Notes", () => {
       }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
     });
   });
+
+  describe("moving notes", () => {
+    test("should move a note", async () => {
+      const notes = await getNotesInDB();
+
+      const originIdx = 0;
+      const noteToMove = notes[originIdx];
+
+      const targetIdx = 1;
+      const targetNote = notes[targetIdx];
+
+      if (!noteToMove || !targetNote) {
+        return expect().fail("Couldn't get note in test");
+      }
+
+      const movedNote = await caller.note.move({
+        id: noteToMove.id,
+        listId: noteToMove.listId,
+        targetId: targetNote.id,
+      });
+
+      const expectedNewPosition = "w";
+
+      expect(movedNote).toMatchObject({
+        ...noteToMove,
+        updatedAt: movedNote.updatedAt,
+        position: expectedNewPosition,
+      });
+
+      const notesAfter = await getNotesInDB();
+      const sortedNotesAfter = notesAfter.toSorted((a, b) =>
+        a.position.localeCompare(b.position),
+      );
+
+      const expectedTargetNewIdx = targetIdx - 1;
+
+      const contentsAfter = sortedNotesAfter.map((n) => n.content);
+      expect(contentsAfter[expectedTargetNewIdx]).toBe(targetNote.content);
+      expect(contentsAfter[targetIdx]).toBe(noteToMove.content);
+
+      const positionsAfter = sortedNotesAfter.map((n) => n.position);
+      expect(positionsAfter[expectedTargetNewIdx]).toBe(targetNote.position);
+      expect(positionsAfter[targetIdx]).toBe(expectedNewPosition);
+    });
+  });
 });
