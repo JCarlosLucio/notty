@@ -193,8 +193,8 @@ describe("Lists", () => {
       });
 
       const listsAfter = await getListsInDB();
-      const sortedListsAfter = listsAfter.toSorted(
-        (a, b) => a.position.charCodeAt(0) - b.position.charCodeAt(0),
+      const sortedListsAfter = listsAfter.toSorted((a, b) =>
+        a.position.localeCompare(b.position),
       );
 
       const expectedTargetNewIdx = targetIdx - 1;
@@ -237,8 +237,8 @@ describe("Lists", () => {
       });
 
       const listsAfter = await getListsInDB();
-      const sortedListsAfter = listsAfter.toSorted(
-        (a, b) => a.position.charCodeAt(0) - b.position.charCodeAt(0),
+      const sortedListsAfter = listsAfter.toSorted((a, b) =>
+        a.position.localeCompare(b.position),
       );
 
       const expectedTargetNewIdx = targetIdx - 1;
@@ -281,8 +281,8 @@ describe("Lists", () => {
       });
 
       const listsAfter = await getListsInDB();
-      const sortedListsAfter = listsAfter.toSorted(
-        (a, b) => a.position.charCodeAt(0) - b.position.charCodeAt(0),
+      const sortedListsAfter = listsAfter.toSorted((a, b) =>
+        a.position.localeCompare(b.position),
       );
 
       const expectedTargetNewIdx = targetIdx + 1;
@@ -325,8 +325,8 @@ describe("Lists", () => {
       });
 
       const listsAfter = await getListsInDB();
-      const sortedListsAfter = listsAfter.toSorted(
-        (a, b) => a.position.charCodeAt(0) - b.position.charCodeAt(0),
+      const sortedListsAfter = listsAfter.toSorted((a, b) =>
+        a.position.localeCompare(b.position),
       );
 
       const expectedTargetNewIdx = targetIdx + 1;
