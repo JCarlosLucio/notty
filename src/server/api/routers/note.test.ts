@@ -128,5 +128,14 @@ describe("Notes", () => {
       expect(contents).not.toContain(noteToUpdate.content);
       expect(contents).toContain(testUpdateInput.content);
     });
+
+    test("should throw UNAUTHORIZED when updating note without session", () => {
+      expect(async () => {
+        await unauthorizedCaller.note.update({
+          id: "whatever",
+          ...partialUpdateInput,
+        });
+      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+    });
   });
 });
