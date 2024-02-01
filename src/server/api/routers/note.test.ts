@@ -1,14 +1,22 @@
-import { TRPCError } from "@trpc/server";
+import { type inferProcedureInput, TRPCError } from "@trpc/server";
 import { beforeEach, describe, expect, test } from "bun:test";
 
+import { type AppRouter } from "@/server/api/root";
 import {
   caller,
   getListInDB,
   getNoteInDB,
+  getNotesInDB,
   initialNotes,
   resetDB,
   unauthorizedCaller,
 } from "@/utils/test";
+
+type NoteCreateInput = inferProcedureInput<AppRouter["note"]["create"]>;
+
+const partialCreateInput: Omit<NoteCreateInput, "listId"> = {
+  content: "Created content",
+};
 
 describe("Notes", () => {
   beforeEach(async () => {
@@ -46,6 +54,30 @@ describe("Notes", () => {
       expect(async () => {
         await unauthorizedCaller.note.getById({ id: "whatever" });
       }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+    });
+  });
+
+  describe("creating notes", () => {
+    test("should create a note", async () => {
+      const list = await getListInDB();
+
+      const testNoteInput: NoteCreateInput = {
+        listId: list.id,
+        ...partialCreateInput,
+      };
+
+      const newNote = await caller.note.create(testNoteInput);
+
+      expect(newNote).toMatchObject({
+        position: "zn",
+        ...testNoteInput,
+      });
+
+      const notesAfter = await getNotesInDB();
+      expect(notesAfter).toHaveLength(initialNotes.length + 1);
+
+      const contents = notesAfter.map((b) => b.content);
+      expect(contents).toContain(testNoteInput.content);
     });
   });
 });
