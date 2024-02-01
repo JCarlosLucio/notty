@@ -79,5 +79,17 @@ describe("Notes", () => {
       const contents = notesAfter.map((b) => b.content);
       expect(contents).toContain(testNoteInput.content);
     });
+
+    test("should throw UNAUTHORIZED when creating note without session", async () => {
+      const list = await getListInDB();
+
+      const testNoteInput: NoteCreateInput = {
+        listId: list.id,
+        ...partialCreateInput,
+      };
+      expect(async () => {
+        await unauthorizedCaller.note.create(testNoteInput);
+      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+    });
   });
 });
