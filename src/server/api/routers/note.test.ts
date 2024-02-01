@@ -13,9 +13,14 @@ import {
 } from "@/utils/test";
 
 type NoteCreateInput = inferProcedureInput<AppRouter["note"]["create"]>;
+type NoteUpdateInput = inferProcedureInput<AppRouter["note"]["update"]>;
 
 const partialCreateInput: Omit<NoteCreateInput, "listId"> = {
   content: "Created content",
+};
+
+const partialUpdateInput: Omit<NoteUpdateInput, "id"> = {
+  content: "Updated content",
 };
 
 describe("Notes", () => {
@@ -101,6 +106,27 @@ describe("Notes", () => {
 
       const notesAfter = await getNotesInDB();
       expect(notesAfter).toHaveLength(initialNotes.length);
+    });
+  });
+
+  describe("updating notes", () => {
+    test("should update a note", async () => {
+      const noteToUpdate = await getNoteInDB();
+
+      const testUpdateInput: NoteUpdateInput = {
+        id: noteToUpdate.id,
+        ...partialUpdateInput,
+      };
+
+      const updatedNote = await caller.note.update(testUpdateInput);
+
+      expect(updatedNote).toMatchObject(testUpdateInput);
+
+      const notesAfter = await getNotesInDB();
+
+      const contents = notesAfter.map((n) => n.content);
+      expect(contents).not.toContain(noteToUpdate.content);
+      expect(contents).toContain(testUpdateInput.content);
     });
   });
 });
