@@ -338,6 +338,10 @@ describe("Notes", () => {
         updatedAt: movedNote.updatedAt,
         position: expectedNewPosition,
       });
+
+      const originalNotesAfter = await getNotesInDB();
+      const contentsAfter = originalNotesAfter.map((n) => n.content);
+      expect(contentsAfter).not.toContain(noteToMove.content);
     });
 
     test("should throw UNAUTHORIZED when moving note without session", async () => {
