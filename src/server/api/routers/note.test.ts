@@ -311,5 +311,17 @@ describe("Notes", () => {
       expect(positionsAfter[expectedTargetNewIdx]).toBe(targetNote.position);
       expect(positionsAfter[targetIdx]).toBe(expectedNewPosition);
     });
+
+    test("should throw UNAUTHORIZED when moving note without session", async () => {
+      const note = await getNoteInDB();
+
+      expect(async () => {
+        await unauthorizedCaller.note.move({
+          id: "whatever",
+          targetId: "whichever",
+          listId: note.listId,
+        });
+      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+    });
   });
 });
