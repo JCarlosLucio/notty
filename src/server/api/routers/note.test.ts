@@ -5,6 +5,7 @@ import { type AppRouter } from "@/server/api/root";
 import {
   caller,
   getListInDB,
+  getListsInDB,
   getNoteInDB,
   getNotesInDB,
   initialNotes,
@@ -310,6 +311,33 @@ describe("Notes", () => {
       const positionsAfter = sortedNotesAfter.map((n) => n.position);
       expect(positionsAfter[expectedTargetNewIdx]).toBe(targetNote.position);
       expect(positionsAfter[targetIdx]).toBe(expectedNewPosition);
+    });
+
+    test("should move note to a different list", async () => {
+      const lists = await getListsInDB();
+      const noteToMove = await getNoteInDB();
+
+      const targetIdx = 1;
+      const targetList = lists[targetIdx];
+
+      if (!noteToMove || !targetList) {
+        return expect().fail("Couldn't get list / note in test");
+      }
+
+      const movedNote = await caller.note.move({
+        id: noteToMove.id,
+        listId: targetList.id,
+        targetId: noteToMove.id,
+      });
+
+      const expectedNewPosition = "n";
+
+      expect(movedNote).toMatchObject({
+        ...noteToMove,
+        listId: targetList.id,
+        updatedAt: movedNote.updatedAt,
+        position: expectedNewPosition,
+      });
     });
 
     test("should throw UNAUTHORIZED when moving note without session", async () => {
