@@ -344,6 +344,86 @@ describe("Notes", () => {
       expect(contentsAfter).not.toContain(noteToMove.content);
     });
 
+    test("should move note to a different list and sort within that list", async () => {
+      const lists = await getListsInDB();
+      const noteToMove = await getNoteInDB();
+
+      const targetIdx = 1;
+      const targetList = lists[targetIdx];
+
+      if (!noteToMove || !targetList) {
+        return expect().fail("Couldn't get list / note in test");
+      }
+
+      const movedNote = await caller.note.move({
+        id: noteToMove.id,
+        listId: targetList.id,
+        targetId: noteToMove.id,
+      });
+
+      const expectedNewPosition = "n";
+
+      expect(movedNote).toMatchObject({
+        ...noteToMove,
+        listId: targetList.id,
+        updatedAt: movedNote.updatedAt,
+        position: expectedNewPosition,
+      });
+
+      const originalNotesAfter = await getNotesInDB();
+      const contentsAfter = originalNotesAfter.map((n) => n.content);
+      expect(contentsAfter).not.toContain(noteToMove.content);
+
+      // move note back to original list
+      const notes = await getNotesInDB();
+      const targetReturnIdx = 1;
+      const targetReturnNote = notes[targetReturnIdx];
+
+      if (!targetReturnNote) {
+        return expect().fail("Couldn't get list / note in test");
+      }
+
+      const returnedNote = await caller.note.move({
+        id: noteToMove.id,
+        listId: noteToMove.listId,
+        targetId: targetReturnNote.id,
+      });
+
+      const expectedReturnPosition = "y";
+
+      expect(returnedNote).toMatchObject({
+        ...noteToMove,
+        listId: noteToMove.listId,
+        updatedAt: returnedNote.updatedAt,
+        position: expectedReturnPosition,
+      });
+
+      const originalNotesAfterReturn = await getNotesInDB();
+      const sortedNotesAfterReturn = originalNotesAfterReturn.toSorted((a, b) =>
+        a.position.localeCompare(b.position),
+      );
+
+      const expectedTargetNewIdx = targetReturnIdx + 1;
+
+      const contentsAfterReturn = sortedNotesAfterReturn.map((n) => n.content);
+      expect(contentsAfterReturn[expectedTargetNewIdx]).toBe(
+        noteToMove.content,
+      );
+      expect(contentsAfterReturn[targetReturnIdx]).toBe(
+        targetReturnNote.content,
+      );
+
+      const positionsAfterReturn = sortedNotesAfterReturn.map(
+        (n) => n.position,
+      );
+      expect(positionsAfterReturn[expectedTargetNewIdx]).toBe(
+        expectedReturnPosition,
+      );
+      expect(positionsAfterReturn[targetReturnIdx]).toBe(
+        targetReturnNote.position,
+      );
+    });
+
     test("should throw UNAUTHORIZED when moving note without session", async () => {
       const note = await getNoteInDB();
 
