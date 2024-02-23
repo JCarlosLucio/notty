@@ -127,6 +127,36 @@ If you wish to change the name file for the test database, you need to change th
 - The `.env.test.local` file.
 - The `pretest` script in the `package.json` file.
 
+## e2e Tests 🧪
+
+End-to-end testing is done using [Playwright](https://playwright.dev/).
+
+### Installing Playwright browsers
+
+To install browsers run:
+
+```sh
+bunx playwright install
+```
+
+### Running e2e tests
+
+To run only the e2e tests, use:
+
+```sh
+bunx playwright test
+```
+
+or, use:
+
+```sh
+bun test:e2e
+```
+
+### Adding e2e tests
+
+Add files to `e2e` folder with `*.spec.{ts}` pattern.
+
 ## More on testing
 
 - [Integration testing with Prisma](https://www.prisma.io/docs/orm/prisma-client/testing/integration-testing)
@@ -134,3 +164,4 @@ If you wish to change the name file for the test database, you need to change th
 - [bun test - Test runner](https://bun.sh/docs/cli/test)
 - [Running tests with bun](https://bun.sh/docs/cli/test#run-tests)
 - [Writing tests with bun](https://bun.sh/docs/test/writing)
+- [Playwright Browsers](https://playwright.dev/docs/browsers)
