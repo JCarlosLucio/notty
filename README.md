@@ -64,7 +64,7 @@ Run migrations:
 npx prisma migrate dev
 ```
 
-## NextAuth with the default DiscordProvider
+## NextAuth with the default DiscordProvider 🔒
 
 [Setting up the default DiscordProvider](https://create.t3.gg/en/usage/next-auth#setting-up-the-default-discordprovider)
 
@@ -83,16 +83,16 @@ npx prisma migrate dev
 [More on NextAuth with T3](https://create.t3.gg/en/usage/next-auth)...  
 [More on Discord OAuth2](https://discord.com/developers/docs/topics/oauth2)...
 
-## Testing
+## Testing 🧪
 
 Testing uses the [bun test runner](https://bun.sh/docs/cli/test). Bun aims for compatibility with [Jest](https://jestjs.io/), but not everything is implemented. To track compatibility, see [this tracking issue](https://github.com/oven-sh/bun/issues/1825)
 
-### Setup testing.
+### Setup testing
 
 1.  Create `.env.test.local` file. Following `.env.example` template.
 2.  Set `DATABASE_URL` to `"file:./test.sqlite"`.
 
-### Running tests.
+### Running tests
 
 1.  For the first time, use:
 
