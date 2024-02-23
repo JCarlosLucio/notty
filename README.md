@@ -85,19 +85,21 @@ npx prisma migrate dev
 
 ## Testing 🧪
 
-Testing uses the [bun test runner](https://bun.sh/docs/cli/test). Bun aims for compatibility with [Jest](https://jestjs.io/), but not everything is implemented. To track compatibility, see [this tracking issue](https://github.com/oven-sh/bun/issues/1825)
+### Unit/Integration tests 🧪
 
-### Setup testing
+Unit/Integration testing uses the [bun test runner](https://bun.sh/docs/cli/test). Bun aims for compatibility with [Jest](https://jestjs.io/), but not everything is implemented. To track compatibility, see [this tracking issue](https://github.com/oven-sh/bun/issues/1825).
+
+#### Setup testing
 
 1.  Create `.env.test.local` file. Following `.env.example` template.
 2.  Set `DATABASE_URL` to `"file:./test.sqlite"`.
 
-### Running tests
+#### Running Unit/Integration tests
 
 1.  For the first time, use:
 
     ```sh
-    bun run test
+    bun run test src
     ```
 
     This will run the `pretest` script first and then `test` script.
@@ -105,33 +107,40 @@ Testing uses the [bun test runner](https://bun.sh/docs/cli/test). Bun aims for c
 
     ```sh
     bun pretest
-    bun test
+    bun test src
     ```
 
     The `pretest` script syncs the database with the Prisma schema.
     Uses the `DATABASE_URL` explicitly since prisma cli would only read `.env` file. (https://github.com/prisma/prisma/issues/3865)
 
 2.  Subsequently, tests can be run simply using:
+
     ```sh
-    bun test
+    bun test src
     ```
 
-### Adding tests
+    or use:
+
+    ```sh
+    bun test:unit
+    ```
+
+#### Adding Unit/Integration tests
 
 Add files for testing with `*.test.{ts|tsx}` pattern.
 
-### Updating DATABASE_URL
+#### Updating DATABASE_URL
 
 If you wish to change the name file for the test database, you need to change the `DATABASE_URL` value in:
 
 - The `.env.test.local` file.
 - The `pretest` script in the `package.json` file.
 
-## e2e Tests 🧪
+### E2E Tests 🧪
 
 End-to-end testing is done using [Playwright](https://playwright.dev/).
 
-### Installing Playwright browsers
+#### Installing Playwright browsers
 
 To install browsers run:
 
@@ -139,7 +148,7 @@ To install browsers run:
 bunx playwright install
 ```
 
-### Running e2e tests
+#### Running e2e tests
 
 To run only the e2e tests, use:
 
@@ -153,11 +162,19 @@ or, use:
 bun test:e2e
 ```
 
-### Adding e2e tests
+#### Adding e2e tests
 
 Add files to `e2e` folder with `*.spec.{ts}` pattern.
 
-## More on testing
+### Run all tests
+
+To run all tests use:
+
+```sh
+bun run test
+```
+
+### More on testing
 
 - [Integration testing with Prisma](https://www.prisma.io/docs/orm/prisma-client/testing/integration-testing)
 - [Sample Integration Test with T3](https://create.t3.gg/en/usage/trpc#sample-integration-test)
