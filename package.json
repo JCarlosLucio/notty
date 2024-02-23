@@ -12,7 +12,8 @@
     "format": "prettier --list-different --write \"./src/**/*.{ts,tsx,md}\"",
     "start": "next start",
     "pretest": "DATABASE_URL=file:./test.sqlite prisma db push",
-    "test": "bun test",
+    "test": "bun test:unit && bunx playwright test",
+    "test:unit": "bun test src",
     "test:e2e": "bunx playwright test"
   },
   "dependencies": {
