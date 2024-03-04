@@ -54,6 +54,16 @@ export default async function globalSetup() {
     update: {},
   });
 
+  // Deletes test user boards, should cascade delete lists and notes
+  // https://www.prisma.io/docs/orm/prisma-client/queries/crud#deleting-all-data-with-deletemany
+  await db.board.deleteMany({
+    where: {
+      user: {
+        email: "octocat@github.com",
+      },
+    },
+  });
+
   const storageState = path.resolve(import.meta.dirname, "storage-state.json");
   const browser = await chromium.launch();
   const context = await browser.newContext({ storageState });
