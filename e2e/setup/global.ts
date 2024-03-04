@@ -2,6 +2,7 @@ import { type BrowserContext, chromium } from "@playwright/test";
 import path from "path";
 
 import { db } from "@/server/db";
+// import { initialBoards } from "@/utils/test";
 
 /**
  * https://playwright.dev/docs/auth
@@ -24,7 +25,7 @@ const testCookie: Cookie = {
 export default async function globalSetup() {
   const now = new Date();
 
-  await db.user.upsert({
+  const user = await db.user.upsert({
     where: {
       email: "octocat@github.com",
     },
@@ -60,6 +61,30 @@ export default async function globalSetup() {
     where: {
       user: {
         email: "octocat@github.com",
+      },
+    },
+  });
+
+  // Seed db with test user boards, lists, notes
+  await db.board.create({
+    data: {
+      title: "1st BOARD seed",
+      userId: user.id,
+      lists: {
+        create: [
+          {
+            title: "1st LIST seed",
+            position: "n",
+            notes: {
+              create: [
+                {
+                  content: "1st NOTE seed",
+                  position: "n",
+                },
+              ],
+            },
+          },
+        ],
       },
     },
   });
