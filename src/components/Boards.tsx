@@ -23,7 +23,12 @@ const Boards = ({ currentBoardId }: BoardsProps) => {
   return (
     <Sheet key="boards-sheet">
       <SheetTrigger asChild>
-        <Button className="absolute" variant="blur" size="lg">
+        <Button
+          className="absolute"
+          variant="blur"
+          size="lg"
+          data-testid="open-boards-btn"
+        >
           My Boards <ChevronRightIcon />
         </Button>
       </SheetTrigger>
