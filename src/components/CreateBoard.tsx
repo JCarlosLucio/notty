@@ -69,12 +69,14 @@ const CreateBoard = () => {
                   <Input
                     placeholder="Your board title..."
                     autoFocus
+                    data-testid="board-input"
                     {...field}
                   />
                   <Button
                     type="submit"
                     disabled={isLoading}
                     className={isLoading ? "animate-pulse" : ""}
+                    data-testid="create-board-btn"
                   >
                     <PlusIcon />
                   </Button>
