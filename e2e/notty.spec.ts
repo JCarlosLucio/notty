@@ -40,5 +40,17 @@ test.describe("notty", () => {
 
       await expect(page).toHaveTitle("testing");
     });
+
+    test("create board from my boards 'my boards' sheet", async ({ page }) => {
+      const title = "test from sheet";
+      await page.getByTestId("open-boards-btn").click();
+      await page.getByLabel("My Boards").getByTestId("board-input").fill(title);
+      await page
+        .getByLabel("My Boards")
+        .getByTestId("create-board-btn")
+        .click();
+
+      await expect(page).toHaveTitle(title);
+    });
   });
 });
