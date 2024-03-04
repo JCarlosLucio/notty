@@ -21,4 +21,17 @@ test.describe("notty", () => {
       await expect(html).toHaveClass("light");
     }
   });
+
+  test.describe("dashboard", () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto("/dashboard");
+    });
+
+    test("has title / heading", async ({ page }) => {
+      await expect(page).toHaveTitle("Dashboard");
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+        "Your dashboard",
+      );
+    });
+  });
 });
