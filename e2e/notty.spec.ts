@@ -33,5 +33,12 @@ test.describe("notty", () => {
         "Your dashboard",
       );
     });
+
+    test("create board", async ({ page }) => {
+      await page.getByTestId("board-input").fill("testing");
+      await page.getByTestId("create-board-btn").click();
+
+      await expect(page).toHaveTitle("testing");
+    });
   });
 });
