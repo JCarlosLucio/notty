@@ -1,14 +1,14 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("notty", () => {
-  test("has title / heading", async ({ page }) => {
+  test("should have title / heading", async ({ page }) => {
     await page.goto("/");
 
     await expect(page).toHaveTitle(/Notty/);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("Notty");
   });
 
-  test("changes theme", async ({ page }) => {
+  test("should change theme", async ({ page }) => {
     await page.goto("/");
     const html = page.locator("html");
     const theme = await html.getAttribute("class");
@@ -27,21 +27,23 @@ test.describe("notty", () => {
       await page.goto("/dashboard");
     });
 
-    test("has title / heading", async ({ page }) => {
+    test("should have title / heading", async ({ page }) => {
       await expect(page).toHaveTitle("Dashboard");
       await expect(page.getByRole("heading", { level: 1 })).toHaveText(
         "Your dashboard",
       );
     });
 
-    test("create board", async ({ page }) => {
+    test("should create board", async ({ page }) => {
       await page.getByTestId("board-input").fill("testing");
       await page.getByTestId("create-board-btn").click();
 
       await expect(page).toHaveTitle("testing");
     });
 
-    test("create board from my boards 'my boards' sheet", async ({ page }) => {
+    test("should create board from my boards 'my boards' sheet", async ({
+      page,
+    }) => {
       const title = "test from sheet";
       await page.getByTestId("open-boards-btn").click();
       await page.getByLabel("My Boards").getByTestId("board-input").fill(title);
