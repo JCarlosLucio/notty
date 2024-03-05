@@ -48,7 +48,9 @@ const Boards = ({ currentBoardId }: BoardsProps) => {
               variant={currentBoardId === board.id ? "secondary" : "ghost"}
               size="lg"
             >
-              <Link href={`/b/${board.id}`}>{board.title}</Link>
+              <Link href={`/b/${board.id}`} data-testid="board-link">
+                {board.title}
+              </Link>
             </Button>
           ))}
         </div>
