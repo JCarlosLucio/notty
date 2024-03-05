@@ -38,6 +38,9 @@ test.describe("notty", () => {
       await page.getByTestId("board-input").fill("testing");
       await page.getByTestId("create-board-btn").click();
 
+      await expect(page.getByTestId("toast")).toHaveText(
+        "Your board was created.",
+      );
       await expect(page).toHaveTitle("testing");
     });
 
@@ -52,6 +55,9 @@ test.describe("notty", () => {
         .getByTestId("create-board-btn")
         .click();
 
+      await expect(page.getByTestId("toast")).toHaveText(
+        "Your board was created.",
+      );
       await expect(page).toHaveTitle(title);
     });
 
