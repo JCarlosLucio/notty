@@ -69,7 +69,12 @@ const CreateList = ({ boardId }: CreateListProps) => {
 
   if (!show) {
     return (
-      <Button size="lg" className="w-72" onClick={handleShowForm}>
+      <Button
+        size="lg"
+        className="w-72"
+        onClick={handleShowForm}
+        data-testid="show-add-list-btn"
+      >
         <span className="inline-flex items-center gap-2">
           <PlusIcon />
           <span>Add List</span>
@@ -94,12 +99,18 @@ const CreateList = ({ boardId }: CreateListProps) => {
                   <FormLabel className="font-bold">Add List</FormLabel>
                   <FormControl>
                     <div className="flex items-center gap-2">
-                      <Input placeholder="Add list" autoFocus {...field} />
+                      <Input
+                        placeholder="Add list"
+                        autoFocus
+                        data-testid="list-input"
+                        {...field}
+                      />
                       <Button
                         type="submit"
                         variant="secondary"
                         disabled={isLoading}
                         className={isLoading ? "animate-pulse" : ""}
+                        data-testid="create-list-btn"
                       >
                         <PlusIcon />
                       </Button>
