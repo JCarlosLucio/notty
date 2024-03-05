@@ -71,7 +71,7 @@ const CreateList = ({ boardId }: CreateListProps) => {
     return (
       <Button
         size="lg"
-        className="w-72"
+        className="w-72 shrink-0"
         onClick={handleShowForm}
         data-testid="show-add-list-btn"
       >
