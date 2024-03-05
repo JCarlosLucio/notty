@@ -54,5 +54,24 @@ test.describe("notty", () => {
 
       await expect(page).toHaveTitle(title);
     });
+
+    test("should create list on a board", async ({ page }) => {
+      const title = "test list";
+      await page.getByTestId("open-boards-btn").click();
+      await page.getByTestId("board-link").first().click();
+      await page
+        .getByLabel("My Boards")
+        .getByRole("button", { name: "Close" })
+        .click();
+      await page.getByTestId("show-add-list-btn").click();
+      await page.getByTestId("list-input").fill(title);
+      await page.getByTestId("create-list-btn").click();
+
+      await expect(page.getByTestId("toast")).toHaveText(
+        "Your list was created.",
+      );
+      await expect(page.getByTestId("list")).toHaveCount(2);
+      await expect(page.getByTestId("list").last()).toContainText(title);
+    });
   });
 });
