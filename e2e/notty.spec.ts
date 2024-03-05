@@ -79,5 +79,28 @@ test.describe("notty", () => {
       await expect(page.getByTestId("list")).toHaveCount(2);
       await expect(page.getByTestId("list").last()).toContainText(title);
     });
+
+    test("should create note on a list", async ({ page }) => {
+      const title = "test note";
+      await page.getByTestId("open-boards-btn").click();
+      await page.getByTestId("board-link").first().click();
+      await page
+        .getByLabel("My Boards")
+        .getByRole("button", { name: "Close" })
+        .click();
+      await page.getByTestId("show-add-note-btn").first().click();
+      await page.getByTestId("note-input").fill(title);
+      await page.getByTestId("create-note-btn").click();
+
+      await expect(page.getByTestId("toast")).toHaveText(
+        "Your note was created.",
+      );
+      await expect(
+        page.getByTestId("list").first().getByTestId("note"),
+      ).toHaveCount(2);
+      await expect(
+        page.getByTestId("list").first().getByTestId("note").last(),
+      ).toContainText(title);
+    });
   });
 });
