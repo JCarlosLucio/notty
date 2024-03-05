@@ -43,6 +43,7 @@ const List = ({ list, className }: ListProps) => {
         className,
       )}
       style={style}
+      data-testid="list"
       {...attributes}
       {...listeners}
     >
