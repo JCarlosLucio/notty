@@ -67,7 +67,12 @@ const CreateNote = ({ listId }: CreateNoteProps) => {
 
   if (!show) {
     return (
-      <Button variant="ghost" className="w-full" onClick={handleShowForm}>
+      <Button
+        variant="ghost"
+        className="w-full"
+        onClick={handleShowForm}
+        data-testid="show-add-note-btn"
+      >
         <span className="inline-flex items-center gap-2">
           <PlusIcon />
           <span>Add Note</span>
@@ -87,11 +92,17 @@ const CreateNote = ({ listId }: CreateNoteProps) => {
               <FormItem className="w-full">
                 <FormControl>
                   <div className="flex items-center gap-2">
-                    <Input placeholder="Add note" autoFocus {...field} />
+                    <Input
+                      placeholder="Add note"
+                      autoFocus
+                      data-testid="note-input"
+                      {...field}
+                    />
                     <Button
                       type="submit"
                       disabled={isLoading}
                       className={isLoading ? "animate-pulse" : ""}
+                      data-testid="create-note-btn"
                     >
                       <PlusIcon />
                     </Button>
