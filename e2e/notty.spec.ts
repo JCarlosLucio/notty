@@ -71,10 +71,6 @@ test.describe("notty", () => {
         const title = "test list";
         await page.getByTestId("open-boards-btn").click();
         await page.getByTestId("board-link").first().click();
-        await page
-          .getByLabel("My Boards")
-          .getByRole("button", { name: "Close" })
-          .click();
         await page.getByTestId("show-add-list-btn").click();
         await page.getByTestId("list-input").fill(title);
         await page.getByTestId("create-list-btn").click();
@@ -92,10 +88,6 @@ test.describe("notty", () => {
         const title = "test note";
         await page.getByTestId("open-boards-btn").click();
         await page.getByTestId("board-link").first().click();
-        await page
-          .getByLabel("My Boards")
-          .getByRole("button", { name: "Close" })
-          .click();
         await page.getByTestId("show-add-note-btn").first().click();
         await page.getByTestId("note-input").fill(title);
         await page.getByTestId("create-note-btn").click();
