@@ -81,8 +81,28 @@ export default async function globalSetup() {
                   content: "1st NOTE seed",
                   position: "n",
                 },
+                {
+                  content: "2nd NOTE seed",
+                  position: "u",
+                },
+                {
+                  content: "3rd NOTE seed",
+                  position: "x",
+                },
+                {
+                  content: "4th NOTE seed",
+                  position: "z",
+                },
               ],
             },
+          },
+          {
+            title: "2nd LIST seed",
+            position: "u",
+          },
+          {
+            title: "3rd LIST seed",
+            position: "x",
           },
         ],
       },

@@ -67,8 +67,9 @@ test.describe("notty", () => {
     });
 
     test.describe("lists", () => {
+      const title = "test list";
+
       test("should create list on a board", async ({ page }) => {
-        const title = "test list";
         await page.getByTestId("open-boards-btn").click();
         await page.getByTestId("board-link").first().click();
         await page.getByTestId("show-add-list-btn").click();
@@ -78,7 +79,7 @@ test.describe("notty", () => {
         await expect(page.getByTestId("toast")).toHaveText(
           "Your list was created.",
         );
-        await expect(page.getByTestId("list")).toHaveCount(2);
+        await expect(page.getByTestId("list")).toHaveCount(4);
         await expect(page.getByTestId("list").last()).toContainText(title);
       });
     });
@@ -97,7 +98,7 @@ test.describe("notty", () => {
         );
         await expect(
           page.getByTestId("list").first().getByTestId("note"),
-        ).toHaveCount(2);
+        ).toHaveCount(5);
         await expect(
           page.getByTestId("list").first().getByTestId("note").last(),
         ).toContainText(title);
