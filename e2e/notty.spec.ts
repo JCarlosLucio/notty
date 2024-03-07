@@ -82,6 +82,29 @@ test.describe("notty", () => {
         await expect(page.getByTestId("list")).toHaveCount(4);
         await expect(page.getByTestId("list").last()).toContainText(title);
       });
+
+      test("should move last list to 1st place", async ({ page }) => {
+        await page.getByTestId("open-boards-btn").click();
+        await page.getByTestId("board-link").first().click();
+
+        // dragging last list (test list) to 1st place
+        await page.getByTestId("list").last().hover();
+        await page.mouse.down();
+        await page
+          .getByTestId("list")
+          .getByText(/1st LIST/)
+          .hover(); // needs double .hover() since dnd implementation uses dragover event
+        await page
+          .getByTestId("list")
+          .getByText(/1st LIST/)
+          .hover(); // https://playwright.dev/docs/input#drag-and-drop
+        await page.mouse.up();
+
+        await expect(page.getByTestId("list").first()).toContainText(title);
+        await expect(page.getByTestId("list").nth(1)).toContainText(/1st LIST/);
+        await expect(page.getByTestId("list").nth(2)).toContainText(/2nd LIST/);
+        await expect(page.getByTestId("list").last()).toContainText(/3rd LIST/);
+      });
     });
 
     test.describe("notes", () => {
