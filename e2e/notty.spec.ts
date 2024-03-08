@@ -252,6 +252,32 @@ test.describe("notty", () => {
         await expect(page.getByTestId("note").nth(3)).toContainText(/3rd NOTE/);
         await expect(page.getByTestId("note").last()).toContainText(/4th NOTE/);
       });
+
+      test("should move 3rd note to 2nd place", async ({ page }) => {
+        await page.getByTestId("open-boards-btn").click();
+        await page.getByTestId("board-link").first().click();
+
+        // dragging 3rd note (test note) to the 2nd place
+        await page.getByTestId("note").nth(2).hover();
+        await page.mouse.down();
+        await page
+          .getByTestId("note")
+          .getByText(/2nd NOTE/)
+          .hover(); // needs double .hover() since dnd implementation uses dragover event
+        await page
+          .getByTestId("note")
+          .getByText(/2nd NOTE/)
+          .hover(); // https://playwright.dev/docs/input#drag-and-drop
+        await page.mouse.up();
+
+        await expect(page.getByTestId("note").first()).toContainText(
+          /1st NOTE/,
+        );
+        await expect(page.getByTestId("note").nth(1)).toContainText(title);
+        await expect(page.getByTestId("note").nth(2)).toContainText(/2nd NOTE/);
+        await expect(page.getByTestId("note").nth(3)).toContainText(/3rd NOTE/);
+        await expect(page.getByTestId("note").last()).toContainText(/4th NOTE/);
+      });
     });
   });
 });
