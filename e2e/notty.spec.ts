@@ -183,8 +183,9 @@ test.describe("notty", () => {
     });
 
     test.describe("notes", () => {
+      const title = "test note";
+
       test("should create note on a list", async ({ page }) => {
-        const title = "test note";
         await page.getByTestId("open-boards-btn").click();
         await page.getByTestId("board-link").first().click();
         await page.getByTestId("show-add-note-btn").first().click();
@@ -200,6 +201,30 @@ test.describe("notty", () => {
         await expect(
           page.getByTestId("list").first().getByTestId("note").last(),
         ).toContainText(title);
+      });
+
+      test("should move last note to 1st place", async ({ page }) => {
+        await page.getByTestId("open-boards-btn").click();
+        await page.getByTestId("board-link").first().click();
+
+        // dragging last note (test note) to 1st place
+        await page.getByTestId("note").last().hover();
+        await page.mouse.down();
+        await page
+          .getByTestId("note")
+          .getByText(/1st NOTE/)
+          .hover(); // needs double .hover() since dnd implementation uses dragover event
+        await page
+          .getByTestId("note")
+          .getByText(/1st NOTE/)
+          .hover(); // https://playwright.dev/docs/input#drag-and-drop
+        await page.mouse.up();
+
+        await expect(page.getByTestId("note").first()).toContainText(title);
+        await expect(page.getByTestId("note").nth(1)).toContainText(/1st NOTE/);
+        await expect(page.getByTestId("note").nth(2)).toContainText(/2nd NOTE/);
+        await expect(page.getByTestId("note").nth(3)).toContainText(/3rd NOTE/);
+        await expect(page.getByTestId("note").last()).toContainText(/4th NOTE/);
       });
     });
   });
