@@ -309,7 +309,7 @@ test.describe("notty", () => {
         await page.getByTestId("open-boards-btn").click();
         await page.getByTestId("board-link").first().click();
 
-        // dragging 2nd note (test note) to the last place
+        // dragging last note (test note) to the 2nd list
         await page.getByTestId("note").last().hover();
         await page.mouse.down();
         await page.getByTestId("list").nth(1).hover(); // needs double .hover() since dnd implementation uses dragover event
@@ -320,13 +320,94 @@ test.describe("notty", () => {
         await expect(page.getByTestId("list").nth(1)).toContainText(title);
       });
 
+      test("should move 3rd note to 2nd list on 1st place", async ({
+        page,
+      }) => {
+        await page.getByTestId("open-boards-btn").click();
+        await page.getByTestId("board-link").first().click();
+
+        // dragging 3rd note (3rd NOTE) to 2nd list on 1st place
+        await page
+          .getByTestId("list")
+          .first()
+          .getByTestId("note")
+          .getByText(/3rd NOTE/)
+          .hover();
+        await page.mouse.down();
+        await page
+          .getByTestId("list")
+          .nth(1)
+          .getByTestId("note")
+          .getByText(title)
+          .hover(); // needs double .hover() since dnd implementation uses dragover event
+        await page
+          .getByTestId("list")
+          .nth(1)
+          .getByTestId("note")
+          .getByText(title)
+          .hover(); // https://playwright.dev/docs/input#drag-and-drop
+        await page.mouse.up();
+
+        await expect(page.getByTestId("list").first()).not.toContainText(
+          /3rd NOTE/,
+        );
+        await expect(
+          page.getByTestId("list").nth(1).getByTestId("note").first(),
+        ).toContainText(/3rd NOTE/);
+        await expect(
+          page.getByTestId("list").nth(1).getByTestId("note").last(),
+        ).toContainText(title);
+      });
+
+      test("should move last note to 2nd list on 2nd place", async ({
+        page,
+      }) => {
+        await page.getByTestId("open-boards-btn").click();
+        await page.getByTestId("board-link").first().click();
+
+        // dragging last note (4th NOTE) to 2nd list on 2nd place
+        await page
+          .getByTestId("list")
+          .first()
+          .getByTestId("note")
+          .last()
+          .hover();
+        await page.mouse.down();
+        await page
+          .getByTestId("list")
+          .nth(1)
+          .getByTestId("note")
+          .getByText(title)
+          .hover(); // needs double .hover() since dnd implementation uses dragover event
+        await page
+          .getByTestId("list")
+          .nth(1)
+          .getByTestId("note")
+          .getByText(title)
+          .hover(); // https://playwright.dev/docs/input#drag-and-drop
+        await page.mouse.up();
+
+        await expect(page.getByTestId("list").first()).not.toContainText(
+          /4th NOTE/,
+        );
+        await expect(
+          page.getByTestId("list").nth(1).getByTestId("note").first(),
+        ).toContainText(/3rd NOTE/);
+        await expect(
+          page.getByTestId("list").nth(1).getByTestId("note").nth(1),
+        ).toContainText(/4th NOTE/);
+        await expect(
+          page.getByTestId("list").nth(1).getByTestId("note").nth(2),
+        ).toContainText(title);
+      });
+
       test("should move 1st note to 2nd list on 1st place", async ({
         page,
       }) => {
         await page.getByTestId("open-boards-btn").click();
         await page.getByTestId("board-link").first().click();
 
-        // dragging 2nd note (test note) to the last place
+        // dragging 1st note (1st NOTE) to 2nd list on 1st place
         await page
           .getByTestId("list")
           .first()
@@ -338,13 +419,13 @@ test.describe("notty", () => {
           .getByTestId("list")
           .nth(1)
           .getByTestId("note")
-          .first()
+          .getByText(/3rd NOTE/)
           .hover(); // needs double .hover() since dnd implementation uses dragover event
         await page
           .getByTestId("list")
           .nth(1)
           .getByTestId("note")
-          .first()
+          .getByText(/3rd NOTE/)
           .hover(); // https://playwright.dev/docs/input#drag-and-drop
         await page.mouse.up();
 
@@ -356,6 +437,12 @@ test.describe("notty", () => {
         ).toContainText(/1st NOTE/);
         await expect(
           page.getByTestId("list").nth(1).getByTestId("note").nth(1),
+        ).toContainText(/3rd NOTE/);
+        await expect(
+          page.getByTestId("list").nth(1).getByTestId("note").nth(2),
+        ).toContainText(/4th NOTE/);
+        await expect(
+          page.getByTestId("list").nth(1).getByTestId("note").last(),
         ).toContainText(title);
       });
 
@@ -365,7 +452,7 @@ test.describe("notty", () => {
         await page.getByTestId("open-boards-btn").click();
         await page.getByTestId("board-link").first().click();
 
-        // dragging 2nd note (test note) to the last place
+        // dragging 1st note (2nd NOTE) to the 2nd place
         await page
           .getByTestId("list")
           .first()
@@ -377,106 +464,19 @@ test.describe("notty", () => {
           .getByTestId("list")
           .nth(1)
           .getByTestId("note")
-          .nth(1)
+          .getByText(/3rd NOTE/)
           .hover(); // needs double .hover() since dnd implementation uses dragover event
         await page
           .getByTestId("list")
           .nth(1)
           .getByTestId("note")
-          .nth(1)
-          .hover(); // https://playwright.dev/docs/input#drag-and-drop
-        await page.mouse.up();
-
-        await expect(page.getByTestId("list").first()).not.toContainText(
-          /2nd NOTE/,
-        );
-        await expect(
-          page.getByTestId("list").nth(1).getByTestId("note").first(),
-        ).toContainText(/1st NOTE/);
-        await expect(
-          page.getByTestId("list").nth(1).getByTestId("note").nth(1),
-        ).toContainText(/2nd NOTE/);
-        await expect(
-          page.getByTestId("list").nth(1).getByTestId("note").nth(2),
-        ).toContainText(title);
-      });
-
-      test("should move 1st note to 2nd list on 3rd place", async ({
-        page,
-      }) => {
-        await page.getByTestId("open-boards-btn").click();
-        await page.getByTestId("board-link").first().click();
-
-        // dragging 2nd note (test note) to the last place
-        await page
-          .getByTestId("list")
-          .first()
-          .getByTestId("note")
-          .first()
-          .hover();
-        await page.mouse.down();
-        await page
-          .getByTestId("list")
-          .nth(1)
-          .getByTestId("note")
-          .nth(2)
-          .hover(); // needs double .hover() since dnd implementation uses dragover event
-        await page
-          .getByTestId("list")
-          .nth(1)
-          .getByTestId("note")
-          .nth(2)
-          .hover(); // https://playwright.dev/docs/input#drag-and-drop
-        await page.mouse.up();
-
-        await expect(page.getByTestId("list").first()).not.toContainText(
-          /3rd NOTE/,
-        );
-        await expect(
-          page.getByTestId("list").nth(1).getByTestId("note").first(),
-        ).toContainText(/1st NOTE/);
-        await expect(
-          page.getByTestId("list").nth(1).getByTestId("note").nth(1),
-        ).toContainText(/2nd NOTE/);
-        await expect(
-          page.getByTestId("list").nth(1).getByTestId("note").nth(2),
-        ).toContainText(/3rd NOTE/);
-        await expect(
-          page.getByTestId("list").nth(1).getByTestId("note").nth(3),
-        ).toContainText(title);
-      });
-
-      test("should move 1st note to 2nd list on 4th place", async ({
-        page,
-      }) => {
-        await page.getByTestId("open-boards-btn").click();
-        await page.getByTestId("board-link").first().click();
-
-        // dragging 2nd note (test note) to the last place
-        await page
-          .getByTestId("list")
-          .first()
-          .getByTestId("note")
-          .first()
-          .hover();
-        await page.mouse.down();
-        await page
-          .getByTestId("list")
-          .nth(1)
-          .getByTestId("note")
-          .nth(3)
-          .hover(); // needs double .hover() since dnd implementation uses dragover event
-        await page
-          .getByTestId("list")
-          .nth(1)
-          .getByTestId("note")
-          .nth(3)
+          .getByText(/3rd NOTE/)
           .hover(); // https://playwright.dev/docs/input#drag-and-drop
         // await page.mouse.move(0, 1);
         await page.mouse.up();
 
         await expect(page.getByTestId("list").first()).not.toContainText(
-          /4th NOTE/,
+          /2nd NOTE/,
         );
         await expect(
           page.getByTestId("list").nth(1).getByTestId("note").first(),
