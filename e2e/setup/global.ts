@@ -22,16 +22,22 @@ const testCookie: Cookie = {
   sameSite: "Lax",
 };
 
+const TEST_USER_ID = "testuserw000010zmbbkn65av";
+const TEST_USER_EMAIL = "octocat@github.com";
+const TEST_BOARD_ID = "firstboardseedaimfewrvhic";
+export const TEST_BOARD_URL = `/b/${TEST_BOARD_ID}`;
+
 export default async function globalSetup() {
   const now = new Date();
 
-  const user = await db.user.upsert({
+  await db.user.upsert({
     where: {
-      email: "octocat@github.com",
+      email: TEST_USER_EMAIL,
     },
     create: {
+      id: TEST_USER_ID,
       name: "Octocat",
-      email: "octocat@github.com",
+      email: TEST_USER_EMAIL,
       image: "https://github.com/octocat.png",
       sessions: {
         create: {
@@ -55,12 +61,21 @@ export default async function globalSetup() {
     update: {},
   });
 
+  const storageState = path.resolve(import.meta.dirname, "storage-state.json");
+  const browser = await chromium.launch();
+  const context = await browser.newContext({ storageState });
+  await context.addCookies([testCookie]);
+  await context.storageState({ path: storageState });
+  await browser.close();
+}
+
+export async function cleanDB() {
   // Deletes test user boards, should cascade delete lists and notes
   // https://www.prisma.io/docs/orm/prisma-client/queries/crud#deleting-all-data-with-deletemany
   await db.board.deleteMany({
     where: {
       user: {
-        email: "octocat@github.com",
+        email: TEST_USER_EMAIL,
       },
     },
   });
@@ -69,7 +84,8 @@ export default async function globalSetup() {
   await db.board.create({
     data: {
       title: "1st BOARD seed",
-      userId: user.id,
+      userId: TEST_USER_ID,
+      id: TEST_BOARD_ID,
       lists: {
         create: [
           {
@@ -108,11 +124,4 @@ export default async function globalSetup() {
       },
     },
   });
-
-  const storageState = path.resolve(import.meta.dirname, "storage-state.json");
-  const browser = await chromium.launch();
-  const context = await browser.newContext({ storageState });
-  await context.addCookies([testCookie]);
-  await context.storageState({ path: storageState });
-  await browser.close();
 }
