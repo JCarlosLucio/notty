@@ -331,24 +331,12 @@ test.describe("notty", () => {
 
           // dragging 3rd note (3rd NOTE) to 2nd list on 1st place
           await page
-            .getByTestId("list")
-            .first()
             .getByTestId("note")
             .getByText(/3rd NOTE/)
             .hover();
           await page.mouse.down();
-          await page
-            .getByTestId("list")
-            .nth(1)
-            .getByTestId("note")
-            .getByText(title)
-            .hover(); // needs double .hover() since dnd implementation uses dragover event
-          await page
-            .getByTestId("list")
-            .nth(1)
-            .getByTestId("note")
-            .getByText(title)
-            .hover(); // https://playwright.dev/docs/input#drag-and-drop
+          await page.getByTestId("note").getByText(title).hover(); // needs double .hover() since dnd implementation uses dragover event
+          await page.getByTestId("note").getByText(title).hover(); // https://playwright.dev/docs/input#drag-and-drop
           await page.mouse.up();
 
           await expect(page.getByTestId("list").first()).not.toContainText(
@@ -370,24 +358,12 @@ test.describe("notty", () => {
 
           // dragging last note (4th NOTE) to 2nd list on 2nd place
           await page
-            .getByTestId("list")
-            .first()
             .getByTestId("note")
-            .last()
+            .getByText(/4th NOTE/)
             .hover();
           await page.mouse.down();
-          await page
-            .getByTestId("list")
-            .nth(1)
-            .getByTestId("note")
-            .getByText(title)
-            .hover(); // needs double .hover() since dnd implementation uses dragover event
-          await page
-            .getByTestId("list")
-            .nth(1)
-            .getByTestId("note")
-            .getByText(title)
-            .hover(); // https://playwright.dev/docs/input#drag-and-drop
+          await page.getByTestId("note").getByText(title).hover(); // needs double .hover() since dnd implementation uses dragover event
+          await page.getByTestId("note").getByText(title).hover(); // https://playwright.dev/docs/input#drag-and-drop
           await page.mouse.up();
 
           await expect(page.getByTestId("list").first()).not.toContainText(
@@ -412,21 +388,15 @@ test.describe("notty", () => {
 
           // dragging 1st note (1st NOTE) to 2nd list on 1st place
           await page
-            .getByTestId("list")
-            .first()
             .getByTestId("note")
-            .first()
+            .getByText(/1st NOTE/)
             .hover();
           await page.mouse.down();
           await page
-            .getByTestId("list")
-            .nth(1)
             .getByTestId("note")
             .getByText(/3rd NOTE/)
             .hover(); // needs double .hover() since dnd implementation uses dragover event
           await page
-            .getByTestId("list")
-            .nth(1)
             .getByTestId("note")
             .getByText(/3rd NOTE/)
             .hover(); // https://playwright.dev/docs/input#drag-and-drop
@@ -457,25 +427,18 @@ test.describe("notty", () => {
 
           // dragging 1st note (2nd NOTE) to the 2nd place
           await page
-            .getByTestId("list")
-            .first()
             .getByTestId("note")
-            .first()
+            .getByText(/2nd NOTE/)
             .hover();
           await page.mouse.down();
           await page
-            .getByTestId("list")
-            .nth(1)
             .getByTestId("note")
             .getByText(/3rd NOTE/)
             .hover(); // needs double .hover() since dnd implementation uses dragover event
           await page
-            .getByTestId("list")
-            .nth(1)
             .getByTestId("note")
             .getByText(/3rd NOTE/)
             .hover(); // https://playwright.dev/docs/input#drag-and-drop
-          // await page.mouse.move(0, 1);
           await page.mouse.up();
 
           await expect(page.getByTestId("list").first()).not.toContainText(
