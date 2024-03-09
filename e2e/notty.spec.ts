@@ -23,11 +23,11 @@ test.describe("Home", () => {
   });
 });
 
-test.beforeEach(async ({ page }) => {
-  await page.goto("/dashboard");
-});
+test.describe("Dashboard", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/dashboard");
+  });
 
-test.describe("Boards", () => {
   test("should have title / heading", async ({ page }) => {
     await expect(page).toHaveTitle("Dashboard");
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
@@ -36,19 +36,22 @@ test.describe("Boards", () => {
   });
 
   test("should create board", async ({ page }) => {
-    await page.getByTestId("board-input").fill("testing");
+    const title = "testing";
+
+    await page.getByTestId("board-input").fill(title);
     await page.getByTestId("create-board-btn").click();
 
     await expect(page.getByTestId("toast")).toHaveText(
       "Your board was created.",
     );
-    await expect(page).toHaveTitle("testing");
+    await expect(page).toHaveTitle(title);
   });
 
   test("should create board from my boards 'my boards' sheet", async ({
     page,
   }) => {
     const title = "test from sheet";
+
     await page.getByTestId("open-boards-btn").click();
     await page.getByLabel("My Boards").getByTestId("board-input").fill(title);
     await page.getByLabel("My Boards").getByTestId("create-board-btn").click();
