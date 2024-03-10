@@ -25,7 +25,7 @@ const Boards = ({ currentBoardId }: BoardsProps) => {
       <SheetTrigger asChild>
         <Button
           className="absolute ml-2"
-          variant="blur"
+          variant="gradient"
           size="lg"
           data-testid="open-boards-btn"
         >
