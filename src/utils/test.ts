@@ -152,7 +152,7 @@ export const getNoteInDB = async () => {
   const note = notes[0];
 
   if (!note) {
-    throw new Error("Coulnt't get note in test");
+    throw new Error("Couldn't get note in test");
   }
 
   return note;
