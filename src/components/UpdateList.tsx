@@ -4,7 +4,7 @@ import {
   type MouseEventHandler,
   useState,
 } from "react";
-import { HexAlphaColorPicker } from "react-colorful";
+import { HexAlphaColorPicker, HexColorInput } from "react-colorful";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
@@ -106,25 +106,35 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
           render={({ field: { value, onChange, onBlur } }) => (
             <FormItem className="w-full">
               <FormLabel>Update Color</FormLabel>
-              <div className="flex justify-center gap-20 rounded-lg border p-5">
+              <div className="flex justify-evenly rounded-lg border p-5">
                 {showUpdateColor ? (
                   <>
-                    <div className="flex flex-col gap-3">
-                      <h6>Current color</h6>
+                    <div className="flex flex-col justify-center gap-3">
+                      <h6 className="text-sm">Preview</h6>
                       <div
-                        className="h-10 w-full rounded-lg border"
+                        className="flex h-20 w-full items-center justify-center rounded-full border"
                         style={{ backgroundColor: value ?? undefined }}
-                      />
+                      ></div>
                       <Button type="button" onClick={handleRemoveColor}>
                         Remove color
                       </Button>
                     </div>
                     <FormControl>
-                      <HexAlphaColorPicker
-                        color={value ?? undefined}
-                        onChange={onChange}
-                        onBlur={onBlur}
-                      />
+                      <div className="flex flex-col items-center gap-3">
+                        <HexAlphaColorPicker
+                          color={value ?? undefined}
+                          onChange={onChange}
+                          onBlur={onBlur}
+                        />
+                        <HexColorInput
+                          className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                          alpha
+                          prefixed
+                          color={value ?? undefined}
+                          onChange={onChange}
+                          onBlur={onBlur}
+                        />
+                      </div>
                     </FormControl>
                   </>
                 ) : (
