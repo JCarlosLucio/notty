@@ -65,6 +65,24 @@ test.describe("Dashboard", () => {
   });
 });
 
+test.describe("Boards", () => {
+  test.beforeEach(async ({ page }) => {
+    await cleanDB();
+    await page.goto(TEST_BOARD_URL);
+  });
+
+  test("should update board title", async ({ page }) => {
+    const updatedTitle = "Updated title";
+
+    await page.getByTestId("open-board-details-btn").click();
+    await page.getByTestId("show-update-board-btn").click();
+    await page.getByPlaceholder("Your new board title...").fill(updatedTitle);
+    await page.getByTestId("save-board-btn").click();
+    await page.getByRole("button", { name: "Close" }).click();
+    await expect(page).toHaveTitle(updatedTitle);
+  });
+});
+
 test.describe("Lists", () => {
   test.beforeEach(async ({ page }) => {
     await cleanDB();
