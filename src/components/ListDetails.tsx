@@ -23,7 +23,7 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
+      <DialogTrigger asChild data-testid="open-list-details-btn">
         <CardHeader
           className="group flex shrink-0 cursor-pointer flex-row rounded-t-xl bg-secondary/70 p-3"
           style={{ backgroundColor: list.color ?? "" }}
@@ -44,6 +44,7 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
             <Button
               variant="destructive"
               onClick={() => setShowUpdateList(false)}
+              data-testid="cancel-update-list-btn"
             >
               Cancel
             </Button>
@@ -59,6 +60,8 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
                 size="icon"
                 variant="ghost"
                 onClick={() => setShowUpdateList(true)}
+                aria-label="Show update list form"
+                data-testid="show-update-list-btn"
               >
                 <Pencil1Icon />
               </Button>
