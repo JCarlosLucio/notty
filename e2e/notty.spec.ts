@@ -103,6 +103,18 @@ test.describe("Lists", () => {
     await expect(page.getByTestId("list").last()).toContainText(title);
   });
 
+  test("should update list title", async ({ page }) => {
+    const updatedTitle = "Updated title";
+
+    await page.getByTestId("open-list-details-btn").last().click();
+    await page.getByTestId("show-update-list-btn").click();
+    await page.getByPlaceholder("Your new list title...").fill(updatedTitle);
+    await page.getByTestId("save-list-btn").click();
+    await page.getByRole("button", { name: "Close" }).click();
+
+    await expect(page.getByTestId("list").last()).toContainText(updatedTitle);
+  });
+
   /** Drag n' Drop tests need double .hover() since dnd implementation uses dragover event.
    *  More info: https://playwright.dev/docs/input#drag-and-drop
    */
