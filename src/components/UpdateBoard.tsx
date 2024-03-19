@@ -82,6 +82,7 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
                     type="submit"
                     disabled={isLoading}
                     className={isLoading ? "animate-pulse" : ""}
+                    data-testid="save-board-btn"
                   >
                     Save
                   </Button>

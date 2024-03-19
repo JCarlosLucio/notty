@@ -30,7 +30,7 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
       <Card>
         {board ? (
           <Dialog>
-            <DialogTrigger asChild>
+            <DialogTrigger asChild data-testid="open-board-details-btn">
               <CardHeader className="group flex cursor-pointer flex-row rounded-xl bg-secondary/70 p-3">
                 <CardTitle className="pl-6 pr-2 text-center text-2xl">
                   {board.title}
@@ -50,6 +50,7 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
                   <Button
                     variant="destructive"
                     onClick={() => setShowUpdateBoard(false)}
+                    data-testid="cancel-update-board-btn"
                   >
                     Cancel
                   </Button>
@@ -64,6 +65,8 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
                       size="icon"
                       variant="ghost"
                       onClick={() => setShowUpdateBoard(true)}
+                      aria-label="Show update board form"
+                      data-testid="show-update-board-btn"
                     >
                       <Pencil1Icon />
                     </Button>
