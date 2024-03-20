@@ -32,7 +32,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
 
   const { data: lists } = api.list.getAll.useQuery({ boardId });
 
-  const ctx = api.useContext();
+  const ctx = api.useUtils();
 
   const { mutate: moveList } = api.list.move.useMutation({
     onMutate: async ({ boardId }) => {

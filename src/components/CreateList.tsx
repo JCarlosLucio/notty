@@ -37,7 +37,7 @@ const CreateList = ({ boardId }: CreateListProps) => {
     }
   });
   const { toast } = useToast();
-  const ctx = api.useContext();
+  const ctx = api.useUtils();
 
   const { mutate: createList, isLoading } = api.list.create.useMutation({
     onSuccess: (createdList) => {

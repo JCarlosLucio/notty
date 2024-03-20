@@ -31,7 +31,7 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
     },
   });
   const { toast } = useToast();
-  const ctx = api.useContext();
+  const ctx = api.useUtils();
 
   const { mutate: updateNote, isLoading } = api.note.update.useMutation({
     onSuccess: (updatedNote) => {

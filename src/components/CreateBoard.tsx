@@ -27,7 +27,7 @@ const CreateBoard = () => {
     },
   });
   const { toast } = useToast();
-  const ctx = api.useContext();
+  const ctx = api.useUtils();
   const router = useRouter();
 
   const { mutate: createBoard, isLoading } = api.board.create.useMutation({

@@ -38,7 +38,7 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
   });
   const [showUpdateColor, setShowUpdateColor] = useState<boolean>(!!list.color);
   const { toast } = useToast();
-  const ctx = api.useContext();
+  const ctx = api.useUtils();
 
   const { mutate: updateList, isLoading } = api.list.update.useMutation({
     onSuccess: (updatedList) => {

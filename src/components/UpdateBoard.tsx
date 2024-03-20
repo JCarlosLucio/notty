@@ -31,7 +31,7 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
     },
   });
   const { toast } = useToast();
-  const ctx = api.useContext();
+  const ctx = api.useUtils();
 
   const { mutate: updateBoard, isLoading } = api.board.update.useMutation({
     onSuccess: (updatedBoard) => {

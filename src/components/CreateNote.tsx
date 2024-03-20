@@ -35,7 +35,7 @@ const CreateNote = ({ listId }: CreateNoteProps) => {
     }
   });
   const { toast } = useToast();
-  const ctx = api.useContext();
+  const ctx = api.useUtils();
 
   const { mutate: createNote, isLoading } = api.note.create.useMutation({
     onSuccess: (createdNote) => {

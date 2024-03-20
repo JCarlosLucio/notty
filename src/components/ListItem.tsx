@@ -11,7 +11,7 @@ type ListItemProps = {
 
 const ListItem = ({ list, ...props }: ListItemProps) => {
   const { toast } = useToast();
-  const ctx = api.useContext();
+  const ctx = api.useUtils();
 
   const { mutate: deleteList, isLoading } = api.list.delete.useMutation({
     onSuccess: (deletedListId) => {
