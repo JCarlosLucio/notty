@@ -1,9 +1,0 @@
--- CreateTable
-CREATE TABLE "Note" (
-    "id" TEXT NOT NULL PRIMARY KEY,
-    "content" TEXT NOT NULL,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME NOT NULL,
-    "listId" TEXT NOT NULL,
-    CONSTRAINT "Note_listId_fkey" FOREIGN KEY ("listId") REFERENCES "List" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
-);
