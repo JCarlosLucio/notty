@@ -30,12 +30,13 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
     defaultValues: {
       title: board.title,
       id: "",
+      bg: "",
     },
   });
   const { toast } = useToast();
   const ctx = api.useUtils();
 
-  const [gradient, setGradient] = useState<string | null>(null);
+  const [gradient, setGradient] = useState<string | null>(board.bg);
 
   const { mutate: updateBoard, isLoading } = api.board.update.useMutation({
     onSuccess: (updatedBoard) => {
@@ -63,6 +64,7 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
 
   const onSubmit: SubmitHandler<UpdateBoardInput> = (values) => {
     values.id = board.id;
+    values.bg = gradient;
     updateBoard(values);
   };
 
@@ -89,6 +91,8 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
             </FormItem>
           )}
         />
+
+        {/* Update bg (gradient / photos) */}
         <Tabs
           defaultValue="colors"
           className="flex w-full flex-col justify-center"
@@ -109,9 +113,7 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
                 <div
                   className="flex h-20 w-full items-center justify-center rounded-full border"
                   style={{ background: gradient ? gradient : "" }}
-                >
-                  <p>{gradient ? gradient : "None"}</p>
-                </div>
+                />
                 <Button
                   type="button"
                   size="lg"
@@ -121,18 +123,16 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
                   Remove
                 </Button>
               </div>
-              <div className="grid grid-cols-3 grid-rows-3 gap-2">
-                {gradientVariants.map((gradient) => (
+              <div className="grid w-full grid-cols-3 grid-rows-3 gap-2">
+                {gradients.map((gradient) => (
                   <Button
                     type="button"
                     key={gradient.id}
                     size="lg"
                     variant="outline"
                     style={{ background: gradient.bg }}
-                    onClick={() => setGradient(gradient.name)}
-                  >
-                    {gradient.name}
-                  </Button>
+                    onClick={() => setGradient(gradient.bg)}
+                  />
                 ))}
               </div>
             </div>
