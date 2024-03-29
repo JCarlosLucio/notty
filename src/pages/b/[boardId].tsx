@@ -37,10 +37,12 @@ const BoardPage = () => {
 
       <main
         className="relative flex h-screen min-h-screen flex-col gap-4 pt-20"
-        style={{
-          backgroundImage: "url(https://picsum.photos/1920/1080)",
-          backgroundSize: "cover",
-        }}
+        style={
+          currentBoard && {
+            backgroundImage: currentBoard.bg ?? "",
+            backgroundSize: "cover",
+          }
+        }
       >
         <Boards currentBoardId={currentBoard?.id} />
 
