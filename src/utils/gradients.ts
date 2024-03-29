@@ -69,4 +69,14 @@ export const gradients: { id: string; name: string; bg: string }[] = [
     name: "Sunset",
     bg: "linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%)",
   },
+  {
+    id: "sol",
+    name: "Sol",
+    bg: "linear-gradient(31.2deg, rgb(11, 67, 71) -25.4%, rgba(9, 36, 45, 0.15) 80.73%), linear-gradient(109.68deg, rgba(60, 0, 61, 0.01) 30.31%, rgb(32, 4, 28) 85.93%), linear-gradient(149.12deg, rgb(27, 0, 102) 13.67%, rgba(28, 0, 108, 0) 86.42%)",
+  },
+  {
+    id: "candy",
+    name: "Candy",
+    bg: "linear-gradient(83.84deg, rgba(149, 203, 233, 0.9) -3.34%, rgba(71, 201, 242, 0.135) 35.77%), linear-gradient(101.71deg, rgba(227, 167, 228, 0.048) 46.42%, rgba(238, 96, 215, 0.8) 94.51%), linear-gradient(149.12deg, rgb(51, 8, 173) 13.67%, rgba(51, 8, 173, 0) 86.42%)",
+  },
 ];
