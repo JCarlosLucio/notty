@@ -38,10 +38,10 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
                 <Pencil1Icon className="invisible group-hover:visible" />
               </CardHeader>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-2xl">
+            <DialogContent className="flex max-h-full shrink-0 sm:max-w-2xl">
               {showUpdateBoard ? (
-                <div className="flex flex-row items-end gap-2">
-                  <div className="w-full">
+                <div className="flex max-h-full w-full shrink-0 flex-row items-end gap-2">
+                  <div className="flex max-h-full w-full">
                     <UpdateBoard
                       board={board}
                       cb={() => setShowUpdateBoard(false)}

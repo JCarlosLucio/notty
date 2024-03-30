@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { type ComponentPropsWithoutRef, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
@@ -36,7 +37,9 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
   const { toast } = useToast();
   const ctx = api.useUtils();
 
-  const [gradient, setGradient] = useState<string | null>(board.bg);
+  const [bg, setBg] = useState<string | null>(board.bg);
+
+  const { data: images } = api.board.getImages.useQuery();
 
   const { mutate: updateBoard, isLoading } = api.board.update.useMutation({
     onSuccess: (updatedBoard) => {
@@ -64,14 +67,14 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
 
   const onSubmit: SubmitHandler<UpdateBoardInput> = (values) => {
     values.id = board.id;
-    values.bg = gradient;
+    values.bg = bg;
     updateBoard(values);
   };
 
   return (
     <Form {...form}>
       <form
-        className="flex flex-col gap-4"
+        className="flex max-h-full w-full shrink-0 flex-col gap-4"
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <FormField
@@ -93,10 +96,7 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
         />
 
         {/* Update bg (gradient / photos) */}
-        <Tabs
-          defaultValue="colors"
-          className="flex w-full flex-col justify-center"
-        >
+        <Tabs defaultValue="colors" className="flex flex-col overflow-hidden">
           <TabsList>
             <TabsTrigger value="colors" className="w-full">
               Colors
@@ -112,13 +112,13 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
 
                 <div
                   className="flex h-20 w-full items-center justify-center rounded-full border"
-                  style={{ background: gradient ? gradient : "" }}
+                  style={{ background: bg ?? "" }}
                 />
                 <Button
                   type="button"
                   size="lg"
                   variant="outline"
-                  onClick={() => setGradient(null)}
+                  onClick={() => setBg(null)}
                 >
                   Remove
                 </Button>
@@ -131,13 +131,39 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
                     size="lg"
                     variant="outline"
                     style={{ background: gradient.bg }}
-                    onClick={() => setGradient(gradient.bg)}
+                    onClick={() => setBg(gradient.bg)}
                   />
                 ))}
               </div>
             </div>
           </TabsContent>
-          <TabsContent value="photos">Change your password here.</TabsContent>
+          <TabsContent
+            value="photos"
+            className="flex overflow-hidden hover:overflow-y-scroll"
+          >
+            <div className="grid w-full grid-cols-3 gap-2">
+              {images?.map((img) => (
+                <Button
+                  type="button"
+                  key={img.id}
+                  size="xl"
+                  variant="outline"
+                  className="flex shrink-0 flex-col justify-end"
+                  style={{ background: `url(${img.urls.thumb})` }}
+                  onClick={() => setBg(`url(${img.urls.full})`)}
+                >
+                  <Link
+                    className="w-full bg-card/50 px-1 text-start"
+                    href={img.user.links.html}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    {img.user.username}
+                  </Link>
+                </Button>
+              ))}
+            </div>
+          </TabsContent>
         </Tabs>
         <Button
           type="submit"
