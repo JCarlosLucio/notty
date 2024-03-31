@@ -51,7 +51,7 @@ export const boardRouter = createTRPCRouter({
       perPage: 30,
       orientation: "landscape",
       contentFilter: "high",
-      collectionIds: ["317099"],
+      orderBy: "relevant",
     });
 
     if (res.type === "error") {
