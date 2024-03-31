@@ -96,6 +96,22 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
         />
 
         {/* Update bg (gradient / photos) */}
+        <div className="flex flex-col items-center gap-3 p-3">
+          <h6 className="text-sm">Current background</h6>
+          <div
+            className="flex h-52 w-full items-center justify-center rounded-lg border"
+            style={{ backgroundImage: bg ?? "", backgroundSize: "cover" }}
+          />
+          <Button
+            type="button"
+            size="lg"
+            variant="outline"
+            onClick={() => setBg(null)}
+          >
+            Remove
+          </Button>
+        </div>
+
         <Tabs defaultValue="colors" className="flex flex-col overflow-hidden">
           <TabsList>
             <TabsTrigger value="colors" className="w-full">
@@ -107,22 +123,6 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
           </TabsList>
           <TabsContent value="colors">
             <div className="flex justify-center gap-10 rounded-lg border p-4">
-              <div className="flex flex-col items-center gap-3 p-3">
-                <h6 className="text-sm">Current gradient</h6>
-
-                <div
-                  className="flex h-20 w-full items-center justify-center rounded-full border"
-                  style={{ background: bg ?? "" }}
-                />
-                <Button
-                  type="button"
-                  size="lg"
-                  variant="outline"
-                  onClick={() => setBg(null)}
-                >
-                  Remove
-                </Button>
-              </div>
               <div className="grid w-full grid-cols-3 grid-rows-3 gap-2">
                 {gradients.map((gradient) => (
                   <Button
