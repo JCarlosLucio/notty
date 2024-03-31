@@ -148,17 +148,17 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
                   key={img.id}
                   size="xl"
                   variant="outline"
-                  className="flex shrink-0 flex-col justify-end"
+                  className="group flex shrink-0 flex-col justify-end"
                   style={{ background: `url(${img.urls.thumb})` }}
                   onClick={() => setBg(`url(${img.urls.full})`)}
                 >
                   <Link
-                    className="w-full bg-card/50 px-1 text-start"
+                    className="invisible w-full bg-card/50 px-1 text-start group-hover:visible"
                     href={img.user.links.html}
                     rel="noreferrer"
                     target="_blank"
                   >
-                    {img.user.username}
+                    {img.user.name}
                   </Link>
                 </Button>
               ))}
