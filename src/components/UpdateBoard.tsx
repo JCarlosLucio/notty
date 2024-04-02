@@ -39,7 +39,10 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
 
   const [bg, setBg] = useState<string | null>(board.bg);
 
-  const { data: images } = api.board.getImages.useQuery();
+  const { data: images } = api.board.getImages.useQuery({
+    query: "",
+    page: 1,
+  });
 
   const { mutate: updateBoard, isLoading } = api.board.update.useMutation({
     onSuccess: (updatedBoard) => {
