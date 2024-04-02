@@ -96,20 +96,22 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
         />
 
         {/* Update bg (gradient / photos) */}
-        <div className="flex flex-col items-center gap-3 p-3">
+        <div className="flex flex-col items-center gap-2">
           <h6 className="text-sm">Current background</h6>
           <div
-            className="flex h-52 w-full items-center justify-center rounded-lg border"
+            className="group flex h-52 w-full items-center justify-center rounded-lg border"
             style={{ backgroundImage: bg ?? "", backgroundSize: "cover" }}
-          />
-          <Button
-            type="button"
-            size="lg"
-            variant="outline"
-            onClick={() => setBg(null)}
           >
-            Remove
-          </Button>
+            <Button
+              type="button"
+              size="lg"
+              variant="destructive"
+              className="invisible group-hover:visible"
+              onClick={() => setBg(null)}
+            >
+              Remove
+            </Button>
+          </div>
         </div>
 
         <Tabs defaultValue="colors" className="flex flex-col overflow-hidden">
