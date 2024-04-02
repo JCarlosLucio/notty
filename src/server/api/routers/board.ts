@@ -6,6 +6,7 @@ import {
   createBoardSchema,
   deleteBoardSchema,
   getByIdBoardSchema,
+  getImagesSchema,
   updateBoardSchema,
 } from "@/utils/schemas";
 
@@ -44,25 +45,27 @@ export const boardRouter = createTRPCRouter({
   }),
 
   // get images from unsplash
-  getImages: protectedProcedure.query(async () => {
-    const res = await unsplash.search.getPhotos({
-      query: "wallpaper",
-      page: 1,
-      perPage: 30,
-      orientation: "landscape",
-      contentFilter: "high",
-      orderBy: "relevant",
-    });
-
-    if (res.type === "error") {
-      throw new TRPCError({
-        message: res.errors[0],
-        code: res.status === 404 ? "NOT_FOUND" : "INTERNAL_SERVER_ERROR",
+  getImages: protectedProcedure
+    .input(getImagesSchema)
+    .query(async ({ input }) => {
+      const res = await unsplash.search.getPhotos({
+        query: input.query || "wallpaper",
+        page: input.page,
+        perPage: 30,
+        orientation: "landscape",
+        contentFilter: "high",
+        orderBy: "relevant",
       });
-    }
 
-    return res.response.results;
-  }),
+      if (res.type === "error") {
+        throw new TRPCError({
+          message: res.errors[0],
+          code: res.status === 404 ? "NOT_FOUND" : "INTERNAL_SERVER_ERROR",
+        });
+      }
+
+      return res.response.results;
+    }),
 
   create: protectedProcedure
     .input(createBoardSchema)
