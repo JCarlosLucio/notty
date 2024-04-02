@@ -27,6 +27,14 @@ export const updateBoardSchema = z.object({
   bg: z.string().nullable(),
 });
 
+export const getImagesSchema = z.object({
+  page: z.number(),
+  query: z
+    .string()
+    .trim()
+    .max(256, "Query must contain at most 256 characters"),
+});
+
 // LIST
 export const getByIdListSchema = z.object({
   id: z.string(),
