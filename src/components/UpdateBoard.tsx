@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { type ComponentPropsWithoutRef, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
+import ColorsTab from "@/components/ColorsTab";
 import PhotosTab from "@/components/PhotosTab";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,10 +14,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterInputs, type RouterOutputs } from "@/utils/api";
-import { gradients } from "@/utils/gradients";
 import { updateBoardSchema } from "@/utils/schemas";
 
 type UpdateBoardProps = {
@@ -121,22 +121,7 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
               Photos
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="colors">
-            <div className="flex justify-center gap-10 rounded-lg border p-4">
-              <div className="grid w-full grid-cols-3 grid-rows-3 gap-2">
-                {gradients.map((gradient) => (
-                  <Button
-                    type="button"
-                    key={gradient.id}
-                    size="lg"
-                    variant="outline"
-                    style={{ background: gradient.bg }}
-                    onClick={() => setBg(gradient.bg)}
-                  />
-                ))}
-              </div>
-            </div>
-          </TabsContent>
+          <ColorsTab setBg={setBg} />
           <PhotosTab setBg={setBg} />
         </Tabs>
         <Button
