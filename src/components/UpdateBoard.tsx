@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import { type ComponentPropsWithoutRef, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
+import PhotosTab from "@/components/PhotosTab";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -38,11 +38,6 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
   const ctx = api.useUtils();
 
   const [bg, setBg] = useState<string | null>(board.bg);
-
-  const { data: images } = api.board.getPhotos.useQuery({
-    query: "",
-    page: 1,
-  });
 
   const { mutate: updateBoard, isLoading } = api.board.update.useMutation({
     onSuccess: (updatedBoard) => {
@@ -142,33 +137,7 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
               </div>
             </div>
           </TabsContent>
-          <TabsContent
-            value="photos"
-            className="flex overflow-hidden hover:overflow-y-scroll"
-          >
-            <div className="grid w-full grid-cols-3 gap-2">
-              {images?.map((img) => (
-                <Button
-                  type="button"
-                  key={img.id}
-                  size="xl"
-                  variant="outline"
-                  className="group flex shrink-0 flex-col justify-end"
-                  style={{ background: `url(${img.urls.thumb})` }}
-                  onClick={() => setBg(`url(${img.urls.full})`)}
-                >
-                  <Link
-                    className="invisible w-full bg-card/50 px-1 text-start group-hover:visible"
-                    href={img.user.links.html}
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    {img.user.name}
-                  </Link>
-                </Button>
-              ))}
-            </div>
-          </TabsContent>
+          <PhotosTab setBg={setBg} />
         </Tabs>
         <Button
           type="submit"
