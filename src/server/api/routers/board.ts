@@ -44,8 +44,8 @@ export const boardRouter = createTRPCRouter({
     });
   }),
 
-  // get images from unsplash
-  getImages: protectedProcedure
+  // get photos from unsplash
+  getPhotos: protectedProcedure
     .input(getImagesSchema)
     .query(async ({ input }) => {
       const res = await unsplash.search.getPhotos({
