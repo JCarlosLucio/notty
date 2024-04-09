@@ -79,4 +79,9 @@ export const gradients: { id: string; name: string; bg: string }[] = [
     name: "Candy",
     bg: "linear-gradient(83.84deg, rgba(149, 203, 233, 0.9) -3.34%, rgba(71, 201, 242, 0.135) 35.77%), linear-gradient(101.71deg, rgba(227, 167, 228, 0.048) 46.42%, rgba(238, 96, 215, 0.8) 94.51%), linear-gradient(149.12deg, rgb(51, 8, 173) 13.67%, rgba(51, 8, 173, 0) 86.42%)",
   },
+  {
+    id: "radial",
+    name: "Radial",
+    bg: "radial-gradient(800px at 700px 200px, rgb(30, 21, 35), rgba(0, 0, 0, 0)), radial-gradient(600px at calc(100% - 300px) 300px, rgb(13, 40, 71), rgba(0, 0, 0, 0)), radial-gradient(800px at 100% 50%, rgb(17, 40, 64), rgba(0, 0, 0, 0)), radial-gradient(800px at 100% 100%, rgb(13, 20, 31), rgba(0, 0, 0, 0)), radial-gradient(800px at calc(50% - 600px) calc(100% - 100px), rgb(55, 23, 47), rgb(25, 17, 23), rgba(0, 0, 0, 0))",
+  },
 ];
