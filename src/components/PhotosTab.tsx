@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TabsContent } from "@/components/ui/tabs";
+import useDebounce from "@/hooks/useDebounce";
 import { api } from "@/utils/api";
 
 type PhotosTabProps = {
@@ -14,8 +15,10 @@ type PhotosTabProps = {
 
 const PhotosTab = ({ setBg }: PhotosTabProps) => {
   const [query, setQuery] = useState("");
+  const debouncedQuery = useDebounce(query, 1000);
+
   const { data: photos } = api.board.getPhotos.useQuery({
-    query,
+    query: debouncedQuery,
     page: 1,
   });
 
