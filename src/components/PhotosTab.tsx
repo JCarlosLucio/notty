@@ -31,7 +31,7 @@ const PhotosTab = ({ setBg }: PhotosTabProps) => {
                 onClick={() => setBg(`url(${photo.urls.full})`)}
               >
                 <Link
-                  className="invisible w-full bg-card/50 px-1 text-start group-hover:visible"
+                  className="invisible w-full bg-card/50 px-1 text-start text-xs group-hover:visible"
                   href={photo.user.links.html}
                   rel="noreferrer"
                   target="_blank"
