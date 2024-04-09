@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { type ComponentPropsWithoutRef, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
@@ -118,7 +119,17 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
               Colors
             </TabsTrigger>
             <TabsTrigger value="photos" className="w-full">
-              Photos
+              <span>
+                Photos by{" "}
+                <Link
+                  className="hover:underline"
+                  href="https://unsplash.com/"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Unsplash
+                </Link>
+              </span>
             </TabsTrigger>
           </TabsList>
           <ColorsTab setBg={setBg} />
