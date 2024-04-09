@@ -1,7 +1,10 @@
+import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
-import { type Dispatch, type SetStateAction } from "react";
+import { type Dispatch, type SetStateAction, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { TabsContent } from "@/components/ui/tabs";
 import { api } from "@/utils/api";
 
@@ -10,14 +13,31 @@ type PhotosTabProps = {
 };
 
 const PhotosTab = ({ setBg }: PhotosTabProps) => {
+  const [query, setQuery] = useState("");
   const { data: photos } = api.board.getPhotos.useQuery({
-    query: "",
+    query,
     page: 1,
   });
 
   return (
-    <TabsContent value="photos" className="flex overflow-hidden">
-      <div className="flex flex-col gap-3 pt-2">
+    <TabsContent value="photos" className="flex overflow-y-hidden">
+      <div className="flex w-full flex-col gap-3 pt-2">
+        {/* Search input */}
+        <div className="relative flex w-full items-center">
+          <Label htmlFor="query" aria-label="search" className="absolute pl-3">
+            <MagnifyingGlassIcon />
+          </Label>
+          <Input
+            id="query"
+            type="text"
+            value={query}
+            placeholder="Search photos"
+            className="pl-9"
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </div>
+
+        {/* Photos */}
         <div className="flex flex-col overflow-hidden hover:overflow-y-scroll">
           <div className="grid w-full grid-cols-3 gap-2">
             {photos?.map((photo) => (
@@ -42,6 +62,7 @@ const PhotosTab = ({ setBg }: PhotosTabProps) => {
             ))}
           </div>
         </div>
+
         <div className="text-xs">
           By using images from Unsplash, you agree to their{" "}
           <Link
