@@ -5,6 +5,7 @@ import { type Dispatch, type SetStateAction, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Skeleton } from "@/components/ui/skeleton";
 import { TabsContent } from "@/components/ui/tabs";
 import useDebounce from "@/hooks/useDebounce";
 import { api } from "@/utils/api";
@@ -17,7 +18,7 @@ const PhotosTab = ({ setBg }: PhotosTabProps) => {
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query, 1000);
 
-  const { data: photos } = api.board.getPhotos.useQuery({
+  const { data: photos, isLoading } = api.board.getPhotos.useQuery({
     query: debouncedQuery,
     page: 1,
   });
@@ -45,30 +46,40 @@ const PhotosTab = ({ setBg }: PhotosTabProps) => {
         </div>
 
         {/* Photos */}
-        <div className="flex flex-col overflow-hidden hover:overflow-y-scroll">
-          <div className="grid w-full grid-cols-3 gap-2">
-            {photos?.map((photo) => (
-              <Button
-                type="button"
-                key={photo.id}
-                size="xl"
-                variant="outline"
-                className="group flex shrink-0 flex-col justify-end"
-                style={{ background: `url(${photo.urls.thumb})` }}
-                onClick={() => setBg(`url(${photo.urls.full})`)}
-              >
-                <Link
-                  className="invisible w-full bg-card/50 px-1 text-start text-xs group-hover:visible"
-                  href={photo.user.links.html}
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  {photo.user.name}
-                </Link>
-              </Button>
-            ))}
+        {isLoading ? (
+          <div className="flex overflow-hidden">
+            <div className="grid w-full grid-cols-3 gap-2">
+              {Array.from({ length: 9 }, (_, index) => (
+                <Skeleton key={index} className="h-28 rounded-md" />
+              ))}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="flex flex-col overflow-hidden hover:overflow-y-scroll">
+            <div className="grid w-full grid-cols-3 gap-2">
+              {photos?.map((photo) => (
+                <Button
+                  type="button"
+                  key={photo.id}
+                  size="xl"
+                  variant="outline"
+                  className="group flex shrink-0 flex-col justify-end"
+                  style={{ background: `url(${photo.urls.thumb})` }}
+                  onClick={() => setBg(`url(${photo.urls.full})`)}
+                >
+                  <Link
+                    className="invisible w-full bg-card/50 px-1 text-start text-xs group-hover:visible"
+                    href={photo.user.links.html}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    {photo.user.name}
+                  </Link>
+                </Button>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="text-xs">
           By using images from Unsplash, you agree to their{" "}
