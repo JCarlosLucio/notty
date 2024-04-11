@@ -2,7 +2,7 @@ import { type Dispatch, type SetStateAction } from "react";
 
 import { Button } from "@/components/ui/button";
 import { TabsContent } from "@/components/ui/tabs";
-import { gradients } from "@/utils/gradients";
+import { gradients } from "@/utils/colors";
 
 type ColorsTabProps = {
   setBg: Dispatch<SetStateAction<string | null>>;
