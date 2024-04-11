@@ -156,7 +156,7 @@ describe("Boards", () => {
     test("should throw FORBIDDEN when user is not owner", async () => {
       const boardToUpdate = await getBoardInDB();
 
-      const testUpdateInput = {
+      const testUpdateInput: BoardUpdateInput = {
         id: boardToUpdate.id,
         ...partialUpdateInput,
       };
