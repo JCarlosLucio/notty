@@ -27,7 +27,11 @@ const PhotosTab = ({ setBg }: PhotosTabProps) => {
       <div className="flex w-full flex-col gap-3 pt-2">
         {/* Search input */}
         <div className="relative flex w-full items-center">
-          <Label htmlFor="query" aria-label="search" className="absolute pl-3">
+          <Label
+            htmlFor="query"
+            aria-label="search photos"
+            className="absolute pl-3"
+          >
             <MagnifyingGlassIcon />
           </Label>
           <Input
