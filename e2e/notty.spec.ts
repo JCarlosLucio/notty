@@ -37,7 +37,7 @@ test.describe("Dashboard", () => {
     );
   });
 
-  test("should create board", async ({ page }) => {
+  test("should create board from Dashboard", async ({ page }) => {
     const title = "testing";
 
     await page.getByTestId("board-input").fill(title);
