@@ -99,7 +99,7 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
           <h6 className="text-sm">Current background</h6>
           <div
             className="group flex h-52 w-full items-center justify-center rounded-lg border"
-            style={{ backgroundImage: bg ?? "", backgroundSize: "cover" }}
+            style={{ background: bg ?? "", backgroundSize: "cover" }}
           >
             <Button
               type="button"
