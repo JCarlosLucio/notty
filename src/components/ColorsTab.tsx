@@ -21,7 +21,7 @@ const ColorsTab = ({ setBg }: ColorsTabProps) => {
               variant="outline"
               style={{ background: gradient.bg }}
               onClick={() => setBg(gradient.bg)}
-              data-testid="color-btn"
+              data-testid="select-color-btn"
             />
           ))}
         </div>
