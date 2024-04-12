@@ -43,6 +43,7 @@ const BoardPage = () => {
             backgroundSize: "cover",
           }
         }
+        data-testid="current-board"
       >
         <Boards currentBoardId={currentBoard?.id} />
 
