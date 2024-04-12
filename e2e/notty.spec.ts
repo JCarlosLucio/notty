@@ -81,6 +81,31 @@ test.describe("Boards", () => {
     await page.getByRole("button", { name: "Close" }).click();
     await expect(page).toHaveTitle(updatedTitle);
   });
+
+  test("should update board bg to a color", async ({ page }) => {
+    await page.getByTestId("open-board-details-btn").click();
+    await page.getByTestId("show-update-board-btn").click();
+
+    const bgProp = "background";
+    const colorBtn = page.getByTestId("color-btn").first();
+    const color = await colorBtn.evaluate((el) =>
+      window.getComputedStyle(el).getPropertyValue(bgProp),
+    );
+
+    await colorBtn.click();
+
+    await expect(page.getByTestId("bg-preview")).toHaveCSS(bgProp, color);
+    await expect(page.getByTestId("bg-preview")).not.toHaveCSS(bgProp, /none/);
+
+    await page.getByTestId("save-board-btn").click();
+    await page.getByRole("button", { name: "Close" }).click();
+
+    await expect(page.getByTestId("current-board")).toHaveCSS(bgProp, color);
+    await expect(page.getByTestId("current-board")).not.toHaveCSS(
+      bgProp,
+      /none/,
+    );
+  });
 });
 
 test.describe("Lists", () => {
