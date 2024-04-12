@@ -86,7 +86,7 @@ test.describe("Boards", () => {
     await page.getByTestId("open-board-details-btn").click();
     await page.getByTestId("show-update-board-btn").click();
 
-    const colorBtn = page.getByTestId("color-btn").first();
+    const colorBtn = page.getByTestId("select-color-btn").first();
     const colorBg = await colorBtn.evaluate((el) =>
       window.getComputedStyle(el).getPropertyValue("background"),
     );
