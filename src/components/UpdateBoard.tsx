@@ -116,10 +116,18 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
 
         <Tabs defaultValue="colors" className="flex flex-col overflow-y-hidden">
           <TabsList>
-            <TabsTrigger value="colors" className="w-full">
+            <TabsTrigger
+              value="colors"
+              className="w-full"
+              data-testid="colors-tab"
+            >
               Colors
             </TabsTrigger>
-            <TabsTrigger value="photos" className="w-full">
+            <TabsTrigger
+              value="photos"
+              className="w-full"
+              data-testid="photos-tab"
+            >
               <span>
                 Photos by{" "}
                 <Link
