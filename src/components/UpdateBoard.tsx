@@ -100,6 +100,7 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
           <div
             className="group flex h-52 w-full items-center justify-center rounded-lg border"
             style={{ background: bg ?? "", backgroundSize: "cover" }}
+            data-testid="bg-preview"
           >
             <Button
               type="button"
