@@ -101,6 +101,35 @@ test.describe("Boards", () => {
 
     await expect(page.getByTestId("current-board")).toHaveCSS(bgProp, colorBg);
   });
+
+  test("should update board bg to a photo", async ({ page }) => {
+    await page.getByTestId("open-board-details-btn").click();
+    await page.getByTestId("show-update-board-btn").click();
+    await page.getByTestId("photos-tab").click();
+
+    await page.getByTestId("select-photo-btn").first().click();
+
+    const bgProp = "background";
+    await expect(page.getByTestId("bg-preview")).toHaveCSS(bgProp, /url/);
+    await expect(page.getByTestId("bg-preview")).toHaveCSS(
+      bgProp,
+      /images.unsplash.com/,
+    );
+    await expect(page.getByTestId("bg-preview")).not.toHaveCSS(bgProp, /none/);
+
+    await page.getByTestId("save-board-btn").click();
+    await page.getByRole("button", { name: "Close" }).click();
+
+    await expect(page.getByTestId("current-board")).toHaveCSS(bgProp, /url/);
+    await expect(page.getByTestId("current-board")).toHaveCSS(
+      bgProp,
+      /images.unsplash.com/,
+    );
+    await expect(page.getByTestId("current-board")).not.toHaveCSS(
+      bgProp,
+      /none/,
+    );
+  });
 });
 
 test.describe("Lists", () => {
