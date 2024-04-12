@@ -66,6 +66,7 @@ const PhotosTab = ({ setBg }: PhotosTabProps) => {
                   className="group flex shrink-0 flex-col justify-end"
                   style={{ background: `url(${photo.urls.thumb})` }}
                   onClick={() => setBg(`url(${photo.urls.full})`)}
+                  data-testid="select-photo-btn"
                 >
                   <Link
                     className="invisible w-full bg-card/50 px-1 text-start text-xs group-hover:visible"
