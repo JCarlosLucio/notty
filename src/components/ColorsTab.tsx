@@ -21,6 +21,7 @@ const ColorsTab = ({ setBg }: ColorsTabProps) => {
               variant="outline"
               style={{ background: gradient.bg }}
               onClick={() => setBg(gradient.bg)}
+              aria-label={`Select '${gradient.name}' background`}
               data-testid="select-color-btn"
             />
           ))}
