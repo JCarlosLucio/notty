@@ -19,7 +19,7 @@ const ColorsTab = ({ setBg }: ColorsTabProps) => {
               key={gradient.id}
               size="lg"
               variant="outline"
-              style={{ background: gradient.bg }}
+              style={{ backgroundImage: gradient.bg }}
               onClick={() => setBg(gradient.bg)}
               aria-label={`Select '${gradient.name}' background`}
               data-testid="select-color-btn"
@@ -34,7 +34,7 @@ const ColorsTab = ({ setBg }: ColorsTabProps) => {
               key={color.id}
               size="lg"
               variant="outline"
-              style={{ background: color.bg }}
+              style={{ backgroundImage: color.bg }}
               onClick={() => setBg(color.bg)}
               aria-label={`Select '${color.name}' background`}
               data-testid="select-color-btn"

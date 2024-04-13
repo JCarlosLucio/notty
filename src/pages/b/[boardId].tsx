@@ -39,7 +39,7 @@ const BoardPage = () => {
         className="relative flex h-screen min-h-screen flex-col gap-4 pt-20"
         style={
           currentBoard && {
-            background: currentBoard.bg ?? "",
+            backgroundImage: currentBoard.bg ?? "",
             backgroundSize: "cover",
           }
         }
