@@ -1,4 +1,6 @@
-export const gradients: { id: string; name: string; bg: string }[] = [
+type Color = { id: string; name: string; bg: string };
+
+export const gradients: Color[] = [
   {
     id: "expresso",
     name: "eXpresso",
@@ -83,5 +85,58 @@ export const gradients: { id: string; name: string; bg: string }[] = [
     id: "radial",
     name: "Radial",
     bg: "radial-gradient(800px at 700px 200px, rgb(30, 21, 35), rgba(0, 0, 0, 0)), radial-gradient(600px at calc(100% - 300px) 300px, rgb(13, 40, 71), rgba(0, 0, 0, 0)), radial-gradient(800px at 100% 50%, rgb(17, 40, 64), rgba(0, 0, 0, 0)), radial-gradient(800px at 100% 100%, rgb(13, 20, 31), rgba(0, 0, 0, 0)), radial-gradient(800px at calc(50% - 600px) calc(100% - 100px), rgb(55, 23, 47), rgb(25, 17, 23), rgba(0, 0, 0, 0))",
+  },
+];
+
+export const colors: Color[] = [
+  {
+    id: "night",
+    name: "🌃",
+    bg: "#000000",
+  },
+  {
+    id: "white",
+    name: "📖",
+    bg: "#ffffff",
+  },
+  {
+    id: "fish",
+    name: "🐟",
+    bg: "#1ec3cf",
+  },
+  {
+    id: "ocean",
+    name: "🩳",
+    bg: "#01096e",
+  },
+  {
+    id: "hyacinth",
+    name: "🪻",
+    bg: "#5707c0",
+  },
+  {
+    id: "hibiscus",
+    name: "🌺",
+    bg: "#db1fc2",
+  },
+  {
+    id: "volcano",
+    name: "🌋",
+    bg: "#6b0000",
+  },
+  {
+    id: "orange",
+    name: "🍊",
+    bg: "#e27900",
+  },
+  {
+    id: "chicken",
+    name: "🐣",
+    bg: "#dbcf1f",
+  },
+  {
+    id: "camp",
+    name: "🏕️",
+    bg: "#00bb38",
   },
 ];
