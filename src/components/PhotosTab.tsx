@@ -67,6 +67,7 @@ const PhotosTab = ({ setBg }: PhotosTabProps) => {
                   className="group flex shrink-0 flex-col justify-end"
                   style={{ background: `url(${photo.urls.thumb})` }}
                   onClick={() => setBg(`url(${photo.urls.full})`)}
+                  aria-label={`Select '${photo.alt_description}' background`}
                   data-testid="select-photo-btn"
                 >
                   <Link
