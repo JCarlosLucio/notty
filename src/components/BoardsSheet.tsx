@@ -17,7 +17,7 @@ type BoardsProps = {
   currentBoardId?: string;
 };
 
-const Boards = ({ currentBoardId }: BoardsProps) => {
+const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
   const { data: boards } = api.board.getAll.useQuery();
 
   return (
@@ -59,4 +59,4 @@ const Boards = ({ currentBoardId }: BoardsProps) => {
   );
 };
 
-export default Boards;
+export default BoardsSheet;
