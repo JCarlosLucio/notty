@@ -31,7 +31,7 @@ const Dashboard = () => {
         <title>Dashboard</title>
       </Head>
 
-      <main className="min-h-screen pt-16">
+      <main className="min-h-screen pb-5 pt-16">
         <BoardsSheet />
         <div className="flex w-full flex-col items-center gap-12">
           <div className="flex w-full flex-col items-center justify-center">
