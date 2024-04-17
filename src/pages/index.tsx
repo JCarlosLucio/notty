@@ -1,8 +1,24 @@
+import { type GetServerSideProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
+import { getServerAuthSession } from "@/server/auth";
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getServerAuthSession(ctx);
+  if (session) {
+    return {
+      redirect: {
+        destination: "/dashboard",
+        permanent: false,
+      },
+    };
+  }
+
+  return { props: { session } };
+};
 
 export default function Home() {
   return (
