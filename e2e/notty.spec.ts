@@ -6,8 +6,11 @@ test.describe("Home", () => {
   test("should have title / heading", async ({ page }) => {
     await page.goto("/");
 
-    await expect(page).toHaveTitle(/Notty/);
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Notty");
+    // redirected to /dashboard if signed in
+    await expect(page).toHaveTitle(/Dashboard/);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+      "Your dashboard",
+    );
   });
 
   test("should change theme", async ({ page }) => {
