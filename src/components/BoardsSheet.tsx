@@ -32,7 +32,7 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
           My Boards <ChevronRightIcon />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left">
+      <SheetContent side="left" className="flex flex-col overflow-hidden">
         <SheetHeader>
           <SheetTitle>My Boards</SheetTitle>
           <SheetDescription>
@@ -40,19 +40,21 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
           </SheetDescription>
           <CreateBoard />
         </SheetHeader>
-        <div className="flex flex-col gap-1 pt-3">
-          {boards?.map((board) => (
-            <Button
-              key={board.id}
-              asChild
-              variant={currentBoardId === board.id ? "secondary" : "ghost"}
-              size="lg"
-            >
-              <Link href={`/b/${board.id}`} data-testid="board-link">
-                {board.title}
-              </Link>
-            </Button>
-          ))}
+        <div className="flex flex-col overflow-hidden pt-3 hover:overflow-y-scroll">
+          <div className="flex w-full flex-col gap-1">
+            {boards?.map((board) => (
+              <Button
+                key={board.id}
+                asChild
+                variant={currentBoardId === board.id ? "secondary" : "ghost"}
+                size="lg"
+              >
+                <Link href={`/b/${board.id}`} data-testid="board-link">
+                  {board.title}
+                </Link>
+              </Button>
+            ))}
+          </div>
         </div>
       </SheetContent>
     </Sheet>
