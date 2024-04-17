@@ -39,7 +39,7 @@ export const boardRouter = createTRPCRouter({
         userId: ctx.session.user.id,
       },
       orderBy: {
-        updatedAt: "asc",
+        updatedAt: "desc",
       },
     });
   }),
