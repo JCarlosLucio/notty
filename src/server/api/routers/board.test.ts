@@ -19,7 +19,8 @@ type BoardUpdateInput = inferProcedureInput<AppRouter["board"]["update"]>;
 const testBoardInput: BoardCreateInput = { title: "Board Test" };
 const partialUpdateInput: Omit<BoardUpdateInput, "id"> = {
   title: "Updated title",
-  bg: "blue",
+  bg: "linear-gradient(0deg, #000, #000)",
+  thumb: "linear-gradient(0deg, #000, #000)",
 };
 
 describe("Boards", () => {
