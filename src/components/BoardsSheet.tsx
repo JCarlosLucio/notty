@@ -50,7 +50,7 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
                 size="lg"
               >
                 <Link href={`/b/${board.id}`} data-testid="board-link">
-                  {board.title}
+                  <span className="truncate">{board.title}</span>
                 </Link>
               </Button>
             ))}
