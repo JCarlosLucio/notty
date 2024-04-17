@@ -31,11 +31,11 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
         {board ? (
           <Dialog>
             <DialogTrigger asChild data-testid="open-board-details-btn">
-              <CardHeader className="group flex cursor-pointer flex-row rounded-xl bg-secondary/70 p-3">
-                <CardTitle className="pl-6 pr-2 text-center text-2xl">
-                  {board.title}
-                </CardTitle>
-                <Pencil1Icon className="invisible group-hover:visible" />
+              <CardHeader className="group flex max-w-3xl cursor-pointer flex-row rounded-xl bg-secondary/70 p-3 text-2xl">
+                <CardTitle className="truncate pl-8">{board.title}</CardTitle>
+                <div className="px-2">
+                  <Pencil1Icon className="invisible group-hover:visible" />
+                </div>
               </CardHeader>
             </DialogTrigger>
             <DialogContent className="flex max-h-full shrink-0 sm:max-w-2xl">
@@ -57,7 +57,7 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
                 </div>
               ) : (
                 <DialogHeader>
-                  <div className="flex flex-row gap-2">
+                  <div className="mx-2 flex flex-row gap-2">
                     <DialogTitle className="text-2xl">
                       {board.title}
                     </DialogTitle>
