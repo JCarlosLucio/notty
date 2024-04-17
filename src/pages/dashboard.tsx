@@ -49,7 +49,7 @@ const Dashboard = () => {
                   href={`/b/${board.id}`}
                   className="overflow-hidden border hover:border-primary"
                   style={{
-                    backgroundImage: board.bg ?? "",
+                    backgroundImage: board.thumb ?? "",
                     backgroundSize: "cover",
                   }}
                   data-testid="board-link"

@@ -11,7 +11,9 @@ import useDebounce from "@/hooks/useDebounce";
 import { api } from "@/utils/api";
 
 type PhotosTabProps = {
-  setBg: Dispatch<SetStateAction<string | null>>;
+  setBg: Dispatch<
+    SetStateAction<{ full: string | null; thumb: string | null }>
+  >;
 };
 
 const PhotosTab = ({ setBg }: PhotosTabProps) => {
@@ -66,7 +68,12 @@ const PhotosTab = ({ setBg }: PhotosTabProps) => {
                   variant="outline"
                   className="group flex shrink-0 flex-col justify-end"
                   style={{ background: `url(${photo.urls.thumb})` }}
-                  onClick={() => setBg(`url(${photo.urls.full})`)}
+                  onClick={() =>
+                    setBg({
+                      full: `url(${photo.urls.full})`,
+                      thumb: `url(${photo.urls.small})`,
+                    })
+                  }
                   aria-label={`Select '${photo.alt_description}' background`}
                   data-testid="select-photo-btn"
                 >

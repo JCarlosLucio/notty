@@ -33,12 +33,16 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
       title: board.title,
       id: "",
       bg: "",
+      thumb: "",
     },
   });
   const { toast } = useToast();
   const ctx = api.useUtils();
 
-  const [bg, setBg] = useState<string | null>(board.bg);
+  const [bg, setBg] = useState<{ full: string | null; thumb: string | null }>({
+    full: board.bg,
+    thumb: board.thumb,
+  });
 
   const { mutate: updateBoard, isLoading } = api.board.update.useMutation({
     onSuccess: (updatedBoard) => {
@@ -66,7 +70,8 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
 
   const onSubmit: SubmitHandler<UpdateBoardInput> = (values) => {
     values.id = board.id;
-    values.bg = bg;
+    values.bg = bg.full;
+    values.thumb = bg.thumb;
     updateBoard(values);
   };
 
@@ -100,7 +105,7 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
           <div
             className="group flex h-52 w-full items-center justify-center rounded-lg border"
             style={{
-              backgroundImage: bg ?? "",
+              backgroundImage: bg.thumb ?? "",
               backgroundSize: "cover",
             }}
             data-testid="bg-preview"
@@ -110,7 +115,7 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
               size="lg"
               variant="destructive"
               className="invisible group-hover:visible"
-              onClick={() => setBg(null)}
+              onClick={() => setBg({ full: null, thumb: null })}
             >
               Remove
             </Button>

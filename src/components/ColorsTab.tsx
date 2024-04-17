@@ -5,7 +5,9 @@ import { TabsContent } from "@/components/ui/tabs";
 import { colors, gradients } from "@/utils/colors";
 
 type ColorsTabProps = {
-  setBg: Dispatch<SetStateAction<string | null>>;
+  setBg: Dispatch<
+    SetStateAction<{ full: string | null; thumb: string | null }>
+  >;
 };
 
 const ColorsTab = ({ setBg }: ColorsTabProps) => {
@@ -20,7 +22,7 @@ const ColorsTab = ({ setBg }: ColorsTabProps) => {
               size="lg"
               variant="outline"
               style={{ backgroundImage: gradient.bg }}
-              onClick={() => setBg(gradient.bg)}
+              onClick={() => setBg({ full: gradient.bg, thumb: gradient.bg })}
               aria-label={`Select '${gradient.name}' background`}
               data-testid="select-color-btn"
             />
@@ -35,7 +37,7 @@ const ColorsTab = ({ setBg }: ColorsTabProps) => {
               size="lg"
               variant="outline"
               style={{ backgroundImage: color.bg }}
-              onClick={() => setBg(color.bg)}
+              onClick={() => setBg({ full: color.bg, thumb: color.bg })}
               aria-label={`Select '${color.name}' background`}
               data-testid="select-color-btn"
             />

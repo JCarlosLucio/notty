@@ -124,6 +124,7 @@ export const boardRouter = createTRPCRouter({
         data: {
           title: input.title,
           bg: input.bg,
+          thumb: input.thumb,
         },
       });
     }),

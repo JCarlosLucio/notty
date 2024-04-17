@@ -25,6 +25,7 @@ export const updateBoardSchema = z.object({
     .min(1, "Title is required")
     .max(256, "Title must contain at most 256 characters"),
   bg: z.string().nullable(),
+  thumb: z.string().nullable(),
 });
 
 export const getImagesSchema = z.object({
