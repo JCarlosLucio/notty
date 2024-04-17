@@ -38,9 +38,11 @@ function UserSessionPopover() {
           </Avatar>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="mt-3 w-80">
-        <p>{sessionData?.user.name}</p>
-        <Button variant="secondary" onClick={() => void signOut()}>
+      <PopoverContent className="mt-3 flex w-72 flex-col gap-3 border">
+        <p className="w-full truncate text-xl font-bold">
+          {sessionData?.user.name}
+        </p>
+        <Button variant="destructive" onClick={() => void signOut()}>
           Sign out
         </Button>
       </PopoverContent>
