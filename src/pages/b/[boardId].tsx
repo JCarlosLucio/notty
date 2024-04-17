@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 import BoardDetails from "@/components/BoardDetails";
 import BoardLists from "@/components/BoardLists";
-import Boards from "@/components/Boards";
+import BoardsSheet from "@/components/BoardsSheet";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/utils/api";
 
@@ -37,12 +37,15 @@ const BoardPage = () => {
 
       <main
         className="relative flex h-screen min-h-screen flex-col gap-4 pt-20"
-        style={{
-          backgroundImage: "url(https://picsum.photos/1920/1080)",
-          backgroundSize: "cover",
-        }}
+        style={
+          currentBoard && {
+            backgroundImage: currentBoard.bg ?? "",
+            backgroundSize: "cover",
+          }
+        }
+        data-testid="current-board"
       >
-        <Boards currentBoardId={currentBoard?.id} />
+        <BoardsSheet currentBoardId={currentBoard?.id} />
 
         {isLoading ? (
           <h1>Loading...</h1>

@@ -37,7 +37,7 @@ test.describe("Dashboard", () => {
     );
   });
 
-  test("should create board", async ({ page }) => {
+  test("should create board from Dashboard", async ({ page }) => {
     const title = "testing";
 
     await page.getByTestId("board-input").fill(title);
@@ -80,6 +80,103 @@ test.describe("Boards", () => {
     await page.getByTestId("save-board-btn").click();
     await page.getByRole("button", { name: "Close" }).click();
     await expect(page).toHaveTitle(updatedTitle);
+  });
+
+  test("should update board bg to a color", async ({ page }) => {
+    await page.getByTestId("open-board-details-btn").click();
+    await page.getByTestId("show-update-board-btn").click();
+
+    const colorBtn = page.getByTestId("select-color-btn").first();
+    const colorBg = await colorBtn.evaluate((el) =>
+      window.getComputedStyle(el).getPropertyValue("background"),
+    );
+
+    await colorBtn.click();
+
+    const bgProp = "background";
+    await expect(page.getByTestId("bg-preview")).toHaveCSS(bgProp, colorBg);
+
+    await page.getByTestId("save-board-btn").click();
+    await page.getByRole("button", { name: "Close" }).click();
+
+    await expect(page.getByTestId("current-board")).toHaveCSS(bgProp, colorBg);
+  });
+
+  test("should update board bg to a photo", async ({ page }) => {
+    await page.getByTestId("open-board-details-btn").click();
+    await page.getByTestId("show-update-board-btn").click();
+    await page.getByTestId("photos-tab").click();
+
+    await page.getByTestId("select-photo-btn").first().click();
+
+    const bgProp = "background";
+    await expect(page.getByTestId("bg-preview")).toHaveCSS(bgProp, /url/);
+    await expect(page.getByTestId("bg-preview")).toHaveCSS(
+      bgProp,
+      /images.unsplash.com/,
+    );
+    await expect(page.getByTestId("bg-preview")).not.toHaveCSS(bgProp, /none/);
+
+    await page.getByTestId("save-board-btn").click();
+    await page.getByRole("button", { name: "Close" }).click();
+
+    await expect(page.getByTestId("current-board")).toHaveCSS(bgProp, /url/);
+    await expect(page.getByTestId("current-board")).toHaveCSS(
+      bgProp,
+      /images.unsplash.com/,
+    );
+    await expect(page.getByTestId("current-board")).not.toHaveCSS(
+      bgProp,
+      /none/,
+    );
+  });
+
+  test("should update board bg with a searched photo", async ({ page }) => {
+    await page.getByTestId("open-board-details-btn").click();
+    await page.getByTestId("show-update-board-btn").click();
+    await page.getByTestId("photos-tab").click();
+
+    const initialPhotoBg = await page
+      .getByTestId("select-photo-btn")
+      .first()
+      .evaluate((el) =>
+        window.getComputedStyle(el).getPropertyValue("background"),
+      );
+
+    // fill search input
+    await page.getByTestId("search-photos-input").fill("landscape");
+    // wait for debounced query
+    await page.waitForTimeout(2500);
+
+    const bgProp = "background";
+
+    // check photos changed after query
+    await expect(page.getByTestId("select-photo-btn").first()).not.toHaveCSS(
+      bgProp,
+      initialPhotoBg,
+    );
+
+    await page.getByTestId("select-photo-btn").first().click();
+
+    await expect(page.getByTestId("bg-preview")).toHaveCSS(bgProp, /url/);
+    await expect(page.getByTestId("bg-preview")).toHaveCSS(
+      bgProp,
+      /images.unsplash.com/,
+    );
+    await expect(page.getByTestId("bg-preview")).not.toHaveCSS(bgProp, /none/);
+
+    await page.getByTestId("save-board-btn").click();
+    await page.getByRole("button", { name: "Close" }).click();
+
+    await expect(page.getByTestId("current-board")).toHaveCSS(bgProp, /url/);
+    await expect(page.getByTestId("current-board")).toHaveCSS(
+      bgProp,
+      /images.unsplash.com/,
+    );
+    await expect(page.getByTestId("current-board")).not.toHaveCSS(
+      bgProp,
+      /none/,
+    );
   });
 });
 

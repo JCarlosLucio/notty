@@ -44,6 +44,7 @@ const Note = ({ note, className }: NoteProps) => {
       )}
       style={style}
       data-testid="note"
+      title={note.content}
       {...attributes}
       {...listeners}
     >

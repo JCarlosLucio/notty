@@ -19,6 +19,8 @@ type BoardUpdateInput = inferProcedureInput<AppRouter["board"]["update"]>;
 const testBoardInput: BoardCreateInput = { title: "Board Test" };
 const partialUpdateInput: Omit<BoardUpdateInput, "id"> = {
   title: "Updated title",
+  bg: "linear-gradient(0deg, #000, #000)",
+  thumb: "linear-gradient(0deg, #000, #000)",
 };
 
 describe("Boards", () => {
@@ -156,7 +158,7 @@ describe("Boards", () => {
     test("should throw FORBIDDEN when user is not owner", async () => {
       const boardToUpdate = await getBoardInDB();
 
-      const testUpdateInput = {
+      const testUpdateInput: BoardUpdateInput = {
         id: boardToUpdate.id,
         ...partialUpdateInput,
       };

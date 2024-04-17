@@ -24,6 +24,16 @@ export const updateBoardSchema = z.object({
     .trim()
     .min(1, "Title is required")
     .max(256, "Title must contain at most 256 characters"),
+  bg: z.string().nullable(),
+  thumb: z.string().nullable(),
+});
+
+export const getImagesSchema = z.object({
+  page: z.number(),
+  query: z
+    .string()
+    .trim()
+    .max(256, "Query must contain at most 256 characters"),
 });
 
 // LIST

@@ -1,10 +1,12 @@
 import { TRPCError } from "@trpc/server";
 
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
+import { unsplash } from "@/server/unsplash";
 import {
   createBoardSchema,
   deleteBoardSchema,
   getByIdBoardSchema,
+  getImagesSchema,
   updateBoardSchema,
 } from "@/utils/schemas";
 
@@ -37,10 +39,33 @@ export const boardRouter = createTRPCRouter({
         userId: ctx.session.user.id,
       },
       orderBy: {
-        updatedAt: "asc",
+        updatedAt: "desc",
       },
     });
   }),
+
+  // get photos from unsplash
+  getPhotos: protectedProcedure
+    .input(getImagesSchema)
+    .query(async ({ input }) => {
+      const res = await unsplash.search.getPhotos({
+        query: input.query || "wallpaper",
+        page: input.page,
+        perPage: 30,
+        orientation: "landscape",
+        contentFilter: "high",
+        orderBy: "relevant",
+      });
+
+      if (res.type === "error") {
+        throw new TRPCError({
+          message: res.errors[0],
+          code: res.status === 404 ? "NOT_FOUND" : "INTERNAL_SERVER_ERROR",
+        });
+      }
+
+      return res.response.results;
+    }),
 
   create: protectedProcedure
     .input(createBoardSchema)
@@ -98,6 +123,8 @@ export const boardRouter = createTRPCRouter({
         },
         data: {
           title: input.title,
+          bg: input.bg,
+          thumb: input.thumb,
         },
       });
     }),
