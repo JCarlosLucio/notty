@@ -18,7 +18,15 @@ type BoardsProps = {
 };
 
 const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
-  const { data: boards } = api.board.getAll.useQuery();
+  const { data, fetchNextPage, hasNextPage } =
+    api.board.getInfinite.useInfiniteQuery(
+      {
+        limit: 5,
+      },
+      {
+        getNextPageParam: (lastPage) => lastPage.nextCursor,
+      },
+    );
 
   return (
     <Sheet key="boards-sheet">
@@ -36,24 +44,32 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
         <SheetHeader>
           <SheetTitle>My Boards</SheetTitle>
           <SheetDescription>
-            Manage your boards. {boards?.length}
+            Manage your boards.{" "}
+            {data?.pages.reduce((acc, cur) => acc + cur.boards.length, 0)}
           </SheetDescription>
           <CreateBoard />
         </SheetHeader>
         <div className="flex flex-col overflow-hidden pt-3 hover:overflow-y-scroll">
           <div className="flex w-full flex-col gap-1">
-            {boards?.map((board) => (
-              <Button
-                key={board.id}
-                asChild
-                variant={currentBoardId === board.id ? "secondary" : "ghost"}
-                size="lg"
-              >
-                <Link href={`/b/${board.id}`} data-testid="board-link">
-                  <span className="truncate">{board.title}</span>
-                </Link>
+            {data?.pages.map((pageData) =>
+              pageData.boards.map((board) => (
+                <Button
+                  key={board.id}
+                  asChild
+                  variant={currentBoardId === board.id ? "secondary" : "ghost"}
+                  size="lg"
+                >
+                  <Link href={`/b/${board.id}`} data-testid="board-link">
+                    <span className="truncate">{board.title}</span>
+                  </Link>
+                </Button>
+              )),
+            )}
+            {hasNextPage && (
+              <Button variant="ghost" size="lg" onClick={() => fetchNextPage()}>
+                Load more
               </Button>
-            ))}
+            )}
           </div>
         </div>
       </SheetContent>
