@@ -7,6 +7,7 @@ import {
   deleteBoardSchema,
   getByIdBoardSchema,
   getImagesSchema,
+  getInfiniteBoardsSchema,
   updateBoardSchema,
 } from "@/utils/schemas";
 
@@ -43,6 +44,36 @@ export const boardRouter = createTRPCRouter({
       },
     });
   }),
+
+  getInfinite: protectedProcedure
+    .input(getInfiniteBoardsSchema)
+    .query(async ({ ctx, input }) => {
+      const limit = input.limit ?? 30;
+      const { cursor } = input;
+
+      const boards = await ctx.db.board.findMany({
+        take: limit + 1, // get an extra item at the end which we'll use as next cursor
+        where: {
+          userId: ctx.session.user.id,
+        },
+        cursor: cursor ? { id: cursor } : undefined,
+        orderBy: {
+          updatedAt: "desc",
+        },
+      });
+
+      let nextCursor: typeof cursor = undefined;
+
+      if (boards.length > limit) {
+        const nextBoard = boards.pop(); // return the last item from the array
+        nextCursor = nextBoard?.id;
+      }
+
+      return {
+        boards,
+        nextCursor,
+      };
+    }),
 
   // get photos from unsplash
   getPhotos: protectedProcedure
