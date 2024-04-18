@@ -5,6 +5,11 @@ export const getByIdBoardSchema = z.object({
   id: z.string(),
 });
 
+export const getInfiniteBoardsSchema = z.object({
+  limit: z.number().min(1).max(100).nullish(),
+  cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
+});
+
 export const createBoardSchema = z.object({
   title: z
     .string()
