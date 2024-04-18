@@ -23,7 +23,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const Dashboard = () => {
-  const { data: boards } = api.board.getAll.useQuery();
+  const { data, fetchNextPage, hasNextPage } =
+    api.board.getInfinite.useInfiniteQuery(
+      {
+        limit: 5,
+      },
+      {
+        getNextPageParam: (lastPage) => lastPage.nextCursor,
+      },
+    );
 
   return (
     <>
@@ -43,23 +51,34 @@ const Dashboard = () => {
           </div>
 
           <div className="grid w-5/6 grid-cols-4 gap-5">
-            {boards?.map((board) => (
-              <Button key={board.id} asChild variant="ghost" size="2xl">
-                <Link
-                  href={`/b/${board.id}`}
-                  className="overflow-hidden border hover:border-primary"
-                  style={{
-                    backgroundImage: board.thumb ?? "",
-                    backgroundSize: "cover",
-                  }}
-                  data-testid="board-link"
-                >
-                  <div className="flex h-full  w-full items-center justify-center bg-card/50 text-2xl font-semibold hover:bg-card/30">
-                    {board.title}
-                  </div>
-                </Link>
+            {data?.pages.map((pageData) =>
+              pageData.boards.map((board) => (
+                <Button key={board.id} asChild variant="ghost" size="2xl">
+                  <Link
+                    href={`/b/${board.id}`}
+                    className="overflow-hidden border hover:border-primary"
+                    style={{
+                      backgroundImage: board.thumb ?? "",
+                      backgroundSize: "cover",
+                    }}
+                    data-testid="board-link"
+                  >
+                    <div className="flex h-full w-full items-center justify-center bg-card/50 p-3 text-2xl font-semibold hover:bg-card/30">
+                      <span className="truncate">{board.title}</span>
+                    </div>
+                  </Link>
+                </Button>
+              )),
+            )}
+            {hasNextPage && (
+              <Button
+                variant="ghost"
+                size="2xl"
+                onClick={() => fetchNextPage()}
+              >
+                Load more
               </Button>
-            ))}
+            )}
           </div>
         </div>
       </main>
