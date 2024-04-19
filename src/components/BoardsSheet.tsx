@@ -66,8 +66,13 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
               )),
             )}
             {hasNextPage && (
-              <Button variant="ghost" size="lg" onClick={() => fetchNextPage()}>
-                Load more
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-max self-center text-muted-foreground"
+                onClick={() => fetchNextPage()}
+              >
+                Show More
               </Button>
             )}
           </div>
