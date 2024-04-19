@@ -51,6 +51,16 @@ describe("Boards", () => {
       expect(boards).toHaveLength(limit);
       expect(nextCursor).toBe(expectedCursor);
     });
+
+    test("should get last available infinite boards", async () => {
+      const limit = 5;
+      const { boards, nextCursor } = await caller.board.getInfinite({
+        limit,
+      });
+
+      expect(boards).toHaveLength(initialBoards.length);
+      expect(nextCursor).not.toBeDefined();
+    });
   });
 
   describe("getting boards by id", () => {
