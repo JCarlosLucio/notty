@@ -70,16 +70,17 @@ const Dashboard = () => {
                 </Button>
               )),
             )}
-            {hasNextPage && (
-              <Button
-                variant="ghost"
-                size="2xl"
-                onClick={() => fetchNextPage()}
-              >
-                Load more
-              </Button>
-            )}
           </div>
+          {hasNextPage && (
+            <Button
+              variant="outline"
+              size="lg"
+              className="text-muted-foreground"
+              onClick={() => fetchNextPage()}
+            >
+              Show More
+            </Button>
+          )}
         </div>
       </main>
     </>
