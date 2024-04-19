@@ -42,6 +42,17 @@ describe("Boards", () => {
     });
   });
 
+  describe("getting infinite boards", () => {
+    test("should get limit amount of infinite boards", async () => {
+      const limit = 1;
+      const { boards, nextCursor } = await caller.board.getInfinite({ limit });
+      const expectedCursor = (await getBoardsInDB())[limit]?.id ?? "";
+
+      expect(boards).toHaveLength(limit);
+      expect(nextCursor).toBe(expectedCursor);
+    });
+  });
+
   describe("getting boards by id", () => {
     test("should get board by id", async () => {
       const boardToGet = await getBoardInDB();
