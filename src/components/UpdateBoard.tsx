@@ -46,10 +46,25 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
 
   const { mutate: updateBoard, isLoading } = api.board.update.useMutation({
     onSuccess: (updatedBoard) => {
-      ctx.board.getAll.setData(undefined, (oldBoard) => {
-        return oldBoard
-          ? oldBoard.map((b) => (b.id === updatedBoard.id ? updatedBoard : b))
-          : oldBoard;
+      ctx.board.getInfinite.setInfiniteData({ limit: 5 }, (oldPageData) => {
+        return oldPageData
+          ? {
+              ...oldPageData,
+              pages: oldPageData.pages.map((page, i) => {
+                const filteredPage = {
+                  ...page,
+                  boards: page.boards.filter((b) => b.id !== updatedBoard.id),
+                };
+
+                return i === 0
+                  ? {
+                      ...filteredPage,
+                      boards: [updatedBoard, ...filteredPage.boards],
+                    }
+                  : filteredPage;
+              }),
+            }
+          : oldPageData;
       });
       ctx.board.getById.setData({ id: board.id }, () => {
         return updatedBoard;
