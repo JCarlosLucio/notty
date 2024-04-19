@@ -32,8 +32,17 @@ const CreateBoard = () => {
 
   const { mutate: createBoard, isLoading } = api.board.create.useMutation({
     onSuccess: (createdBoard) => {
-      ctx.board.getAll.setData(undefined, (oldBoard) => {
-        return oldBoard ? [...oldBoard, createdBoard] : oldBoard;
+      ctx.board.getInfinite.setInfiniteData({ limit: 5 }, (oldPageData) => {
+        return oldPageData
+          ? {
+              ...oldPageData,
+              pages: oldPageData.pages.map((page, i) => {
+                return i === 0
+                  ? { ...page, boards: [createdBoard, ...page.boards] }
+                  : page;
+              }),
+            }
+          : oldPageData;
       });
       form.reset();
       toast({
