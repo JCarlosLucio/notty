@@ -32,14 +32,7 @@ const NoteDetails = ({ note, ...props }: NoteDetailsProps) => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-2xl" data-no-dnd="true">
         {showUpdateNote ? (
-          <div className="flex flex-row items-end gap-2">
-            <div className="w-full">
-              <UpdateNote note={note} cb={() => setShowUpdateNote(false)} />
-            </div>
-            <Button variant="ghost" onClick={() => setShowUpdateNote(false)}>
-              Cancel
-            </Button>
-          </div>
+          <UpdateNote note={note} cb={() => setShowUpdateNote(false)} />
         ) : (
           <>
             <DialogHeader>

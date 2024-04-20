@@ -60,36 +60,43 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
-          control={form.control}
-          name="content"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>Title</FormLabel>
-              <FormControl>
-                <div className="flex items-center gap-2">
-                  <Input
-                    placeholder="Your new note content..."
-                    autoFocus
-                    {...field}
-                  />
-                  <Button
-                    type="submit"
-                    disabled={isLoading}
-                    className={isLoading ? "animate-pulse" : ""}
-                  >
-                    Save
-                  </Button>
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </form>
-    </Form>
+    <div className="flex flex-row items-end gap-2">
+      <div className="w-full">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <FormField
+              control={form.control}
+              name="content"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Content</FormLabel>
+                  <FormControl>
+                    <div className="flex items-center gap-2">
+                      <Input
+                        placeholder="Your new note content..."
+                        autoFocus
+                        {...field}
+                      />
+                      <Button
+                        type="submit"
+                        disabled={isLoading}
+                        className={isLoading ? "animate-pulse" : ""}
+                      >
+                        Save
+                      </Button>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </form>
+        </Form>
+      </div>
+      <Button type="button" variant="ghost" onClick={cb}>
+        Cancel
+      </Button>
+    </div>
   );
 };
 
