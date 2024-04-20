@@ -40,18 +40,7 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
       </DialogTrigger>
       <DialogContent className="p-0 sm:max-w-2xl" data-no-dnd="true">
         {showUpdateList ? (
-          <div className="flex flex-row items-end gap-2 p-6">
-            <div className="w-full">
-              <UpdateList list={list} cb={() => setShowUpdateList(false)} />
-            </div>
-            <Button
-              variant="destructive"
-              onClick={() => setShowUpdateList(false)}
-              data-testid="cancel-update-list-btn"
-            >
-              Cancel
-            </Button>
-          </div>
+          <UpdateList list={list} cb={() => setShowUpdateList(false)} />
         ) : (
           <>
             <DialogHeader
