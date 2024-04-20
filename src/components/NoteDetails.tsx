@@ -1,11 +1,13 @@
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import { useState } from "react";
 
+import DeleteNote from "@/components/DeleteNote";
 import { Button, type ButtonProps } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -18,10 +20,11 @@ type NoteDetailsProps = {
 } & ButtonProps;
 
 const NoteDetails = ({ note, ...props }: NoteDetailsProps) => {
+  const [open, setOpen] = useState(false);
   const [showUpdateNote, setShowUpdateNote] = useState(false);
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="ghost" size="icon" {...props}>
           <Pencil1Icon />
@@ -33,29 +36,31 @@ const NoteDetails = ({ note, ...props }: NoteDetailsProps) => {
             <div className="w-full">
               <UpdateNote note={note} cb={() => setShowUpdateNote(false)} />
             </div>
-            <Button
-              variant="destructive"
-              onClick={() => setShowUpdateNote(false)}
-            >
+            <Button variant="ghost" onClick={() => setShowUpdateNote(false)}>
               Cancel
             </Button>
           </div>
         ) : (
-          <DialogHeader>
-            <div className="flex flex-row gap-2">
-              <DialogTitle className="text-2xl">{note.content}</DialogTitle>
-              <Button
-                size="icon"
-                variant="ghost"
-                onClick={() => setShowUpdateNote(true)}
-              >
-                <Pencil1Icon />
-              </Button>
-            </div>
-            <DialogDescription>
-              {note.updatedAt.toDateString()}
-            </DialogDescription>
-          </DialogHeader>
+          <>
+            <DialogHeader>
+              <div className="flex flex-row gap-2">
+                <DialogTitle className="text-2xl">{note.content}</DialogTitle>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  onClick={() => setShowUpdateNote(true)}
+                >
+                  <Pencil1Icon />
+                </Button>
+              </div>
+              <DialogDescription>
+                {note.updatedAt.toDateString()}
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <DeleteNote note={note} cb={() => setOpen(false)} />
+            </DialogFooter>
+          </>
         )}
       </DialogContent>
     </Dialog>
