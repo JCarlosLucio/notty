@@ -91,92 +91,106 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
   };
 
   return (
-    <Form {...form}>
-      <form
-        className="flex max-h-full w-full shrink-0 flex-col gap-4"
-        onSubmit={form.handleSubmit(onSubmit)}
-      >
-        <FormField
-          control={form.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>Title</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Your new board title..."
-                  autoFocus
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* Update bg (gradient / photos) */}
-        <div className="flex flex-col items-center gap-2">
-          <h6 className="text-sm">Current background</h6>
-          <div
-            className="group flex h-52 w-full items-center justify-center rounded-lg border"
-            style={{
-              backgroundImage: bg.thumb ?? "",
-              backgroundSize: "cover",
-            }}
-            data-testid="bg-preview"
+    <div className="flex max-h-full w-full shrink-0 flex-row items-end gap-2">
+      <div className="flex max-h-full w-full">
+        <Form {...form}>
+          <form
+            className="flex max-h-full w-full shrink-0 flex-col gap-4"
+            onSubmit={form.handleSubmit(onSubmit)}
           >
-            <Button
-              type="button"
-              size="lg"
-              variant="destructive"
-              className="invisible group-hover:visible"
-              onClick={() => setBg({ full: null, thumb: null })}
-            >
-              Remove
-            </Button>
-          </div>
-        </div>
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Title</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Your new board title..."
+                      autoFocus
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <Tabs defaultValue="colors" className="flex flex-col overflow-y-hidden">
-          <TabsList>
-            <TabsTrigger
-              value="colors"
-              className="w-full"
-              data-testid="colors-tab"
-            >
-              Colors
-            </TabsTrigger>
-            <TabsTrigger
-              value="photos"
-              className="w-full"
-              data-testid="photos-tab"
-            >
-              <span>
-                Photos by{" "}
-                <Link
-                  className="hover:underline"
-                  href="https://unsplash.com/"
-                  rel="noreferrer"
-                  target="_blank"
+            {/* Update bg (gradient / photos) */}
+            <div className="flex flex-col items-center gap-2">
+              <h6 className="text-sm">Current background</h6>
+              <div
+                className="group flex h-52 w-full items-center justify-center rounded-lg border"
+                style={{
+                  backgroundImage: bg.thumb ?? "",
+                  backgroundSize: "cover",
+                }}
+                data-testid="bg-preview"
+              >
+                <Button
+                  type="button"
+                  size="lg"
+                  variant="destructive"
+                  className="invisible group-hover:visible"
+                  onClick={() => setBg({ full: null, thumb: null })}
                 >
-                  Unsplash
-                </Link>
-              </span>
-            </TabsTrigger>
-          </TabsList>
-          <ColorsTab setBg={setBg} />
-          <PhotosTab setBg={setBg} />
-        </Tabs>
-        <Button
-          type="submit"
-          disabled={isLoading}
-          className={isLoading ? "animate-pulse" : ""}
-          data-testid="save-board-btn"
-        >
-          Save
-        </Button>
-      </form>
-    </Form>
+                  Remove
+                </Button>
+              </div>
+            </div>
+
+            <Tabs
+              defaultValue="colors"
+              className="flex flex-col overflow-y-hidden"
+            >
+              <TabsList>
+                <TabsTrigger
+                  value="colors"
+                  className="w-full"
+                  data-testid="colors-tab"
+                >
+                  Colors
+                </TabsTrigger>
+                <TabsTrigger
+                  value="photos"
+                  className="w-full"
+                  data-testid="photos-tab"
+                >
+                  <span>
+                    Photos by{" "}
+                    <Link
+                      className="hover:underline"
+                      href="https://unsplash.com/"
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      Unsplash
+                    </Link>
+                  </span>
+                </TabsTrigger>
+              </TabsList>
+              <ColorsTab setBg={setBg} />
+              <PhotosTab setBg={setBg} />
+            </Tabs>
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className={isLoading ? "animate-pulse" : ""}
+              data-testid="save-board-btn"
+            >
+              Save
+            </Button>
+          </form>
+        </Form>
+      </div>
+      <Button
+        variant="ghost"
+        onClick={cb}
+        data-testid="cancel-update-board-btn"
+      >
+        Cancel
+      </Button>
+    </div>
   );
 };
 

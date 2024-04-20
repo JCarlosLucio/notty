@@ -45,21 +45,10 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
             </DialogTrigger>
             <DialogContent className="flex max-h-full shrink-0 sm:max-w-2xl">
               {showUpdateBoard ? (
-                <div className="flex max-h-full w-full shrink-0 flex-row items-end gap-2">
-                  <div className="flex max-h-full w-full">
-                    <UpdateBoard
-                      board={board}
-                      cb={() => setShowUpdateBoard(false)}
-                    />
-                  </div>
-                  <Button
-                    variant="destructive"
-                    onClick={() => setShowUpdateBoard(false)}
-                    data-testid="cancel-update-board-btn"
-                  >
-                    Cancel
-                  </Button>
-                </div>
+                <UpdateBoard
+                  board={board}
+                  cb={() => setShowUpdateBoard(false)}
+                />
               ) : (
                 <div className="flex w-full flex-col">
                   <DialogHeader>
