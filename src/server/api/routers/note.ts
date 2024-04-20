@@ -3,6 +3,7 @@ import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import {
   createNoteSchema,
+  deleteNoteSchema,
   getAllNoteSchema,
   getByIdNoteSchema,
   moveNoteSchema,
@@ -121,5 +122,17 @@ export const noteRouter = createTRPCRouter({
           content: input.content,
         },
       });
+    }),
+
+  delete: protectedProcedure
+    .input(deleteNoteSchema)
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.note.delete({
+        where: {
+          id: input.id,
+        },
+      });
+
+      return input.id;
     }),
 });
