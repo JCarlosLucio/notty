@@ -111,3 +111,7 @@ export const updateNoteSchema = z.object({
     .min(1, "Content is required")
     .max(256, "Content must contain at most 256 characters"),
 });
+
+export const deleteNoteSchema = z.object({
+  id: z.string(),
+});
