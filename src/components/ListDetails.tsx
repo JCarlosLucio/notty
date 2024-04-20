@@ -1,12 +1,14 @@
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import { type ComponentPropsWithoutRef, useState } from "react";
 
+import DeleteList from "@/components/DeleteList";
 import { Button } from "@/components/ui/button";
 import { CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -19,10 +21,11 @@ type ListDetailsProps = {
 } & ComponentPropsWithoutRef<"div">;
 
 const ListDetails = ({ list, ...props }: ListDetailsProps) => {
+  const [open, setOpen] = useState(false);
   const [showUpdateList, setShowUpdateList] = useState(false);
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild data-testid="open-list-details-btn">
         <CardHeader
           className="group flex shrink-0 cursor-pointer flex-row rounded-t-xl bg-secondary/70 p-3"
@@ -50,26 +53,31 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
             </Button>
           </div>
         ) : (
-          <DialogHeader>
-            <div
-              className="flex flex-row gap-2 rounded-t-md p-6 pb-3"
+          <>
+            <DialogHeader
+              className="flex flex-col p-6 pb-3"
               style={{ backgroundColor: list.color ?? undefined }}
             >
-              <DialogTitle className="text-2xl">{list.title}</DialogTitle>
-              <Button
-                size="icon"
-                variant="ghost"
-                onClick={() => setShowUpdateList(true)}
-                aria-label="Show update list form"
-                data-testid="show-update-list-btn"
-              >
-                <Pencil1Icon />
-              </Button>
-            </div>
-            <DialogDescription className="p-6 pt-3">
-              {list.updatedAt.toDateString()}
-            </DialogDescription>
-          </DialogHeader>
+              <div className="flex flex-row gap-2 rounded-t-md">
+                <DialogTitle className="text-2xl">{list.title}</DialogTitle>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  onClick={() => setShowUpdateList(true)}
+                  aria-label="Show update list form"
+                  data-testid="show-update-list-btn"
+                >
+                  <Pencil1Icon />
+                </Button>
+              </div>
+              <DialogDescription>
+                {list.updatedAt.toDateString()}
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter className="p-6 pt-0">
+              <DeleteList list={list} cb={() => setOpen(false)} />
+            </DialogFooter>
+          </>
         )}
       </DialogContent>
     </Dialog>
