@@ -2,12 +2,14 @@ import { Pencil1Icon } from "@radix-ui/react-icons";
 import { type ComponentPropsWithoutRef, useState } from "react";
 
 import CreateBoard from "@/components/CreateBoard";
+import DeleteBoard from "@/components/DeleteBoard";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -20,6 +22,7 @@ type BoardDetailsProps = {
 } & ComponentPropsWithoutRef<"div">;
 
 const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
+  const [open, setOpen] = useState(false);
   const [showUpdateBoard, setShowUpdateBoard] = useState(false);
 
   return (
@@ -29,7 +32,7 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
     >
       <Card>
         {board ? (
-          <Dialog>
+          <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild data-testid="open-board-details-btn">
               <CardHeader className="group flex max-w-3xl cursor-pointer flex-row rounded-xl bg-secondary/70 p-2 text-2xl">
                 <CardTitle className="truncate py-1 pl-8">
@@ -58,25 +61,30 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
                   </Button>
                 </div>
               ) : (
-                <DialogHeader>
-                  <div className="mx-2 flex flex-row gap-2">
-                    <DialogTitle className="text-2xl">
-                      {board.title}
-                    </DialogTitle>
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      onClick={() => setShowUpdateBoard(true)}
-                      aria-label="Show update board form"
-                      data-testid="show-update-board-btn"
-                    >
-                      <Pencil1Icon />
-                    </Button>
-                  </div>
-                  <DialogDescription>
-                    {board.updatedAt.toDateString()}
-                  </DialogDescription>
-                </DialogHeader>
+                <div className="flex w-full flex-col">
+                  <DialogHeader>
+                    <div className="mx-2 flex flex-row gap-2">
+                      <DialogTitle className="text-2xl">
+                        {board.title}
+                      </DialogTitle>
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        onClick={() => setShowUpdateBoard(true)}
+                        aria-label="Show update board form"
+                        data-testid="show-update-board-btn"
+                      >
+                        <Pencil1Icon />
+                      </Button>
+                    </div>
+                    <DialogDescription>
+                      {board.updatedAt.toDateString()}
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter>
+                    <DeleteBoard board={board} cb={() => setOpen(false)} />
+                  </DialogFooter>
+                </div>
               )}
             </DialogContent>
           </Dialog>
