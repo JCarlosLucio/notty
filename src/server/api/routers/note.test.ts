@@ -436,4 +436,18 @@ describe("Notes", () => {
       }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
     });
   });
+
+  describe("deleting notes", () => {
+    test("should delete a note", async () => {
+      const noteToDelete = await getNoteInDB();
+
+      await caller.note.delete({ id: noteToDelete.id });
+
+      const notesAfter = await getNotesInDB();
+      expect(notesAfter).toHaveLength(initialNotes.length - 1);
+
+      const contents = notesAfter.map((n) => n.content);
+      expect(contents).not.toContain(noteToDelete.content);
+    });
+  });
 });
