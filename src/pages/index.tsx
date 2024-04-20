@@ -1,3 +1,4 @@
+import { DiscordLogoIcon } from "@radix-ui/react-icons";
 import { type GetServerSideProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
@@ -52,29 +53,38 @@ function AuthShowcase() {
   const { data: sessionData } = useSession();
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4">
-      <p className="text-center text-2xl text-secondary-foreground">
-        {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
-      </p>
+    <div className="flex flex-col items-center justify-center gap-8">
+      <h2 className="text-2xl">
+        {sessionData
+          ? `Signed in as ${sessionData.user?.name}`
+          : "Sign in to your account"}
+      </h2>
+
       {sessionData && (
         <Button asChild size="lg" variant="secondary">
           <Link href="/dashboard">Dashboard</Link>
         </Button>
       )}
-      <Button
-        size="lg"
-        variant="secondary"
-        onClick={
-          sessionData
-            ? () => void signOut()
-            : () =>
-                void signIn("discord", {
-                  callbackUrl: "/dashboard",
-                })
-        }
-      >
-        {sessionData ? "Sign out" : "Sign in"}
-      </Button>
+
+      {sessionData ? (
+        <Button size="lg" variant="destructive" onClick={() => void signOut()}>
+          Sign out
+        </Button>
+      ) : (
+        <Button
+          size="lg"
+          variant="secondary"
+          className="bg-[#5865F2] text-white hover:bg-[#343c8d]"
+          onClick={() =>
+            void signIn("discord", {
+              callbackUrl: "/dashboard",
+            })
+          }
+        >
+          <DiscordLogoIcon width={28} height={28} className="pr-2" /> Continue
+          with Discord
+        </Button>
+      )}
     </div>
   );
 }
