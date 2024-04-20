@@ -449,5 +449,11 @@ describe("Notes", () => {
       const contents = notesAfter.map((n) => n.content);
       expect(contents).not.toContain(noteToDelete.content);
     });
+
+    test("should throw UNAUTHORIZED when deleting note without session", () => {
+      expect(async () => {
+        await unauthorizedCaller.note.delete({ id: "whatever" });
+      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+    });
   });
 });
