@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="260"
+   height="260"
+   viewBox="0 0 68.791668 68.791667"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="layer1">
+    <rect
+       style="fill:#000;stroke-width:0.271867"
+       id="rect1-9"
+       width="15"
+       height="68.628128"
+       x="0.44051394"
+       y="0.19509754" />
+    <rect
+       style="fill:#000;stroke-width:0.288161"
+       id="rect1-5-9"
+       width="15"
+       height="53.377323"
+       x="53.462322"
+       y="15.327191" />
+    <rect
+       style="fill:#000;stroke-width:0.264583"
+       id="rect2-6"
+       width="15"
+       height="15"
+       x="14.659732"
+       y="15.188025" />
+    <rect
+       style="fill:#000;stroke-width:0.23785"
+       id="rect2-7-0"
+       width="24.243999"
+       height="15"
+       x="29.290852"
+       y="0.1845367" />
+  </g>
+    <style>
+    @media (prefers-color-scheme: dark) {
+      :root {
+        filter: invert(100%);
+      }
+    }
+  </style>
+</svg>
