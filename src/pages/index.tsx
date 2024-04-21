@@ -1,10 +1,10 @@
 import { DiscordLogoIcon } from "@radix-ui/react-icons";
 import { type GetServerSideProps } from "next";
-import Head from "next/head";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
+import Header from "@/config";
 import { getServerAuthSession } from "@/server/auth";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -24,11 +24,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 export default function Home() {
   return (
     <>
-      <Head>
-        <title>Notty</title>
-        <meta name="description" content="A note taking app" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <Header title="Notty" />
+
       <main className="flex min-h-screen flex-col items-center justify-start pt-44">
         <div className="container flex flex-col items-center justify-center gap-24 pt-20">
           <div className="flex flex-col items-center gap-8">

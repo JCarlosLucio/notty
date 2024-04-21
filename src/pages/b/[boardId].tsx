@@ -1,10 +1,10 @@
 import { type GetServerSideProps } from "next";
-import Head from "next/head";
 import { useRouter } from "next/router";
 
 import BoardDetails from "@/components/BoardDetails";
 import BoardLists from "@/components/BoardLists";
 import BoardsSheet from "@/components/BoardsSheet";
+import Header from "@/config";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/utils/api";
 
@@ -31,9 +31,7 @@ const BoardPage = () => {
 
   return (
     <>
-      <Head>
-        <title>{currentBoard?.title}</title>
-      </Head>
+      <Header title={currentBoard?.title} />
 
       <main
         className="relative flex h-screen min-h-screen flex-col gap-4 pt-20"

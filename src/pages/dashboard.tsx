@@ -1,10 +1,10 @@
 import { type GetServerSideProps } from "next";
-import Head from "next/head";
 import Link from "next/link";
 
 import BoardsSheet from "@/components/BoardsSheet";
 import CreateBoard from "@/components/CreateBoard";
 import { Button } from "@/components/ui/button";
+import Header from "@/config";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/utils/api";
 
@@ -35,9 +35,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <Head>
-        <title>Dashboard</title>
-      </Head>
+      <Header title="Dashboard" />
 
       <main className="min-h-screen pb-5 pt-16">
         <BoardsSheet />
