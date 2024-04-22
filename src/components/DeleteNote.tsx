@@ -54,8 +54,8 @@ const DeleteNote = ({ note, cb }: DeleteNoteProps) => {
         <DialogHeader>
           <DialogTitle>Are you absolutely sure?</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your note
-            &quot;{note.content}&quot;.
+            This action cannot be undone. This will permanently delete your note{" "}
+            <strong>{note.content}</strong>.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
