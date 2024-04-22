@@ -12,21 +12,29 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { api } from "@/utils/api";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type BoardsProps = {
   currentBoardId?: string;
 };
 
+const LIMIT = 5;
+
 const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
-  const { data, fetchNextPage, hasNextPage } =
-    api.board.getInfinite.useInfiniteQuery(
-      {
-        limit: 5,
-      },
-      {
-        getNextPageParam: (lastPage) => lastPage.nextCursor,
-      },
-    );
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isInitialLoading,
+    isFetchingNextPage,
+  } = api.board.getInfinite.useInfiniteQuery(
+    {
+      limit: LIMIT,
+    },
+    {
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
+    },
+  );
 
   return (
     <Sheet key="boards-sheet">
@@ -65,6 +73,10 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
                 </Button>
               )),
             )}
+            {(isInitialLoading || isFetchingNextPage) &&
+              Array.from({ length: LIMIT }, (_, index) => (
+                <Skeleton key={index} className="h-10 rounded-md" />
+              ))}
             {hasNextPage && (
               <Button
                 variant="outline"
