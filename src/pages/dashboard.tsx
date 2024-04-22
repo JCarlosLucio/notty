@@ -7,6 +7,9 @@ import { Button } from "@/components/ui/button";
 import Header from "@/config";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/utils/api";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const LIMIT = 5;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerAuthSession(ctx);
@@ -23,15 +26,20 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const Dashboard = () => {
-  const { data, fetchNextPage, hasNextPage } =
-    api.board.getInfinite.useInfiniteQuery(
-      {
-        limit: 5,
-      },
-      {
-        getNextPageParam: (lastPage) => lastPage.nextCursor,
-      },
-    );
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isInitialLoading,
+    isFetchingNextPage,
+  } = api.board.getInfinite.useInfiniteQuery(
+    {
+      limit: LIMIT,
+    },
+    {
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
+    },
+  );
 
   return (
     <>
@@ -68,6 +76,10 @@ const Dashboard = () => {
                 </Button>
               )),
             )}
+            {(isInitialLoading || isFetchingNextPage) &&
+              Array.from({ length: LIMIT }, (_, index) => (
+                <Skeleton key={index} className="h-44 rounded-md" />
+              ))}
           </div>
           {hasNextPage && (
             <Button
