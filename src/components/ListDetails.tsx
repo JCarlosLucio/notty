@@ -38,7 +38,10 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
           <Pencil1Icon className="invisible group-hover:visible" />
         </CardHeader>
       </DialogTrigger>
-      <DialogContent className="p-0 sm:max-w-2xl" data-no-dnd="true">
+      <DialogContent
+        className="overflow-hidden p-0 sm:max-w-2xl"
+        data-no-dnd="true"
+      >
         {showUpdateList ? (
           <UpdateList list={list} cb={() => setShowUpdateList(false)} />
         ) : (
