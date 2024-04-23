@@ -87,42 +87,47 @@ npx prisma migrate dev
 
 ### Unit/Integration tests 🧪
 
-Unit/Integration testing uses the [bun test runner](https://bun.sh/docs/cli/test). Bun aims for compatibility with [Jest](https://jestjs.io/), but not everything is implemented. To track compatibility, see [this tracking issue](https://github.com/oven-sh/bun/issues/1825).
+Unit/Integration testing uses [Vitest](https://vitest.dev/).  
+Vitest aims for compatibility with [Jest](https://jestjs.io/).  
+Vitest sets `NODE_ENV` to `test`. [More...](https://vitest.dev/guide/migration.html#envs)
+
+This project uses [dotenv](https://github.com/motdotla/dotenv) to load the `.env.test.local` file in the `vitest.config.ts` file.
 
 #### Setup testing
 
 1.  Create `.env.test.local` file. Following `.env.example` template.
-2.  Set `DATABASE_URL` to `"file:./test.sqlite"`.
+2.  Set `DATABASE_URL` to `"file:./prisma/test.sqlite"` in `.env.test.local`.
+3.  Set `DATABASE_URL` to `file:./test.sqlite` in `pretest` script in `package.json`.
 
 #### Running Unit/Integration tests
 
 1.  For the first time, use:
 
     ```sh
-    bun run test src
+    pnpm test
     ```
 
     This will run the `pretest` script first and then `test` script.
     Or run directly:
 
     ```sh
-    bun pretest
-    bun test src
+    pnpm pretest
+    pnpm vitest src
     ```
 
     The `pretest` script syncs the database with the Prisma schema.
-    Uses the `DATABASE_URL` explicitly since prisma cli would only read `.env` file. (https://github.com/prisma/prisma/issues/3865)
+    Uses the `DATABASE_URL` explicitly since prisma cli would only read `.env` file. (https://github.com/prisma/prisma/issues/3865). Also the difference between `DATABASE_URL` in `.env.test.local` and `pretest` script comes from where they load the datasource `url`. `pretest` uses `schema.prisma` location but everything else uses `root`.
 
 2.  Subsequently, tests can be run simply using:
 
     ```sh
-    bun test src
+    pnpm vitest src
     ```
 
     or use:
 
     ```sh
-    bun test:unit
+    pnpm test:unit
     ```
 
 #### Adding Unit/Integration tests
@@ -145,7 +150,7 @@ End-to-end testing is done using [Playwright](https://playwright.dev/).
 To install browsers run:
 
 ```sh
-bunx playwright install
+npx playwright install
 ```
 
 #### Running e2e tests
@@ -153,13 +158,13 @@ bunx playwright install
 To run only the e2e tests, use:
 
 ```sh
-bunx playwright test
+npx playwright test
 ```
 
 or, use:
 
 ```sh
-bun test:e2e
+pnpm test:e2e
 ```
 
 #### Adding e2e tests
@@ -171,14 +176,14 @@ Add files to `e2e` folder with `*.spec.{ts}` pattern.
 To run all tests use:
 
 ```sh
-bun run test
+pnpm test
 ```
 
 ### More on testing
 
 - [Integration testing with Prisma](https://www.prisma.io/docs/orm/prisma-client/testing/integration-testing)
 - [Sample Integration Test with T3](https://create.t3.gg/en/usage/trpc#sample-integration-test)
-- [bun test - Test runner](https://bun.sh/docs/cli/test)
-- [Running tests with bun](https://bun.sh/docs/cli/test#run-tests)
-- [Writing tests with bun](https://bun.sh/docs/test/writing)
+- [Vitest](https://vitest.dev/)
+- [Vitest test api](https://vitest.dev/api/)
+- [Vitest CLI](https://vitest.dev/guide/cli.html)
 - [Playwright Browsers](https://playwright.dev/docs/browsers)
