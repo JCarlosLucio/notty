@@ -1,5 +1,5 @@
 import { type inferProcedureInput, TRPCError } from "@trpc/server";
-import { beforeEach, describe, expect, test } from "bun:test";
+import { assert, beforeEach, describe, expect, test } from "vitest";
 
 import { type AppRouter } from "@/server/api/root";
 import {
@@ -41,9 +41,9 @@ describe("Notes", () => {
     test("should throw UNAUTHORIZED when getting notes without session", async () => {
       const list = await getListInDB();
 
-      expect(async () => {
-        await unauthorizedCaller.note.getAll({ listId: list.id });
-      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+      expect(
+        async () => await unauthorizedCaller.note.getAll({ listId: list.id }),
+      ).rejects.toThrowError(/UNAUTHORIZED/);
     });
   });
 
@@ -57,9 +57,9 @@ describe("Notes", () => {
     });
 
     test("should throw UNAUTHORIZED when getting note by id without session", () => {
-      expect(async () => {
-        await unauthorizedCaller.note.getById({ id: "whatever" });
-      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+      expect(
+        async () => await unauthorizedCaller.note.getById({ id: "whatever" }),
+      ).rejects.toThrowError(/UNAUTHORIZED/);
     });
   });
 
@@ -93,17 +93,17 @@ describe("Notes", () => {
         listId: list.id,
         ...partialCreateInput,
       };
-      expect(async () => {
-        await unauthorizedCaller.note.create(testNoteInput);
-      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+      expect(
+        async () => await unauthorizedCaller.note.create(testNoteInput),
+      ).rejects.toThrowError(/UNAUTHORIZED/);
     });
 
     test("should throw 'Content is required' when content is empty string", async () => {
       const list = await getListInDB();
 
-      expect(async () => {
-        await caller.note.create({ content: "", listId: list.id });
-      }).toThrow("Content is required");
+      expect(
+        async () => await caller.note.create({ content: "", listId: list.id }),
+      ).rejects.toThrowError("Content is required");
 
       const notesAfter = await getNotesInDB();
       expect(notesAfter).toHaveLength(initialNotes.length);
@@ -131,12 +131,13 @@ describe("Notes", () => {
     });
 
     test("should throw UNAUTHORIZED when updating note without session", () => {
-      expect(async () => {
-        await unauthorizedCaller.note.update({
-          id: "whatever",
-          ...partialUpdateInput,
-        });
-      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+      expect(
+        async () =>
+          await unauthorizedCaller.note.update({
+            id: "whatever",
+            ...partialUpdateInput,
+          }),
+      ).rejects.toThrowError(/UNAUTHORIZED/);
     });
   });
 
@@ -151,7 +152,7 @@ describe("Notes", () => {
       const targetNote = notes[targetIdx];
 
       if (!noteToMove || !targetNote) {
-        return expect().fail("Couldn't get note in test");
+        return assert.fail("Couldn't get note in test");
       }
 
       const movedNote = await caller.note.move({
@@ -194,7 +195,7 @@ describe("Notes", () => {
       const targetNote = notes[targetIdx];
 
       if (!noteToMove || !targetNote) {
-        return expect().fail("Couldn't get note in test");
+        return assert.fail("Couldn't get note in test");
       }
 
       const movedNote = await caller.note.move({
@@ -237,7 +238,7 @@ describe("Notes", () => {
       const targetNote = notes[targetIdx];
 
       if (!noteToMove || !targetNote) {
-        return expect().fail("Couldn't get note in test");
+        return assert.fail("Couldn't get note in test");
       }
 
       const movedNote = await caller.note.move({
@@ -280,7 +281,7 @@ describe("Notes", () => {
       const targetNote = notes[targetIdx];
 
       if (!noteToMove || !targetNote) {
-        return expect().fail("Couldn't get note in test");
+        return assert.fail("Couldn't get note in test");
       }
 
       const movedNote = await caller.note.move({
@@ -321,7 +322,7 @@ describe("Notes", () => {
       const targetList = lists[targetIdx];
 
       if (!noteToMove || !targetList) {
-        return expect().fail("Couldn't get list / note in test");
+        return assert.fail("Couldn't get list / note in test");
       }
 
       const movedNote = await caller.note.move({
@@ -352,7 +353,7 @@ describe("Notes", () => {
       const targetList = lists[targetIdx];
 
       if (!noteToMove || !targetList) {
-        return expect().fail("Couldn't get list / note in test");
+        return assert.fail("Couldn't get list / note in test");
       }
 
       const movedNote = await caller.note.move({
@@ -380,7 +381,7 @@ describe("Notes", () => {
       const targetReturnNote = notes[targetReturnIdx];
 
       if (!targetReturnNote) {
-        return expect().fail("Couldn't get list / note in test");
+        return assert.fail("Couldn't get list / note in test");
       }
 
       const returnedNote = await caller.note.move({
@@ -427,13 +428,14 @@ describe("Notes", () => {
     test("should throw UNAUTHORIZED when moving note without session", async () => {
       const note = await getNoteInDB();
 
-      expect(async () => {
-        await unauthorizedCaller.note.move({
-          id: "whatever",
-          targetId: "whichever",
-          listId: note.listId,
-        });
-      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+      expect(
+        async () =>
+          await unauthorizedCaller.note.move({
+            id: "whatever",
+            targetId: "whichever",
+            listId: note.listId,
+          }),
+      ).rejects.toThrowError(/UNAUTHORIZED/);
     });
   });
 
@@ -451,9 +453,9 @@ describe("Notes", () => {
     });
 
     test("should throw UNAUTHORIZED when deleting note without session", () => {
-      expect(async () => {
-        await unauthorizedCaller.note.delete({ id: "whatever" });
-      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+      expect(
+        async () => await unauthorizedCaller.note.delete({ id: "whatever" }),
+      ).rejects.toThrowError(/UNAUTHORIZED/);
     });
   });
 });

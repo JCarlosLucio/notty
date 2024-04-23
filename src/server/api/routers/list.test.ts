@@ -1,5 +1,5 @@
-import { type inferProcedureInput, TRPCError } from "@trpc/server";
-import { beforeEach, describe, expect, test } from "bun:test";
+import { type inferProcedureInput } from "@trpc/server";
+import { assert, beforeEach, describe, expect, test } from "vitest";
 
 import { type AppRouter } from "@/server/api/root";
 import {
@@ -40,9 +40,9 @@ describe("Lists", () => {
     test("should throw UNAUTHORIZED when getting lists without session", async () => {
       const board = await getBoardInDB();
 
-      expect(async () => {
-        await unauthorizedCaller.list.getAll({ boardId: board.id });
-      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+      expect(
+        async () => await unauthorizedCaller.list.getAll({ boardId: board.id }),
+      ).rejects.toThrowError(/UNAUTHORIZED/);
     });
   });
 
@@ -56,9 +56,9 @@ describe("Lists", () => {
     });
 
     test("should throw UNAUTHORIZED when getting list by id without session", () => {
-      expect(async () => {
-        await unauthorizedCaller.list.getById({ id: "whatever" });
-      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+      expect(
+        async () => await unauthorizedCaller.list.getById({ id: "whatever" }),
+      ).rejects.toThrowError(/UNAUTHORIZED/);
     });
   });
 
@@ -93,17 +93,17 @@ describe("Lists", () => {
         ...partialCreateInput,
       };
 
-      expect(async () => {
-        await unauthorizedCaller.list.create(testListInput);
-      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+      expect(
+        async () => await unauthorizedCaller.list.create(testListInput),
+      ).rejects.toThrowError(/UNAUTHORIZED/);
     });
 
     test("should throw 'Title is required' when title is empty string", async () => {
       const board = await getBoardInDB();
 
-      expect(async () => {
-        await caller.list.create({ title: "", boardId: board.id });
-      }).toThrow("Title is required");
+      expect(
+        async () => await caller.list.create({ title: "", boardId: board.id }),
+      ).rejects.toThrowError("Title is required");
 
       const listsAfter = await getListsInDB();
       expect(listsAfter).toHaveLength(initialLists.length);
@@ -124,9 +124,9 @@ describe("Lists", () => {
     });
 
     test("should throw UNAUTHORIZED when deleting list without session", () => {
-      expect(async () => {
-        await unauthorizedCaller.list.delete({ id: "whatever" });
-      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+      expect(
+        async () => await unauthorizedCaller.list.delete({ id: "whatever" }),
+      ).rejects.toThrowError(/UNAUTHORIZED/);
     });
   });
 
@@ -154,12 +154,13 @@ describe("Lists", () => {
     });
 
     test("should throw UNAUTHORIZED when updating list without session", () => {
-      expect(async () => {
-        await unauthorizedCaller.list.update({
-          id: "whatever",
-          ...partialUpdateInput,
-        });
-      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+      expect(
+        async () =>
+          await unauthorizedCaller.list.update({
+            id: "whatever",
+            ...partialUpdateInput,
+          }),
+      ).rejects.toThrowError(/UNAUTHORIZED/);
     });
   });
 
@@ -175,7 +176,7 @@ describe("Lists", () => {
       const targetList = lists[targetIdx];
 
       if (!listToMove || !targetList) {
-        return expect().fail("Couldn't get list in test");
+        return assert.fail("Couldn't get list in test");
       }
 
       const movedList = await caller.list.move({
@@ -219,7 +220,7 @@ describe("Lists", () => {
       const targetList = lists[targetIdx];
 
       if (!listToMove || !targetList) {
-        return expect().fail("Couldn't get list in test");
+        return assert.fail("Couldn't get list in test");
       }
 
       const movedList = await caller.list.move({
@@ -263,7 +264,7 @@ describe("Lists", () => {
       const targetList = lists[targetIdx];
 
       if (!listToMove || !targetList) {
-        return expect().fail("Couldn't get list in test");
+        return assert.fail("Couldn't get list in test");
       }
 
       const movedList = await caller.list.move({
@@ -307,7 +308,7 @@ describe("Lists", () => {
       const targetList = lists[targetIdx];
 
       if (!listToMove || !targetList) {
-        return expect().fail("Couldn't get list in test");
+        return assert.fail("Couldn't get list in test");
       }
 
       const movedList = await caller.list.move({
@@ -345,33 +346,30 @@ describe("Lists", () => {
       const listToMove = await getListInDB();
 
       if (!listToMove) {
-        return expect().fail("Couldn't get list in test");
+        return assert.fail("Couldn't get list in test");
       }
 
-      expect(async () => {
-        await caller.list.move({
-          id: listToMove.id,
-          boardId: board.id,
-          targetId: listToMove.id,
-        });
-      }).toThrow(
-        new TRPCError({
-          code: "BAD_REQUEST",
-          message: "id cannot be targetId",
-        }),
-      );
+      expect(
+        async () =>
+          await caller.list.move({
+            id: listToMove.id,
+            boardId: board.id,
+            targetId: listToMove.id,
+          }),
+      ).rejects.toThrowError("id cannot be targetId");
     });
 
     test("should throw UNAUTHORIZED when moving list without session", async () => {
       const board = await getBoardInDB();
 
-      expect(async () => {
-        await unauthorizedCaller.list.move({
-          id: "whatever",
-          targetId: "whichever",
-          boardId: board.id,
-        });
-      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+      expect(
+        async () =>
+          await unauthorizedCaller.list.move({
+            id: "whatever",
+            targetId: "whichever",
+            boardId: board.id,
+          }),
+      ).rejects.toThrowError(/UNAUTHORIZED/);
     });
   });
 });

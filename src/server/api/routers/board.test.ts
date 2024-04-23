@@ -1,5 +1,5 @@
-import { type inferProcedureInput, TRPCError } from "@trpc/server";
-import { beforeEach, describe, expect, test } from "bun:test";
+import { type inferProcedureInput } from "@trpc/server";
+import { beforeEach, describe, expect, test } from "vitest";
 
 import { type AppRouter } from "@/server/api/root";
 import {
@@ -36,9 +36,9 @@ describe("Boards", () => {
     });
 
     test("should throw UNAUTHORIZED when getting boards without session", () => {
-      expect(async () => {
-        await unauthorizedCaller.board.getAll();
-      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+      expect(
+        async () => await unauthorizedCaller.board.getAll(),
+      ).rejects.toThrowError(/UNAUTHORIZED/);
     });
   });
 
@@ -73,23 +73,23 @@ describe("Boards", () => {
     });
 
     test("should throw UNAUTHORIZED when getting board by id without session", () => {
-      expect(async () => {
-        await unauthorizedCaller.board.getById({ id: "whatever" });
-      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+      expect(
+        async () => await unauthorizedCaller.board.getById({ id: "whatever" }),
+      ).rejects.toThrowError(/UNAUTHORIZED/);
     });
 
     test("should throw NOT_FOUND when board not found", () => {
-      expect(async () => {
-        await caller.board.getById({ id: "notindb" });
-      }).toThrow(new TRPCError({ code: "NOT_FOUND" }));
+      expect(
+        async () => await caller.board.getById({ id: "notindb" }),
+      ).rejects.toThrowError(/NOT_FOUND/);
     });
 
     test("should throw FORBIDDEN when user is not owner", async () => {
       const boardToGet = await getBoardInDB();
 
-      expect(async () => {
-        await notOwnerCaller.board.getById({ id: boardToGet.id });
-      }).toThrow(new TRPCError({ code: "FORBIDDEN" }));
+      expect(
+        async () => await notOwnerCaller.board.getById({ id: boardToGet.id }),
+      ).rejects.toThrowError(/FORBIDDEN/);
     });
   });
 
@@ -108,15 +108,15 @@ describe("Boards", () => {
     });
 
     test("should throw UNAUTHORIZED when creating board without session", () => {
-      expect(async () => {
-        await unauthorizedCaller.board.create(testBoardInput);
-      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+      expect(
+        async () => await unauthorizedCaller.board.create(testBoardInput),
+      ).rejects.toThrowError(/UNAUTHORIZED/);
     });
 
     test("should throw 'Title is required' when title is empty string", async () => {
-      expect(async () => {
-        await caller.board.create({ title: "" });
-      }).toThrow("Title is required");
+      expect(
+        async () => await caller.board.create({ title: "" }),
+      ).rejects.toThrowError("Title is required");
 
       const boardsAfter = await getBoardsInDB();
       expect(boardsAfter).toHaveLength(initialBoards.length);
@@ -137,17 +137,17 @@ describe("Boards", () => {
     });
 
     test("should throw UNAUTHORIZED when deleting board without session", () => {
-      expect(async () => {
-        await unauthorizedCaller.board.delete({ id: "whatever" });
-      }).toThrow(new TRPCError({ code: "UNAUTHORIZED" }));
+      expect(
+        async () => await unauthorizedCaller.board.delete({ id: "whatever" }),
+      ).rejects.toThrowError(/UNAUTHORIZED/);
     });
 
     test("should throw FORBIDDEN when user is not owner", async () => {
       const boardToDelete = await getBoardInDB();
 
-      expect(async () => {
-        await notOwnerCaller.board.delete({ id: boardToDelete.id });
-      }).toThrow(new TRPCError({ code: "FORBIDDEN" }));
+      expect(
+        async () => await notOwnerCaller.board.delete({ id: boardToDelete.id }),
+      ).rejects.toThrowError(/FORBIDDEN/);
 
       const boardsAfter = await getBoardsInDB();
       expect(boardsAfter).toHaveLength(initialBoards.length);
@@ -184,9 +184,9 @@ describe("Boards", () => {
         ...partialUpdateInput,
       };
 
-      expect(async () => {
-        await notOwnerCaller.board.update(testUpdateInput);
-      }).toThrow(new TRPCError({ code: "FORBIDDEN" }));
+      expect(
+        async () => await notOwnerCaller.board.update(testUpdateInput),
+      ).rejects.toThrowError(/FORBIDDEN/);
 
       const boardsAfter = await getBoardsInDB();
       const titles = boardsAfter.map((b) => b.title);
