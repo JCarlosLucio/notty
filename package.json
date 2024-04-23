@@ -13,9 +13,9 @@
     "format": "prettier --list-different --write \"./src/**/*.{ts,tsx,md}\"",
     "start": "next start",
     "pretest": "DATABASE_URL=file:./test.sqlite prisma db push",
-    "test": "bun test:unit && bun test:e2e",
-    "test:unit": "bun test src",
-    "test:e2e": "bunx playwright test"
+    "test": "pnpm test:unit && pnpm test:e2e",
+    "test:unit": "pnpm vitest run src",
+    "test:e2e": "npx playwright test"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.1.0",
