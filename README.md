@@ -78,6 +78,14 @@ turso db create <DATABASE_NAME>
    ```sh
    turso db shell <DATABASE_NAME> < <MIGRATION_FILE_PATH>
    ```
+6. Make a production build:
+   ```sh
+   pnpm build
+   ```
+7. Run the production build, connected to Turso database:
+   ```sh
+   pnpm start
+   ```
 
 #### More on connecting Turso
 
