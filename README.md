@@ -137,8 +137,7 @@ For subsequent migrations, repeat the above steps to apply changes to your datab
 ### Unit/Integration tests 🧪
 
 Unit/Integration testing uses [Vitest](https://vitest.dev/).  
-Vitest aims for compatibility with [Jest](https://jestjs.io/).  
-Vitest sets `NODE_ENV` to `test`. [More...](https://vitest.dev/guide/migration.html#envs)
+Vitest aims for compatibility with [Jest](https://jestjs.io/).
 
 This project uses [dotenv](https://github.com/motdotla/dotenv) to load the `.env.test.local` file in the `vitest.config.ts` file.
 
@@ -147,6 +146,7 @@ This project uses [dotenv](https://github.com/motdotla/dotenv) to load the `.env
 1.  Create `.env.test.local` file. Following `.env.example` template.
 2.  Set `DATABASE_URL` to `"file:./prisma/test.sqlite"` in `.env.test.local`.
 3.  Set `DATASOURCE_URL` to `file:./test.sqlite` in `pretest` script in `package.json`.
+4.  Set `NODE_ENV` to `test` in `.env.test.local`.
 
 #### Running Unit/Integration tests
 
@@ -166,7 +166,7 @@ This project uses [dotenv](https://github.com/motdotla/dotenv) to load the `.env
 
     The `pretest` script syncs the database with the Prisma schema.
 
-    `Pretest` uses the `DATABASE_URL` explicitly since prisma cli would only read `.env` file. (https://github.com/prisma/prisma/issues/3865). Also the difference between `DATABASE_URL` in `.env.test.local` and `pretest` script comes from where they load the datasource `url`. `pretest` uses `schema.prisma` location but everything else use the `root`. [More...](https://www.prisma.io/docs/orm/overview/databases/database-drivers#notes-about-using-driver-adapters)
+    `Pretest` uses the `DATABASE_URL` explicitly since prisma cli would only read `.env` file. (https://github.com/prisma/prisma/issues/3865). Also the difference between `DATABASE_URL` in `.env.test.local` and `pretest` script comes from where they load the datasource `url`. `pretest` uses `schema.prisma` location but everything else use the `root`.
 
 2.  Subsequently, tests can be run simply using:
 
@@ -179,6 +179,11 @@ This project uses [dotenv](https://github.com/motdotla/dotenv) to load the `.env
     ```sh
     pnpm test:unit
     ```
+
+##### More Info
+
+- [Driver Adapters](https://www.prisma.io/docs/orm/overview/databases/database-drivers#notes-about-using-driver-adapters)
+- [Specify a SQLite data source](https://www.prisma.io/docs/orm/reference/prisma-schema-reference#specify-a-sqlite-data-source)
 
 #### Adding Unit/Integration tests
 
