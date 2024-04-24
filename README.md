@@ -12,9 +12,48 @@ This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3
 - [T3 Documentation](https://create.t3.gg/)
 - [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app)
 
+## Getting Started
+
+1. Install the dependencies:
+   ```sh
+   pnpm install
+   ```
+2. Create environment files:
+
+   - `.env.development.local` used for `next dev`.
+   - `.env` should mimic `.env.development.local` for the most part.
+     - Prisma and Playwright prefer `.env` so it can be modified accordingly.
+   - `.env.test.local` used for `vitest`. Check [SQLite Local Database](#sqlite-local-database) section for more info.
+   - `.env.production.local` used for `next start`. Check [SQLite Database from Turso](#sqlite-database-from-turso-🫎) section for more info.
+
+3. Add environment variables to environment files following `.env.example`.
+
+   - For `DATASOURCE_URL` and `DATABASE_URL` see:
+     - [SQLite Local Database](#sqlite-local-database) section.
+     - [SQLite Database from Turso](#sqlite-database-from-turso-🫎) section.
+   - For `DATABASE_AUTH_TOKEN` see:
+     - [SQLite Database from Turso](#sqlite-database-from-turso-🫎) section.
+   - For `UNSPLASH_ACCESS_KEY` see:
+     - [Unsplash API](https://unsplash.com/documentation#getting-started)
+   - For `DISCORD_CLIENT_ID` and `DISCORD_CLIENT_SECRET` see:
+     - [NextAuth with the default DiscordProvider](#nextauth-with-the-default-discordprovider-🔒) section.
+   - For `NEXT_AUTH_SECRET` see:
+     - [Next Auth Secret](https://next-auth.js.org/configuration/options#secret)
+
+4. Sync DB with prisma schema
+
+   ```sh
+   pnpm db:push
+   ```
+
+5. Run the application:
+   ```sh
+   pnpm dev
+   ```
+
 ## SQLite Local Database
 
-For development a local Database can be use with a `*.sqlite` file.
+For development and testing a local database can be use with a `*.sqlite` file.
 
 ### Development
 
@@ -34,7 +73,7 @@ DATASOURCE_URL="file:./test.sqlite"
 DATABASE_URL="file:./prisma/test.sqlite"
 ```
 
-`DATABASE_AUTH_TOKEN=` is not needed for local development or testing.
+`DATABASE_AUTH_TOKEN` is not needed for local development or testing.
 
 ## SQLite Database from [Turso](https://turso.tech/) 🫎
 
@@ -234,7 +273,7 @@ To run all tests use:
 pnpm test
 ```
 
-### More on testing
+#### More on testing
 
 - [Integration testing with Prisma](https://www.prisma.io/docs/orm/prisma-client/testing/integration-testing)
 - [Sample Integration Test with T3](https://create.t3.gg/en/usage/trpc#sample-integration-test)
