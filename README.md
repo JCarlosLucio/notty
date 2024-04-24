@@ -4,65 +4,106 @@ A note taking app.
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
 
-## What's next? How do I make an app with this?
-
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
-
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
-
 - [Next.js](https://nextjs.org)
 - [NextAuth.js](https://next-auth.js.org)
 - [Prisma](https://prisma.io)
 - [Tailwind CSS](https://tailwindcss.com)
 - [tRPC](https://trpc.io)
+- [T3 Documentation](https://create.t3.gg/)
+- [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app)
 
-## Learn More
+## SQLite Local Database
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+For development a local Database can be use with a `*.sqlite` file.
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+### Development
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
-
-## Postgres Database from [Fly.io](https://fly.io/) 🚀
-
-[Connect](https://fly.io/docs/flyctl/postgres-connect/) to your database instance to run queries (ex. \dt).
+Assign credentials to the environment variables inside `.env` and `.env.development.local`.
 
 ```sh
-fly pg connect -a <postgres-app-name> -d <db-name>
+DATASOURCE_URL="file:./db.sqlite"
+DATABASE_URL="file:./prisma/db.sqlite"
 ```
 
-The [local connection](https://fly.io/docs/postgres/connecting/connecting-with-flyctl/)
-to the database should first be enabled by tunneling the localhost port `5432`.
-The command must be left running while the database is used. So do not close the
-console!
+### Testing
+
+Assign credentials to the environment variables inside `.env.test.local`.
 
 ```sh
-flyctl proxy 5432 -a <postgres-app-name>
+DATASOURCE_URL="file:./test.sqlite"
+DATABASE_URL="file:./prisma/test.sqlite"
 ```
 
-To sync db with Prisma schema:
+`DATABASE_AUTH_TOKEN=` is not needed for local development or testing.
+
+## SQLite Database from [Turso](https://turso.tech/) 🫎
+
+[Turso](https://turso.tech/) is a SQLite-compatible database built on [libSQL](https://github.com/tursodatabase/libsql/), the Open Contribution fork of SQLite.
+
+### Connecting Turso
+
+If you don't have an existing database, you can provision a database by running the following command:
 
 ```sh
-npx prisma db push
+turso db create <DATABASE_NAME>
 ```
 
-To watch in Prisma Studio:
+1. Get the database URL:
 
-```sh
-npx prisma studio
-```
+   ```sh
+   turso db show --url <DATABASE_NAME>
+   ```
 
-Run migrations:
+2. Get the database authentication token:
 
-```sh
-npx prisma migrate dev
-```
+   ```sh
+   turso db tokens create <DATABASE_NAME>
+   ```
+
+3. Assign credentials to the environment variables inside `.env.production.local`.
+
+   ```sh
+   DATASOURCE_URL="file:./dev.db"
+   DATABASE_URL="<TURSO_DATABASE_URL>"
+   DATABASE_AUTH_TOKEN="<TURSO_AUTH_TOKEN>"
+   ```
+
+4. Generate Prisma Client
+
+   ```sh
+   pnpm dlx prisma generate
+   ```
+
+5. Make an migration to sync with the Prisma schema.
+   ```sh
+   turso db shell <DATABASE_NAME> < <MIGRATION_FILE_PATH>
+   ```
+
+#### More on connecting Turso
+
+- [How to connect and query a Turso Database](https://www.prisma.io/docs/orm/overview/databases/turso#how-to-connect-and-query-a-turso-database)
+- [Prisma + Turso](https://docs.turso.tech/sdk/ts/orm/prisma)
+
+### Migrations / Update database schema
+
+Turso doesn't support Prisma Migrate. To update your database schema:
+
+1.  Generate a migration file using prisma migrate dev against a local SQLite database:
+
+    ```sh
+    npx prisma migrate dev --name <NAME>
+    ```
+
+2.  Apply the migration using Turso's CLI:
+    ```sh
+    turso db shell <DATABASE_NAME> < ./prisma/migrations/<DATE_NAME>/migration.sql
+    ```
+
+For subsequent migrations, repeat the above steps to apply changes to your database.
+
+#### More on Turso:
+
+- [Manage Schema Changes](https://www.prisma.io/docs/orm/overview/databases/turso#how-to-manage-schema-changes)
 
 ## NextAuth with the default DiscordProvider 🔒
 
@@ -116,7 +157,8 @@ This project uses [dotenv](https://github.com/motdotla/dotenv) to load the `.env
     ```
 
     The `pretest` script syncs the database with the Prisma schema.
-    Uses the `DATABASE_URL` explicitly since prisma cli would only read `.env` file. (https://github.com/prisma/prisma/issues/3865). Also the difference between `DATABASE_URL` in `.env.test.local` and `pretest` script comes from where they load the datasource `url`. `pretest` uses `schema.prisma` location but everything else use the `root`. [More...](https://www.prisma.io/docs/orm/overview/databases/database-drivers#notes-about-using-driver-adapters)
+
+    `Pretest` uses the `DATABASE_URL` explicitly since prisma cli would only read `.env` file. (https://github.com/prisma/prisma/issues/3865). Also the difference between `DATABASE_URL` in `.env.test.local` and `pretest` script comes from where they load the datasource `url`. `pretest` uses `schema.prisma` location but everything else use the `root`. [More...](https://www.prisma.io/docs/orm/overview/databases/database-drivers#notes-about-using-driver-adapters)
 
 2.  Subsequently, tests can be run simply using:
 
@@ -187,3 +229,7 @@ pnpm test
 - [Vitest test api](https://vitest.dev/api/)
 - [Vitest CLI](https://vitest.dev/guide/cli.html)
 - [Playwright Browsers](https://playwright.dev/docs/browsers)
+
+## How do I deploy this? 🚀
+
+Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
