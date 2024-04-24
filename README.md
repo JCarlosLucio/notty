@@ -51,6 +51,88 @@ This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3
    pnpm dev
    ```
 
+## Scripts 📜
+
+### Install
+
+```sh
+pnpm install
+```
+
+### Build
+
+Builds the app for production.
+
+```sh
+pnpm build
+```
+
+### Develop
+
+Runs the app in development mode. Opens
+[http://localhost:3000/](http://localhost:3000/) to view it in the browser.
+
+```sh
+pnpm dev
+```
+
+### Start
+
+Locally preview the production build. Open
+[http://localhost:3000/](http://localhost:3000/) to view it in the browser.
+
+```sh
+pnpm start
+```
+
+### Lint and Format
+
+Runs eslint to fix linting errors.
+
+```sh
+pnpm lint
+```
+
+Format the application with prettier.
+
+```sh
+pnpm format
+```
+
+### Database
+
+Sync the database with the prisma schema.
+
+```sh
+pnpm db:push
+```
+
+Opens Prisma studio on [http://localhost:5555](http://localhost:5555)
+
+```sh
+pnpm db:studio
+```
+
+### Test
+
+Runs all test.
+
+```sh
+pnpm test
+```
+
+Runs unit/integration tests.
+
+```sh
+pnpm test:unit
+```
+
+Runs e2e tests.
+
+```sh
+pnpm test:e2e
+```
+
 ## SQLite Local Database
 
 For development and testing a local database can be use with a `*.sqlite` file.
