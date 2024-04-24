@@ -97,7 +97,7 @@ This project uses [dotenv](https://github.com/motdotla/dotenv) to load the `.env
 
 1.  Create `.env.test.local` file. Following `.env.example` template.
 2.  Set `DATABASE_URL` to `"file:./prisma/test.sqlite"` in `.env.test.local`.
-3.  Set `DATABASE_URL` to `file:./test.sqlite` in `pretest` script in `package.json`.
+3.  Set `DATASOURCE_URL` to `file:./test.sqlite` in `pretest` script in `package.json`.
 
 #### Running Unit/Integration tests
 
@@ -116,7 +116,7 @@ This project uses [dotenv](https://github.com/motdotla/dotenv) to load the `.env
     ```
 
     The `pretest` script syncs the database with the Prisma schema.
-    Uses the `DATABASE_URL` explicitly since prisma cli would only read `.env` file. (https://github.com/prisma/prisma/issues/3865). Also the difference between `DATABASE_URL` in `.env.test.local` and `pretest` script comes from where they load the datasource `url`. `pretest` uses `schema.prisma` location but everything else uses `root`.
+    Uses the `DATABASE_URL` explicitly since prisma cli would only read `.env` file. (https://github.com/prisma/prisma/issues/3865). Also the difference between `DATABASE_URL` in `.env.test.local` and `pretest` script comes from where they load the datasource `url`. `pretest` uses `schema.prisma` location but everything else use the `root`. [More...](https://www.prisma.io/docs/orm/overview/databases/database-drivers#notes-about-using-driver-adapters)
 
 2.  Subsequently, tests can be run simply using:
 

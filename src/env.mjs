@@ -7,6 +7,7 @@ export const env = createEnv({
    * isn't built with invalid env vars.
    */
   server: {
+    DATASOURCE_URL: z.string(),
     DATABASE_URL: z
       .string()
       .url()
@@ -52,6 +53,7 @@ export const env = createEnv({
    * middlewares) or client-side so we need to destruct manually.
    */
   runtimeEnv: {
+    DATASOURCE_URL: process.env.DATASOURCE_URL,
     DATABASE_URL: process.env.DATABASE_URL,
     DATABASE_AUTH_TOKEN: process.env.DATABASE_AUTH_TOKEN,
     NODE_ENV: process.env.NODE_ENV,

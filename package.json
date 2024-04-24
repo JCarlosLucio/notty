@@ -5,14 +5,14 @@
   "type": "module",
   "scripts": {
     "build": "next build",
-    "db:push": "DATABASE_URL=file:./db.sqlite prisma db push",
-    "db:studio": "DATABASE_URL=file:./db.sqlite prisma studio",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio",
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint --fix --dir src",
     "format": "prettier --list-different --write \"./src/**/*.{ts,tsx,md}\"",
     "start": "next start",
-    "pretest": "DATABASE_URL=file:./test.sqlite prisma db push",
+    "pretest": "DATASOURCE_URL=file:./test.sqlite prisma db push",
     "test": "pnpm test:unit && pnpm test:e2e",
     "test:unit": "pnpm vitest run src",
     "test:e2e": "npx playwright test"
