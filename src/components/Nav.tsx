@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import ThemeToggle from "@/components/ThemeToggle";
 import UserSessionPopover from "@/components/UserSessionPopover";
+import Logo from "@/components/Logo";
 
 const Nav = () => {
   return (
@@ -11,7 +12,12 @@ const Nav = () => {
           href="/"
           className="flex items-center gap-3 text-xl font-extrabold"
         >
-          Notty
+          <Logo
+            className="h-7 w-7 fill-black dark:fill-white"
+            titleId="nav-logo"
+            title="notty logo"
+          />
+          notty
         </Link>
         <div className="flex items-center">
           <div className="mr-5 flex h-7 items-center border-r pr-5">
