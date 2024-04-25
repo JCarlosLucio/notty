@@ -1,4 +1,4 @@
-# Notty
+# notty
 
 A note taking app.
 

@@ -24,14 +24,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 export default function Home() {
   return (
     <>
-      <Header title="Notty" />
+      <Header title="notty" />
 
       <main className="flex min-h-screen flex-col items-center justify-start pt-44">
         <div className="container flex flex-col items-center justify-center gap-24 pt-20">
           <div className="flex flex-col items-center gap-8">
             <h1 className="font-extrabold tracking-tight sm:text-[5rem]">
               <span className="bg-gradient-to-r from-emerald-500 to-teal-300 bg-clip-text text-9xl text-transparent">
-                Notty
+                notty
               </span>
             </h1>
             <p className="bg-gradient-to-r from-emerald-500 to-teal-300 bg-clip-text text-lg text-transparent">

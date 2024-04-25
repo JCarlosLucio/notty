@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-const titleDefault = "Notty";
+const titleDefault = "notty";
 const url = "http://localhost:3000/";
 const description =
   "A simple Kanban board app to help you stay organized anywhere.";
