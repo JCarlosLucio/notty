@@ -364,6 +364,19 @@ pnpm test
 - [Vitest CLI](https://vitest.dev/guide/cli.html)
 - [Playwright Browsers](https://playwright.dev/docs/browsers)
 
-## How do I deploy this? 🚀
+## Deployment 🚀
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+### Deployed to [Vercel](https://vercel.com/)
+
+1. Click **Add New Project**.
+2. Import `github repo` to [Vercel](https://vercel.com/).
+3. Set `FRAMEWORK PRESET` to Next.js.
+4. Set `ROOT DIRECTORY` as `./`.
+5. Add **environment variables**.
+6. Click **Deploy**.
+
+#### More on deployment
+
+- [Vercel Deployment](https://create.t3.gg/en/deployment/vercel)
+- [Netlify Deployment](https://create.t3.gg/en/deployment/netlify)
+- [Railway Deployment with Docker](https://create.t3.gg/en/deployment/docker)
