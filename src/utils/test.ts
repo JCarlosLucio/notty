@@ -1,6 +1,9 @@
 import { env } from "@/env.mjs";
 import { appRouter } from "@/server/api/root";
-import { createInnerTRPCContext } from "@/server/api/trpc";
+import {
+  createInnerTRPCContext,
+  createTRPCCallerFactory,
+} from "@/server/api/trpc";
 import { db } from "@/server/db";
 
 export const testUser = {
@@ -62,11 +65,13 @@ const testSession = {
   expires: "1",
 };
 
+export const createCaller = createTRPCCallerFactory(appRouter);
+
 const ctx = createInnerTRPCContext({ session: testSession });
-export const caller = appRouter.createCaller(ctx);
+export const caller = createCaller(ctx);
 
 const unauthorizedCtx = createInnerTRPCContext({ session: null });
-export const unauthorizedCaller = appRouter.createCaller(unauthorizedCtx);
+export const unauthorizedCaller = createCaller(unauthorizedCtx);
 
 const notOwnerSession = {
   user: {
@@ -78,7 +83,7 @@ const notOwnerSession = {
 };
 
 const notOwnerCtx = createInnerTRPCContext({ session: notOwnerSession });
-export const notOwnerCaller = appRouter.createCaller(notOwnerCtx);
+export const notOwnerCaller = createCaller(notOwnerCtx);
 
 export const resetDB = async () => {
   if (env.NODE_ENV !== "test") throw Error("Can only reset DB while testing");
