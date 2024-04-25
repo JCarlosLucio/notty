@@ -129,3 +129,15 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
  * @see https://trpc.io/docs/procedures
  */
 export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
+
+/**
+ * Server Side Calls
+ *
+ * You may need to call your procedure(s) directly from the same server they're hosted in,
+ * createCallerFactory() can be used to achieve this.
+ * This is useful for server-side calls and for integration testing of your tRPC procedures.
+ *
+ * @see https://trpc.io/docs/server/server-side-calls
+ */
+
+export const createTRPCCallerFactory = t.createCallerFactory;
