@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterInputs, type RouterOutputs } from "@/utils/api";
 import { updateListSchema } from "@/utils/schemas";
+import Spinner from "@/components/Spinner";
 
 type UpdateListProps = {
   list: RouterOutputs["list"]["getById"];
@@ -149,10 +150,9 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
             <Button
               type="submit"
               disabled={isLoading || !form.formState.isDirty}
-              className={isLoading ? "animate-pulse" : ""}
               data-testid="save-list-btn"
             >
-              Save
+              {isLoading ? <Spinner /> : "Save"}
             </Button>
           </form>
         </Form>

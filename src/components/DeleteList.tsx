@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterOutputs } from "@/utils/api";
+import Spinner from "@/components/Spinner";
 
 type DeleteListProps = {
   list: RouterOutputs["list"]["getById"];
@@ -66,8 +67,14 @@ const DeleteList = ({ list, cb }: DeleteListProps) => {
               disabled={isLoading}
               onClick={() => deleteList({ id: list.id })}
             >
-              <TrashIcon className="pr-1" width={24} height={24} />
-              {isLoading ? "Deleting..." : "Delete Forever"}
+              {isLoading ? (
+                <Spinner className="mx-12 fill-secondary-foreground" />
+              ) : (
+                <>
+                  <TrashIcon className="pr-1" width={24} height={24} />
+                  Delete Forever
+                </>
+              )}
             </Button>
           </DialogClose>
           <DialogClose asChild>

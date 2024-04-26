@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterInputs, type RouterOutputs } from "@/utils/api";
 import { updateNoteSchema } from "@/utils/schemas";
+import Spinner from "@/components/Spinner";
 
 type UpdateNoteProps = {
   note: RouterOutputs["note"]["getById"];
@@ -77,12 +78,8 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
                         autoFocus
                         {...field}
                       />
-                      <Button
-                        type="submit"
-                        disabled={isLoading}
-                        className={isLoading ? "animate-pulse" : ""}
-                      >
-                        Save
+                      <Button type="submit" disabled={isLoading}>
+                        {isLoading ? <Spinner /> : "Save"}
                       </Button>
                     </div>
                   </FormControl>

@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterInputs } from "@/utils/api";
 import { createBoardSchema } from "@/utils/schemas";
+import Spinner from "@/components/Spinner";
 
 type CreateBoardInput = RouterInputs["board"]["create"];
 
@@ -84,10 +85,9 @@ const CreateBoard = () => {
                   <Button
                     type="submit"
                     disabled={isLoading}
-                    className={isLoading ? "animate-pulse" : ""}
                     data-testid="create-board-btn"
                   >
-                    <PlusIcon />
+                    {isLoading ? <Spinner /> : <PlusIcon />}
                   </Button>
                 </div>
               </FormControl>
