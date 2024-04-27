@@ -38,7 +38,7 @@ const List = ({ list, className }: ListProps) => {
     <Card
       ref={setNodeRef}
       className={cn(
-        "flex max-h-full w-full shrink-0 flex-col border-primary-foreground/50 dark:border lg:w-72",
+        "flex max-h-full w-full shrink-0 flex-col border-primary-foreground/50 dark:border md:w-80",
         isDragging && "border-2 border-destructive opacity-70 [&>*]:invisible",
         className,
       )}
