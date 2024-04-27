@@ -73,7 +73,7 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
               name="content"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel>Content</FormLabel>
+                  <FormLabel>Update Content</FormLabel>
                   <FormControl>
                     <div className="flex items-center gap-2">
                       <Input
