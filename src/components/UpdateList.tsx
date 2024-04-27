@@ -147,20 +147,27 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
                 </FormItem>
               )}
             />
-            <Button
-              type="submit"
-              disabled={isLoading || !form.formState.isDirty}
-              isLoading={isLoading}
-              data-testid="save-list-btn"
-            >
-              Save
-            </Button>
+            <div className="flex flex-col gap-2 xl:flex-row">
+              <Button
+                type="submit"
+                disabled={isLoading || !form.formState.isDirty}
+                isLoading={isLoading}
+                className="w-full"
+                data-testid="save-list-btn"
+              >
+                Save
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={cb}
+                data-testid="cancel-update-list-btn"
+              >
+                Cancel
+              </Button>
+            </div>
           </form>
         </Form>
       </div>
-      <Button variant="ghost" onClick={cb} data-testid="cancel-update-list-btn">
-        Cancel
-      </Button>
     </div>
   );
 };

@@ -64,7 +64,10 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
     <div className="flex flex-row items-end gap-2">
       <div className="w-full">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+          <form
+            className="flex flex-col gap-4"
+            onSubmit={form.handleSubmit(onSubmit)}
+          >
             <FormField
               control={form.control}
               name="content"
@@ -78,26 +81,28 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
                         autoFocus
                         {...field}
                       />
-                      <Button
-                        type="submit"
-                        disabled={isLoading}
-                        isLoading={isLoading}
-                        className="min-w-16"
-                      >
-                        Save
-                      </Button>
                     </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            <div className="flex flex-col gap-2 xl:flex-row">
+              <Button
+                type="submit"
+                disabled={isLoading}
+                isLoading={isLoading}
+                className="w-full"
+              >
+                Save
+              </Button>
+              <Button type="button" variant="ghost" onClick={cb}>
+                Cancel
+              </Button>
+            </div>
           </form>
         </Form>
       </div>
-      <Button type="button" variant="ghost" onClick={cb}>
-        Cancel
-      </Button>
     </div>
   );
 };

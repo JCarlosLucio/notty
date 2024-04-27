@@ -172,24 +172,28 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
               <ColorsTab setBg={setBg} />
               <PhotosTab setBg={setBg} />
             </Tabs>
-            <Button
-              type="submit"
-              disabled={isLoading}
-              isLoading={isLoading}
-              data-testid="save-board-btn"
-            >
-              Save
-            </Button>
+            <div className="flex flex-col gap-2 xl:flex-row">
+              <Button
+                type="submit"
+                disabled={isLoading}
+                isLoading={isLoading}
+                className="w-full"
+                data-testid="save-board-btn"
+              >
+                Save
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={cb}
+                className=""
+                data-testid="cancel-update-board-btn"
+              >
+                Cancel
+              </Button>
+            </div>
           </form>
         </Form>
       </div>
-      <Button
-        variant="ghost"
-        onClick={cb}
-        data-testid="cancel-update-board-btn"
-      >
-        Cancel
-      </Button>
     </div>
   );
 };
