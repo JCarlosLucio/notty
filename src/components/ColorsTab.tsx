@@ -14,7 +14,7 @@ const ColorsTab = ({ setBg }: ColorsTabProps) => {
   return (
     <TabsContent value="colors" className="flex overflow-y-hidden">
       <div className="flex w-full gap-3 overflow-hidden pt-2 hover:overflow-y-scroll">
-        <div className="grid w-2/3 grid-cols-3 content-start gap-2">
+        <div className="grid w-2/3 grid-cols-2 content-start gap-2 xl:grid-cols-3">
           {gradients.map((gradient) => (
             <Button
               type="button"
@@ -29,7 +29,7 @@ const ColorsTab = ({ setBg }: ColorsTabProps) => {
           ))}
         </div>
         <div className="h-full border-l" />
-        <div className="grid w-1/3 grid-cols-2 content-start gap-2">
+        <div className="grid w-1/3 grid-cols-1 content-start gap-2 xl:grid-cols-2">
           {colors.map((color) => (
             <Button
               type="button"
