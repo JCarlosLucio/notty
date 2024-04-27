@@ -35,7 +35,7 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
           <CardTitle className="w-full truncate pl-3 text-center text-xl">
             {list.title}
           </CardTitle>
-          <Pencil1Icon className="invisible group-hover:visible" />
+          <Pencil1Icon className="visible group-hover:visible xl:invisible" />
         </CardHeader>
       </DialogTrigger>
       <DialogContent

@@ -39,7 +39,7 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
                   {board.title}
                 </CardTitle>
                 <div className="px-2 py-1">
-                  <Pencil1Icon className="invisible group-hover:visible" />
+                  <Pencil1Icon className="visible group-hover:visible xl:invisible" />
                 </div>
               </CardHeader>
             </DialogTrigger>

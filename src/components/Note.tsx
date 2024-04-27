@@ -50,7 +50,7 @@ const Note = ({ note, className }: NoteProps) => {
     >
       <CardHeader className="group flex h-12 flex-row items-center gap-1 space-y-0 p-2">
         <p className="w-full truncate pl-1">{note.content}</p>
-        <NoteDetails note={note} className="hidden group-hover:flex" />
+        <NoteDetails note={note} className="flex group-hover:flex xl:hidden" />
       </CardHeader>
     </Card>
   );
