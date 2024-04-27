@@ -60,7 +60,7 @@ const DeleteNote = ({ note, cb }: DeleteNoteProps) => {
             <strong>{note.content}</strong>.
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter>
+        <DialogFooter className="flex flex-col xl:flex-row">
           <DialogClose asChild>
             <Button
               variant="destructive"

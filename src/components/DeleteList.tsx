@@ -59,7 +59,7 @@ const DeleteList = ({ list, cb }: DeleteListProps) => {
             contains.
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter>
+        <DialogFooter className="flex flex-col xl:flex-row">
           <DialogClose asChild>
             <Button
               variant="destructive"

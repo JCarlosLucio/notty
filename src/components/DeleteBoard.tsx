@@ -74,7 +74,7 @@ const DeleteBoard = ({ board, cb }: DeleteBoardProps) => {
             <strong>all the list and notes</strong> it contains.
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter>
+        <DialogFooter className="flex flex-col xl:flex-row">
           <DialogClose asChild>
             <Button
               variant="destructive"
