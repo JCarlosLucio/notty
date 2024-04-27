@@ -47,16 +47,19 @@ const Dashboard = () => {
 
       <main className="min-h-screen pb-5 pt-16">
         <BoardsSheet />
-        <div className="flex w-full flex-col items-center gap-12">
+        <div className="flex w-full flex-col items-center gap-8 xl:gap-12">
           <div className="flex w-full flex-col items-center justify-center">
-            <div className="flex w-full flex-col gap-4 lg:w-1/3">
-              <h1 className="text-center text-5xl">Your dashboard</h1>
-
-              <CreateBoard />
+            <div className="flex w-full flex-col gap-4 pt-4 lg:w-1/3 xl:pt-0">
+              <h1 className="text-center text-3xl xl:text-5xl">
+                Your dashboard
+              </h1>
+              <div className="px-5">
+                <CreateBoard />
+              </div>
             </div>
           </div>
 
-          <div className="grid w-5/6 grid-cols-4 gap-5">
+          <div className="grid w-5/6 grid-cols-1 gap-5 xl:grid-cols-4">
             {data?.pages.map((pageData) =>
               pageData.boards.map((board) => (
                 <Button key={board.id} asChild variant="ghost" size="2xl">
