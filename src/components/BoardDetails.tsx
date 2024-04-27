@@ -38,7 +38,7 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
                 <CardTitle className="truncate py-1 pl-8">
                   {board.title}
                 </CardTitle>
-                <div className="px-2">
+                <div className="px-2 py-1">
                   <Pencil1Icon className="invisible group-hover:visible" />
                 </div>
               </CardHeader>
