@@ -82,14 +82,14 @@ const CreateNote = ({ listId }: CreateNoteProps) => {
   }
 
   return (
-    <div ref={innerRef}>
+    <div ref={innerRef} className="w-full">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+        <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
             name="content"
             render={({ field }) => (
-              <FormItem className="w-full">
+              <FormItem>
                 <FormControl>
                   <div className="flex items-center gap-2">
                     <Input
