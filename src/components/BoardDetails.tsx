@@ -34,7 +34,7 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
         {board ? (
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild data-testid="open-board-details-btn">
-              <CardHeader className="group flex max-w-3xl cursor-pointer flex-row p-2 text-2xl">
+              <CardHeader className="group flex max-w-3xl cursor-pointer flex-row rounded-xl border border-primary-foreground p-2 text-2xl hover:bg-accent/50">
                 <CardTitle className="truncate py-1 pl-8">
                   {board.title}
                 </CardTitle>
