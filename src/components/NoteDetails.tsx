@@ -36,8 +36,10 @@ const NoteDetails = ({ note, ...props }: NoteDetailsProps) => {
         ) : (
           <>
             <DialogHeader>
-              <div className="flex flex-row gap-2">
-                <DialogTitle className="text-2xl">{note.content}</DialogTitle>
+              <div className="mr-2 flex flex-row gap-2">
+                <DialogTitle className="text-start text-2xl">
+                  {note.content}
+                </DialogTitle>
                 <Button
                   size="icon"
                   variant="ghost"
@@ -46,7 +48,7 @@ const NoteDetails = ({ note, ...props }: NoteDetailsProps) => {
                   <Pencil1Icon />
                 </Button>
               </div>
-              <DialogDescription>
+              <DialogDescription className="text-start">
                 {note.updatedAt.toDateString()}
               </DialogDescription>
             </DialogHeader>

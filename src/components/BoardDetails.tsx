@@ -50,10 +50,10 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
                   cb={() => setShowUpdateBoard(false)}
                 />
               ) : (
-                <div className="flex w-full flex-col">
+                <div className="flex w-full flex-col gap-4">
                   <DialogHeader>
-                    <div className="mx-2 flex flex-row gap-2">
-                      <DialogTitle className="text-2xl">
+                    <div className="mr-2 flex flex-row gap-2">
+                      <DialogTitle className="text-start text-2xl">
                         {board.title}
                       </DialogTitle>
                       <Button
@@ -66,7 +66,7 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
                         <Pencil1Icon />
                       </Button>
                     </div>
-                    <DialogDescription>
+                    <DialogDescription className="text-start">
                       {board.updatedAt.toDateString()}
                     </DialogDescription>
                   </DialogHeader>

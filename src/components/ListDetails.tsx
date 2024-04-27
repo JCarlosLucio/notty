@@ -62,7 +62,7 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
                   <Pencil1Icon />
                 </Button>
               </div>
-              <DialogDescription>
+              <DialogDescription className="text-start">
                 {list.updatedAt.toDateString()}
               </DialogDescription>
             </DialogHeader>
