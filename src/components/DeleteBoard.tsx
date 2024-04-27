@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterOutputs } from "@/utils/api";
-import Spinner from "@/components/Spinner";
 
 type DeleteBoardProps = {
   board: RouterOutputs["board"]["getById"];
@@ -80,16 +79,12 @@ const DeleteBoard = ({ board, cb }: DeleteBoardProps) => {
             <Button
               variant="destructive"
               disabled={isLoading}
+              isLoading={isLoading}
+              className="min-w-36"
               onClick={() => deleteBoard({ id: board.id })}
             >
-              {isLoading ? (
-                <Spinner className="mx-12 fill-secondary-foreground" />
-              ) : (
-                <>
-                  <TrashIcon className="pr-1" width={24} height={24} />
-                  Delete Forever
-                </>
-              )}
+              <TrashIcon className="pr-1" width={24} height={24} />
+              Delete Forever
             </Button>
           </DialogClose>
           <DialogClose asChild>

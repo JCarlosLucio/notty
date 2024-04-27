@@ -65,16 +65,12 @@ const DeleteNote = ({ note, cb }: DeleteNoteProps) => {
             <Button
               variant="destructive"
               disabled={isLoading}
+              isLoading={isLoading}
+              className="min-w-36"
               onClick={() => deleteNote({ id: note.id })}
             >
-              {isLoading ? (
-                <Spinner className="mx-12 fill-secondary-foreground" />
-              ) : (
-                <>
-                  <TrashIcon className="pr-1" width={24} height={24} />
-                  Delete Forever
-                </>
-              )}
+              <TrashIcon className="pr-1" width={24} height={24} />
+              Delete Forever
             </Button>
           </DialogClose>
           <DialogClose asChild>

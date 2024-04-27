@@ -18,7 +18,6 @@ import { useToast } from "@/components/ui/use-toast";
 import useClickAway from "@/hooks/useClickAway";
 import { api, type RouterInputs } from "@/utils/api";
 import { createListSchema } from "@/utils/schemas";
-import Spinner from "@/components/Spinner";
 
 type CreateListInput = RouterInputs["list"]["create"];
 type CreateListProps = { boardId: string };
@@ -110,13 +109,10 @@ const CreateList = ({ boardId }: CreateListProps) => {
                         type="submit"
                         variant="secondary"
                         disabled={isLoading}
+                        isLoading={isLoading}
                         data-testid="create-list-btn"
                       >
-                        {isLoading ? (
-                          <Spinner className="fill-secondary-foreground" />
-                        ) : (
-                          <PlusIcon />
-                        )}
+                        <PlusIcon />
                       </Button>
                     </div>
                   </FormControl>

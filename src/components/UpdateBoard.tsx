@@ -19,7 +19,6 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterInputs, type RouterOutputs } from "@/utils/api";
 import { updateBoardSchema } from "@/utils/schemas";
-import Spinner from "@/components/Spinner";
 
 type UpdateBoardProps = {
   board: RouterOutputs["board"]["getById"];
@@ -176,9 +175,10 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
             <Button
               type="submit"
               disabled={isLoading}
+              isLoading={isLoading}
               data-testid="save-board-btn"
             >
-              {isLoading ? <Spinner /> : "Save"}
+              Save
             </Button>
           </form>
         </Form>

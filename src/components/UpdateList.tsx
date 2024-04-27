@@ -150,9 +150,10 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
             <Button
               type="submit"
               disabled={isLoading || !form.formState.isDirty}
+              isLoading={isLoading}
               data-testid="save-list-btn"
             >
-              {isLoading ? <Spinner /> : "Save"}
+              Save
             </Button>
           </form>
         </Form>

@@ -16,7 +16,6 @@ import { useToast } from "@/components/ui/use-toast";
 import useClickAway from "@/hooks/useClickAway";
 import { api, type RouterInputs } from "@/utils/api";
 import { createNoteSchema } from "@/utils/schemas";
-import Spinner from "@/components/Spinner";
 
 type CreateNoteInput = RouterInputs["note"]["create"];
 type CreateNoteProps = { listId: string };
@@ -102,9 +101,10 @@ const CreateNote = ({ listId }: CreateNoteProps) => {
                     <Button
                       type="submit"
                       disabled={isLoading}
+                      isLoading={isLoading}
                       data-testid="create-note-btn"
                     >
-                      {isLoading ? <Spinner /> : <PlusIcon />}
+                      <PlusIcon />
                     </Button>
                   </div>
                 </FormControl>

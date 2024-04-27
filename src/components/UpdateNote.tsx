@@ -78,8 +78,13 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
                         autoFocus
                         {...field}
                       />
-                      <Button type="submit" disabled={isLoading}>
-                        {isLoading ? <Spinner /> : "Save"}
+                      <Button
+                        type="submit"
+                        disabled={isLoading}
+                        isLoading={isLoading}
+                        className="min-w-16"
+                      >
+                        Save
                       </Button>
                     </div>
                   </FormControl>
