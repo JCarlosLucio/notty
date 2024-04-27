@@ -103,6 +103,7 @@ const CreateList = ({ boardId }: CreateListProps) => {
                         placeholder="Add list"
                         autoFocus
                         data-testid="list-input"
+                        className="placeholder:text-muted"
                         {...field}
                       />
                       <Button
