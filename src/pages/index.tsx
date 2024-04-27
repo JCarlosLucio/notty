@@ -32,11 +32,11 @@ export default function Home() {
         <div className="container flex flex-col items-center justify-center gap-24 pt-20">
           <div className="flex flex-col items-center gap-8">
             <h1 className="font-extrabold tracking-tight sm:text-[5rem]">
-              <span className="bg-gradient-to-r from-emerald-950 to-teal-800 bg-clip-text text-9xl text-transparent dark:from-emerald-200 dark:to-teal-100">
+              <span className="bg-gradient-to-r from-emerald-950 to-teal-800 bg-clip-text text-8xl text-transparent dark:from-emerald-200 dark:to-teal-100 xl:text-9xl">
                 notty
               </span>
             </h1>
-            <p className="bg-gradient-to-r from-emerald-950 to-teal-800 bg-clip-text text-lg text-transparent dark:from-emerald-200 dark:to-teal-100">
+            <p className="bg-gradient-to-r from-emerald-950 to-teal-800 bg-clip-text text-center text-lg text-transparent dark:from-emerald-200 dark:to-teal-100 xl:text-lg">
               A simple Kanban board app to help you stay organized anywhere.
             </p>
           </div>
@@ -53,7 +53,7 @@ function AuthShowcase() {
 
   return (
     <div className="flex flex-col items-center justify-center gap-8">
-      <h2 className="text-2xl">
+      <h2 className="text-xl xl:text-2xl">
         {sessionData
           ? `Signed in as ${sessionData.user?.name}`
           : "Sign in to your account"}
