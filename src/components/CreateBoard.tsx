@@ -72,7 +72,7 @@ const CreateBoard = () => {
           name="title"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Title</FormLabel>
+              <FormLabel>Add Board</FormLabel>
               <FormControl>
                 <div className="flex items-center gap-2">
                   <Input
