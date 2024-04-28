@@ -172,7 +172,7 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
               <ColorsTab setBg={setBg} />
               <PhotosTab setBg={setBg} />
             </Tabs>
-            <div className="flex flex-col gap-2 xl:flex-row">
+            <div className="flex flex-col gap-2 md:flex-row">
               <Button
                 type="submit"
                 disabled={isLoading}

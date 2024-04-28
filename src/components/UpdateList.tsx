@@ -109,7 +109,7 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
               render={({ field: { value, onChange, onBlur } }) => (
                 <FormItem className="w-full">
                   <FormLabel>Update Color</FormLabel>
-                  <div className="flex flex-col justify-evenly gap-6 rounded-lg border p-6 xl:flex-row">
+                  <div className="flex flex-col justify-evenly gap-6 rounded-lg border p-6 md:flex-row">
                     {showUpdateColor ? (
                       <>
                         <div className="flex flex-col justify-center gap-3">
@@ -147,7 +147,7 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
                 </FormItem>
               )}
             />
-            <div className="flex flex-col gap-2 xl:flex-row">
+            <div className="flex flex-col gap-2 md:flex-row">
               <Button
                 type="submit"
                 disabled={isLoading || !form.formState.isDirty}

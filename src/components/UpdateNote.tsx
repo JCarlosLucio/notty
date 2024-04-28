@@ -87,7 +87,7 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
                 </FormItem>
               )}
             />
-            <div className="flex flex-col gap-2 xl:flex-row">
+            <div className="flex flex-col gap-2 md:flex-row">
               <Button
                 type="submit"
                 disabled={isLoading}
