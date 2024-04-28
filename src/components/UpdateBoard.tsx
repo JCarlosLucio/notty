@@ -95,7 +95,7 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
       <div className="flex max-h-full w-full">
         <Form {...form}>
           <form
-            className="flex max-h-full w-full shrink-0 flex-col gap-4"
+            className="flex max-h-full w-full shrink-0 flex-col gap-4 overflow-y-scroll xl:overflow-auto"
             onSubmit={form.handleSubmit(onSubmit)}
           >
             <FormField
@@ -120,7 +120,7 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
             <div className="flex flex-col items-center gap-2">
               <h6 className="text-sm">Current background</h6>
               <div
-                className="group flex h-52 w-full items-center justify-center rounded-lg border"
+                className="group flex h-36 w-full items-center justify-center rounded-lg border xl:h-52"
                 style={{
                   backgroundImage: bg.thumb ?? "",
                   backgroundSize: "cover",
@@ -141,7 +141,7 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
 
             <Tabs
               defaultValue="colors"
-              className="flex flex-col overflow-y-hidden"
+              className="flex flex-col xl:overflow-y-hidden"
             >
               <TabsList>
                 <TabsTrigger
