@@ -7,6 +7,7 @@ import BoardsSheet from "@/components/BoardsSheet";
 import Header from "@/config";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/utils/api";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerAuthSession(ctx);
@@ -45,11 +46,13 @@ const BoardPage = () => {
       >
         <BoardsSheet currentBoardId={currentBoard?.id} />
 
-        {isLoading ? (
-          <h1>Loading...</h1>
-        ) : (
-          <BoardDetails board={currentBoard} />
-        )}
+        <div className="flex w-full items-center justify-center">
+          {isLoading ? (
+            <Skeleton className="h-12 w-1/2 rounded-xl xl:w-1/2" />
+          ) : (
+            <BoardDetails board={currentBoard} />
+          )}
+        </div>
 
         {currentBoard && <BoardLists boardId={id} />}
       </main>
