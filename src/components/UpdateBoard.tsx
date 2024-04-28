@@ -128,16 +128,20 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
                 }}
                 data-testid="bg-preview"
               >
-                <Button
-                  type="button"
-                  size="icon"
-                  variant="destructive"
-                  className="m-3"
-                  onClick={() => setBg({ full: null, thumb: null })}
-                  aria-label="Remove background"
-                >
-                  <Cross1Icon />
-                </Button>
+                {bg.thumb ? (
+                  <Button
+                    type="button"
+                    size="icon"
+                    variant="destructive"
+                    className="m-3"
+                    onClick={() => setBg({ full: null, thumb: null })}
+                    aria-label="Remove background"
+                  >
+                    <Cross1Icon />
+                  </Button>
+                ) : (
+                  <span className="m-auto text-xs italic">None</span>
+                )}
               </div>
             </div>
 
