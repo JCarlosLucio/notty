@@ -39,18 +39,18 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
         </CardHeader>
       </DialogTrigger>
       <DialogContent
-        className="overflow-hidden p-0 sm:max-w-2xl"
+        className="flex max-h-full shrink-0 p-0 sm:max-w-2xl"
         data-no-dnd="true"
       >
         {showUpdateList ? (
           <UpdateList list={list} cb={() => setShowUpdateList(false)} />
         ) : (
-          <>
+          <div className="flex w-full flex-col gap-4">
             <DialogHeader
-              className="flex flex-col p-6 pb-3"
+              className="flex flex-col rounded-t-md p-6 pb-3"
               style={{ backgroundColor: list.color ?? undefined }}
             >
-              <div className="flex flex-row gap-2 rounded-t-md">
+              <div className="flex flex-row gap-2">
                 <DialogTitle className="text-2xl">{list.title}</DialogTitle>
                 <Button
                   size="icon"
@@ -69,7 +69,7 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
             <DialogFooter className="p-6 pt-0">
               <DeleteList list={list} cb={() => setOpen(false)} />
             </DialogFooter>
-          </>
+          </div>
         )}
       </DialogContent>
     </Dialog>

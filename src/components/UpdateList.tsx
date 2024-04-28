@@ -20,7 +20,6 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterInputs, type RouterOutputs } from "@/utils/api";
 import { updateListSchema } from "@/utils/schemas";
-import Spinner from "@/components/Spinner";
 
 type UpdateListProps = {
   list: RouterOutputs["list"]["getById"];
@@ -77,11 +76,11 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
   };
 
   return (
-    <div className="flex flex-row items-end gap-2 p-6">
-      <div className="w-full">
+    <div className="flex max-h-full w-full shrink-0 p-6">
+      <div className="flex max-h-full w-full">
         <Form {...form}>
           <form
-            className="flex flex-col gap-4"
+            className="flex max-h-full w-full flex-col gap-4 overflow-y-scroll xl:overflow-auto"
             onSubmit={form.handleSubmit(onSubmit)}
           >
             <FormField
