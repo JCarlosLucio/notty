@@ -18,10 +18,13 @@ import Note from "@/components/Note";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterOutputs } from "@/utils/api";
 import { PointerSensor } from "@/utils/dnd";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type BoardProps = { boardId: string };
 type ActiveList = RouterOutputs["list"]["getById"];
 type ActiveNote = RouterOutputs["note"]["create"];
+
+const LIMIT = 6;
 
 const BoardLists = ({ boardId }: BoardProps) => {
   const [activeList, setActiveList] = useState<ActiveList | null>(null);
@@ -30,7 +33,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
 
   const { toast } = useToast();
 
-  const { data: lists } = api.list.getAll.useQuery({ boardId });
+  const { data: lists, isLoading } = api.list.getAll.useQuery({ boardId });
 
   const ctx = api.useUtils();
 
@@ -269,6 +272,19 @@ const BoardLists = ({ boardId }: BoardProps) => {
     if (!prevOverListId || !activeNote) return;
     resetNotesOnLists(prevOverListId, activeNote);
     resetActiveItems();
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex h-full items-start gap-2 overflow-x-hidden px-2 pb-2">
+        {Array.from({ length: LIMIT }, (_, index) => (
+          <Skeleton
+            key={index}
+            className="h-full max-h-full w-full shrink-0 rounded-md border md:w-80"
+          />
+        ))}
+      </div>
+    );
   }
 
   return (
