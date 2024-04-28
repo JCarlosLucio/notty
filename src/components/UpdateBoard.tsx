@@ -91,11 +91,11 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
   };
 
   return (
-    <div className="flex max-h-full w-full shrink-0 flex-row items-end gap-2">
+    <div className="flex max-h-full w-full shrink-0">
       <div className="flex max-h-full w-full">
         <Form {...form}>
           <form
-            className="flex max-h-full w-full shrink-0 flex-col gap-4 overflow-y-scroll xl:overflow-auto"
+            className="flex max-h-full w-full flex-col gap-4 overflow-y-scroll xl:overflow-auto"
             onSubmit={form.handleSubmit(onSubmit)}
           >
             <FormField
@@ -103,7 +103,7 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
               name="title"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel>Title</FormLabel>
+                  <FormLabel>Update Title</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Your new board title..."
