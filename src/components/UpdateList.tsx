@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterInputs, type RouterOutputs } from "@/utils/api";
 import { updateListSchema } from "@/utils/schemas";
+import { Cross1Icon } from "@radix-ui/react-icons";
 
 type UpdateListProps = {
   list: RouterOutputs["list"]["getById"];
@@ -114,12 +115,20 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
                         <div className="flex flex-col justify-center gap-3">
                           <h6 className="text-sm">Preview</h6>
                           <div
-                            className="flex h-20 w-full items-center justify-center rounded-full border"
+                            className="flex h-24 w-full items-start justify-end rounded-lg border md:w-40"
                             style={{ backgroundColor: value ?? undefined }}
-                          ></div>
-                          <Button type="button" onClick={handleRemoveColor}>
-                            Remove color
-                          </Button>
+                          >
+                            <Button
+                              type="button"
+                              size="icon"
+                              variant="destructive"
+                              className="m-3"
+                              onClick={handleRemoveColor}
+                              aria-label="Remove color"
+                            >
+                              <Cross1Icon />
+                            </Button>
+                          </div>
                         </div>
                         <FormControl>
                           <div className="flex flex-col items-center gap-3">
