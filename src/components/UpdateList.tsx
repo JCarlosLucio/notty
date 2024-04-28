@@ -1,9 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  type ComponentPropsWithoutRef,
-  type MouseEventHandler,
-  useState,
-} from "react";
+import { type ComponentPropsWithoutRef, type MouseEventHandler } from "react";
 import { HexAlphaColorPicker, HexColorInput } from "react-colorful";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
@@ -37,7 +33,6 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
       color: list.color,
     },
   });
-  const [showUpdateColor, setShowUpdateColor] = useState<boolean>(!!list.color);
   const { toast } = useToast();
   const ctx = api.useUtils();
 
@@ -67,13 +62,8 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
     updateList(values);
   };
 
-  const handleAddColor: MouseEventHandler<HTMLButtonElement> = () => {
-    setShowUpdateColor(true);
-  };
-
   const handleRemoveColor: MouseEventHandler<HTMLButtonElement> = () => {
     form.setValue("color", null, { shouldDirty: true });
-    setShowUpdateColor(false);
   };
 
   return (
@@ -110,47 +100,45 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
                 <FormItem className="w-full">
                   <FormLabel>Update Color</FormLabel>
                   <div className="flex flex-col justify-evenly gap-6 rounded-lg border p-6 md:flex-row">
-                    {showUpdateColor ? (
-                      <>
-                        <div className="flex flex-col justify-center gap-3">
-                          <h6 className="text-sm">Preview</h6>
-                          <div
-                            className="flex h-24 w-full items-start justify-end rounded-lg border md:w-40"
-                            style={{ backgroundColor: value ?? undefined }}
+                    <div className="flex flex-col justify-center gap-3">
+                      <h6 className="text-sm">Preview</h6>
+                      <div
+                        className="flex h-24 w-full items-start justify-end rounded-lg border md:w-40"
+                        style={{ backgroundColor: value ?? undefined }}
+                      >
+                        {value ? (
+                          <Button
+                            type="button"
+                            size="icon"
+                            variant="destructive"
+                            className="m-3"
+                            onClick={handleRemoveColor}
+                            aria-label="Remove color"
                           >
-                            <Button
-                              type="button"
-                              size="icon"
-                              variant="destructive"
-                              className="m-3"
-                              onClick={handleRemoveColor}
-                              aria-label="Remove color"
-                            >
-                              <Cross1Icon />
-                            </Button>
-                          </div>
-                        </div>
-                        <FormControl>
-                          <div className="flex flex-col items-center gap-3">
-                            <HexAlphaColorPicker
-                              color={value ?? undefined}
-                              onChange={onChange}
-                              onBlur={onBlur}
-                            />
-                            <HexColorInput
-                              className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                              alpha
-                              prefixed
-                              color={value ?? undefined}
-                              onChange={onChange}
-                              onBlur={onBlur}
-                            />
-                          </div>
-                        </FormControl>
-                      </>
-                    ) : (
-                      <Button onClick={handleAddColor}>Add color</Button>
-                    )}
+                            <Cross1Icon />
+                          </Button>
+                        ) : (
+                          <span className="m-auto text-xs italic">None</span>
+                        )}
+                      </div>
+                    </div>
+                    <FormControl>
+                      <div className="flex flex-col items-center gap-3">
+                        <HexAlphaColorPicker
+                          color={value ?? undefined}
+                          onChange={onChange}
+                          onBlur={onBlur}
+                        />
+                        <HexColorInput
+                          className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                          alpha
+                          prefixed
+                          color={value ?? undefined}
+                          onChange={onChange}
+                          onBlur={onBlur}
+                        />
+                      </div>
+                    </FormControl>
                   </div>
                 </FormItem>
               )}
