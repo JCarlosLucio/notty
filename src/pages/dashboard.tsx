@@ -59,7 +59,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="grid w-5/6 grid-cols-1 gap-5 xl:grid-cols-4">
+          <div className="grid w-5/6 grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
             {data?.pages.map((pageData) =>
               pageData.boards.map((board) => (
                 <Button key={board.id} asChild variant="ghost" size="2xl">
