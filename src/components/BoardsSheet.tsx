@@ -40,7 +40,7 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
     <Sheet key="boards-sheet">
       <SheetTrigger asChild>
         <Button
-          className="absolute ml-2 hidden xl:inline-flex"
+          className="absolute ml-2 hidden md:inline-flex"
           variant="gradient"
           size="lg"
           data-testid="open-boards-btn"
