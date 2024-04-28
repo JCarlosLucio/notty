@@ -19,6 +19,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterInputs, type RouterOutputs } from "@/utils/api";
 import { updateBoardSchema } from "@/utils/schemas";
+import { Cross1Icon } from "@radix-ui/react-icons";
 
 type UpdateBoardProps = {
   board: RouterOutputs["board"]["getById"];
@@ -120,7 +121,7 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
             <div className="flex flex-col items-center gap-2">
               <h6 className="text-sm">Current background</h6>
               <div
-                className="group flex h-36 w-full items-center justify-center rounded-lg border xl:h-52"
+                className="flex h-36 w-full items-start justify-end rounded-lg border xl:h-52"
                 style={{
                   backgroundImage: bg.thumb ?? "",
                   backgroundSize: "cover",
@@ -129,12 +130,13 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
               >
                 <Button
                   type="button"
-                  size="lg"
+                  size="icon"
                   variant="destructive"
-                  className="invisible group-hover:visible"
+                  className="m-3"
                   onClick={() => setBg({ full: null, thumb: null })}
+                  aria-label="Remove background"
                 >
-                  Remove
+                  <Cross1Icon />
                 </Button>
               </div>
             </div>
