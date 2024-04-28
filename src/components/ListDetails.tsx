@@ -32,7 +32,7 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
           style={{ backgroundColor: list.color ?? "" }}
           {...props}
         >
-          <CardTitle className="w-full truncate pl-3 text-center text-xl">
+          <CardTitle className="w-full truncate pl-3 text-center text-lg md:text-xl">
             {list.title}
           </CardTitle>
           <Pencil1Icon className="visible group-hover:visible xl:invisible" />
