@@ -58,7 +58,7 @@ export const noteRouter = createTRPCRouter({
       return await ctx.db.note.create({
         data: {
           listId: input.listId,
-          content: input.content,
+          title: input.title,
           position: midString(lastPosition, ""),
         },
       });
