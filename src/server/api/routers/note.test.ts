@@ -17,11 +17,12 @@ type NoteCreateInput = inferProcedureInput<AppRouter["note"]["create"]>;
 type NoteUpdateInput = inferProcedureInput<AppRouter["note"]["update"]>;
 
 const partialCreateInput: Omit<NoteCreateInput, "listId"> = {
-  content: "Created content",
+  title: "Created new note",
 };
 
 const partialUpdateInput: Omit<NoteUpdateInput, "id"> = {
-  content: "Updated content",
+  title: "Updated note title",
+  content: "Updated note content",
 };
 
 describe("Notes", () => {
@@ -82,8 +83,8 @@ describe("Notes", () => {
       const notesAfter = await getNotesInDB();
       expect(notesAfter).toHaveLength(initialNotes.length + 1);
 
-      const contents = notesAfter.map((b) => b.content);
-      expect(contents).toContain(testNoteInput.content);
+      const titles = notesAfter.map((b) => b.title);
+      expect(titles).toContain(testNoteInput.title);
     });
 
     test("should throw UNAUTHORIZED when creating note without session", async () => {
@@ -98,12 +99,12 @@ describe("Notes", () => {
       ).rejects.toThrowError(/UNAUTHORIZED/);
     });
 
-    test("should throw 'Content is required' when content is empty string", async () => {
+    test("should throw 'Title is required' when title is empty string", async () => {
       const list = await getListInDB();
 
       await expect(
-        caller.note.create({ content: "", listId: list.id }),
-      ).rejects.toThrowError("Content is required");
+        caller.note.create({ title: "", listId: list.id }),
+      ).rejects.toThrowError("Title is required");
 
       const notesAfter = await getNotesInDB();
       expect(notesAfter).toHaveLength(initialNotes.length);
@@ -125,8 +126,11 @@ describe("Notes", () => {
 
       const notesAfter = await getNotesInDB();
 
+      const titles = notesAfter.map((n) => n.title);
+      expect(titles).not.toContain(noteToUpdate.title);
+      expect(titles).toContain(testUpdateInput.title);
+
       const contents = notesAfter.map((n) => n.content);
-      expect(contents).not.toContain(noteToUpdate.content);
       expect(contents).toContain(testUpdateInput.content);
     });
 
@@ -175,9 +179,9 @@ describe("Notes", () => {
 
       const expectedTargetNewIdx = targetIdx - 1;
 
-      const contentsAfter = sortedNotesAfter.map((n) => n.content);
-      expect(contentsAfter[expectedTargetNewIdx]).toBe(targetNote.content);
-      expect(contentsAfter[targetIdx]).toBe(noteToMove.content);
+      const titlesAfter = sortedNotesAfter.map((n) => n.title);
+      expect(titlesAfter[expectedTargetNewIdx]).toBe(targetNote.title);
+      expect(titlesAfter[targetIdx]).toBe(noteToMove.title);
 
       const positionsAfter = sortedNotesAfter.map((n) => n.position);
       expect(positionsAfter[expectedTargetNewIdx]).toBe(targetNote.position);
@@ -218,9 +222,9 @@ describe("Notes", () => {
 
       const expectedTargetNewIdx = targetIdx - 1;
 
-      const contentsAfter = sortedNotesAfter.map((n) => n.content);
-      expect(contentsAfter[expectedTargetNewIdx]).toBe(targetNote.content);
-      expect(contentsAfter[targetIdx]).toBe(noteToMove.content);
+      const titlesAfter = sortedNotesAfter.map((n) => n.title);
+      expect(titlesAfter[expectedTargetNewIdx]).toBe(targetNote.title);
+      expect(titlesAfter[targetIdx]).toBe(noteToMove.title);
 
       const positionsAfter = sortedNotesAfter.map((n) => n.position);
       expect(positionsAfter[expectedTargetNewIdx]).toBe(targetNote.position);
@@ -261,9 +265,9 @@ describe("Notes", () => {
 
       const expectedTargetNewIdx = targetIdx + 1;
 
-      const contentsAfter = sortedNotesAfter.map((n) => n.content);
-      expect(contentsAfter[expectedTargetNewIdx]).toBe(targetNote.content);
-      expect(contentsAfter[targetIdx]).toBe(noteToMove.content);
+      const titlesAfter = sortedNotesAfter.map((n) => n.title);
+      expect(titlesAfter[expectedTargetNewIdx]).toBe(targetNote.title);
+      expect(titlesAfter[targetIdx]).toBe(noteToMove.title);
 
       const positionsAfter = sortedNotesAfter.map((n) => n.position);
       expect(positionsAfter[expectedTargetNewIdx]).toBe(targetNote.position);
@@ -304,9 +308,9 @@ describe("Notes", () => {
 
       const expectedTargetNewIdx = targetIdx + 1;
 
-      const contentsAfter = sortedNotesAfter.map((n) => n.content);
-      expect(contentsAfter[expectedTargetNewIdx]).toBe(targetNote.content);
-      expect(contentsAfter[targetIdx]).toBe(noteToMove.content);
+      const titlesAfter = sortedNotesAfter.map((n) => n.title);
+      expect(titlesAfter[expectedTargetNewIdx]).toBe(targetNote.title);
+      expect(titlesAfter[targetIdx]).toBe(noteToMove.title);
 
       const positionsAfter = sortedNotesAfter.map((n) => n.position);
       expect(positionsAfter[expectedTargetNewIdx]).toBe(targetNote.position);
@@ -340,8 +344,8 @@ describe("Notes", () => {
       });
 
       const originalNotesAfter = await getNotesInDB();
-      const contentsAfter = originalNotesAfter.map((n) => n.content);
-      expect(contentsAfter).not.toContain(noteToMove.content);
+      const titlesAfter = originalNotesAfter.map((n) => n.title);
+      expect(titlesAfter).not.toContain(noteToMove.title);
     });
 
     test("should move note to a different list and sort within that list", async () => {
@@ -371,8 +375,8 @@ describe("Notes", () => {
       });
 
       const originalNotesAfter = await getNotesInDB();
-      const contentsAfter = originalNotesAfter.map((n) => n.content);
-      expect(contentsAfter).not.toContain(noteToMove.content);
+      const titlesAfter = originalNotesAfter.map((n) => n.title);
+      expect(titlesAfter).not.toContain(noteToMove.title);
 
       // move note back to original list
       const notes = await getNotesInDB();
@@ -405,13 +409,9 @@ describe("Notes", () => {
 
       const expectedTargetNewIdx = targetReturnIdx + 1;
 
-      const contentsAfterReturn = sortedNotesAfterReturn.map((n) => n.content);
-      expect(contentsAfterReturn[expectedTargetNewIdx]).toBe(
-        noteToMove.content,
-      );
-      expect(contentsAfterReturn[targetReturnIdx]).toBe(
-        targetReturnNote.content,
-      );
+      const titlesAfterReturn = sortedNotesAfterReturn.map((n) => n.title);
+      expect(titlesAfterReturn[expectedTargetNewIdx]).toBe(noteToMove.title);
+      expect(titlesAfterReturn[targetReturnIdx]).toBe(targetReturnNote.title);
 
       const positionsAfterReturn = sortedNotesAfterReturn.map(
         (n) => n.position,
@@ -446,8 +446,8 @@ describe("Notes", () => {
       const notesAfter = await getNotesInDB();
       expect(notesAfter).toHaveLength(initialNotes.length - 1);
 
-      const contents = notesAfter.map((n) => n.content);
-      expect(contents).not.toContain(noteToDelete.content);
+      const titles = notesAfter.map((n) => n.title);
+      expect(titles).not.toContain(noteToDelete.title);
     });
 
     test("should throw UNAUTHORIZED when deleting note without session", async () => {
