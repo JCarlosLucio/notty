@@ -4,10 +4,10 @@ import { useRouter } from "next/router";
 import BoardDetails from "@/components/BoardDetails";
 import BoardLists from "@/components/BoardLists";
 import BoardsSheet from "@/components/BoardsSheet";
+import { Skeleton } from "@/components/ui/skeleton";
 import Header from "@/config";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/utils/api";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerAuthSession(ctx);

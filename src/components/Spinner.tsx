@@ -1,6 +1,7 @@
-import { cn } from "@/utils/utils";
 import { Component1Icon } from "@radix-ui/react-icons";
-import { IconProps } from "@radix-ui/react-icons/dist/types";
+import { type IconProps } from "@radix-ui/react-icons/dist/types";
+
+import { cn } from "@/utils/utils";
 
 const Spinner = ({ className, ...props }: IconProps) => {
   return (

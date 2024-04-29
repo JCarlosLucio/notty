@@ -1,8 +1,8 @@
 import Link from "next/link";
 
+import Logo from "@/components/Logo";
 import ThemeToggle from "@/components/ThemeToggle";
 import UserSessionPopover from "@/components/UserSessionPopover";
-import Logo from "@/components/Logo";
 
 const Nav = () => {
   return (

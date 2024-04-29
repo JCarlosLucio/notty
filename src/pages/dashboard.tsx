@@ -4,10 +4,10 @@ import Link from "next/link";
 import BoardsSheet from "@/components/BoardsSheet";
 import CreateBoard from "@/components/CreateBoard";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import Header from "@/config";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/utils/api";
-import { Skeleton } from "@/components/ui/skeleton";
 
 const LIMIT = 5;
 

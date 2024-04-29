@@ -15,10 +15,10 @@ import { createPortal } from "react-dom";
 import CreateList from "@/components/CreateList";
 import List from "@/components/List";
 import Note from "@/components/Note";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterOutputs } from "@/utils/api";
 import { PointerSensor } from "@/utils/dnd";
-import { Skeleton } from "@/components/ui/skeleton";
 
 type BoardProps = { boardId: string };
 type ActiveList = RouterOutputs["list"]["getById"];

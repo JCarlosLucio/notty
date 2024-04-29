@@ -3,10 +3,10 @@ import { type GetServerSideProps } from "next";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
+import GradientBlobs from "@/components/GradientBlobs";
 import { Button } from "@/components/ui/button";
 import Header from "@/config";
 import { getServerAuthSession } from "@/server/auth";
-import GradientBlobs from "@/components/GradientBlobs";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerAuthSession(ctx);

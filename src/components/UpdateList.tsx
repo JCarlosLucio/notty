@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Cross1Icon } from "@radix-ui/react-icons";
 import { type ComponentPropsWithoutRef, type MouseEventHandler } from "react";
 import { HexAlphaColorPicker, HexColorInput } from "react-colorful";
 import { type SubmitHandler, useForm } from "react-hook-form";
@@ -16,7 +17,6 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterInputs, type RouterOutputs } from "@/utils/api";
 import { updateListSchema } from "@/utils/schemas";
-import { Cross1Icon } from "@radix-ui/react-icons";
 
 type UpdateListProps = {
   list: RouterOutputs["list"]["getById"];

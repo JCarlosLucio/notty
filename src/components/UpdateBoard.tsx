@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Cross1Icon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { type ComponentPropsWithoutRef, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
@@ -19,7 +20,6 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterInputs, type RouterOutputs } from "@/utils/api";
 import { updateBoardSchema } from "@/utils/schemas";
-import { Cross1Icon } from "@radix-ui/react-icons";
 
 type UpdateBoardProps = {
   board: RouterOutputs["board"]["getById"];

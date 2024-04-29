@@ -11,8 +11,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { api } from "@/utils/api";
 import { Skeleton } from "@/components/ui/skeleton";
+import { api } from "@/utils/api";
 
 type BoardsProps = {
   currentBoardId?: string;
