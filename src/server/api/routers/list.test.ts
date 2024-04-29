@@ -40,8 +40,8 @@ describe("Lists", () => {
     test("should throw UNAUTHORIZED when getting lists without session", async () => {
       const board = await getBoardInDB();
 
-      expect(
-        async () => await unauthorizedCaller.list.getAll({ boardId: board.id }),
+      await expect(
+        unauthorizedCaller.list.getAll({ boardId: board.id }),
       ).rejects.toThrowError(/UNAUTHORIZED/);
     });
   });
@@ -55,9 +55,9 @@ describe("Lists", () => {
       expect(list).toMatchObject(listToGet);
     });
 
-    test("should throw UNAUTHORIZED when getting list by id without session", () => {
-      expect(
-        async () => await unauthorizedCaller.list.getById({ id: "whatever" }),
+    test("should throw UNAUTHORIZED when getting list by id without session", async () => {
+      await expect(
+        unauthorizedCaller.list.getById({ id: "whatever" }),
       ).rejects.toThrowError(/UNAUTHORIZED/);
     });
   });
@@ -93,7 +93,7 @@ describe("Lists", () => {
         ...partialCreateInput,
       };
 
-      expect(
+      await expect(
         async () => await unauthorizedCaller.list.create(testListInput),
       ).rejects.toThrowError(/UNAUTHORIZED/);
     });
@@ -101,8 +101,8 @@ describe("Lists", () => {
     test("should throw 'Title is required' when title is empty string", async () => {
       const board = await getBoardInDB();
 
-      expect(
-        async () => await caller.list.create({ title: "", boardId: board.id }),
+      await expect(
+        caller.list.create({ title: "", boardId: board.id }),
       ).rejects.toThrowError("Title is required");
 
       const listsAfter = await getListsInDB();
@@ -123,9 +123,9 @@ describe("Lists", () => {
       expect(titles).not.toContain(listToDelete.title);
     });
 
-    test("should throw UNAUTHORIZED when deleting list without session", () => {
-      expect(
-        async () => await unauthorizedCaller.list.delete({ id: "whatever" }),
+    test("should throw UNAUTHORIZED when deleting list without session", async () => {
+      await expect(
+        unauthorizedCaller.list.delete({ id: "whatever" }),
       ).rejects.toThrowError(/UNAUTHORIZED/);
     });
   });
@@ -153,13 +153,12 @@ describe("Lists", () => {
       expect(colors).toContain(testUpdateInput.color);
     });
 
-    test("should throw UNAUTHORIZED when updating list without session", () => {
-      expect(
-        async () =>
-          await unauthorizedCaller.list.update({
-            id: "whatever",
-            ...partialUpdateInput,
-          }),
+    test("should throw UNAUTHORIZED when updating list without session", async () => {
+      await expect(
+        unauthorizedCaller.list.update({
+          id: "whatever",
+          ...partialUpdateInput,
+        }),
       ).rejects.toThrowError(/UNAUTHORIZED/);
     });
   });
@@ -349,26 +348,24 @@ describe("Lists", () => {
         return assert.fail("Couldn't get list in test");
       }
 
-      expect(
-        async () =>
-          await caller.list.move({
-            id: listToMove.id,
-            boardId: board.id,
-            targetId: listToMove.id,
-          }),
+      await expect(
+        caller.list.move({
+          id: listToMove.id,
+          boardId: board.id,
+          targetId: listToMove.id,
+        }),
       ).rejects.toThrowError("id cannot be targetId");
     });
 
     test("should throw UNAUTHORIZED when moving list without session", async () => {
       const board = await getBoardInDB();
 
-      expect(
-        async () =>
-          await unauthorizedCaller.list.move({
-            id: "whatever",
-            targetId: "whichever",
-            boardId: board.id,
-          }),
+      await expect(
+        unauthorizedCaller.list.move({
+          id: "whatever",
+          targetId: "whichever",
+          boardId: board.id,
+        }),
       ).rejects.toThrowError(/UNAUTHORIZED/);
     });
   });

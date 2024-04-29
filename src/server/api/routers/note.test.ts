@@ -1,4 +1,4 @@
-import { type inferProcedureInput, TRPCError } from "@trpc/server";
+import { type inferProcedureInput } from "@trpc/server";
 import { assert, beforeEach, describe, expect, test } from "vitest";
 
 import { type AppRouter } from "@/server/api/root";
@@ -41,8 +41,8 @@ describe("Notes", () => {
     test("should throw UNAUTHORIZED when getting notes without session", async () => {
       const list = await getListInDB();
 
-      expect(
-        async () => await unauthorizedCaller.note.getAll({ listId: list.id }),
+      await expect(
+        unauthorizedCaller.note.getAll({ listId: list.id }),
       ).rejects.toThrowError(/UNAUTHORIZED/);
     });
   });
@@ -56,9 +56,9 @@ describe("Notes", () => {
       expect(note).toMatchObject(noteToGet);
     });
 
-    test("should throw UNAUTHORIZED when getting note by id without session", () => {
-      expect(
-        async () => await unauthorizedCaller.note.getById({ id: "whatever" }),
+    test("should throw UNAUTHORIZED when getting note by id without session", async () => {
+      await expect(
+        unauthorizedCaller.note.getById({ id: "whatever" }),
       ).rejects.toThrowError(/UNAUTHORIZED/);
     });
   });
@@ -93,16 +93,16 @@ describe("Notes", () => {
         listId: list.id,
         ...partialCreateInput,
       };
-      expect(
-        async () => await unauthorizedCaller.note.create(testNoteInput),
+      await expect(
+        unauthorizedCaller.note.create(testNoteInput),
       ).rejects.toThrowError(/UNAUTHORIZED/);
     });
 
     test("should throw 'Content is required' when content is empty string", async () => {
       const list = await getListInDB();
 
-      expect(
-        async () => await caller.note.create({ content: "", listId: list.id }),
+      await expect(
+        caller.note.create({ content: "", listId: list.id }),
       ).rejects.toThrowError("Content is required");
 
       const notesAfter = await getNotesInDB();
@@ -130,13 +130,12 @@ describe("Notes", () => {
       expect(contents).toContain(testUpdateInput.content);
     });
 
-    test("should throw UNAUTHORIZED when updating note without session", () => {
-      expect(
-        async () =>
-          await unauthorizedCaller.note.update({
-            id: "whatever",
-            ...partialUpdateInput,
-          }),
+    test("should throw UNAUTHORIZED when updating note without session", async () => {
+      await expect(
+        unauthorizedCaller.note.update({
+          id: "whatever",
+          ...partialUpdateInput,
+        }),
       ).rejects.toThrowError(/UNAUTHORIZED/);
     });
   });
@@ -428,13 +427,12 @@ describe("Notes", () => {
     test("should throw UNAUTHORIZED when moving note without session", async () => {
       const note = await getNoteInDB();
 
-      expect(
-        async () =>
-          await unauthorizedCaller.note.move({
-            id: "whatever",
-            targetId: "whichever",
-            listId: note.listId,
-          }),
+      await expect(
+        unauthorizedCaller.note.move({
+          id: "whatever",
+          targetId: "whichever",
+          listId: note.listId,
+        }),
       ).rejects.toThrowError(/UNAUTHORIZED/);
     });
   });
@@ -452,9 +450,9 @@ describe("Notes", () => {
       expect(contents).not.toContain(noteToDelete.content);
     });
 
-    test("should throw UNAUTHORIZED when deleting note without session", () => {
-      expect(
-        async () => await unauthorizedCaller.note.delete({ id: "whatever" }),
+    test("should throw UNAUTHORIZED when deleting note without session", async () => {
+      await expect(
+        unauthorizedCaller.note.delete({ id: "whatever" }),
       ).rejects.toThrowError(/UNAUTHORIZED/);
     });
   });

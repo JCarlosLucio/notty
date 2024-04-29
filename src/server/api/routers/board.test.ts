@@ -35,10 +35,10 @@ describe("Boards", () => {
       expect(boards).toHaveLength(initialBoards.length);
     });
 
-    test("should throw UNAUTHORIZED when getting boards without session", () => {
-      expect(
-        async () => await unauthorizedCaller.board.getAll(),
-      ).rejects.toThrowError(/UNAUTHORIZED/);
+    test("should throw UNAUTHORIZED when getting boards without session", async () => {
+      await expect(unauthorizedCaller.board.getAll()).rejects.toThrowError(
+        /UNAUTHORIZED/,
+      );
     });
   });
 
@@ -72,23 +72,23 @@ describe("Boards", () => {
       expect(board).toMatchObject(boardToGet);
     });
 
-    test("should throw UNAUTHORIZED when getting board by id without session", () => {
-      expect(
-        async () => await unauthorizedCaller.board.getById({ id: "whatever" }),
+    test("should throw UNAUTHORIZED when getting board by id without session", async () => {
+      await expect(
+        unauthorizedCaller.board.getById({ id: "whatever" }),
       ).rejects.toThrowError(/UNAUTHORIZED/);
     });
 
-    test("should throw NOT_FOUND when board not found", () => {
-      expect(
-        async () => await caller.board.getById({ id: "notindb" }),
+    test("should throw NOT_FOUND when board not found", async () => {
+      await expect(
+        caller.board.getById({ id: "notindb" }),
       ).rejects.toThrowError(/NOT_FOUND/);
     });
 
     test("should throw FORBIDDEN when user is not owner", async () => {
       const boardToGet = await getBoardInDB();
 
-      expect(
-        async () => await notOwnerCaller.board.getById({ id: boardToGet.id }),
+      await expect(
+        notOwnerCaller.board.getById({ id: boardToGet.id }),
       ).rejects.toThrowError(/FORBIDDEN/);
     });
   });
@@ -107,16 +107,16 @@ describe("Boards", () => {
       expect(titles).toContain(testBoardInput.title);
     });
 
-    test("should throw UNAUTHORIZED when creating board without session", () => {
-      expect(
-        async () => await unauthorizedCaller.board.create(testBoardInput),
+    test("should throw UNAUTHORIZED when creating board without session", async () => {
+      await expect(
+        unauthorizedCaller.board.create(testBoardInput),
       ).rejects.toThrowError(/UNAUTHORIZED/);
     });
 
     test("should throw 'Title is required' when title is empty string", async () => {
-      expect(
-        async () => await caller.board.create({ title: "" }),
-      ).rejects.toThrowError("Title is required");
+      await expect(caller.board.create({ title: "" })).rejects.toThrowError(
+        "Title is required",
+      );
 
       const boardsAfter = await getBoardsInDB();
       expect(boardsAfter).toHaveLength(initialBoards.length);
@@ -136,17 +136,17 @@ describe("Boards", () => {
       expect(titles).not.toContain(boardToDelete?.title);
     });
 
-    test("should throw UNAUTHORIZED when deleting board without session", () => {
-      expect(
-        async () => await unauthorizedCaller.board.delete({ id: "whatever" }),
+    test("should throw UNAUTHORIZED when deleting board without session", async () => {
+      await expect(
+        unauthorizedCaller.board.delete({ id: "whatever" }),
       ).rejects.toThrowError(/UNAUTHORIZED/);
     });
 
     test("should throw FORBIDDEN when user is not owner", async () => {
       const boardToDelete = await getBoardInDB();
 
-      expect(
-        async () => await notOwnerCaller.board.delete({ id: boardToDelete.id }),
+      await expect(
+        notOwnerCaller.board.delete({ id: boardToDelete.id }),
       ).rejects.toThrowError(/FORBIDDEN/);
 
       const boardsAfter = await getBoardsInDB();
@@ -184,8 +184,8 @@ describe("Boards", () => {
         ...partialUpdateInput,
       };
 
-      expect(
-        async () => await notOwnerCaller.board.update(testUpdateInput),
+      await expect(
+        notOwnerCaller.board.update(testUpdateInput),
       ).rejects.toThrowError(/FORBIDDEN/);
 
       const boardsAfter = await getBoardsInDB();
