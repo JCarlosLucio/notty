@@ -72,7 +72,7 @@ const Dashboard = () => {
                     }}
                     data-testid="board-link"
                   >
-                    <div className="flex h-full w-full items-center justify-center bg-card/50 p-3 text-2xl font-semibold hover:bg-card/30">
+                    <div className="flex h-full w-full items-center justify-center bg-card/50 p-3 text-2xl font-semibold hover:backdrop-blur-sm">
                       <span className="truncate">{board.title}</span>
                     </div>
                   </Link>
