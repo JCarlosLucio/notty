@@ -119,6 +119,7 @@ export const noteRouter = createTRPCRouter({
           id: input.id,
         },
         data: {
+          title: input.title,
           content: input.content,
         },
       });
