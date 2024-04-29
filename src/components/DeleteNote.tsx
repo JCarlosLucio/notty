@@ -15,8 +15,6 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterOutputs } from "@/utils/api";
 
-import Spinner from "@/components/Spinner";
-
 type DeleteNoteProps = {
   note: RouterOutputs["note"]["getById"];
   cb?: () => void;
