@@ -93,8 +93,9 @@ model List {
 }
 
 model Note {
-    id       String @id @default(cuid())
-    content  String
+    id       String  @id @default(cuid())
+    title    String
+    content  String?
     position String
 
     createdAt DateTime @default(now())
