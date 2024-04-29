@@ -90,11 +90,11 @@ export const getAllNoteSchema = z.object({
 
 export const createNoteSchema = z.object({
   listId: z.string(),
-  content: z
+  title: z
     .string()
     .trim()
-    .min(1, "Content is required")
-    .max(256, "Content must contain at most 256 characters"),
+    .min(1, "Title is required")
+    .max(256, "Title must contain at most 256 characters"),
 });
 
 export const moveNoteSchema = z.object({
