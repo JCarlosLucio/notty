@@ -105,11 +105,16 @@ export const moveNoteSchema = z.object({
 
 export const updateNoteSchema = z.object({
   id: z.string(),
+  title: z
+    .string()
+    .trim()
+    .min(1, "Title is required")
+    .max(256, "Title must contain at most 256 characters"),
   content: z
     .string()
     .trim()
-    .min(1, "Content is required")
-    .max(256, "Content must contain at most 256 characters"),
+    .max(256, "Content must contain at most 256 characters")
+    .nullable(),
 });
 
 export const deleteNoteSchema = z.object({
