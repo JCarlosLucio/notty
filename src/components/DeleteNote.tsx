@@ -67,7 +67,12 @@ const DeleteNote = ({ note, cb }: DeleteNoteProps) => {
               className="min-w-36"
               onClick={() => deleteNote({ id: note.id })}
             >
-              <TrashIcon className="pr-1" width={24} height={24} />
+              <TrashIcon
+                className="pr-1"
+                width={24}
+                height={24}
+                data-testid="delete-note-forever-btn"
+              />
               Delete Forever
             </Button>
           </DialogClose>
