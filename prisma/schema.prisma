@@ -93,9 +93,9 @@ model List {
 }
 
 model Note {
-    id       String  @id @default(cuid())
+    id       String @id @default(cuid())
     title    String
-    content  String?
+    content  String @default("")
     position String
 
     createdAt DateTime @default(now())
