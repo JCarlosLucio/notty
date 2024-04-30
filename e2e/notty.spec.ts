@@ -320,6 +320,19 @@ test.describe("Notes", () => {
     ).toContainText(title);
   });
 
+  test("should update note title", async ({ page }) => {
+    const updatedTitle = "Updated note title";
+
+    await page.getByTestId("note").last().hover();
+    await page.getByTestId("open-note-details-btn").last().click();
+    await page.getByTestId("show-update-note-btn").click();
+    await page.getByPlaceholder("Your new note title...").fill(updatedTitle);
+    await page.getByTestId("save-note-btn").click();
+    await page.getByRole("button", { name: "Close" }).click();
+
+    await expect(page.getByTestId("note").last()).toContainText(updatedTitle);
+  });
+
   /** Again Drag n' Drop tests need double .hover() */
 
   test.describe("Move notes within a list", () => {
