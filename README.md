@@ -4,7 +4,7 @@ A simple Kanban board app to help you stay organized anywhere.
 
 ## ✨ Demo
 
-[![notty Homepage](../media/notty-desktop.webp?raw=true)](https://notty.vercel.app)
+[![notty Homepage](../media/notty-desktop.webp?raw=true)](https://notty-lucio.vercel.app)
 
 ## Getting Started
 
