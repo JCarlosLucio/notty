@@ -44,7 +44,7 @@ const DeleteList = ({ list, cb }: DeleteListProps) => {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
+      <DialogTrigger asChild data-testid="open-delete-list-modal-btn">
         <Button variant="destructive">
           <TrashIcon className="pr-1" width={24} height={24} />
           Delete List
