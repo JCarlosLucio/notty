@@ -181,6 +181,17 @@ test.describe("Boards", () => {
       /none/,
     );
   });
+
+  test("should delete board", async ({ page }) => {
+    await page.getByTestId("open-board-details-btn").click();
+    await page.getByTestId("open-delete-modal-btn").click();
+    await page.getByTestId("delete-board-forever-btn").click();
+
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+      "Your dashboard",
+    );
+    await expect(page.getByTestId("board-link")).toHaveCount(0);
+  });
 });
 
 test.describe("Lists", () => {
