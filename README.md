@@ -2,15 +2,9 @@
 
 A simple Kanban board app to help you stay organized anywhere.
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+## ✨ Demo
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
-- [T3 Documentation](https://create.t3.gg/)
-- [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app)
+[![notty Homepage](../media/notty-desktop.webp?raw=true)](https://notty.vercel.app)
 
 ## Getting Started
 
@@ -380,3 +374,15 @@ pnpm test
 - [Vercel Deployment](https://create.t3.gg/en/deployment/vercel)
 - [Netlify Deployment](https://create.t3.gg/en/deployment/netlify)
 - [Railway Deployment with Docker](https://create.t3.gg/en/deployment/docker)
+
+## More
+
+This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+
+- [Next.js](https://nextjs.org)
+- [NextAuth.js](https://next-auth.js.org)
+- [Prisma](https://prisma.io)
+- [Tailwind CSS](https://tailwindcss.com)
+- [tRPC](https://trpc.io)
+- [T3 Documentation](https://create.t3.gg/)
+- [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app)
