@@ -59,7 +59,7 @@ const DeleteBoard = ({ board, cb }: DeleteBoardProps) => {
 
   return (
     <Dialog>
-      <DialogTrigger asChild data-testid="open-delete-modal-btn">
+      <DialogTrigger asChild data-testid="open-delete-board-modal-btn">
         <Button variant="destructive">
           <TrashIcon className="pr-1" width={24} height={24} />
           Delete Board

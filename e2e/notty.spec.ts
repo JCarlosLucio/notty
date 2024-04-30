@@ -184,7 +184,7 @@ test.describe("Boards", () => {
 
   test("should delete board", async ({ page }) => {
     await page.getByTestId("open-board-details-btn").click();
-    await page.getByTestId("open-delete-modal-btn").click();
+    await page.getByTestId("open-delete-board-modal-btn").click();
     await page.getByTestId("delete-board-forever-btn").click();
 
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
