@@ -44,6 +44,8 @@ const NoteDetails = ({ note, ...props }: NoteDetailsProps) => {
                   size="icon"
                   variant="ghost"
                   onClick={() => setShowUpdateNote(true)}
+                  aria-label="Show update note form"
+                  data-testid="show-update-note-btn"
                 >
                   <Pencil1Icon />
                 </Button>
