@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -22,6 +23,8 @@ type UpdateNoteProps = {
   cb?: () => void;
 } & ComponentPropsWithoutRef<"div">;
 type UpdateNoteInput = RouterInputs["note"]["update"];
+
+const MAX_TEXTAREA_LENGTH = 256;
 
 const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
   const form = useForm<UpdateNoteInput>({
@@ -103,6 +106,15 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
                       />
                     </div>
                   </FormControl>
+                  <FormDescription
+                    style={
+                      MAX_TEXTAREA_LENGTH - (value?.length ?? 0) < 1
+                        ? { color: "red" }
+                        : undefined
+                    }
+                  >
+                    {`${MAX_TEXTAREA_LENGTH - (value?.length ?? 0)} character${MAX_TEXTAREA_LENGTH - (value?.length ?? 0) !== 1 ? "s" : ""} left.`}
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
