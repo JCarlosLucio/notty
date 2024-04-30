@@ -25,7 +25,7 @@ const CreateNote = ({ listId }: CreateNoteProps) => {
     resolver: zodResolver(createNoteSchema),
     defaultValues: {
       listId: "",
-      content: "",
+      title: "",
     },
   });
   const [show, setShow] = useState(false);
@@ -87,7 +87,7 @@ const CreateNote = ({ listId }: CreateNoteProps) => {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
-            name="content"
+            name="title"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
