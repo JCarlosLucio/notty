@@ -44,7 +44,7 @@ const DeleteNote = ({ note, cb }: DeleteNoteProps) => {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
+      <DialogTrigger asChild data-testid="open-delete-note-modal-btn">
         <Button variant="destructive">
           <TrashIcon className="pr-1" width={24} height={24} />
           Delete Note
