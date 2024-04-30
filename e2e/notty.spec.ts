@@ -229,6 +229,18 @@ test.describe("Lists", () => {
     await expect(page.getByTestId("list").last()).toContainText(updatedTitle);
   });
 
+  test("should delete list", async ({ page }) => {
+    await page.getByTestId("open-list-details-btn").last().click();
+    await page.getByTestId("open-delete-list-modal-btn").click();
+    await page.getByTestId("delete-list-forever-btn").click();
+
+    await expect(page.getByTestId("list")).toHaveCount(2);
+    await expect(page.getByTestId("list").last()).not.toContainText(/3rd LIST/);
+    await expect(page.getByTestId("toast")).toHaveText(
+      "Your list was deleted.",
+    );
+  });
+
   /** Drag n' Drop tests need double .hover() since dnd implementation uses dragover event.
    *  More info: https://playwright.dev/docs/input#drag-and-drop
    */
