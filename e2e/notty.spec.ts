@@ -191,6 +191,9 @@ test.describe("Boards", () => {
       "Your dashboard",
     );
     await expect(page.getByTestId("board-link")).toHaveCount(0);
+    await expect(page.getByTestId("toast")).toHaveText(
+      "Your board was deleted.",
+    );
   });
 });
 
