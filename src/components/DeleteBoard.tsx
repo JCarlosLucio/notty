@@ -82,6 +82,7 @@ const DeleteBoard = ({ board, cb }: DeleteBoardProps) => {
               isLoading={isLoading}
               className="min-w-36"
               onClick={() => deleteBoard({ id: board.id })}
+              data-testid="delete-board-forever-btn"
             >
               <TrashIcon className="pr-1" width={24} height={24} />
               Delete Forever
