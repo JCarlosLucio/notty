@@ -44,6 +44,8 @@ CREATE TABLE "VerificationToken" (
 CREATE TABLE "Board" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "title" TEXT NOT NULL,
+    "bg" TEXT,
+    "thumb" TEXT,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
     "userId" TEXT NOT NULL,
@@ -65,7 +67,8 @@ CREATE TABLE "List" (
 -- CreateTable
 CREATE TABLE "Note" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "content" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "content" TEXT NOT NULL DEFAULT '',
     "position" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
