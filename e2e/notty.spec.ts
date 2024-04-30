@@ -373,6 +373,19 @@ test.describe("Notes", () => {
     await expect(page.getByText(updatedContent)).toContainText(updatedContent);
   });
 
+  test("should delete note", async ({ page }) => {
+    await page.getByTestId("note").last().hover();
+    await page.getByTestId("open-note-details-btn").last().click();
+    await page.getByTestId("open-delete-note-modal-btn").click();
+    await page.getByTestId("delete-note-forever-btn").click();
+
+    await expect(page.getByTestId("note")).toHaveCount(3);
+    await expect(page.getByTestId("note").last()).not.toContainText(/4th NOTE/);
+    await expect(page.getByTestId("toast")).toHaveText(
+      "Your note was deleted.",
+    );
+  });
+
   /** Again Drag n' Drop tests need double .hover() */
 
   test.describe("Move notes within a list", () => {
