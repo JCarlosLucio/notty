@@ -25,7 +25,7 @@ const NoteDetails = ({ note, ...props }: NoteDetailsProps) => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+      <DialogTrigger asChild data-testid="open-note-details-btn">
         <Button variant="ghost" size="icon" {...props}>
           <Pencil1Icon />
         </Button>
