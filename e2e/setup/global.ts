@@ -94,19 +94,19 @@ export async function cleanDB() {
             notes: {
               create: [
                 {
-                  content: "1st NOTE seed",
+                  title: "1st NOTE seed",
                   position: "n",
                 },
                 {
-                  content: "2nd NOTE seed",
+                  title: "2nd NOTE seed",
                   position: "u",
                 },
                 {
-                  content: "3rd NOTE seed",
+                  title: "3rd NOTE seed",
                   position: "x",
                 },
                 {
-                  content: "4th NOTE seed",
+                  title: "4th NOTE seed",
                   position: "z",
                 },
               ],
