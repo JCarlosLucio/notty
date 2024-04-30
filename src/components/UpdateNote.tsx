@@ -31,7 +31,7 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
     resolver: zodResolver(updateNoteSchema),
     defaultValues: {
       title: note.title,
-      content: note.content ?? "",
+      content: note.content,
       id: "",
     },
   });
@@ -101,19 +101,19 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
                     <div className="flex items-center gap-2">
                       <Textarea
                         placeholder="Your new note content..."
-                        value={value ?? undefined}
+                        value={value}
                         {...fieldRest}
                       />
                     </div>
                   </FormControl>
                   <FormDescription
                     style={
-                      MAX_TEXTAREA_LENGTH - (value?.length ?? 0) < 1
+                      MAX_TEXTAREA_LENGTH - value.length < 1
                         ? { color: "red" }
                         : undefined
                     }
                   >
-                    {`${MAX_TEXTAREA_LENGTH - (value?.length ?? 0)} character${MAX_TEXTAREA_LENGTH - (value?.length ?? 0) !== 1 ? "s" : ""} left.`}
+                    {`${MAX_TEXTAREA_LENGTH - value.length} character${MAX_TEXTAREA_LENGTH - value.length !== 1 ? "s" : ""} left.`}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
