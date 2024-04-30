@@ -125,6 +125,7 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
                 disabled={isLoading || !form.formState.isDirty}
                 isLoading={isLoading}
                 className="w-full"
+                data-testid="save-note-btn"
               >
                 Save
               </Button>
