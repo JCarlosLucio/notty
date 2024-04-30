@@ -12,6 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterInputs, type RouterOutputs } from "@/utils/api";
 import { updateNoteSchema } from "@/utils/schemas";
@@ -26,7 +27,8 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
   const form = useForm<UpdateNoteInput>({
     resolver: zodResolver(updateNoteSchema),
     defaultValues: {
-      content: note.content,
+      title: note.title,
+      content: note.content ?? "",
       id: "",
     },
   });
@@ -69,16 +71,35 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
           >
             <FormField
               control={form.control}
-              name="content"
+              name="title"
               render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Update Title</FormLabel>
+                  <FormControl>
+                    <div className="flex items-center gap-2">
+                      <Input
+                        placeholder="Your new note title..."
+                        autoFocus
+                        {...field}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="content"
+              render={({ field: { value, ...fieldRest } }) => (
                 <FormItem className="w-full">
                   <FormLabel>Update Content</FormLabel>
                   <FormControl>
                     <div className="flex items-center gap-2">
-                      <Input
+                      <Textarea
                         placeholder="Your new note content..."
-                        autoFocus
-                        {...field}
+                        value={value ?? undefined}
+                        {...fieldRest}
                       />
                     </div>
                   </FormControl>
@@ -89,7 +110,7 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
             <div className="flex flex-col gap-2 md:flex-row">
               <Button
                 type="submit"
-                disabled={isLoading}
+                disabled={isLoading || !form.formState.isDirty}
                 isLoading={isLoading}
                 className="w-full"
               >
