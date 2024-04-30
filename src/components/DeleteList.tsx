@@ -67,6 +67,7 @@ const DeleteList = ({ list, cb }: DeleteListProps) => {
               isLoading={isLoading}
               className="min-w-36"
               onClick={() => deleteList({ id: list.id })}
+              data-testid="delete-list-forever-btn"
             >
               <TrashIcon className="pr-1" width={24} height={24} />
               Delete Forever
