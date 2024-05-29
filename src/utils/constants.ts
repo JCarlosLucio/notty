@@ -1,0 +1,1 @@
+export const INFINITE_BOARDS_LIMIT = 10;
