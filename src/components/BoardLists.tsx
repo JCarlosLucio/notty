@@ -19,6 +19,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterOutputs } from "@/utils/api";
 import { PointerSensor } from "@/utils/dnd";
+import { getRandomArbitrary } from "@/utils/utils";
 
 type BoardProps = { boardId: string };
 type ActiveList = RouterOutputs["list"]["getById"];
@@ -280,7 +281,8 @@ const BoardLists = ({ boardId }: BoardProps) => {
         {Array.from({ length: LIMIT }, (_, index) => (
           <Skeleton
             key={index}
-            className="h-full max-h-full w-full shrink-0 rounded-md border md:w-80"
+            style={{ maxHeight: `${getRandomArbitrary(30, 70)}%` }}
+            className="h-full w-full shrink-0 rounded-md border md:w-80"
           />
         ))}
       </div>
