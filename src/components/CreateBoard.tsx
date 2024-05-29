@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterInputs } from "@/utils/api";
+import { INFINITE_BOARDS_LIMIT } from "@/utils/constants";
 import { createBoardSchema } from "@/utils/schemas";
 
 type CreateBoardInput = RouterInputs["board"]["create"];
@@ -32,18 +33,21 @@ const CreateBoard = () => {
 
   const { mutate: createBoard, isLoading } = api.board.create.useMutation({
     onSuccess: (createdBoard) => {
-      ctx.board.getInfinite.setInfiniteData({ limit: 5 }, (oldPageData) => {
-        return oldPageData
-          ? {
-              ...oldPageData,
-              pages: oldPageData.pages.map((page, i) => {
-                return i === 0
-                  ? { ...page, boards: [createdBoard, ...page.boards] }
-                  : page;
-              }),
-            }
-          : oldPageData;
-      });
+      ctx.board.getInfinite.setInfiniteData(
+        { limit: INFINITE_BOARDS_LIMIT },
+        (oldPageData) => {
+          return oldPageData
+            ? {
+                ...oldPageData,
+                pages: oldPageData.pages.map((page, i) => {
+                  return i === 0
+                    ? { ...page, boards: [createdBoard, ...page.boards] }
+                    : page;
+                }),
+              }
+            : oldPageData;
+        },
+      );
       form.reset();
       toast({
         description: "Your board was created.",
