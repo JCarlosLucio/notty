@@ -8,8 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Header from "@/config";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/utils/api";
-
-const LIMIT = 5;
+import { INFINITE_BOARDS_LIMIT } from "@/utils/constants";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerAuthSession(ctx);
@@ -34,7 +33,7 @@ const Dashboard = () => {
     isFetchingNextPage,
   } = api.board.getInfinite.useInfiniteQuery(
     {
-      limit: LIMIT,
+      limit: INFINITE_BOARDS_LIMIT,
     },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
@@ -59,6 +58,14 @@ const Dashboard = () => {
             </div>
           </div>
 
+          {data?.pages[0]?.boards && data.pages[0].boards?.length === 0 && (
+            <div className="flex flex-col items-center">
+              <p className="text-xl">No boards yet. 😅</p>
+              <p className="text-xl">
+                When you <em>add</em> new boards they will show up here!
+              </p>
+            </div>
+          )}
           <div className="grid w-5/6 grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
             {data?.pages.map((pageData) =>
               pageData.boards.map((board) => (
@@ -80,7 +87,7 @@ const Dashboard = () => {
               )),
             )}
             {(isInitialLoading || isFetchingNextPage) &&
-              Array.from({ length: LIMIT }, (_, index) => (
+              Array.from({ length: INFINITE_BOARDS_LIMIT / 2 }, (_, index) => (
                 <Skeleton key={index} className="h-44 rounded-md" />
               ))}
           </div>

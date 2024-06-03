@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterInputs, type RouterOutputs } from "@/utils/api";
+import { INFINITE_BOARDS_LIMIT } from "@/utils/constants";
 import { updateBoardSchema } from "@/utils/schemas";
 
 type UpdateBoardProps = {
@@ -47,26 +48,29 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
 
   const { mutate: updateBoard, isLoading } = api.board.update.useMutation({
     onSuccess: (updatedBoard) => {
-      ctx.board.getInfinite.setInfiniteData({ limit: 5 }, (oldPageData) => {
-        return oldPageData
-          ? {
-              ...oldPageData,
-              pages: oldPageData.pages.map((page, i) => {
-                const filteredPage = {
-                  ...page,
-                  boards: page.boards.filter((b) => b.id !== updatedBoard.id),
-                };
+      ctx.board.getInfinite.setInfiniteData(
+        { limit: INFINITE_BOARDS_LIMIT },
+        (oldPageData) => {
+          return oldPageData
+            ? {
+                ...oldPageData,
+                pages: oldPageData.pages.map((page, i) => {
+                  const filteredPage = {
+                    ...page,
+                    boards: page.boards.filter((b) => b.id !== updatedBoard.id),
+                  };
 
-                return i === 0
-                  ? {
-                      ...filteredPage,
-                      boards: [updatedBoard, ...filteredPage.boards],
-                    }
-                  : filteredPage;
-              }),
-            }
-          : oldPageData;
-      });
+                  return i === 0
+                    ? {
+                        ...filteredPage,
+                        boards: [updatedBoard, ...filteredPage.boards],
+                      }
+                    : filteredPage;
+                }),
+              }
+            : oldPageData;
+        },
+      );
       ctx.board.getById.setData({ id: board.id }, () => {
         return updatedBoard;
       });

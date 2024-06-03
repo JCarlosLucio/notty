@@ -48,7 +48,7 @@ const BoardPage = () => {
 
         <div className="flex w-full items-center justify-center">
           {isLoading ? (
-            <Skeleton className="h-12 w-1/2 rounded-xl xl:w-1/2" />
+            <Skeleton className="h-12 w-1/2 rounded-xl xl:w-1/5" />
           ) : (
             <BoardDetails board={currentBoard} />
           )}

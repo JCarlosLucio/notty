@@ -13,12 +13,11 @@ import {
 } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/utils/api";
+import { INFINITE_BOARDS_LIMIT } from "@/utils/constants";
 
 type BoardsProps = {
   currentBoardId?: string;
 };
-
-const LIMIT = 5;
 
 const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
   const {
@@ -29,7 +28,7 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
     isFetchingNextPage,
   } = api.board.getInfinite.useInfiniteQuery(
     {
-      limit: LIMIT,
+      limit: INFINITE_BOARDS_LIMIT,
     },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
@@ -74,7 +73,7 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
               )),
             )}
             {(isInitialLoading || isFetchingNextPage) &&
-              Array.from({ length: LIMIT }, (_, index) => (
+              Array.from({ length: INFINITE_BOARDS_LIMIT / 2 }, (_, index) => (
                 <Skeleton key={index} className="h-10 rounded-md" />
               ))}
             {hasNextPage && (

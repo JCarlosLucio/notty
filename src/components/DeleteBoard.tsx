@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterOutputs } from "@/utils/api";
+import { INFINITE_BOARDS_LIMIT } from "@/utils/constants";
 
 type DeleteBoardProps = {
   board: RouterOutputs["board"]["getById"];
@@ -28,19 +29,22 @@ const DeleteBoard = ({ board, cb }: DeleteBoardProps) => {
 
   const { mutate: deleteBoard, isLoading } = api.board.delete.useMutation({
     onSuccess: () => {
-      ctx.board.getInfinite.setInfiniteData({ limit: 5 }, (oldPageData) => {
-        return oldPageData
-          ? {
-              ...oldPageData,
-              pages: oldPageData.pages.map((page) => {
-                return {
-                  ...page,
-                  boards: page.boards.filter((b) => b.id !== board.id),
-                };
-              }),
-            }
-          : oldPageData;
-      });
+      ctx.board.getInfinite.setInfiniteData(
+        { limit: INFINITE_BOARDS_LIMIT },
+        (oldPageData) => {
+          return oldPageData
+            ? {
+                ...oldPageData,
+                pages: oldPageData.pages.map((page) => {
+                  return {
+                    ...page,
+                    boards: page.boards.filter((b) => b.id !== board.id),
+                  };
+                }),
+              }
+            : oldPageData;
+        },
+      );
       toast({
         description: "Your board was deleted.",
       });
