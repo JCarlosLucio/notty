@@ -123,9 +123,6 @@ importers:
       '@tanstack/react-query-devtools':
         specifier: ^4.36.1
         version: 4.36.1(@tanstack/react-query@4.36.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@types/bun':
-        specifier: ^1.1.0
-        version: 1.1.0
       '@types/eslint':
         specifier: ^8.56.10
         version: 8.56.10
@@ -1099,9 +1096,6 @@ packages:
   '@trpc/server@10.45.2':
     resolution: {integrity: sha512-wOrSThNNE4HUnuhJG6PfDRp4L2009KDVxsd+2VYH8ro6o/7/jwYZ8Uu5j+VaW+mOmc8EHerHzGcdbGNQSAUPgg==}
 
-  '@types/bun@1.1.0':
-    resolution: {integrity: sha512-QGK0yU4jh0OK1A7DyhPkQuKjHQCC5jSJa3dpWIEhHv/rPfb6zLfdArc4/uUUZBMTcjilsafRXnPWO+1owb572Q==}
-
   '@types/eslint@8.56.10':
     resolution: {integrity: sha512-Shavhk87gCtY2fhXDctcfS3e6FdxWkCx1iUZ9eEUbh7rTqlZT0/IzOkCOVt0fCjcFuZ9FPYfuezTBImfHCDBGQ==}
 
@@ -1113,9 +1107,6 @@ packages:
 
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
-
-  '@types/node@20.11.30':
-    resolution: {integrity: sha512-dHM6ZxwlmuZaRmUPfv1p+KrdD1Dci04FbdEm/9wEMouFqxYoFl5aMkt0VMAUtYRQDyYvD41WJLukhq/ha3YuTw==}
 
   '@types/node@20.12.7':
     resolution: {integrity: sha512-wq0cICSkRLVaf3UGLMGItu/PtdY7oaXaI/RVU+xliKVOtRna3PRY57ZDfztpDL0n11vfymMUnXv8QwYCO7L1wg==}
@@ -1388,9 +1379,6 @@ packages:
     resolution: {integrity: sha512-QW8HiM1shhT2GuzkvklfjcKDiWFXHOeFCIA/huJPwHsslwcydgk7X+z2zXpEijP98UCY7HbubZt5J2Zgvf0CaQ==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
-
-  bun-types@1.1.0:
-    resolution: {integrity: sha512-GhMDD7TosdJzQPGUOcQD5PZshvXVxDfwGAZs2dq+eSaPsRn3iUCzvpFlsg7Q51bXVzLAUs+FWHlnmpgZ5UggIg==}
 
   busboy@1.6.0:
     resolution: {integrity: sha512-8SFQbg/0hQ9xy3UNTB0YEnsNBbWfhf7RtnzpL7TkBiTBRfrQ9Fxcnz7VJsleJpyp6rVLvXiuORqjlHi5q+PYuA==}
@@ -2119,7 +2107,6 @@ packages:
 
   libsql@0.3.16:
     resolution: {integrity: sha512-pIv3hP+W0bHTyjg56H5O3D45RP1BGcs0jnSOCk8PQ41nlPpVG3+sG9AG9Vc2NcnvFKuL02gGPFLzvbBe8AQjgg==}
-    cpu: [x64, arm64, wasm32]
     os: [darwin, linux, win32]
 
   lilconfig@2.1.0:
@@ -3878,10 +3865,6 @@ snapshots:
 
   '@trpc/server@10.45.2': {}
 
-  '@types/bun@1.1.0':
-    dependencies:
-      bun-types: 1.1.0
-
   '@types/eslint@8.56.10':
     dependencies:
       '@types/estree': 1.0.5
@@ -3892,10 +3875,6 @@ snapshots:
   '@types/json-schema@7.0.15': {}
 
   '@types/json5@0.0.29': {}
-
-  '@types/node@20.11.30':
-    dependencies:
-      undici-types: 5.26.5
 
   '@types/node@20.12.7':
     dependencies:
@@ -4248,11 +4227,6 @@ snapshots:
       electron-to-chromium: 1.4.746
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.23.0)
-
-  bun-types@1.1.0:
-    dependencies:
-      '@types/node': 20.11.30
-      '@types/ws': 8.5.10
 
   busboy@1.6.0:
     dependencies:
