@@ -6,7 +6,6 @@ import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 
-import Nav from "@/components/Nav";
 import { Toaster } from "@/components/ui/toaster";
 import { api } from "@/utils/api";
 
@@ -17,7 +16,6 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <SessionProvider session={session}>
-        <Nav />
         <Component {...pageProps} />
         <Toaster />
         <ReactQueryDevtools initialIsOpen={false} />
