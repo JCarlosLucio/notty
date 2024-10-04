@@ -39,12 +39,13 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
     <Sheet key="boards-sheet">
       <SheetTrigger asChild>
         <Button
-          className="absolute ml-2 hidden md:inline-flex"
+          className="absolute ml-5 mt-3 inline-flex px-5 md:px-8"
           variant="gradient"
           size="lg"
           data-testid="open-boards-btn"
         >
-          My Boards <ChevronRightIcon />
+          <span className="hidden md:inline-block">My Boards</span>
+          <ChevronRightIcon className="h-[1.5rem] w-[1.5rem]" />
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="flex flex-col overflow-hidden">
