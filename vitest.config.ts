@@ -1,6 +1,6 @@
-import { defineConfig } from "vitest/config";
-import { resolve } from "path";
 import { config } from "dotenv";
+import { resolve } from "path";
+import { defineConfig } from "vitest/config";
 
 const PATH_TO_ENV_TEST_FILE = "./.env.test.local";
 const PATH_TO_ALIAS = "./src";

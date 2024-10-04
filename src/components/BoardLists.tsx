@@ -277,7 +277,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
 
   if (isLoading) {
     return (
-      <div className="flex h-full items-start gap-2 overflow-x-hidden px-2 pb-2">
+      <div className="flex h-full items-start gap-2 overflow-x-hidden px-5 pt-16">
         {Array.from({ length: LIMIT }, (_, index) => (
           <Skeleton
             key={index}
@@ -297,7 +297,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
       onDragEnd={onDragEnd}
       onDragCancel={onDragCancel}
     >
-      <div className="flex h-full items-start gap-2 overflow-x-scroll px-5 pb-8 pt-16 xl:pb-5 xl:pt-16">
+      <div className="flex h-full items-start gap-2 overflow-x-scroll px-5 pb-8 pt-16 xl:pb-5">
         {lists && (
           <SortableContext items={lists}>
             {lists.map((list) => {

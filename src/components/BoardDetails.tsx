@@ -31,12 +31,9 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild data-testid="open-board-details-btn">
             <CardHeader className="group flex max-w-56 cursor-pointer flex-row rounded-xl border border-primary-foreground p-2 text-xl hover:bg-accent/50 md:text-2xl xl:max-w-3xl">
-              <CardTitle className="truncate py-1 pl-3 xl:pl-8">
+              <CardTitle className="truncate px-3 py-1 xl:px-5">
                 {board.title}
               </CardTitle>
-              <div className="px-2 py-1">
-                <Pencil1Icon className="visible group-hover:visible xl:invisible" />
-              </div>
             </CardHeader>
           </DialogTrigger>
           <DialogContent className="flex max-h-full shrink-0 sm:max-w-2xl">
