@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import BoardDetails from "@/components/BoardDetails";
 import BoardLists from "@/components/BoardLists";
 import BoardsSheet from "@/components/BoardsSheet";
+import Nav from "@/components/Nav";
 import { Skeleton } from "@/components/ui/skeleton";
 import Header from "@/config";
 import { getServerAuthSession } from "@/server/auth";
@@ -33,9 +34,9 @@ const BoardPage = () => {
   return (
     <>
       <Header title={currentBoard?.title} />
-
+      <Nav board={currentBoard} />
       <main
-        className="relative flex h-screen min-h-screen flex-col gap-4 pt-20"
+        className="relative flex h-screen min-h-screen flex-col gap-4 pt-16"
         style={
           currentBoard && {
             backgroundImage: currentBoard.bg ?? "",
