@@ -25,20 +25,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const Dashboard = () => {
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isInitialLoading,
-    isFetchingNextPage,
-  } = api.board.getInfinite.useInfiniteQuery(
-    {
-      limit: INFINITE_BOARDS_LIMIT,
-    },
-    {
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
-    },
-  );
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } =
+    api.board.getInfinite.useInfiniteQuery(
+      {
+        limit: INFINITE_BOARDS_LIMIT,
+      },
+      {
+        getNextPageParam: (lastPage) => lastPage.nextCursor,
+      },
+    );
 
   return (
     <>
@@ -85,7 +80,7 @@ const Dashboard = () => {
                 </Button>
               )),
             )}
-            {(isInitialLoading || isFetchingNextPage) &&
+            {(isLoading || isFetchingNextPage) &&
               Array.from({ length: INFINITE_BOARDS_LIMIT / 2 }, (_, index) => (
                 <Skeleton key={index} className="h-44 rounded-md" />
               ))}
