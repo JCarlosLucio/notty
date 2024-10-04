@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import BoardsSheet from "@/components/BoardsSheet";
 import CreateBoard from "@/components/CreateBoard";
+import Nav from "@/components/Nav";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import Header from "@/config";
@@ -43,7 +44,7 @@ const Dashboard = () => {
   return (
     <>
       <Header title="Dashboard" />
-
+      <Nav />
       <main className="min-h-screen pb-5 pt-16">
         <BoardsSheet />
         <div className="flex w-full flex-col items-center gap-8 xl:gap-12">
