@@ -1,11 +1,9 @@
 import { type GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 
-import BoardDetails from "@/components/BoardDetails";
 import BoardLists from "@/components/BoardLists";
 import BoardsSheet from "@/components/BoardsSheet";
 import Nav from "@/components/Nav";
-import { Skeleton } from "@/components/ui/skeleton";
 import Header from "@/config";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/utils/api";
@@ -29,7 +27,7 @@ const BoardPage = () => {
   const boardId = router.query.boardId ?? "";
   const id = Array.isArray(boardId) ? (boardId[0] ? boardId[0] : "") : boardId;
 
-  const { data: currentBoard, isLoading } = api.board.getById.useQuery({ id });
+  const { data: currentBoard } = api.board.getById.useQuery({ id });
 
   return (
     <>
@@ -46,15 +44,6 @@ const BoardPage = () => {
         data-testid="current-board"
       >
         <BoardsSheet currentBoardId={currentBoard?.id} />
-
-        <div className="flex w-full items-center justify-center">
-          {isLoading ? (
-            <Skeleton className="h-12 w-1/2 rounded-xl xl:w-1/5" />
-          ) : (
-            <BoardDetails board={currentBoard} />
-          )}
-        </div>
-
         {currentBoard && <BoardLists boardId={id} />}
       </main>
     </>
