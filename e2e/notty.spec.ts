@@ -51,6 +51,13 @@ test.describe("Dashboard", () => {
     );
     await expect(page).toHaveTitle(title);
   });
+});
+
+test.describe("Boards", () => {
+  test.beforeEach(async ({ page }) => {
+    await cleanDB();
+    await page.goto(TEST_BOARD_URL);
+  });
 
   test("should create board from my boards 'my boards' sheet", async ({
     page,
@@ -65,13 +72,6 @@ test.describe("Dashboard", () => {
       "Your board was created.",
     );
     await expect(page).toHaveTitle(title);
-  });
-});
-
-test.describe("Boards", () => {
-  test.beforeEach(async ({ page }) => {
-    await cleanDB();
-    await page.goto(TEST_BOARD_URL);
   });
 
   test("should update board title", async ({ page }) => {
