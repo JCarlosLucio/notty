@@ -1,7 +1,6 @@
 import { type GetServerSideProps } from "next";
 import Link from "next/link";
 
-import BoardsSheet from "@/components/BoardsSheet";
 import CreateBoard from "@/components/CreateBoard";
 import Nav from "@/components/Nav";
 import { Button } from "@/components/ui/button";
@@ -46,7 +45,6 @@ const Dashboard = () => {
       <Header title="Dashboard" />
       <Nav />
       <main className="min-h-screen pb-5 pt-16">
-        <BoardsSheet />
         <div className="flex w-full flex-col items-center gap-8 xl:gap-12">
           <div className="flex w-full flex-col items-center justify-center">
             <div className="flex w-full flex-col gap-4 pt-4 lg:w-1/3 xl:pt-0">
