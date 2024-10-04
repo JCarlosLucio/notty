@@ -23,7 +23,9 @@ const Nav = ({ board }: NavProps) => {
             titleId="nav-logo"
             title="notty logo"
           />
-          <span className="hidden xl:flex">notty</span>
+          <span className={!board ? "inline-block" : "hidden xl:inline-block"}>
+            notty
+          </span>
         </Link>
 
         {board && <BoardDetails board={board} />}
