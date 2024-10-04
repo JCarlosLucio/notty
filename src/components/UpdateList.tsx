@@ -36,7 +36,7 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
   const { toast } = useToast();
   const ctx = api.useUtils();
 
-  const { mutate: updateList, isLoading } = api.list.update.useMutation({
+  const { mutate: updateList, isPending } = api.list.update.useMutation({
     onSuccess: (updatedList) => {
       ctx.list.getAll.setData({ boardId: list.boardId }, (oldList) => {
         return oldList
@@ -146,8 +146,8 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
             <div className="flex flex-col gap-2 md:flex-row">
               <Button
                 type="submit"
-                disabled={isLoading || !form.formState.isDirty}
-                isLoading={isLoading}
+                disabled={isPending || !form.formState.isDirty}
+                isLoading={isPending}
                 className="w-full"
                 data-testid="save-list-btn"
               >

@@ -24,7 +24,7 @@ const DeleteNote = ({ note, cb }: DeleteNoteProps) => {
   const ctx = api.useUtils();
   const { toast } = useToast();
 
-  const { mutate: deleteNote, isLoading } = api.note.delete.useMutation({
+  const { mutate: deleteNote, isPending } = api.note.delete.useMutation({
     onSuccess: () => {
       ctx.note.getAll.setData({ listId: note.listId }, (oldNotes) => {
         return oldNotes ? oldNotes.filter((n) => n.id !== note.id) : oldNotes;
@@ -62,8 +62,8 @@ const DeleteNote = ({ note, cb }: DeleteNoteProps) => {
           <DialogClose asChild>
             <Button
               variant="destructive"
-              disabled={isLoading}
-              isLoading={isLoading}
+              disabled={isPending}
+              isLoading={isPending}
               className="min-w-36"
               onClick={() => deleteNote({ id: note.id })}
             >

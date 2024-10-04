@@ -13,7 +13,7 @@ const ListItem = ({ list, ...props }: ListItemProps) => {
   const { toast } = useToast();
   const ctx = api.useUtils();
 
-  const { mutate: deleteList, isLoading } = api.list.delete.useMutation({
+  const { mutate: deleteList, isPending } = api.list.delete.useMutation({
     onSuccess: (deletedListId) => {
       ctx.list.getAll.setData({ boardId: list.boardId }, (oldList) => {
         return oldList && deletedListId
@@ -39,7 +39,7 @@ const ListItem = ({ list, ...props }: ListItemProps) => {
         variant="destructive"
         size="icon"
         onClick={() => deleteList({ id: list.id })}
-        disabled={isLoading}
+        disabled={isPending}
       >
         <Cross2Icon />
       </Button>

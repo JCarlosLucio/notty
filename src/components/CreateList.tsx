@@ -39,7 +39,7 @@ const CreateList = ({ boardId }: CreateListProps) => {
   const { toast } = useToast();
   const ctx = api.useUtils();
 
-  const { mutate: createList, isLoading } = api.list.create.useMutation({
+  const { mutate: createList, isPending } = api.list.create.useMutation({
     onSuccess: (createdList) => {
       ctx.list.getAll.setData({ boardId }, (oldList) => {
         return oldList && createdList ? [...oldList, createdList] : oldList;
@@ -109,8 +109,8 @@ const CreateList = ({ boardId }: CreateListProps) => {
                       <Button
                         type="submit"
                         variant="secondary"
-                        disabled={isLoading}
-                        isLoading={isLoading}
+                        disabled={isPending}
+                        isLoading={isPending}
                         data-testid="create-list-btn"
                       >
                         <PlusIcon />

@@ -38,7 +38,7 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
   const { toast } = useToast();
   const ctx = api.useUtils();
 
-  const { mutate: updateNote, isLoading } = api.note.update.useMutation({
+  const { mutate: updateNote, isPending } = api.note.update.useMutation({
     onSuccess: (updatedNote) => {
       ctx.note.getAll.setData({ listId: note.listId }, (oldNotes) => {
         return oldNotes
@@ -122,8 +122,8 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
             <div className="flex flex-col gap-2 md:flex-row">
               <Button
                 type="submit"
-                disabled={isLoading || !form.formState.isDirty}
-                isLoading={isLoading}
+                disabled={isPending || !form.formState.isDirty}
+                isLoading={isPending}
                 className="w-full"
                 data-testid="save-note-btn"
               >

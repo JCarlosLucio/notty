@@ -37,7 +37,7 @@ const CreateNote = ({ listId }: CreateNoteProps) => {
   const { toast } = useToast();
   const ctx = api.useUtils();
 
-  const { mutate: createNote, isLoading } = api.note.create.useMutation({
+  const { mutate: createNote, isPending } = api.note.create.useMutation({
     onSuccess: (createdNote) => {
       ctx.note.getAll.setData({ listId }, (oldNotes) => {
         return oldNotes && createdNote ? [...oldNotes, createdNote] : oldNotes;
@@ -100,8 +100,8 @@ const CreateNote = ({ listId }: CreateNoteProps) => {
                     />
                     <Button
                       type="submit"
-                      disabled={isLoading}
-                      isLoading={isLoading}
+                      disabled={isPending}
+                      isLoading={isPending}
                       data-testid="create-note-btn"
                     >
                       <PlusIcon />

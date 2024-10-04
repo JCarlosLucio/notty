@@ -27,7 +27,7 @@ const DeleteBoard = ({ board, cb }: DeleteBoardProps) => {
   const { toast } = useToast();
   const router = useRouter();
 
-  const { mutate: deleteBoard, isLoading } = api.board.delete.useMutation({
+  const { mutate: deleteBoard, isPending } = api.board.delete.useMutation({
     onSuccess: () => {
       ctx.board.getInfinite.setInfiniteData(
         { limit: INFINITE_BOARDS_LIMIT },
@@ -82,8 +82,8 @@ const DeleteBoard = ({ board, cb }: DeleteBoardProps) => {
           <DialogClose asChild>
             <Button
               variant="destructive"
-              disabled={isLoading}
-              isLoading={isLoading}
+              disabled={isPending}
+              isLoading={isPending}
               className="min-w-36"
               onClick={() => deleteBoard({ id: board.id })}
               data-testid="delete-board-forever-btn"

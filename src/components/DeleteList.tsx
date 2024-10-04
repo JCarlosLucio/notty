@@ -24,7 +24,7 @@ const DeleteList = ({ list, cb }: DeleteListProps) => {
   const ctx = api.useUtils();
   const { toast } = useToast();
 
-  const { mutate: deleteList, isLoading } = api.list.delete.useMutation({
+  const { mutate: deleteList, isPending } = api.list.delete.useMutation({
     onSuccess: () => {
       ctx.list.getAll.setData({ boardId: list.boardId }, (oldLists) => {
         return oldLists ? oldLists.filter((li) => li.id !== list.id) : oldLists;
@@ -63,8 +63,8 @@ const DeleteList = ({ list, cb }: DeleteListProps) => {
           <DialogClose asChild>
             <Button
               variant="destructive"
-              disabled={isLoading}
-              isLoading={isLoading}
+              disabled={isPending}
+              isLoading={isPending}
               className="min-w-36"
               onClick={() => deleteList({ id: list.id })}
               data-testid="delete-list-forever-btn"

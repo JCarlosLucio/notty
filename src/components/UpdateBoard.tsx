@@ -46,7 +46,7 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
     thumb: board.thumb,
   });
 
-  const { mutate: updateBoard, isLoading } = api.board.update.useMutation({
+  const { mutate: updateBoard, isPending } = api.board.update.useMutation({
     onSuccess: (updatedBoard) => {
       ctx.board.getInfinite.setInfiniteData(
         { limit: INFINITE_BOARDS_LIMIT },
@@ -185,8 +185,8 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
             <div className="flex flex-col gap-2 md:flex-row">
               <Button
                 type="submit"
-                disabled={isLoading}
-                isLoading={isLoading}
+                disabled={isPending}
+                isLoading={isPending}
                 className="w-full"
                 data-testid="save-board-btn"
               >

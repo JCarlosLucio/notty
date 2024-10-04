@@ -31,7 +31,7 @@ const CreateBoard = () => {
   const ctx = api.useUtils();
   const router = useRouter();
 
-  const { mutate: createBoard, isLoading } = api.board.create.useMutation({
+  const { mutate: createBoard, isPending } = api.board.create.useMutation({
     onSuccess: (createdBoard) => {
       ctx.board.getInfinite.setInfiniteData(
         { limit: INFINITE_BOARDS_LIMIT },
@@ -87,8 +87,8 @@ const CreateBoard = () => {
                   />
                   <Button
                     type="submit"
-                    disabled={isLoading}
-                    isLoading={isLoading}
+                    disabled={isPending}
+                    isLoading={isPending}
                     data-testid="create-board-btn"
                   >
                     <PlusIcon />
