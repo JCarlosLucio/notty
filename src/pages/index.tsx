@@ -4,6 +4,7 @@ import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import GradientBlobs from "@/components/GradientBlobs";
+import Nav from "@/components/Nav";
 import { Button } from "@/components/ui/button";
 import Header from "@/config";
 import { getServerAuthSession } from "@/server/auth";
@@ -26,7 +27,7 @@ export default function Home() {
   return (
     <>
       <Header title="notty" />
-
+      <Nav />
       <main className="relative flex min-h-screen flex-col items-center justify-start pt-44">
         <GradientBlobs />
         <div className="container flex flex-col items-center justify-center gap-24 pt-20">
