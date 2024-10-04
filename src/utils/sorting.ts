@@ -92,7 +92,7 @@ export function seqString(num: number) {
       0, 4096, 65792, 528416, 1081872, 2167048, 2376776, 4756004, 4794660,
       5411476, 9775442, 11097386, 11184810, 22369621,
     ];
-    let bits = num < 13 ? magic[num] ?? 0 : 33554431 - (magic[25 - num] ?? 0);
+    let bits = num < 13 ? (magic[num] ?? 0) : 33554431 - (magic[25 - num] ?? 0);
     const chars = [];
     for (let i = 1; i < 26; i++, bits >>= 1) {
       if (bits & 1) chars.push(String.fromCharCode(97 + i));
