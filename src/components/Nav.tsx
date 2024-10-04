@@ -31,8 +31,10 @@ const Nav = ({ board }: NavProps) => {
         {board && <BoardDetails board={board} />}
 
         <div className="flex items-center">
-          <div className="mr-5 hidden h-7 items-center border-r pr-5 xl:flex">
-            <ThemeToggle />
+          <div className={!board ? "inline-block" : "hidden xl:inline-block"}>
+            <div className="mr-5 h-7 items-center border-r pr-5">
+              <ThemeToggle />
+            </div>
           </div>
           <UserSessionPopover />
         </div>
