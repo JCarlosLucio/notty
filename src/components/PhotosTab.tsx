@@ -39,7 +39,7 @@ const PhotosTab = ({ setBg }: PhotosTabProps) => {
           </Label>
           <Input
             id="query"
-            type="text"
+            type="search"
             value={query}
             placeholder="Search photos"
             className="pl-9"
