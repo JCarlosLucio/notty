@@ -32,7 +32,11 @@ const NoteDetails = ({ note, ...props }: NoteDetailsProps) => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-2xl" data-no-dnd="true">
         {showUpdateNote ? (
-          <UpdateNote note={note} cb={() => setShowUpdateNote(false)} />
+          <>
+            <DialogTitle>Updating &quot;{note.title}&quot;</DialogTitle>
+            <DialogDescription className="hidden"></DialogDescription>
+            <UpdateNote note={note} cb={() => setShowUpdateNote(false)} />
+          </>
         ) : (
           <>
             <DialogHeader>
