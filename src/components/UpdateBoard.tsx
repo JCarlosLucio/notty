@@ -107,7 +107,7 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
               control={form.control}
               name="title"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full px-[1px]">
                   <FormLabel>Update Title</FormLabel>
                   <FormControl>
                     <Input

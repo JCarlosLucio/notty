@@ -29,7 +29,7 @@ const PhotosTab = ({ setBg }: PhotosTabProps) => {
     <TabsContent value="photos" className="flex overflow-y-hidden">
       <div className="flex w-full flex-col gap-3 pt-2">
         {/* Search input */}
-        <div className="relative flex w-full items-center">
+        <div className="relative flex w-full items-center px-[1px]">
           <Label
             htmlFor="query"
             aria-label="search photos"
