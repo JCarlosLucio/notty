@@ -1,5 +1,18 @@
 import { z } from "zod";
 
+import {
+  MAX_CONTENT_LENGTH,
+  MAX_QUERY_LENGTH,
+  MAX_TITLE_LENGTH,
+} from "@/utils/constants";
+
+const errorMessage = {
+  titleIsRequired: "Title is required",
+  maxTitleLength: `Title must contain at most ${MAX_TITLE_LENGTH} characters`,
+  maxQueryLength: `Query must contain at most ${MAX_QUERY_LENGTH} characters`,
+  maxContentLength: `Content must contain at most ${MAX_CONTENT_LENGTH} characters`,
+};
+
 // BOARD
 export const getByIdBoardSchema = z.object({
   id: z.string(),
@@ -14,8 +27,8 @@ export const createBoardSchema = z.object({
   title: z
     .string()
     .trim()
-    .min(1, "Title is required")
-    .max(256, "Title must contain at most 256 characters"),
+    .min(1, errorMessage.titleIsRequired)
+    .max(MAX_TITLE_LENGTH, errorMessage.maxTitleLength),
 });
 
 export const deleteBoardSchema = z.object({
@@ -27,18 +40,15 @@ export const updateBoardSchema = z.object({
   title: z
     .string()
     .trim()
-    .min(1, "Title is required")
-    .max(256, "Title must contain at most 256 characters"),
+    .min(1, errorMessage.titleIsRequired)
+    .max(MAX_TITLE_LENGTH, errorMessage.maxTitleLength),
   bg: z.string().nullable(),
   thumb: z.string().nullable(),
 });
 
 export const getImagesSchema = z.object({
   page: z.number(),
-  query: z
-    .string()
-    .trim()
-    .max(256, "Query must contain at most 256 characters"),
+  query: z.string().trim().max(MAX_QUERY_LENGTH, errorMessage.maxQueryLength),
 });
 
 // LIST
@@ -55,8 +65,8 @@ export const createListSchema = z.object({
   title: z
     .string()
     .trim()
-    .min(1, "Title is required")
-    .max(256, "Title must contain at most 256 characters"),
+    .min(1, errorMessage.titleIsRequired)
+    .max(MAX_TITLE_LENGTH, errorMessage.maxTitleLength),
 });
 
 export const moveListSchema = z.object({
@@ -74,8 +84,8 @@ export const updateListSchema = z.object({
   title: z
     .string()
     .trim()
-    .min(1, "Title is required")
-    .max(256, "Title must contain at most 256 characters"),
+    .min(1, errorMessage.titleIsRequired)
+    .max(MAX_TITLE_LENGTH, errorMessage.maxTitleLength),
   color: z.string().nullable(),
 });
 
@@ -93,8 +103,8 @@ export const createNoteSchema = z.object({
   title: z
     .string()
     .trim()
-    .min(1, "Title is required")
-    .max(256, "Title must contain at most 256 characters"),
+    .min(1, errorMessage.titleIsRequired)
+    .max(MAX_TITLE_LENGTH, errorMessage.maxTitleLength),
 });
 
 export const moveNoteSchema = z.object({
@@ -108,12 +118,12 @@ export const updateNoteSchema = z.object({
   title: z
     .string()
     .trim()
-    .min(1, "Title is required")
-    .max(256, "Title must contain at most 256 characters"),
+    .min(1, errorMessage.titleIsRequired)
+    .max(MAX_TITLE_LENGTH, errorMessage.maxTitleLength),
   content: z
     .string()
     .trim()
-    .max(256, "Content must contain at most 256 characters"),
+    .max(MAX_CONTENT_LENGTH, errorMessage.maxContentLength),
 });
 
 export const deleteNoteSchema = z.object({
