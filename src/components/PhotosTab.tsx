@@ -92,7 +92,16 @@ const PhotosTab = ({ setBg }: PhotosTabProps) => {
         )}
 
         <div className="text-xs">
-          By using images from Unsplash, you agree to their{" "}
+          By using images from{" "}
+          <Link
+            className="hover:underline"
+            href="https://unsplash.com/"
+            rel="noreferrer"
+            target="_blank"
+          >
+            Unsplash
+          </Link>
+          , you agree to their{" "}
           <Link
             className="hover:underline"
             href="https://unsplash.com/license"
@@ -110,6 +119,7 @@ const PhotosTab = ({ setBg }: PhotosTabProps) => {
           >
             Terms of Service
           </Link>
+          .
         </div>
       </div>
     </TabsContent>
