@@ -99,6 +99,7 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
                   <FormControl>
                     <div className="flex items-center gap-2">
                       <Textarea
+                        className="md:h-56"
                         placeholder="Your new note content..."
                         value={value}
                         {...fieldRest}
