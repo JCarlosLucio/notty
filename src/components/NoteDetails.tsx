@@ -33,8 +33,12 @@ const NoteDetails = ({ note, ...props }: NoteDetailsProps) => {
       <DialogContent className="sm:max-w-2xl" data-no-dnd="true">
         {showUpdateNote ? (
           <>
-            <DialogTitle>Updating &quot;{note.title}&quot;</DialogTitle>
-            <DialogDescription className="hidden"></DialogDescription>
+            <DialogTitle className="hidden">
+              Updating &quot;{note.title}&quot;
+            </DialogTitle>
+            <DialogDescription className="hidden">
+              Update note title and content.
+            </DialogDescription>
             <UpdateNote note={note} cb={() => setShowUpdateNote(false)} />
           </>
         ) : (

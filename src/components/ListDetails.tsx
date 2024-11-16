@@ -43,7 +43,15 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
         data-no-dnd="true"
       >
         {showUpdateList ? (
-          <UpdateList list={list} cb={() => setShowUpdateList(false)} />
+          <>
+            <DialogTitle className="hidden">
+              Updating &quot;{list.title}&quot;
+            </DialogTitle>
+            <DialogDescription className="hidden">
+              Update list title and color.
+            </DialogDescription>
+            <UpdateList list={list} cb={() => setShowUpdateList(false)} />
+          </>
         ) : (
           <div className="flex w-full flex-col gap-4">
             <DialogHeader
