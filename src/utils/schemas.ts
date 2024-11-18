@@ -46,8 +46,9 @@ export const updateBoardSchema = z.object({
   thumb: z.string().nullable(),
 });
 
-export const getImagesSchema = z.object({
-  page: z.number(),
+export const getInfinitePhotosSchema = z.object({
+  limit: z.number().min(1).max(100).nullish(),
+  cursor: z.number().nullish(), // <-- "cursor" needs to exist, but can be any type
   query: z.string().trim().max(MAX_QUERY_LENGTH, errorMessage.maxQueryLength),
 });
 

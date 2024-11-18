@@ -2,12 +2,13 @@ import { TRPCError } from "@trpc/server";
 
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { unsplash } from "@/server/unsplash";
+import { MAX_INFINITE_PHOTOS_PAGES } from "@/utils/constants";
 import {
   createBoardSchema,
   deleteBoardSchema,
   getByIdBoardSchema,
-  getImagesSchema,
   getInfiniteBoardsSchema,
+  getInfinitePhotosSchema,
   updateBoardSchema,
 } from "@/utils/schemas";
 
@@ -76,13 +77,15 @@ export const boardRouter = createTRPCRouter({
     }),
 
   // get photos from unsplash
-  getPhotos: protectedProcedure
-    .input(getImagesSchema)
+  getInfinitePhotos: protectedProcedure
+    .input(getInfinitePhotosSchema)
     .query(async ({ input }) => {
+      const { query, cursor = 1, limit } = input;
+
       const res = await unsplash.search.getPhotos({
-        query: input.query || "wallpaper",
-        page: input.page,
-        perPage: 30,
+        query: query || "wallpaper",
+        page: cursor ?? 1,
+        perPage: limit ?? 30,
         orientation: "landscape",
         contentFilter: "high",
         orderBy: "relevant",
@@ -95,7 +98,19 @@ export const boardRouter = createTRPCRouter({
         });
       }
 
-      return res.response.results;
+      const photos = res.response.results;
+
+      const maxPages = Math.min(
+        res.response.total_pages,
+        MAX_INFINITE_PHOTOS_PAGES,
+      );
+      let nextPage: number | undefined = undefined;
+
+      if (cursor && maxPages >= cursor + 1) {
+        nextPage = cursor + 1;
+      }
+
+      return { photos, nextPage };
     }),
 
   create: protectedProcedure
