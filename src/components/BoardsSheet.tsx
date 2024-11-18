@@ -20,15 +20,21 @@ type BoardsProps = {
 };
 
 const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
-  const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } =
-    api.board.getInfinite.useInfiniteQuery(
-      {
-        limit: INFINITE_BOARDS_LIMIT,
-      },
-      {
-        getNextPageParam: (lastPage) => lastPage.nextCursor,
-      },
-    );
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
+    isFetching,
+    isFetchingNextPage,
+  } = api.board.getInfinite.useInfiniteQuery(
+    {
+      limit: INFINITE_BOARDS_LIMIT,
+    },
+    {
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
+    },
+  );
 
   return (
     <Sheet key="boards-sheet">
@@ -72,10 +78,11 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
               Array.from({ length: INFINITE_BOARDS_LIMIT / 2 }, (_, index) => (
                 <Skeleton key={index} className="h-10 rounded-md" />
               ))}
-            {hasNextPage && (
+            {hasNextPage && !isFetching && (
               <Button
                 variant="outline"
                 size="sm"
+                disabled={isFetching}
                 className="w-max self-center text-muted-foreground"
                 onClick={() => fetchNextPage()}
               >
