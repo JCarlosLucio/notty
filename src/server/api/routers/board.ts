@@ -80,12 +80,12 @@ export const boardRouter = createTRPCRouter({
   getInfinitePhotos: protectedProcedure
     .input(getInfinitePhotosSchema)
     .query(async ({ input }) => {
-      const { query, cursor = 1, limit } = input;
+      const { query, cursor = 1, limit = 30 } = input;
 
       const res = await unsplash.search.getPhotos({
         query: query || "wallpaper",
-        page: cursor ?? 1,
-        perPage: limit ?? 30,
+        page: cursor,
+        perPage: limit,
         orientation: "landscape",
         contentFilter: "high",
         orderBy: "relevant",
