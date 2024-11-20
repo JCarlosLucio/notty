@@ -19,7 +19,7 @@ export const getByIdBoardSchema = z.object({
 });
 
 export const getInfiniteBoardsSchema = z.object({
-  limit: z.number().min(1).max(100).nullish(),
+  limit: z.number().min(1).max(100).optional(),
   cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
 });
 

@@ -52,8 +52,7 @@ export const boardRouter = createTRPCRouter({
   getInfinite: protectedProcedure
     .input(getInfiniteBoardsSchema)
     .query(async ({ ctx, input }) => {
-      const limit = input.limit ?? 30;
-      const { cursor } = input;
+      const { cursor, limit = 30 } = input;
 
       const boards = await ctx.db.board.findMany({
         take: limit + 1, // get an extra item at the end which we'll use as next cursor
