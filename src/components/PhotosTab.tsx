@@ -20,10 +20,21 @@ const PhotosTab = ({ setBg }: PhotosTabProps) => {
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query, 1000);
 
-  const { data: photos, isLoading } = api.board.getPhotos.useQuery({
-    query: debouncedQuery,
-    page: 1,
-  });
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
+    isFetching,
+    isFetchingNextPage,
+  } = api.board.getInfinitePhotos.useInfiniteQuery(
+    {
+      query: debouncedQuery,
+    },
+    {
+      getNextPageParam: (lastPage) => lastPage.nextPage,
+    },
+  );
 
   return (
     <TabsContent value="photos" className="flex overflow-y-hidden">
@@ -49,18 +60,10 @@ const PhotosTab = ({ setBg }: PhotosTabProps) => {
         </div>
 
         {/* Photos */}
-        {isLoading ? (
-          <div className="flex overflow-hidden">
-            <div className="grid w-full grid-cols-3 gap-2">
-              {Array.from({ length: 9 }, (_, index) => (
-                <Skeleton key={index} className="h-28 rounded-md" />
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div className="flex flex-col overflow-y-scroll hover:overflow-y-scroll xl:overflow-hidden">
-            <div className="grid w-full grid-cols-3 gap-2">
-              {photos?.map((photo) => (
+        <div className="flex flex-col gap-2 overflow-y-scroll hover:overflow-y-scroll xl:overflow-hidden">
+          <div className="grid w-full grid-cols-3 gap-2">
+            {data?.pages.map((pageData) =>
+              pageData.photos?.map((photo) => (
                 <Button
                   type="button"
                   key={photo.id}
@@ -86,10 +89,30 @@ const PhotosTab = ({ setBg }: PhotosTabProps) => {
                     {photo.user.name}
                   </Link>
                 </Button>
+              )),
+            )}
+          </div>
+
+          {(isLoading || isFetchingNextPage) && (
+            <div className="grid w-full grid-cols-3 gap-2">
+              {Array.from({ length: 9 }, (_, index) => (
+                <Skeleton key={index} className="h-28 rounded-md" />
               ))}
             </div>
-          </div>
-        )}
+          )}
+
+          {hasNextPage && !isFetching && (
+            <Button
+              type="button"
+              variant="outline"
+              disabled={isFetching}
+              className="w-max self-center text-muted-foreground"
+              onClick={() => fetchNextPage()}
+            >
+              Show More Photos
+            </Button>
+          )}
+        </div>
 
         <div className="text-xs">
           By using images from{" "}
