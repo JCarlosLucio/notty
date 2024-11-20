@@ -2,7 +2,10 @@ import { TRPCError } from "@trpc/server";
 
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { unsplash } from "@/server/unsplash";
-import { MAX_INFINITE_PHOTOS_PAGES } from "@/utils/constants";
+import {
+  INFINITE_PHOTOS_LIMIT,
+  MAX_INFINITE_PHOTOS_PAGES,
+} from "@/utils/constants";
 import {
   createBoardSchema,
   deleteBoardSchema,
@@ -80,7 +83,7 @@ export const boardRouter = createTRPCRouter({
   getInfinitePhotos: protectedProcedure
     .input(getInfinitePhotosSchema)
     .query(async ({ input }) => {
-      const { query, cursor = 1, limit = 30 } = input;
+      const { query, cursor = 1, limit = INFINITE_PHOTOS_LIMIT } = input;
 
       const res = await unsplash.search.getPhotos({
         query: query || "wallpaper",
