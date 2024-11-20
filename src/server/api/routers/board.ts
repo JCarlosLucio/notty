@@ -3,6 +3,7 @@ import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { unsplash } from "@/server/unsplash";
 import {
+  INFINITE_BOARDS_LIMIT,
   INFINITE_PHOTOS_LIMIT,
   MAX_INFINITE_PHOTOS_PAGES,
 } from "@/utils/constants";
@@ -52,7 +53,7 @@ export const boardRouter = createTRPCRouter({
   getInfinite: protectedProcedure
     .input(getInfiniteBoardsSchema)
     .query(async ({ ctx, input }) => {
-      const { cursor, limit = 30 } = input;
+      const { cursor, limit = INFINITE_BOARDS_LIMIT } = input;
 
       const boards = await ctx.db.board.findMany({
         take: limit + 1, // get an extra item at the end which we'll use as next cursor
