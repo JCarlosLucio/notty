@@ -1,10 +1,8 @@
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { type Dispatch, type SetStateAction, useState } from "react";
 
+import SearchInput from "@/components/SearchInput";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TabsContent } from "@/components/ui/tabs";
 import useDebounce from "@/hooks/useDebounce";
@@ -40,24 +38,15 @@ const PhotosTab = ({ setBg }: PhotosTabProps) => {
     <TabsContent value="photos" className="flex overflow-y-hidden">
       <div className="flex w-full flex-col gap-3 pt-2">
         {/* Search input */}
-        <div className="relative flex w-full items-center px-[1px]">
-          <Label
-            htmlFor="query"
-            aria-label="search photos"
-            className="absolute pl-3"
-          >
-            <MagnifyingGlassIcon />
-          </Label>
-          <Input
-            id="query"
-            type="search"
-            value={query}
-            placeholder="Search photos"
-            className="pl-9"
-            onChange={(e) => setQuery(e.target.value)}
-            data-testid="search-photos-input"
-          />
-        </div>
+        <SearchInput
+          id="photos-query"
+          type="search"
+          value={query}
+          placeholder="Search photos"
+          className="pl-9"
+          onChange={(e) => setQuery(e.target.value)}
+          data-testid="search-photos-input"
+        />
 
         {/* Photos */}
         <div className="flex flex-col gap-2 overflow-y-scroll hover:overflow-y-scroll xl:overflow-hidden">
