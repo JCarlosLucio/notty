@@ -1,11 +1,14 @@
 import { type GetServerSideProps } from "next";
 import Link from "next/link";
+import { useState } from "react";
 
 import CreateBoard from "@/components/CreateBoard";
 import Nav from "@/components/Nav";
+import SearchInput from "@/components/SearchInput";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import Header from "@/config";
+import useDebounce from "@/hooks/useDebounce";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/utils/api";
 import { INFINITE_BOARDS_LIMIT } from "@/utils/constants";
@@ -25,6 +28,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const Dashboard = () => {
+  const [query, setQuery] = useState("");
+  const debouncedQuery = useDebounce(query, 1000);
+
   const {
     data,
     fetchNextPage,
@@ -35,6 +41,7 @@ const Dashboard = () => {
   } = api.board.getInfinite.useInfiniteQuery(
     {
       limit: INFINITE_BOARDS_LIMIT,
+      query: debouncedQuery,
     },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
@@ -55,6 +62,16 @@ const Dashboard = () => {
               <div className="px-5">
                 <CreateBoard />
               </div>
+
+              <SearchInput
+                id="query"
+                type="search"
+                value={query}
+                placeholder="Search boards"
+                className="px-5"
+                onChange={(e) => setQuery(e.target.value)}
+                data-testid="search-boards-input"
+              />
             </div>
           </div>
 
