@@ -40,7 +40,6 @@ const Dashboard = () => {
     isFetchingNextPage,
   } = api.board.getInfinite.useInfiniteQuery(
     {
-      limit: INFINITE_BOARDS_LIMIT,
       query: debouncedQuery,
     },
     {
