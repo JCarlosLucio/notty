@@ -1,7 +1,9 @@
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
+import { useState } from "react";
 
 import CreateBoard from "@/components/CreateBoard";
+import SearchInput from "@/components/SearchInput";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -12,6 +14,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
+import useDebounce from "@/hooks/useDebounce";
 import { api } from "@/utils/api";
 import { INFINITE_BOARDS_LIMIT } from "@/utils/constants";
 
@@ -20,6 +23,9 @@ type BoardsProps = {
 };
 
 const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
+  const [query, setQuery] = useState("");
+  const debouncedQuery = useDebounce(query, 1000);
+
   const {
     data,
     fetchNextPage,
@@ -29,7 +35,7 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
     isFetchingNextPage,
   } = api.board.getInfinite.useInfiniteQuery(
     {
-      limit: INFINITE_BOARDS_LIMIT,
+      query: debouncedQuery,
     },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
@@ -57,6 +63,14 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
             {data?.pages.reduce((acc, cur) => acc + cur.boards.length, 0)}
           </SheetDescription>
           <CreateBoard />
+          <SearchInput
+            id="boards-sheet-query"
+            type="search"
+            value={query}
+            placeholder="Search boards"
+            onChange={(e) => setQuery(e.target.value)}
+            data-testid="search-boards-sheet-input"
+          />
         </SheetHeader>
         <div className="flex flex-col overflow-hidden pt-3 hover:overflow-y-scroll">
           <div className="flex w-full flex-col gap-1">
