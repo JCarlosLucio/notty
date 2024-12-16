@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterOutputs } from "@/utils/api";
-import { INFINITE_BOARDS_LIMIT } from "@/utils/constants";
 
 type DeleteBoardProps = {
   board: RouterOutputs["board"]["getById"];
@@ -29,20 +28,31 @@ const DeleteBoard = ({ board, cb }: DeleteBoardProps) => {
 
   const { mutate: deleteBoard, isPending } = api.board.delete.useMutation({
     onSuccess: () => {
-      ctx.board.getInfinite.setInfiniteData(
-        { limit: INFINITE_BOARDS_LIMIT },
-        (oldPageData) => {
-          return oldPageData
-            ? {
-                ...oldPageData,
-                pages: oldPageData.pages.map((page) => {
-                  return {
-                    ...page,
-                    boards: page.boards.filter((b) => b.id !== board.id),
-                  };
-                }),
-              }
-            : oldPageData;
+      ctx.board.getInfinite.setInfiniteData({ query: "" }, (oldPageData) => {
+        return oldPageData
+          ? {
+              ...oldPageData,
+              pages: oldPageData.pages.map((page) => {
+                return {
+                  ...page,
+                  boards: page.boards.filter((b) => b.id !== board.id),
+                };
+              }),
+            }
+          : oldPageData;
+      });
+
+      // invalidates all other board infinite queries where deleted board title includes the query
+      // https://tanstack.com/query/v4/docs/framework/react/guides/query-invalidation
+      void ctx.board.getInfinite.invalidate(
+        {},
+        {
+          predicate: (query) => {
+            if (!query.queryKey[1]?.input?.query) {
+              return false;
+            }
+            return board.title.includes(query.queryKey[1].input.query);
+          },
         },
       );
       toast({
