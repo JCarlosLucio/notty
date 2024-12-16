@@ -69,6 +69,7 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
             value={query}
             placeholder="Search boards"
             onChange={(e) => setQuery(e.target.value)}
+            clear={() => setQuery("")}
             data-testid="search-boards-sheet-input"
           />
         </SheetHeader>

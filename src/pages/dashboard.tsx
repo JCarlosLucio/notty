@@ -69,6 +69,7 @@ const Dashboard = () => {
                 placeholder="Search boards"
                 className="px-5"
                 onChange={(e) => setQuery(e.target.value)}
+                clear={() => setQuery("")}
                 data-testid="search-boards-input"
               />
             </div>
