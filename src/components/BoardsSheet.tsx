@@ -62,16 +62,18 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
             Manage your boards.{" "}
             {data?.pages.reduce((acc, cur) => acc + cur.boards.length, 0)}
           </SheetDescription>
-          <CreateBoard />
-          <SearchInput
-            id="boards-sheet-query"
-            type="search"
-            value={query}
-            placeholder="Search boards"
-            onChange={(e) => setQuery(e.target.value)}
-            clear={() => setQuery("")}
-            data-testid="search-boards-sheet-input"
-          />
+          <div className="flex flex-col gap-1">
+            <SearchInput
+              id="boards-sheet-query"
+              type="search"
+              value={query}
+              placeholder="Search boards"
+              onChange={(e) => setQuery(e.target.value)}
+              clear={() => setQuery("")}
+              data-testid="search-boards-sheet-input"
+            />
+            <CreateBoard />
+          </div>
         </SheetHeader>
         <div className="flex flex-col overflow-hidden pt-3 hover:overflow-y-scroll">
           <div className="flex w-full flex-col gap-1">
