@@ -15,7 +15,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterInputs } from "@/utils/api";
-import { INFINITE_BOARDS_LIMIT } from "@/utils/constants";
 import { createBoardSchema } from "@/utils/schemas";
 
 type CreateBoardInput = RouterInputs["board"]["create"];
@@ -33,19 +32,30 @@ const CreateBoard = () => {
 
   const { mutate: createBoard, isPending } = api.board.create.useMutation({
     onSuccess: (createdBoard) => {
-      ctx.board.getInfinite.setInfiniteData(
-        { limit: INFINITE_BOARDS_LIMIT },
-        (oldPageData) => {
-          return oldPageData
-            ? {
-                ...oldPageData,
-                pages: oldPageData.pages.map((page, i) => {
-                  return i === 0
-                    ? { ...page, boards: [createdBoard, ...page.boards] }
-                    : page;
-                }),
-              }
-            : oldPageData;
+      ctx.board.getInfinite.setInfiniteData({ query: "" }, (oldPageData) => {
+        return oldPageData
+          ? {
+              ...oldPageData,
+              pages: oldPageData.pages.map((page, i) => {
+                return i === 0
+                  ? { ...page, boards: [createdBoard, ...page.boards] }
+                  : page;
+              }),
+            }
+          : oldPageData;
+      });
+
+      // invalidates all other board infinite queries where created board title includes the query
+      // https://tanstack.com/query/v4/docs/framework/react/guides/query-invalidation
+      void ctx.board.getInfinite.invalidate(
+        {},
+        {
+          predicate: (query) => {
+            if (!query.queryKey[1]?.input?.query) {
+              return false;
+            }
+            return createdBoard.title.includes(query.queryKey[1].input.query);
+          },
         },
       );
       form.reset();
