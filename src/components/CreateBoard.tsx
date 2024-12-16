@@ -91,7 +91,6 @@ const CreateBoard = () => {
                 <div className="flex items-center gap-2">
                   <Input
                     placeholder="Your board title..."
-                    autoFocus
                     data-testid="board-input"
                     {...field}
                   />
