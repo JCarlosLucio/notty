@@ -18,7 +18,7 @@ const SearchInput = ({
   const ref = useRef<HTMLInputElement>(null);
 
   return (
-    <div className={cn("relative flex w-full items-center", className)}>
+    <search className={cn("relative flex w-full items-center", className)}>
       <Label htmlFor="query" className="absolute pl-3">
         <MagnifyingGlassIcon />
       </Label>
@@ -38,7 +38,7 @@ const SearchInput = ({
           <Cross2Icon />
         </Button>
       )}
-    </div>
+    </search>
   );
 };
 
