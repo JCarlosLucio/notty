@@ -52,12 +52,12 @@ const Dashboard = () => {
       <Header title="Dashboard" />
       <Nav />
       <main className="min-h-screen pb-5 pt-16">
-        <div className="flex w-full flex-col items-center gap-8 xl:gap-12">
-          <section className="flex w-5/6 flex-col items-center justify-center gap-8">
+        <div className="flex w-full flex-col items-center gap-6 lg:gap-8 xl:gap-12">
+          <section className="flex w-5/6 flex-col items-center justify-center gap-6 lg:gap-8">
             <h1 className="text-center text-3xl xl:text-5xl">Your dashboard</h1>
 
-            <div className="flex w-full flex-col-reverse items-end justify-between gap-2 lg:flex-row">
-              <div className="w-full lg:w-1/3">
+            <div className="flex w-full flex-col-reverse items-center justify-between gap-2 lg:flex-row">
+              <div className="w-full lg:w-1/4">
                 <CreateBoard />
               </div>
               <SearchInput
