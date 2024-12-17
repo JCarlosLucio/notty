@@ -43,6 +43,7 @@ test.describe("Dashboard", () => {
   test("should create board from Dashboard", async ({ page }) => {
     const title = "testing";
 
+    await page.getByTestId("show-add-board-btn").click();
     await page.getByTestId("board-input").fill(title);
     await page.getByTestId("create-board-btn").click();
 
