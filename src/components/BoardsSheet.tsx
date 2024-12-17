@@ -17,6 +17,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import useDebounce from "@/hooks/useDebounce";
 import { api } from "@/utils/api";
 import { INFINITE_BOARDS_LIMIT } from "@/utils/constants";
+import { cn } from "@/utils/utils";
 
 type BoardsProps = {
   currentBoardId?: string;
@@ -62,7 +63,7 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
             Manage your boards.{" "}
             {data?.pages.reduce((acc, cur) => acc + cur.boards.length, 0)}
           </SheetDescription>
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-2">
             <SearchInput
               id="boards-sheet-query"
               type="search"
@@ -82,11 +83,25 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
                 <Button
                   key={board.id}
                   asChild
-                  variant={currentBoardId === board.id ? "secondary" : "ghost"}
+                  variant="secondary"
                   size="lg"
+                  className="px-0"
                 >
-                  <Link href={`/b/${board.id}`} data-testid="board-link">
-                    <span className="truncate">{board.title}</span>
+                  <Link
+                    href={`/b/${board.id}`}
+                    className={cn(
+                      "overflow-hidden hover:border hover:border-primary",
+                      currentBoardId === board.id && "border border-primary",
+                    )}
+                    style={{
+                      backgroundImage: board.thumb ?? "",
+                      backgroundSize: "cover",
+                    }}
+                    data-testid="board-link"
+                  >
+                    <div className="flex h-full w-full items-center justify-center bg-card/70 px-8 hover:backdrop-blur-sm">
+                      <span className="truncate">{board.title}</span>
+                    </div>
                   </Link>
                 </Button>
               )),
