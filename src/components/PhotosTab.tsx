@@ -43,7 +43,7 @@ const PhotosTab = ({ setBg }: PhotosTabProps) => {
           type="search"
           value={query}
           placeholder="Search photos"
-          className="pl-9"
+          className="px-[1px]"
           onChange={(e) => setQuery(e.target.value)}
           data-testid="search-photos-input"
         />
