@@ -1,10 +1,8 @@
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { type Dispatch, type SetStateAction, useState } from "react";
 
+import SearchInput from "@/components/SearchInput";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TabsContent } from "@/components/ui/tabs";
 import useDebounce from "@/hooks/useDebounce";
@@ -20,47 +18,41 @@ const PhotosTab = ({ setBg }: PhotosTabProps) => {
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query, 1000);
 
-  const { data: photos, isLoading } = api.board.getPhotos.useQuery({
-    query: debouncedQuery,
-    page: 1,
-  });
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
+    isFetching,
+    isFetchingNextPage,
+  } = api.board.getInfinitePhotos.useInfiniteQuery(
+    {
+      query: debouncedQuery,
+    },
+    {
+      getNextPageParam: (lastPage) => lastPage.nextPage,
+    },
+  );
 
   return (
     <TabsContent value="photos" className="flex overflow-y-hidden">
       <div className="flex w-full flex-col gap-3 pt-2">
         {/* Search input */}
-        <div className="relative flex w-full items-center">
-          <Label
-            htmlFor="query"
-            aria-label="search photos"
-            className="absolute pl-3"
-          >
-            <MagnifyingGlassIcon />
-          </Label>
-          <Input
-            id="query"
-            type="text"
-            value={query}
-            placeholder="Search photos"
-            className="pl-9"
-            onChange={(e) => setQuery(e.target.value)}
-            data-testid="search-photos-input"
-          />
-        </div>
+        <SearchInput
+          id="photos-query"
+          type="search"
+          value={query}
+          placeholder="Search photos"
+          className="px-[1px]"
+          onChange={(e) => setQuery(e.target.value)}
+          data-testid="search-photos-input"
+        />
 
         {/* Photos */}
-        {isLoading ? (
-          <div className="flex overflow-hidden">
-            <div className="grid w-full grid-cols-3 gap-2">
-              {Array.from({ length: 9 }, (_, index) => (
-                <Skeleton key={index} className="h-28 rounded-md" />
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div className="flex flex-col overflow-y-scroll hover:overflow-y-scroll xl:overflow-hidden">
-            <div className="grid w-full grid-cols-3 gap-2">
-              {photos?.map((photo) => (
+        <div className="flex flex-col gap-2 overflow-y-scroll hover:overflow-y-scroll xl:overflow-hidden">
+          <div className="grid w-full grid-cols-3 gap-2">
+            {data?.pages.map((pageData) =>
+              pageData.photos?.map((photo) => (
                 <Button
                   type="button"
                   key={photo.id}
@@ -86,13 +78,42 @@ const PhotosTab = ({ setBg }: PhotosTabProps) => {
                     {photo.user.name}
                   </Link>
                 </Button>
+              )),
+            )}
+          </div>
+
+          {(isLoading || isFetchingNextPage) && (
+            <div className="grid w-full grid-cols-3 gap-2">
+              {Array.from({ length: 9 }, (_, index) => (
+                <Skeleton key={index} className="h-28 rounded-md" />
               ))}
             </div>
-          </div>
-        )}
+          )}
+
+          {hasNextPage && !isFetching && (
+            <Button
+              type="button"
+              variant="outline"
+              disabled={isFetching}
+              className="w-max self-center text-muted-foreground"
+              onClick={() => fetchNextPage()}
+            >
+              Show More Photos
+            </Button>
+          )}
+        </div>
 
         <div className="text-xs">
-          By using images from Unsplash, you agree to their{" "}
+          By using images from{" "}
+          <Link
+            className="hover:underline"
+            href="https://unsplash.com/"
+            rel="noreferrer"
+            target="_blank"
+          >
+            Unsplash
+          </Link>
+          , you agree to their{" "}
           <Link
             className="hover:underline"
             href="https://unsplash.com/license"
@@ -110,6 +131,7 @@ const PhotosTab = ({ setBg }: PhotosTabProps) => {
           >
             Terms of Service
           </Link>
+          .
         </div>
       </div>
     </TabsContent>

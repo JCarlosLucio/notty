@@ -3,11 +3,16 @@ import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { unsplash } from "@/server/unsplash";
 import {
+  INFINITE_BOARDS_LIMIT,
+  INFINITE_PHOTOS_LIMIT,
+  MAX_INFINITE_PHOTOS_PAGES,
+} from "@/utils/constants";
+import {
   createBoardSchema,
   deleteBoardSchema,
   getByIdBoardSchema,
-  getImagesSchema,
   getInfiniteBoardsSchema,
+  getInfinitePhotosSchema,
   updateBoardSchema,
 } from "@/utils/schemas";
 
@@ -48,13 +53,15 @@ export const boardRouter = createTRPCRouter({
   getInfinite: protectedProcedure
     .input(getInfiniteBoardsSchema)
     .query(async ({ ctx, input }) => {
-      const limit = input.limit ?? 30;
-      const { cursor } = input;
+      const { query, cursor, limit = INFINITE_BOARDS_LIMIT } = input;
 
       const boards = await ctx.db.board.findMany({
         take: limit + 1, // get an extra item at the end which we'll use as next cursor
         where: {
           userId: ctx.session.user.id,
+          title: {
+            contains: query,
+          },
         },
         cursor: cursor ? { id: cursor } : undefined,
         orderBy: {
@@ -76,13 +83,15 @@ export const boardRouter = createTRPCRouter({
     }),
 
   // get photos from unsplash
-  getPhotos: protectedProcedure
-    .input(getImagesSchema)
+  getInfinitePhotos: protectedProcedure
+    .input(getInfinitePhotosSchema)
     .query(async ({ input }) => {
+      const { query, cursor = 1, limit = INFINITE_PHOTOS_LIMIT } = input;
+
       const res = await unsplash.search.getPhotos({
-        query: input.query || "wallpaper",
-        page: input.page,
-        perPage: 30,
+        query: query || "wallpaper",
+        page: cursor,
+        perPage: limit,
         orientation: "landscape",
         contentFilter: "high",
         orderBy: "relevant",
@@ -95,7 +104,19 @@ export const boardRouter = createTRPCRouter({
         });
       }
 
-      return res.response.results;
+      const photos = res.response.results;
+
+      const maxPages = Math.min(
+        res.response.total_pages,
+        MAX_INFINITE_PHOTOS_PAGES,
+      );
+      let nextPage: number | undefined = undefined;
+
+      if (cursor && maxPages >= cursor + 1) {
+        nextPage = cursor + 1;
+      }
+
+      return { photos, nextPage };
     }),
 
   create: protectedProcedure

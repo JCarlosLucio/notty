@@ -19,7 +19,6 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterInputs, type RouterOutputs } from "@/utils/api";
-import { INFINITE_BOARDS_LIMIT } from "@/utils/constants";
 import { updateBoardSchema } from "@/utils/schemas";
 
 type UpdateBoardProps = {
@@ -48,27 +47,41 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
 
   const { mutate: updateBoard, isPending } = api.board.update.useMutation({
     onSuccess: (updatedBoard) => {
-      ctx.board.getInfinite.setInfiniteData(
-        { limit: INFINITE_BOARDS_LIMIT },
-        (oldPageData) => {
-          return oldPageData
-            ? {
-                ...oldPageData,
-                pages: oldPageData.pages.map((page, i) => {
-                  const filteredPage = {
-                    ...page,
-                    boards: page.boards.filter((b) => b.id !== updatedBoard.id),
-                  };
+      ctx.board.getInfinite.setInfiniteData({ query: "" }, (oldPageData) => {
+        return oldPageData
+          ? {
+              ...oldPageData,
+              pages: oldPageData.pages.map((page, i) => {
+                const filteredPage = {
+                  ...page,
+                  boards: page.boards.filter((b) => b.id !== updatedBoard.id),
+                };
 
-                  return i === 0
-                    ? {
-                        ...filteredPage,
-                        boards: [updatedBoard, ...filteredPage.boards],
-                      }
-                    : filteredPage;
-                }),
-              }
-            : oldPageData;
+                return i === 0
+                  ? {
+                      ...filteredPage,
+                      boards: [updatedBoard, ...filteredPage.boards],
+                    }
+                  : filteredPage;
+              }),
+            }
+          : oldPageData;
+      });
+
+      // invalidates all other board infinite queries where original board or updated board title includes the query
+      // https://tanstack.com/query/v4/docs/framework/react/guides/query-invalidation
+      void ctx.board.getInfinite.invalidate(
+        {},
+        {
+          predicate: (query) => {
+            if (!query.queryKey[1]?.input?.query) {
+              return false;
+            }
+            return (
+              board.title.includes(query.queryKey[1].input.query) ||
+              updatedBoard.title.includes(query.queryKey[1].input.query)
+            );
+          },
         },
       );
       ctx.board.getById.setData({ id: board.id }, () => {
@@ -107,7 +120,7 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
               control={form.control}
               name="title"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full px-[1px]">
                   <FormLabel>Update Title</FormLabel>
                   <FormControl>
                     <Input

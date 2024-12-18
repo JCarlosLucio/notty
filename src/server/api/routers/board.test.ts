@@ -45,7 +45,11 @@ describe("Boards", () => {
   describe("getting infinite boards", () => {
     test("should get limit amount of infinite boards", async () => {
       const limit = 1;
-      const { boards, nextCursor } = await caller.board.getInfinite({ limit });
+      const query = "";
+      const { boards, nextCursor } = await caller.board.getInfinite({
+        query,
+        limit,
+      });
       const expectedCursor = (await getBoardsInDB())[limit]?.id ?? "";
 
       expect(boards).toHaveLength(limit);
@@ -54,11 +58,29 @@ describe("Boards", () => {
 
     test("should get last available infinite boards", async () => {
       const limit = 5;
+      const query = "";
       const { boards, nextCursor } = await caller.board.getInfinite({
+        query,
         limit,
       });
 
       expect(boards).toHaveLength(initialBoards.length);
+      expect(nextCursor).not.toBeDefined();
+    });
+
+    test("should get infinite boards that include query in the title", async () => {
+      const limit = 5;
+      const query = "1st";
+      const { boards, nextCursor } = await caller.board.getInfinite({
+        query,
+        limit,
+      });
+
+      const boardWithQuery = initialBoards.filter((b) =>
+        b.title.includes(query),
+      );
+
+      expect(boards).toHaveLength(boardWithQuery.length);
       expect(nextCursor).not.toBeDefined();
     });
   });

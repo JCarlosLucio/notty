@@ -38,7 +38,18 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
           </DialogTrigger>
           <DialogContent className="flex max-h-full shrink-0 sm:max-w-2xl">
             {showUpdateBoard ? (
-              <UpdateBoard board={board} cb={() => setShowUpdateBoard(false)} />
+              <>
+                <DialogTitle className="hidden">
+                  Updating &quot;{board.title}&quot;
+                </DialogTitle>
+                <DialogDescription className="hidden">
+                  Update board title and background.
+                </DialogDescription>
+                <UpdateBoard
+                  board={board}
+                  cb={() => setShowUpdateBoard(false)}
+                />
+              </>
             ) : (
               <div className="flex w-full flex-col gap-4">
                 <DialogHeader>

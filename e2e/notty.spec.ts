@@ -43,6 +43,7 @@ test.describe("Dashboard", () => {
   test("should create board from Dashboard", async ({ page }) => {
     const title = "testing";
 
+    await page.getByTestId("show-add-board-btn").click();
     await page.getByTestId("board-input").fill(title);
     await page.getByTestId("create-board-btn").click();
 
@@ -65,6 +66,7 @@ test.describe("Boards", () => {
     const title = "test from sheet";
 
     await page.getByTestId("open-boards-btn").click();
+    await page.getByTestId("show-add-board-btn").click();
     await page.getByLabel("My Boards").getByTestId("board-input").fill(title);
     await page.getByLabel("My Boards").getByTestId("create-board-btn").click();
 

@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterInputs, type RouterOutputs } from "@/utils/api";
+import { MAX_CONTENT_LENGTH } from "@/utils/constants";
 import { updateNoteSchema } from "@/utils/schemas";
 
 type UpdateNoteProps = {
@@ -23,8 +24,6 @@ type UpdateNoteProps = {
   cb?: () => void;
 } & ComponentPropsWithoutRef<"div">;
 type UpdateNoteInput = RouterInputs["note"]["update"];
-
-const MAX_TEXTAREA_LENGTH = 256;
 
 const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
   const form = useForm<UpdateNoteInput>({
@@ -100,6 +99,7 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
                   <FormControl>
                     <div className="flex items-center gap-2">
                       <Textarea
+                        className="md:h-56"
                         placeholder="Your new note content..."
                         value={value}
                         {...fieldRest}
@@ -108,12 +108,12 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
                   </FormControl>
                   <FormDescription
                     style={
-                      MAX_TEXTAREA_LENGTH - value.length < 1
+                      MAX_CONTENT_LENGTH - value.length < 1
                         ? { color: "red" }
                         : undefined
                     }
                   >
-                    {`${MAX_TEXTAREA_LENGTH - value.length} character${MAX_TEXTAREA_LENGTH - value.length !== 1 ? "s" : ""} left.`}
+                    {`${MAX_CONTENT_LENGTH - value.length} character${MAX_CONTENT_LENGTH - value.length !== 1 ? "s" : ""} left.`}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
