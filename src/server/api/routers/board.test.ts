@@ -58,7 +58,9 @@ describe("Boards", () => {
 
     test("should get last available infinite boards", async () => {
       const limit = 5;
+      const query = "";
       const { boards, nextCursor } = await caller.board.getInfinite({
+        query,
         limit,
       });
 
