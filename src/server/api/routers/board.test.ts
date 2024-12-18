@@ -67,6 +67,22 @@ describe("Boards", () => {
       expect(boards).toHaveLength(initialBoards.length);
       expect(nextCursor).not.toBeDefined();
     });
+
+    test("should get infinite boards that include query in the title", async () => {
+      const limit = 5;
+      const query = "1st";
+      const { boards, nextCursor } = await caller.board.getInfinite({
+        query,
+        limit,
+      });
+
+      const boardWithQuery = initialBoards.filter((b) =>
+        b.title.includes(query),
+      );
+
+      expect(boards).toHaveLength(boardWithQuery.length);
+      expect(nextCursor).not.toBeDefined();
+    });
   });
 
   describe("getting boards by id", () => {
