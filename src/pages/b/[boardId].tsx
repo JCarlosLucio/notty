@@ -25,7 +25,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 const BoardPage = () => {
   const router = useRouter();
   const boardId = router.query.boardId ?? "";
-  const id = Array.isArray(boardId) ? (boardId[0] ? boardId[0] : "") : boardId;
+  const id = Array.isArray(boardId) ? (boardId[0] ?? "") : boardId;
 
   const { data: currentBoard } = api.board.getById.useQuery({ id });
 
