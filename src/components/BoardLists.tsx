@@ -1,15 +1,20 @@
 import {
+  closestCorners,
+  type CollisionDetection,
   DndContext,
   type DragCancelEvent,
   type DragEndEvent,
   type DragOverEvent,
   DragOverlay,
   type DragStartEvent,
+  getFirstCollision,
+  pointerWithin,
+  rectIntersection,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
 import { arrayMove, SortableContext } from "@dnd-kit/sortable";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { createPortal } from "react-dom";
 
 import CreateList from "@/components/CreateList";
@@ -89,6 +94,66 @@ const BoardLists = ({ boardId }: BoardProps) => {
   const sensors = useSensors(
     useSensor(MouseSensor, { activationConstraint: { distance: 10 } }),
     useSensor(TouchSensor),
+  );
+
+  /**
+   * Custom collision detection strategy optimized for multiple containers
+   *
+   * - First, find any droppable containers intersecting with the pointer.
+   * - If there are none, find intersecting containers with the active draggable.
+   * - If there are no intersecting containers, return the last matched intersection
+   * - Minimizes DNDKIT Error: Maximum update depth exceeded.
+   */
+  const collisionDetectionStrategy: CollisionDetection = useCallback(
+    (args) => {
+      if (activeList) {
+        return rectIntersection(args);
+      }
+
+      // Start by finding any intersecting droppable
+      const pointerIntersections = pointerWithin(args);
+      const intersections =
+        pointerIntersections.length > 0
+          ? // If there are droppables intersecting with the pointer, return those
+            pointerIntersections
+          : rectIntersection(args);
+      let overId = getFirstCollision(intersections, "id");
+
+      if (overId !== null) {
+        const isOverList =
+          args.droppableContainers.find(({ id }) => id === overId)?.data.current
+            ?.type === "List";
+
+        // moving to empty list
+        if (isOverList) {
+          return [{ id: overId }];
+        }
+
+        const overListNotes = ctx.note.getAll
+          .getData({
+            listId: overId.toString(),
+          })
+          ?.map((n) => n.id);
+        if (overListNotes) {
+          // If a container is matched and it contains notes
+          // Return the closest droppable within that container
+          overId =
+            closestCorners({
+              ...args,
+              droppableContainers: args.droppableContainers.filter(
+                (container) =>
+                  container.id !== overId &&
+                  overListNotes.includes(container.id.toString()),
+              ),
+            })[0]?.id ?? null;
+        }
+
+        return overId ? [{ id: overId }] : [];
+      }
+
+      return closestCorners(args);
+    },
+    [activeList, ctx.note.getAll],
   );
 
   const removeNoteFromList = (listId: string, noteId?: string) => {
@@ -289,6 +354,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
   return (
     <DndContext
       sensors={sensors}
+      collisionDetection={collisionDetectionStrategy}
       onDragStart={onDragStart}
       onDragOver={onDragOver}
       onDragEnd={onDragEnd}
