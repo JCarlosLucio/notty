@@ -341,6 +341,15 @@ pnpm test:e2e
 
 Add files to `e2e` folder with `*.spec.{ts}` pattern.
 
+#### Fix e2e tests
+
+If the global setup needs to be reset:
+
+1. Remove User from the DB.
+   - Requires removing Account, Boards, Lists, and Notes.
+   - Use `pn db:studio`to remove the User.
+2. Run `npx playwright test` for global setup to be re-run.
+
 ### Run all tests
 
 To run all tests use:
