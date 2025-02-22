@@ -307,8 +307,8 @@ const BoardLists = ({ boardId }: BoardProps) => {
       </div>
       {createPortal(
         <DragOverlay>
-          {activeList && <List list={activeList} className="rotate-6" />}
-          {activeNote && <Note note={activeNote} className="rotate-3" />}
+          {activeList && <List list={activeList} />}
+          {activeNote && <Note note={activeNote} />}
         </DragOverlay>,
         document.body,
       )}
