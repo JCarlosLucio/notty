@@ -18,7 +18,7 @@ import Note from "@/components/Note";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterOutputs } from "@/utils/api";
-import { PointerSensor } from "@/utils/dnd";
+import { MouseSensor, TouchSensor } from "@/utils/dnd";
 import { getRandomArbitrary } from "@/utils/utils";
 
 type BoardProps = { boardId: string };
@@ -87,11 +87,8 @@ const BoardLists = ({ boardId }: BoardProps) => {
   });
 
   const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 10,
-      },
-    }),
+    useSensor(MouseSensor, { activationConstraint: { distance: 10 } }),
+    useSensor(TouchSensor),
   );
 
   const removeNoteFromList = (listId: string, noteId?: string) => {
