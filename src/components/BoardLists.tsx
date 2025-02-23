@@ -92,7 +92,9 @@ const BoardLists = ({ boardId }: BoardProps) => {
 
   const sensors = useSensors(
     useSensor(MouseSensor, { activationConstraint: { distance: 10 } }),
-    useSensor(TouchSensor),
+    useSensor(TouchSensor, {
+      activationConstraint: { distance: 5, delay: 250 },
+    }),
   );
 
   const removeNoteFromList = (listId: string, noteId?: string) => {
