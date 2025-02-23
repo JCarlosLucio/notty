@@ -70,12 +70,13 @@ const CreateList = ({ boardId }: CreateListProps) => {
   if (!show) {
     return (
       <Button
-        size="lg"
-        className="w-72 shrink-0"
+        variant="blur"
+        size="xl"
+        className="w-72 shrink-0 rounded-xl"
         onClick={handleShowForm}
         data-testid="show-add-list-btn"
       >
-        <span className="inline-flex items-center gap-2">
+        <span className="inline-flex items-center gap-2 text-lg">
           <PlusIcon />
           <span>Add List</span>
         </span>
@@ -86,7 +87,7 @@ const CreateList = ({ boardId }: CreateListProps) => {
   return (
     <Card
       ref={innerRef}
-      className="flex max-h-full w-full shrink-0 flex-col bg-card-foreground/60 text-card lg:w-72"
+      className="flex max-h-full w-full shrink-0 flex-col bg-card/60 lg:w-72"
     >
       <CardContent className="flex flex-col gap-2 overflow-hidden p-3">
         <Form {...form}>
@@ -103,12 +104,10 @@ const CreateList = ({ boardId }: CreateListProps) => {
                         placeholder="Add list"
                         autoFocus
                         data-testid="list-input"
-                        className="placeholder:text-muted"
                         {...field}
                       />
                       <Button
                         type="submit"
-                        variant="secondary"
                         disabled={isPending}
                         isLoading={isPending}
                         data-testid="create-list-btn"
