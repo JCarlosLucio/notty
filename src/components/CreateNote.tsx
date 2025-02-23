@@ -82,7 +82,7 @@ const CreateNote = ({ listId }: CreateNoteProps) => {
   }
 
   return (
-    <div ref={innerRef} className="w-full">
+    <div ref={innerRef} className="w-full" data-no-dnd="true">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
