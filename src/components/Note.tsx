@@ -35,24 +35,31 @@ const Note = ({ note, className }: NoteProps) => {
   };
 
   return (
-    <Card
+    <div
       ref={setNodeRef}
-      className={cn(
-        "rounded-md bg-secondary/60 hover:bg-secondary/70",
-        isDragging && "border-2 border-destructive opacity-50",
-        className,
-      )}
+      className="px-2 py-1"
       style={style}
-      data-testid="note"
-      title={note.title}
       {...attributes}
       {...listeners}
     >
-      <CardHeader className="group flex h-12 flex-row items-center gap-1 space-y-0 p-2">
-        <p className="w-full truncate pl-1">{note.title}</p>
-        <NoteDetails note={note} className="flex group-hover:flex xl:hidden" />
-      </CardHeader>
-    </Card>
+      <Card
+        className={cn(
+          "rounded-md bg-secondary/60 hover:bg-secondary/70",
+          isDragging && "border-2 border-destructive opacity-50",
+          className,
+        )}
+        data-testid="note"
+        title={note.title}
+      >
+        <CardHeader className="group flex h-12 flex-row items-center gap-1 space-y-0 p-2">
+          <p className="w-full truncate pl-1">{note.title}</p>
+          <NoteDetails
+            note={note}
+            className="flex group-hover:flex xl:hidden"
+          />
+        </CardHeader>
+      </Card>
+    </div>
   );
 };
 

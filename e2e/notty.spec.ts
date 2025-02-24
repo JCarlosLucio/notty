@@ -268,7 +268,10 @@ test.describe("Lists", () => {
 
   test("should move 1st list to 2nd place", async ({ page }) => {
     // dragging 1st list (1st LIST) to 2nd place
-    await page.getByTestId("list").first().hover();
+    await page
+      .getByTestId("list")
+      .first()
+      .hover({ position: { x: 50, y: 0 } }); // hover at the top of the list, instead of the middle. A point to use relative to the top-left corner of element padding box.
     await page.mouse.down();
     await page
       .getByTestId("list")

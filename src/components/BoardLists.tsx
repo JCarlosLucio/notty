@@ -12,10 +12,10 @@ import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 
+import BoardsSkeleton from "@/components/BoardsSkeleton";
 import CreateList from "@/components/CreateList";
 import List from "@/components/List";
 import Note from "@/components/Note";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterOutputs } from "@/utils/api";
 import {
@@ -23,13 +23,10 @@ import {
   MouseSensor,
   TouchSensor,
 } from "@/utils/dnd";
-import { getRandomArbitrary } from "@/utils/utils";
 
 type BoardProps = { boardId: string };
 type ActiveList = RouterOutputs["list"]["getById"];
 type ActiveNote = RouterOutputs["note"]["create"];
-
-const LIMIT = 6;
 
 const BoardLists = ({ boardId }: BoardProps) => {
   const [activeList, setActiveList] = useState<ActiveList | null>(null);
@@ -92,7 +89,9 @@ const BoardLists = ({ boardId }: BoardProps) => {
 
   const sensors = useSensors(
     useSensor(MouseSensor, { activationConstraint: { distance: 10 } }),
-    useSensor(TouchSensor),
+    useSensor(TouchSensor, {
+      activationConstraint: { distance: 5, delay: 250 },
+    }),
   );
 
   const removeNoteFromList = (listId: string, noteId?: string) => {
@@ -277,17 +276,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
   }
 
   if (isLoading) {
-    return (
-      <div className="flex h-full items-start gap-2 overflow-x-hidden px-5 pt-16">
-        {Array.from({ length: LIMIT }, (_, index) => (
-          <Skeleton
-            key={index}
-            style={{ maxHeight: `${getRandomArbitrary(30, 70)}%` }}
-            className="h-full w-full shrink-0 rounded-md border md:w-80"
-          />
-        ))}
-      </div>
-    );
+    return <BoardsSkeleton />;
   }
 
   return (

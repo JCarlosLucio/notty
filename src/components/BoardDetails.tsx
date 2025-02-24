@@ -36,7 +36,7 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
               </CardTitle>
             </CardHeader>
           </DialogTrigger>
-          <DialogContent className="flex max-h-full shrink-0 sm:max-w-2xl">
+          <DialogContent className="flex max-h-full shrink-0 sm:max-w-2xl lg:max-w-3xl">
             {showUpdateBoard ? (
               <>
                 <DialogTitle className="hidden">
