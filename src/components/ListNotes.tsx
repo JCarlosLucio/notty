@@ -14,7 +14,10 @@ const ListNotes = ({ listId }: ListNotesProps) => {
     return (
       <>
         {Array.from({ length: getRandomArbitrary(2, 6) }, (_, index) => (
-          <Skeleton key={index} className="h-12 shrink-0 rounded-md border" />
+          <Skeleton
+            key={index}
+            className="mx-2 my-1 h-12 shrink-0 rounded-md border"
+          />
         ))}
       </>
     );
@@ -27,7 +30,7 @@ const ListNotes = ({ listId }: ListNotesProps) => {
           {notes.length > 0 ? (
             notes.map((note) => <Note key={note.id} note={note} />)
           ) : (
-            <div className="rounded-xl border border-dashed border-secondary-foreground p-3 opacity-60">
+            <div className="m-2 rounded-xl border border-dashed border-secondary-foreground p-3 opacity-60">
               <p className="text-center">
                 You can Drag N&apos; Drop 👋 notes here or Add a new note 👇
               </p>
