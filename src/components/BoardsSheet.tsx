@@ -7,6 +7,7 @@ import SearchInput from "@/components/SearchInput";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
@@ -80,30 +81,31 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
           <div className="flex w-full flex-col gap-1">
             {data?.pages.map((pageData) =>
               pageData.boards.map((board) => (
-                <Button
-                  key={board.id}
-                  asChild
-                  variant="secondary"
-                  size="lg"
-                  className="px-0"
-                >
-                  <Link
-                    href={`/b/${board.id}`}
-                    className={cn(
-                      "overflow-hidden hover:border hover:border-primary",
-                      currentBoardId === board.id && "border border-primary",
-                    )}
-                    style={{
-                      backgroundImage: board.thumb ?? "",
-                      backgroundSize: "cover",
-                    }}
-                    data-testid="board-link"
+                <SheetClose asChild key={board.id}>
+                  <Button
+                    asChild
+                    variant="secondary"
+                    size="lg"
+                    className="px-0"
                   >
-                    <div className="flex h-full w-full items-center justify-center bg-card/70 px-8 hover:backdrop-blur-sm">
-                      <span className="truncate">{board.title}</span>
-                    </div>
-                  </Link>
-                </Button>
+                    <Link
+                      href={`/b/${board.id}`}
+                      className={cn(
+                        "overflow-hidden hover:border hover:border-primary",
+                        currentBoardId === board.id && "border border-primary",
+                      )}
+                      style={{
+                        backgroundImage: board.thumb ?? "",
+                        backgroundSize: "cover",
+                      }}
+                      data-testid="board-link"
+                    >
+                      <div className="flex h-full w-full items-center justify-center bg-card/70 px-8 hover:backdrop-blur-sm">
+                        <span className="truncate">{board.title}</span>
+                      </div>
+                    </Link>
+                  </Button>
+                </SheetClose>
               )),
             )}
             {(isLoading || isFetchingNextPage) &&
