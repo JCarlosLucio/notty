@@ -87,7 +87,7 @@ const CreateList = ({ boardId }: CreateListProps) => {
   return (
     <Card
       ref={innerRef}
-      className="flex max-h-full w-full shrink-0 flex-col bg-card/60 lg:w-72"
+      className="bg-card/60 flex max-h-full w-full shrink-0 flex-col lg:w-72"
     >
       <CardContent className="flex flex-col gap-2 overflow-hidden p-3">
         <Form {...form}>

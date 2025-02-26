@@ -58,7 +58,7 @@ const NoteDetails = ({ note, ...props }: NoteDetailsProps) => {
                   <Pencil1Icon />
                 </Button>
               </div>
-              <span className="text-sm text-muted-foreground">
+              <span className="text-muted-foreground text-sm">
                 {note.updatedAt.toDateString()}
               </span>
               <DialogDescription className="text-start">

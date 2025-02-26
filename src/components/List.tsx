@@ -38,8 +38,8 @@ const List = ({ list, className }: ListProps) => {
     <Card
       ref={setNodeRef}
       className={cn(
-        "flex max-h-full w-full shrink-0 flex-col border-primary-foreground/50 dark:border md:w-80",
-        isDragging && "border-2 border-destructive opacity-70 [&>*]:invisible",
+        "border-primary-foreground/50 flex max-h-full w-full shrink-0 flex-col md:w-80 dark:border",
+        isDragging && "border-destructive border-2 opacity-70 *:invisible",
         className,
       )}
       style={style}
@@ -48,7 +48,7 @@ const List = ({ list, className }: ListProps) => {
       {...listeners}
     >
       <ListDetails list={list} />
-      <CardContent className="flex flex-col overflow-y-scroll px-0 pb-0 pt-1 hover:overflow-y-scroll xl:overflow-hidden">
+      <CardContent className="flex flex-col overflow-y-scroll px-0 pt-1 pb-0 hover:overflow-y-scroll xl:overflow-hidden">
         <ListNotes listId={list.id} />
       </CardContent>
       <CardFooter className="shrink-0 p-3">

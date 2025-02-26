@@ -1,68 +1,242 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
+@plugin 'tailwindcss-animate';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-gradient-blob-1: gradient-blob-1 20s cubic-bezier(0.1, 0, 0.9, 1)
+    infinite;
+  --animate-gradient-blob-2: gradient-blob-2 20s cubic-bezier(0.1, 0, 0.9, 1)
+    infinite;
+  --animate-gradient-blob-3: gradient-blob-3 20s cubic-bezier(0.1, 0, 0.9, 1)
+    infinite;
+
+  --background-image-primary-gradient: linear-gradient(
+    to right,
+    rgba(84, 51, 255, 1),
+    rgba(71, 84, 255, 1),
+    rgba(57, 122, 255, 1),
+    rgba(45, 156, 255, 1),
+    rgba(32, 189, 255, 1),
+    rgba(69, 206, 241, 1),
+    rgba(101, 222, 228, 1),
+    rgba(137, 240, 214, 1),
+    rgba(165, 254, 203, 1),
+    rgba(184, 254, 214, 1),
+    rgba(203, 254, 225, 1),
+    rgba(225, 255, 238, 1)
+  );
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+  @keyframes gradient-blob-1 {
+    0% {
+      transform: translateY(-50%) translateX(-50%) rotate(-20deg)
+        translateX(20%);
+    }
+    25% {
+      transform: translateY(-50%) translateX(-50%) skew(-15deg, -15deg)
+        rotate(80deg) translateX(30%);
+    }
+    50% {
+      transform: translateY(-50%) translateX(-50%) rotate(180deg)
+        translateX(25%);
+    }
+    75% {
+      transform: translateY(-50%) translateX(-50%) skew(15deg, 15deg)
+        rotate(240deg) translateX(15%);
+    }
+    100% {
+      transform: translateY(-50%) translateX(-50%) rotate(340deg)
+        translateX(20%);
+    }
+  }
+  @keyframes gradient-blob-2 {
+    0% {
+      transform: translateY(-50%) translateX(-50%) rotate(40deg)
+        translateX(-20%);
+    }
+    25% {
+      transform: translateY(-50%) translateX(-50%) skew(15deg, 15deg)
+        rotate(110deg) translateX(-5%);
+    }
+    50% {
+      transform: translateY(-50%) translateX(-50%) rotate(210deg)
+        translateX(-35%);
+    }
+    75% {
+      transform: translateY(-50%) translateX(-50%) skew(-15deg, -15deg)
+        rotate(300deg) translateX(-10%);
+    }
+    100% {
+      transform: translateY(-50%) translateX(-50%) rotate(400deg)
+        translateX(-20%);
+    }
+  }
+  @keyframes gradient-blob-3 {
+    0% {
+      transform: translateY(-50%) translateX(-50%) translateX(-15%)
+        translateY(10%);
+    }
+    20% {
+      transform: translateY(-50%) translateX(-50%) translateX(20%)
+        translateY(-30%);
+    }
+    40% {
+      transform: translateY(-50%) translateX(-50%) translateX(-25%)
+        translateY(-15%);
+    }
+    60% {
+      transform: translateY(-50%) translateX(-50%) translateX(30%)
+        translateY(20%);
+    }
+    80% {
+      transform: translateY(-50%) translateX(-50%) translateX(5%)
+        translateY(35%);
+    }
+    100% {
+      transform: translateY(-50%) translateX(-50%) translateX(-15%)
+        translateY(10%);
+    }
+  }
+}
+
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+  @media (width >= --theme(--breakpoint-sm)) {
+    max-width: none;
+  }
+  @media (width >= 1400px) {
+    max-width: 1400px;
+  }
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
 @layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 224 71.4% 4.1%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
-
-    --primary: 220.9 39.3% 11%;
-    --primary-foreground: 210 20% 98%;
-
-    --secondary: 220 14.3% 95.9%;
-    --secondary-foreground: 220.9 39.3% 11%;
-
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
-
-    --accent: 220 14.3% 95.9%;
-    --accent-foreground: 220.9 39.3% 11%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 20% 98%;
-
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 224 71.4% 4.1%;
-    --radius: 0.5rem;
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
   }
+}
 
-  .dark {
-    --background: 224 71.4% 4.1%;
-    --foreground: 210 20% 98%;
+:root {
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(224 71.4% 4.1%);
 
-    --card: 224 71.4% 4.1%;
-    --card-foreground: 210 20% 98%;
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(224 71.4% 4.1%);
 
-    --popover: 224 71.4% 4.1%;
-    --popover-foreground: 210 20% 98%;
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(224 71.4% 4.1%);
 
-    --primary: 210 20% 98%;
-    --primary-foreground: 220.9 39.3% 11%;
+  --primary: hsl(220.9 39.3% 11%);
+  --primary-foreground: hsl(210 20% 98%);
 
-    --secondary: 215 27.9% 16.9%;
-    --secondary-foreground: 210 20% 98%;
+  --secondary: hsl(220 14.3% 95.9%);
+  --secondary-foreground: hsl(220.9 39.3% 11%);
 
-    --muted: 215 27.9% 16.9%;
-    --muted-foreground: 217.9 10.6% 64.9%;
+  --muted: hsl(220 14.3% 95.9%);
+  --muted-foreground: hsl(220 8.9% 46.1%);
 
-    --accent: 215 27.9% 16.9%;
-    --accent-foreground: 210 20% 98%;
+  --accent: hsl(220 14.3% 95.9%);
+  --accent-foreground: hsl(220.9 39.3% 11%);
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 20% 98%;
+  --destructive: hsl(0 84.2% 60.2%);
+  --destructive-foreground: hsl(210 20% 98%);
 
-    --border: 215 27.9% 16.9%;
-    --input: 215 27.9% 16.9%;
-    --ring: 216 12.2% 83.9%;
-  }
+  --border: hsl(220 13% 91%);
+  --input: hsl(220 13% 91%);
+  --ring: hsl(224 71.4% 4.1%);
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: hsl(224 71.4% 4.1%);
+  --foreground: hsl(210 20% 98%);
+
+  --card: hsl(224 71.4% 4.1%);
+  --card-foreground: hsl(210 20% 98%);
+
+  --popover: hsl(224 71.4% 4.1%);
+  --popover-foreground: hsl(210 20% 98%);
+
+  --primary: hsl(210 20% 98%);
+  --primary-foreground: hsl(220.9 39.3% 11%);
+
+  --secondary: hsl(215 27.9% 16.9%);
+  --secondary-foreground: hsl(210 20% 98%);
+
+  --muted: hsl(215 27.9% 16.9%);
+  --muted-foreground: hsl(217.9 10.6% 64.9%);
+
+  --accent: hsl(215 27.9% 16.9%);
+  --accent-foreground: hsl(210 20% 98%);
+
+  --destructive: hsl(0 62.8% 30.6%);
+  --destructive-foreground: hsl(210 20% 98%);
+
+  --border: hsl(215 27.9% 16.9%);
+  --input: hsl(215 27.9% 16.9%);
+  --ring: hsl(216 12.2% 83.9%);
 }
 
 @layer base {

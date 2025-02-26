@@ -70,7 +70,7 @@ const PhotosTab = ({ setBg }: PhotosTabProps) => {
                   data-testid="select-photo-btn"
                 >
                   <Link
-                    className="invisible w-full bg-card/50 px-1 text-start text-xs group-hover:visible"
+                    className="bg-card/50 invisible w-full px-1 text-start text-xs group-hover:visible"
                     href={photo.user.links.html}
                     rel="noreferrer"
                     target="_blank"
@@ -95,7 +95,7 @@ const PhotosTab = ({ setBg }: PhotosTabProps) => {
               type="button"
               variant="outline"
               disabled={isFetching}
-              className="w-max self-center text-muted-foreground"
+              className="text-muted-foreground w-max self-center"
               onClick={() => fetchNextPage()}
             >
               Show More Photos

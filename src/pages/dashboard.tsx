@@ -51,7 +51,7 @@ const Dashboard = () => {
     <>
       <Header title="Dashboard" />
       <Nav />
-      <main className="min-h-screen pb-5 pt-16">
+      <main className="min-h-screen pt-16 pb-5">
         <div className="flex w-full flex-col items-center gap-6 lg:gap-8 xl:gap-12">
           <section className="flex w-5/6 flex-col items-center justify-center gap-6 lg:gap-8">
             <h1 className="text-center text-3xl xl:text-5xl">Your dashboard</h1>
@@ -87,14 +87,14 @@ const Dashboard = () => {
                 <Button key={board.id} asChild variant="ghost" size="2xl">
                   <Link
                     href={`/b/${board.id}`}
-                    className="overflow-hidden border hover:border-primary"
+                    className="hover:border-primary overflow-hidden border"
                     style={{
                       backgroundImage: board.thumb ?? "",
                       backgroundSize: "cover",
                     }}
                     data-testid="board-link"
                   >
-                    <div className="flex h-full w-full items-center justify-center bg-card/50 p-3 text-2xl font-semibold hover:backdrop-blur-sm">
+                    <div className="bg-card/50 flex h-full w-full items-center justify-center p-3 text-2xl font-semibold hover:backdrop-blur-xs">
                       <span className="truncate">{board.title}</span>
                     </div>
                   </Link>
