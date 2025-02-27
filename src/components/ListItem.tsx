@@ -1,4 +1,4 @@
-import { Cross2Icon } from "@radix-ui/react-icons";
+import { XIcon } from "lucide-react";
 import { type ComponentPropsWithoutRef } from "react";
 import { toast } from "sonner";
 
@@ -35,7 +35,7 @@ const ListItem = ({ list, ...props }: ListItemProps) => {
         onClick={() => deleteList({ id: list.id })}
         disabled={isPending}
       >
-        <Cross2Icon />
+        <XIcon />
       </Button>
     </p>
   );

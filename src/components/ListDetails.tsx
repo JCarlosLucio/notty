@@ -1,4 +1,4 @@
-import { Pencil1Icon } from "@radix-ui/react-icons";
+import { PencilIcon } from "lucide-react";
 import { type ComponentPropsWithoutRef, useState } from "react";
 
 import DeleteList from "@/components/DeleteList";
@@ -35,7 +35,10 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
           <CardTitle className="w-full truncate pl-3 text-center text-lg md:text-xl">
             {list.title}
           </CardTitle>
-          <Pencil1Icon className="visible group-hover:visible xl:invisible" />
+          <PencilIcon
+            className="visible group-hover:visible xl:invisible"
+            size={18}
+          />
         </CardHeader>
       </DialogTrigger>
       <DialogContent
@@ -67,7 +70,7 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
                   aria-label="Show update list form"
                   data-testid="show-update-list-btn"
                 >
-                  <Pencil1Icon />
+                  <PencilIcon />
                 </Button>
               </div>
               <DialogDescription className="text-start">

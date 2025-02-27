@@ -1,4 +1,4 @@
-import { TrashIcon } from "@radix-ui/react-icons";
+import { Trash2Icon } from "lucide-react";
 import { type ComponentPropsWithoutRef } from "react";
 import { toast } from "sonner";
 
@@ -40,7 +40,7 @@ const DeleteNote = ({ note, cb }: DeleteNoteProps) => {
     <Dialog>
       <DialogTrigger asChild data-testid="open-delete-note-modal-btn">
         <Button variant="destructive">
-          <TrashIcon className="pr-1" width={24} height={24} />
+          <Trash2Icon className="pr-1" />
           Delete Note
         </Button>
       </DialogTrigger>
@@ -60,13 +60,9 @@ const DeleteNote = ({ note, cb }: DeleteNoteProps) => {
               isLoading={isPending}
               className="min-w-36"
               onClick={() => deleteNote({ id: note.id })}
+              data-testid="delete-note-forever-btn"
             >
-              <TrashIcon
-                className="pr-1"
-                width={24}
-                height={24}
-                data-testid="delete-note-forever-btn"
-              />
+              <Trash2Icon className="pr-1" />
               Delete Forever
             </Button>
           </DialogClose>

@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Cross1Icon } from "@radix-ui/react-icons";
+import { XIcon } from "lucide-react";
 import Link from "next/link";
 import { type ComponentPropsWithoutRef, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
@@ -148,7 +148,7 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
                     onClick={() => setBg({ full: null, thumb: null })}
                     aria-label="Remove background"
                   >
-                    <Cross1Icon />
+                    <XIcon />
                   </Button>
                 ) : (
                   <span className="m-auto text-xs italic">None</span>

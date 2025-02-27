@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PlusIcon } from "@radix-ui/react-icons";
+import { PlusIcon } from "lucide-react";
 import { useRouter } from "next/router";
 import { type MouseEvent, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";

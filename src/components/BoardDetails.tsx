@@ -1,4 +1,4 @@
-import { Pencil1Icon } from "@radix-ui/react-icons";
+import { PencilIcon } from "lucide-react";
 import { type ComponentPropsWithoutRef, useState } from "react";
 
 import CreateBoard from "@/components/CreateBoard";
@@ -64,7 +64,7 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
                       aria-label="Show update board form"
                       data-testid="show-update-board-btn"
                     >
-                      <Pencil1Icon />
+                      <PencilIcon />
                     </Button>
                   </div>
                   <DialogDescription className="text-start">

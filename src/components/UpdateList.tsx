@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Cross1Icon } from "@radix-ui/react-icons";
+import { XIcon } from "lucide-react";
 import { type ComponentPropsWithoutRef, type MouseEventHandler } from "react";
 import { HexAlphaColorPicker, HexColorInput } from "react-colorful";
 import { type SubmitHandler, useForm } from "react-hook-form";
@@ -109,7 +109,7 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
                             onClick={handleRemoveColor}
                             aria-label="Remove color"
                           >
-                            <Cross1Icon />
+                            <XIcon />
                           </Button>
                         ) : (
                           <span className="m-auto text-xs italic">None</span>

@@ -1,4 +1,4 @@
-import { Pencil1Icon } from "@radix-ui/react-icons";
+import { PencilIcon } from "lucide-react";
 import { useState } from "react";
 
 import DeleteNote from "@/components/DeleteNote";
@@ -27,7 +27,7 @@ const NoteDetails = ({ note, ...props }: NoteDetailsProps) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild data-testid="open-note-details-btn">
         <Button variant="ghost" size="icon" {...props}>
-          <Pencil1Icon />
+          <PencilIcon />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-2xl lg:max-w-3xl" data-no-dnd="true">
@@ -55,7 +55,7 @@ const NoteDetails = ({ note, ...props }: NoteDetailsProps) => {
                   aria-label="Show update note form"
                   data-testid="show-update-note-btn"
                 >
-                  <Pencil1Icon />
+                  <PencilIcon />
                 </Button>
               </div>
               <span className="text-muted-foreground text-sm">

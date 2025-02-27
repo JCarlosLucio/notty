@@ -1,4 +1,4 @@
-import { TrashIcon } from "@radix-ui/react-icons";
+import { Trash2Icon } from "lucide-react";
 import { useRouter } from "next/router";
 import { type ComponentPropsWithoutRef } from "react";
 import { toast } from "sonner";
@@ -69,7 +69,7 @@ const DeleteBoard = ({ board, cb }: DeleteBoardProps) => {
     <Dialog>
       <DialogTrigger asChild data-testid="open-delete-board-modal-btn">
         <Button variant="destructive">
-          <TrashIcon className="pr-1" width={24} height={24} />
+          <Trash2Icon className="pr-1" />
           Delete Board
         </Button>
       </DialogTrigger>
@@ -92,7 +92,7 @@ const DeleteBoard = ({ board, cb }: DeleteBoardProps) => {
               onClick={() => deleteBoard({ id: board.id })}
               data-testid="delete-board-forever-btn"
             >
-              <TrashIcon className="pr-1" width={24} height={24} />
+              <Trash2Icon className="pr-1" />
               Delete Forever
             </Button>
           </DialogClose>

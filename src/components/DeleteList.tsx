@@ -1,4 +1,4 @@
-import { TrashIcon } from "@radix-ui/react-icons";
+import { Trash2Icon } from "lucide-react";
 import { type ComponentPropsWithoutRef } from "react";
 import { toast } from "sonner";
 
@@ -40,7 +40,7 @@ const DeleteList = ({ list, cb }: DeleteListProps) => {
     <Dialog>
       <DialogTrigger asChild data-testid="open-delete-list-modal-btn">
         <Button variant="destructive">
-          <TrashIcon className="pr-1" width={24} height={24} />
+          <Trash2Icon className="pr-1" />
           Delete List
         </Button>
       </DialogTrigger>
@@ -63,7 +63,7 @@ const DeleteList = ({ list, cb }: DeleteListProps) => {
               onClick={() => deleteList({ id: list.id })}
               data-testid="delete-list-forever-btn"
             >
-              <TrashIcon className="pr-1" width={24} height={24} />
+              <Trash2Icon className="pr-1" />
               Delete Forever
             </Button>
           </DialogClose>
