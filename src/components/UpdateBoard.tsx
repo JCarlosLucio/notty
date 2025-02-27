@@ -1,8 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Cross1Icon } from "@radix-ui/react-icons";
+import { XIcon } from "lucide-react";
 import Link from "next/link";
-import { type ComponentPropsWithoutRef, useState } from "react";
+import { type ComponentProps, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import ColorsTab from "@/components/ColorsTab";
 import PhotosTab from "@/components/PhotosTab";
@@ -17,14 +18,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterInputs, type RouterOutputs } from "@/utils/api";
 import { updateBoardSchema } from "@/utils/schemas";
 
 type UpdateBoardProps = {
   board: RouterOutputs["board"]["getById"];
   cb?: () => void;
-} & ComponentPropsWithoutRef<"div">;
+} & ComponentProps<"div">;
 type UpdateBoardInput = RouterInputs["board"]["update"];
 
 const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
@@ -37,7 +37,6 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
       thumb: "",
     },
   });
-  const { toast } = useToast();
   const ctx = api.useUtils();
 
   const [bg, setBg] = useState<{ full: string | null; thumb: string | null }>({
@@ -88,16 +87,11 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
         return updatedBoard;
       });
       form.reset();
-      toast({
-        description: "Your board was updated.",
-      });
+      toast.success("Your board was updated.");
       cb?.();
     },
     onError: () => {
-      toast({
-        variant: "destructive",
-        description: "Something went wrong.",
-      });
+      toast.error("Something went wrong.");
     },
   });
 
@@ -154,7 +148,7 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
                     onClick={() => setBg({ full: null, thumb: null })}
                     aria-label="Remove background"
                   >
-                    <Cross1Icon />
+                    <XIcon />
                   </Button>
                 ) : (
                   <span className="m-auto text-xs italic">None</span>
@@ -166,7 +160,7 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
               defaultValue="colors"
               className="flex flex-col xl:overflow-y-hidden"
             >
-              <TabsList>
+              <TabsList className="w-full">
                 <TabsTrigger
                   value="colors"
                   className="w-full"

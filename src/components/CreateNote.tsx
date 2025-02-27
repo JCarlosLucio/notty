@@ -1,7 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PlusIcon } from "@radix-ui/react-icons";
+import { PlusIcon } from "lucide-react";
 import { type MouseEvent, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -12,7 +13,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
 import useClickAway from "@/hooks/useClickAway";
 import { api, type RouterInputs } from "@/utils/api";
 import { createNoteSchema } from "@/utils/schemas";
@@ -34,7 +34,7 @@ const CreateNote = ({ listId }: CreateNoteProps) => {
       setShow(false);
     }
   });
-  const { toast } = useToast();
+
   const ctx = api.useUtils();
 
   const { mutate: createNote, isPending } = api.note.create.useMutation({
@@ -43,15 +43,10 @@ const CreateNote = ({ listId }: CreateNoteProps) => {
         return oldNotes && createdNote ? [...oldNotes, createdNote] : oldNotes;
       });
       form.reset();
-      toast({
-        description: "Your note was created.",
-      });
+      toast.success("Your note was created.");
     },
     onError: () => {
-      toast({
-        variant: "destructive",
-        description: "Something went wrong.",
-      });
+      toast.error("Something went wrong.");
     },
   });
 

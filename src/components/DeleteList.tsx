@@ -1,5 +1,6 @@
-import { TrashIcon } from "@radix-ui/react-icons";
-import { type ComponentPropsWithoutRef } from "react";
+import { Trash2Icon } from "lucide-react";
+import { type ComponentProps } from "react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -12,33 +13,26 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterOutputs } from "@/utils/api";
 
 type DeleteListProps = {
   list: RouterOutputs["list"]["getById"];
   cb?: () => void;
-} & ComponentPropsWithoutRef<"div">;
+} & ComponentProps<"div">;
 
 const DeleteList = ({ list, cb }: DeleteListProps) => {
   const ctx = api.useUtils();
-  const { toast } = useToast();
 
   const { mutate: deleteList, isPending } = api.list.delete.useMutation({
     onSuccess: () => {
       ctx.list.getAll.setData({ boardId: list.boardId }, (oldLists) => {
         return oldLists ? oldLists.filter((li) => li.id !== list.id) : oldLists;
       });
-      toast({
-        description: "Your list was deleted.",
-      });
+      toast.success("Your list was deleted.");
       cb?.();
     },
     onError: () => {
-      toast({
-        variant: "destructive",
-        description: "Something went wrong.",
-      });
+      toast.error("Something went wrong.");
     },
   });
 
@@ -46,7 +40,7 @@ const DeleteList = ({ list, cb }: DeleteListProps) => {
     <Dialog>
       <DialogTrigger asChild data-testid="open-delete-list-modal-btn">
         <Button variant="destructive">
-          <TrashIcon className="pr-1" width={24} height={24} />
+          <Trash2Icon className="pr-1" />
           Delete List
         </Button>
       </DialogTrigger>
@@ -69,7 +63,7 @@ const DeleteList = ({ list, cb }: DeleteListProps) => {
               onClick={() => deleteList({ id: list.id })}
               data-testid="delete-list-forever-btn"
             >
-              <TrashIcon className="pr-1" width={24} height={24} />
+              <Trash2Icon className="pr-1" />
               Delete Forever
             </Button>
           </DialogClose>

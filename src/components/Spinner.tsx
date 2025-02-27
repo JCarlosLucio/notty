@@ -1,11 +1,10 @@
-import { Component1Icon } from "@radix-ui/react-icons";
-import { type IconProps } from "@radix-ui/react-icons/dist/types";
+import { LoaderPinwheelIcon, type LucideProps } from "lucide-react";
 
 import { cn } from "@/utils/utils";
 
-const Spinner = ({ className, ...props }: IconProps) => {
+const Spinner = ({ className, ...props }: LucideProps) => {
   return (
-    <Component1Icon
+    <LoaderPinwheelIcon
       className={cn("origin-center animate-spin", className)}
       {...props}
     />

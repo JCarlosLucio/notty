@@ -12,7 +12,7 @@ type NavProps = {
 
 const Nav = ({ board }: NavProps) => {
   return (
-    <header className="fixed z-20 h-16 w-full bg-background/60 px-5 backdrop-blur-md md:px-32 2xl:px-60">
+    <header className="bg-background/60 fixed z-20 h-16 w-full px-5 backdrop-blur-md md:px-32 2xl:px-60">
       <nav className="flex h-full items-center justify-between">
         <Link
           href="/"
@@ -32,7 +32,7 @@ const Nav = ({ board }: NavProps) => {
 
         <div className="flex items-center">
           <div className={!board ? "inline-block" : "hidden xl:inline-block"}>
-            <div className="mr-5 h-7 items-center border-r pr-5">
+            <div className="mr-5 border-r pr-5">
               <ThemeToggle />
             </div>
           </div>

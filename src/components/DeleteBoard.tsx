@@ -1,6 +1,7 @@
-import { TrashIcon } from "@radix-ui/react-icons";
+import { Trash2Icon } from "lucide-react";
 import { useRouter } from "next/router";
-import { type ComponentPropsWithoutRef } from "react";
+import { type ComponentProps } from "react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,17 +14,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterOutputs } from "@/utils/api";
 
 type DeleteBoardProps = {
   board: RouterOutputs["board"]["getById"];
   cb?: () => void;
-} & ComponentPropsWithoutRef<"div">;
+} & ComponentProps<"div">;
 
 const DeleteBoard = ({ board, cb }: DeleteBoardProps) => {
   const ctx = api.useUtils();
-  const { toast } = useToast();
   const router = useRouter();
 
   const { mutate: deleteBoard, isPending } = api.board.delete.useMutation({
@@ -55,19 +54,14 @@ const DeleteBoard = ({ board, cb }: DeleteBoardProps) => {
           },
         },
       );
-      toast({
-        description: "Your board was deleted.",
-      });
+      toast.success("Your board was deleted.");
       cb?.();
       void router.push(`/dashboard`, undefined, {
         shallow: true,
       });
     },
     onError: () => {
-      toast({
-        variant: "destructive",
-        description: "Something went wrong.",
-      });
+      toast.error("Something went wrong.");
     },
   });
 
@@ -75,7 +69,7 @@ const DeleteBoard = ({ board, cb }: DeleteBoardProps) => {
     <Dialog>
       <DialogTrigger asChild data-testid="open-delete-board-modal-btn">
         <Button variant="destructive">
-          <TrashIcon className="pr-1" width={24} height={24} />
+          <Trash2Icon className="pr-1" />
           Delete Board
         </Button>
       </DialogTrigger>
@@ -98,7 +92,7 @@ const DeleteBoard = ({ board, cb }: DeleteBoardProps) => {
               onClick={() => deleteBoard({ id: board.id })}
               data-testid="delete-board-forever-btn"
             >
-              <TrashIcon className="pr-1" width={24} height={24} />
+              <Trash2Icon className="pr-1" />
               Delete Forever
             </Button>
           </DialogClose>

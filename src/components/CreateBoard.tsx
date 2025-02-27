@@ -1,8 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PlusIcon } from "@radix-ui/react-icons";
+import { PlusIcon } from "lucide-react";
 import { useRouter } from "next/router";
 import { type MouseEvent, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,7 +15,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
 import useClickAway from "@/hooks/useClickAway";
 import { api, type RouterInputs } from "@/utils/api";
 import { createBoardSchema } from "@/utils/schemas";
@@ -34,7 +34,7 @@ const CreateBoard = () => {
       setShow(false);
     }
   });
-  const { toast } = useToast();
+
   const ctx = api.useUtils();
   const router = useRouter();
 
@@ -67,18 +67,13 @@ const CreateBoard = () => {
         },
       );
       form.reset();
-      toast({
-        description: "Your board was created.",
-      });
+      toast.success("Your board was created.");
       void router.push(`/b/${createdBoard.id}`, undefined, {
         shallow: true,
       });
     },
     onError: () => {
-      toast({
-        variant: "destructive",
-        description: "Something went wrong.",
-      });
+      toast.error("Something went wrong...");
     },
   });
 

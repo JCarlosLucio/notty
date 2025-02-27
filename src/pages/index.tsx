@@ -1,4 +1,4 @@
-import { DiscordLogoIcon } from "@radix-ui/react-icons";
+import { SiDiscord } from "@icons-pack/react-simple-icons";
 import { type GetServerSideProps } from "next";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
@@ -33,11 +33,11 @@ export default function Home() {
         <div className="container flex flex-col items-center justify-center gap-24 pt-20">
           <div className="flex flex-col items-center gap-8">
             <h1 className="font-extrabold tracking-tight sm:text-[5rem]">
-              <span className="bg-gradient-to-r from-emerald-950 to-teal-800 bg-clip-text text-8xl text-transparent dark:from-emerald-200 dark:to-teal-100 xl:text-9xl">
+              <span className="bg-linear-to-r from-emerald-950 to-teal-800 bg-clip-text text-8xl text-transparent xl:text-9xl dark:from-emerald-200 dark:to-teal-100">
                 notty
               </span>
             </h1>
-            <p className="bg-gradient-to-r from-emerald-950 to-teal-800 bg-clip-text text-center text-lg text-transparent dark:from-emerald-200 dark:to-teal-100 xl:text-lg">
+            <p className="bg-linear-to-r from-emerald-950 to-teal-800 bg-clip-text text-center text-lg text-transparent xl:text-lg dark:from-emerald-200 dark:to-teal-100">
               A simple Kanban board app to help you stay organized anywhere.
             </p>
           </div>
@@ -81,8 +81,8 @@ function AuthShowcase() {
             })
           }
         >
-          <DiscordLogoIcon width={28} height={28} className="pr-2" /> Continue
-          with Discord
+          <SiDiscord width={28} height={28} className="pr-2" /> Continue with
+          Discord
         </Button>
       )}
     </div>

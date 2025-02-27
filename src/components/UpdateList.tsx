@@ -1,8 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Cross1Icon } from "@radix-ui/react-icons";
-import { type ComponentPropsWithoutRef, type MouseEventHandler } from "react";
+import { XIcon } from "lucide-react";
+import { type ComponentProps, type MouseEventHandler } from "react";
 import { HexAlphaColorPicker, HexColorInput } from "react-colorful";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,14 +15,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterInputs, type RouterOutputs } from "@/utils/api";
 import { updateListSchema } from "@/utils/schemas";
 
 type UpdateListProps = {
   list: RouterOutputs["list"]["getById"];
   cb?: () => void;
-} & ComponentPropsWithoutRef<"div">;
+} & ComponentProps<"div">;
 type UpdateListInput = RouterInputs["list"]["update"];
 
 const UpdateList = ({ list, cb }: UpdateListProps) => {
@@ -33,7 +33,6 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
       color: list.color,
     },
   });
-  const { toast } = useToast();
   const ctx = api.useUtils();
 
   const { mutate: updateList, isPending } = api.list.update.useMutation({
@@ -44,16 +43,11 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
           : oldList;
       });
       form.reset();
-      toast({
-        description: "Your list was updated.",
-      });
+      toast.success("Your list was updated.");
       cb?.();
     },
     onError: () => {
-      toast({
-        variant: "destructive",
-        description: "Something went wrong.",
-      });
+      toast.error("Something went wrong.");
     },
   });
 
@@ -115,7 +109,7 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
                             onClick={handleRemoveColor}
                             aria-label="Remove color"
                           >
-                            <Cross1Icon />
+                            <XIcon />
                           </Button>
                         ) : (
                           <span className="m-auto text-xs italic">None</span>
@@ -130,7 +124,7 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
                           onBlur={onBlur}
                         />
                         <HexColorInput
-                          className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                          className="border-input placeholder:text-muted-foreground focus-visible:ring-ring flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-1 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
                           alpha
                           prefixed
                           color={value ?? undefined}

@@ -10,6 +10,7 @@ const BoardsSkeleton = () => {
           key={index}
           style={{ maxHeight: `${getRandomArbitrary(30, 70)}%` }}
           className="h-full w-full shrink-0 rounded-md border md:w-80"
+          suppressHydrationWarning={true} //  https://react.dev/reference/react-dom/client/hydrateRoot#suppressing-unavoidable-hydration-mismatch-errors
         />
       ))}
     </div>

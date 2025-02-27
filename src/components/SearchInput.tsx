@@ -1,5 +1,4 @@
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { Cross2Icon } from "@radix-ui/react-icons";
+import { Search, XIcon } from "lucide-react";
 import { useRef } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -20,14 +19,15 @@ const SearchInput = ({
   return (
     <search className={cn("relative flex w-full items-center", className)}>
       <Label htmlFor="query" className="absolute pl-3">
-        <MagnifyingGlassIcon />
+        <Search size={20} />
       </Label>
-      <Input ref={ref} className="pl-9" {...props} />
+      <Input ref={ref} className="pl-10" {...props} />
       {clear && value !== "" && (
         <Button
           type="reset"
-          className="absolute right-6 h-7 w-7 p-0"
+          className="absolute right-0.5 rounded-sm"
           variant="ghost"
+          size="icon"
           onClick={() => {
             clear();
             if (ref?.current) {
@@ -35,7 +35,7 @@ const SearchInput = ({
             }
           }}
         >
-          <Cross2Icon />
+          <XIcon />
         </Button>
       )}
     </search>

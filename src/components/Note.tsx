@@ -1,6 +1,6 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { type CSSProperties } from "react";
+import { type ComponentProps, type CSSProperties } from "react";
 
 import NoteDetails from "@/components/NoteDetails";
 import { Card, CardHeader } from "@/components/ui/card";
@@ -9,10 +9,9 @@ import { cn } from "@/utils/utils";
 
 type NoteProps = {
   note: RouterOutputs["note"]["create"];
-  className?: string;
-};
+} & ComponentProps<"div">;
 
-const Note = ({ note, className }: NoteProps) => {
+const Note = ({ note, className, ...props }: NoteProps) => {
   const {
     setNodeRef,
     attributes,
@@ -44,12 +43,14 @@ const Note = ({ note, className }: NoteProps) => {
     >
       <Card
         className={cn(
-          "rounded-md bg-secondary/60 hover:bg-secondary/70",
-          isDragging && "border-2 border-destructive opacity-50",
+          "bg-secondary/60 hover:bg-secondary/70 cursor-grab rounded-md",
+          isDragging &&
+            "border-destructive cursor-grabbing border-2 opacity-50",
           className,
         )}
         data-testid="note"
         title={note.title}
+        {...props}
       >
         <CardHeader className="group flex h-12 flex-row items-center gap-1 space-y-0 p-2">
           <p className="w-full truncate pl-1">{note.title}</p>

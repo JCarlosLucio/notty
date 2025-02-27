@@ -1,5 +1,5 @@
-import { Pencil1Icon } from "@radix-ui/react-icons";
-import { type ComponentPropsWithoutRef, useState } from "react";
+import { PencilIcon } from "lucide-react";
+import { type ComponentProps, useState } from "react";
 
 import DeleteList from "@/components/DeleteList";
 import { Button } from "@/components/ui/button";
@@ -18,7 +18,7 @@ import { type RouterOutputs } from "@/utils/api";
 
 type ListDetailsProps = {
   list: RouterOutputs["list"]["getById"];
-} & ComponentPropsWithoutRef<"div">;
+} & ComponentProps<"div">;
 
 const ListDetails = ({ list, ...props }: ListDetailsProps) => {
   const [open, setOpen] = useState(false);
@@ -26,18 +26,20 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild data-testid="open-list-details-btn">
-        <CardHeader
-          className="group flex shrink-0 cursor-pointer flex-row rounded-t-xl bg-secondary/70 p-3"
-          style={{ backgroundColor: list.color ?? "" }}
-          {...props}
-        >
-          <CardTitle className="w-full truncate pl-3 text-center text-lg md:text-xl">
-            {list.title}
-          </CardTitle>
-          <Pencil1Icon className="visible group-hover:visible xl:invisible" />
-        </CardHeader>
-      </DialogTrigger>
+      <CardHeader
+        className="group bg-secondary/70 flex shrink-0 flex-row items-center rounded-t-xl p-2"
+        style={{ backgroundColor: list.color ?? "" }}
+        {...props}
+      >
+        <CardTitle className="w-full truncate pl-3 text-center text-lg md:text-xl">
+          {list.title}
+        </CardTitle>
+        <DialogTrigger asChild data-testid="open-list-details-btn">
+          <Button variant="ghost" size="icon">
+            <PencilIcon className="visible group-hover:visible xl:invisible" />
+          </Button>
+        </DialogTrigger>
+      </CardHeader>
       <DialogContent
         className="flex max-h-full shrink-0 p-0 sm:max-w-2xl lg:max-w-3xl"
         data-no-dnd="true"
@@ -67,7 +69,7 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
                   aria-label="Show update list form"
                   data-testid="show-update-list-btn"
                 >
-                  <Pencil1Icon />
+                  <PencilIcon />
                 </Button>
               </div>
               <DialogDescription className="text-start">

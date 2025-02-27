@@ -1,5 +1,5 @@
-import { Pencil1Icon } from "@radix-ui/react-icons";
-import { type ComponentPropsWithoutRef, useState } from "react";
+import { PencilIcon } from "lucide-react";
+import { type ComponentProps, useState } from "react";
 
 import CreateBoard from "@/components/CreateBoard";
 import DeleteBoard from "@/components/DeleteBoard";
@@ -19,7 +19,7 @@ import { type RouterOutputs } from "@/utils/api";
 
 type BoardDetailsProps = {
   board?: RouterOutputs["board"]["getById"];
-} & ComponentPropsWithoutRef<"div">;
+} & ComponentProps<"div">;
 
 const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
   const [open, setOpen] = useState(false);
@@ -30,7 +30,7 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
       {board ? (
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild data-testid="open-board-details-btn">
-            <CardHeader className="group flex max-w-56 cursor-pointer flex-row rounded-xl border border-primary-foreground p-2 text-xl hover:bg-accent/50 md:text-2xl xl:max-w-3xl">
+            <CardHeader className="group border-primary-foreground hover:bg-accent/50 flex max-w-56 cursor-pointer flex-row rounded-xl border p-2 text-xl md:text-2xl xl:max-w-3xl">
               <CardTitle className="truncate px-3 py-1 xl:px-5">
                 {board.title}
               </CardTitle>
@@ -64,7 +64,7 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
                       aria-label="Show update board form"
                       data-testid="show-update-board-btn"
                     >
-                      <Pencil1Icon />
+                      <PencilIcon />
                     </Button>
                   </div>
                   <DialogDescription className="text-start">

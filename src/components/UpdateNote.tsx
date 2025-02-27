@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type ComponentPropsWithoutRef } from "react";
+import { type ComponentProps } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,7 +15,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterInputs, type RouterOutputs } from "@/utils/api";
 import { MAX_CONTENT_LENGTH } from "@/utils/constants";
 import { updateNoteSchema } from "@/utils/schemas";
@@ -22,7 +22,7 @@ import { updateNoteSchema } from "@/utils/schemas";
 type UpdateNoteProps = {
   note: RouterOutputs["note"]["getById"];
   cb?: () => void;
-} & ComponentPropsWithoutRef<"div">;
+} & ComponentProps<"div">;
 type UpdateNoteInput = RouterInputs["note"]["update"];
 
 const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
@@ -34,7 +34,6 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
       id: "",
     },
   });
-  const { toast } = useToast();
   const ctx = api.useUtils();
 
   const { mutate: updateNote, isPending } = api.note.update.useMutation({
@@ -45,16 +44,11 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
           : oldNotes;
       });
       form.reset();
-      toast({
-        description: "Your note was updated.",
-      });
+      toast.success("Your note was updated.");
       cb?.();
     },
     onError: () => {
-      toast({
-        variant: "destructive",
-        description: "Something went wrong.",
-      });
+      toast.error("Something went wrong.");
     },
   });
 

@@ -1,16 +1,15 @@
-import { Cross2Icon } from "@radix-ui/react-icons";
-import { type ComponentPropsWithoutRef } from "react";
+import { XIcon } from "lucide-react";
+import { type ComponentProps } from "react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterOutputs } from "@/utils/api";
 
 type ListItemProps = {
   list: RouterOutputs["list"]["create"];
-} & ComponentPropsWithoutRef<"p">;
+} & ComponentProps<"p">;
 
 const ListItem = ({ list, ...props }: ListItemProps) => {
-  const { toast } = useToast();
   const ctx = api.useUtils();
 
   const { mutate: deleteList, isPending } = api.list.delete.useMutation({
@@ -20,15 +19,10 @@ const ListItem = ({ list, ...props }: ListItemProps) => {
           ? oldList.filter((list) => list.id !== deletedListId)
           : oldList;
       });
-      toast({
-        description: "Your list was deleted.",
-      });
+      toast.success("Your list was deleted.");
     },
-    onError: (error) => {
-      toast({
-        variant: "destructive",
-        description: `Something went wrong: ${error.message}`,
-      });
+    onError: () => {
+      toast.error("Something went wrong.");
     },
   });
 
@@ -41,7 +35,7 @@ const ListItem = ({ list, ...props }: ListItemProps) => {
         onClick={() => deleteList({ id: list.id })}
         disabled={isPending}
       >
-        <Cross2Icon />
+        <XIcon />
       </Button>
     </p>
   );

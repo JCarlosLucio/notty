@@ -1,5 +1,6 @@
-import { TrashIcon } from "@radix-ui/react-icons";
-import { type ComponentPropsWithoutRef } from "react";
+import { Trash2Icon } from "lucide-react";
+import { type ComponentProps } from "react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -12,33 +13,26 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterOutputs } from "@/utils/api";
 
 type DeleteNoteProps = {
   note: RouterOutputs["note"]["getById"];
   cb?: () => void;
-} & ComponentPropsWithoutRef<"div">;
+} & ComponentProps<"div">;
 
 const DeleteNote = ({ note, cb }: DeleteNoteProps) => {
   const ctx = api.useUtils();
-  const { toast } = useToast();
 
   const { mutate: deleteNote, isPending } = api.note.delete.useMutation({
     onSuccess: () => {
       ctx.note.getAll.setData({ listId: note.listId }, (oldNotes) => {
         return oldNotes ? oldNotes.filter((n) => n.id !== note.id) : oldNotes;
       });
-      toast({
-        description: "Your note was deleted.",
-      });
+      toast.success("Your note was deleted.");
       cb?.();
     },
     onError: () => {
-      toast({
-        variant: "destructive",
-        description: "Something went wrong.",
-      });
+      toast.error("Something went wrong.");
     },
   });
 
@@ -46,7 +40,7 @@ const DeleteNote = ({ note, cb }: DeleteNoteProps) => {
     <Dialog>
       <DialogTrigger asChild data-testid="open-delete-note-modal-btn">
         <Button variant="destructive">
-          <TrashIcon className="pr-1" width={24} height={24} />
+          <Trash2Icon className="pr-1" />
           Delete Note
         </Button>
       </DialogTrigger>
@@ -66,13 +60,9 @@ const DeleteNote = ({ note, cb }: DeleteNoteProps) => {
               isLoading={isPending}
               className="min-w-36"
               onClick={() => deleteNote({ id: note.id })}
+              data-testid="delete-note-forever-btn"
             >
-              <TrashIcon
-                className="pr-1"
-                width={24}
-                height={24}
-                data-testid="delete-note-forever-btn"
-              />
+              <Trash2Icon className="pr-1" />
               Delete Forever
             </Button>
           </DialogClose>

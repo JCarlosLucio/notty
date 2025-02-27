@@ -1,7 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PlusIcon } from "@radix-ui/react-icons";
+import { PlusIcon } from "lucide-react";
 import { type MouseEvent, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,7 +15,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
 import useClickAway from "@/hooks/useClickAway";
 import { api, type RouterInputs } from "@/utils/api";
 import { createListSchema } from "@/utils/schemas";
@@ -36,7 +36,7 @@ const CreateList = ({ boardId }: CreateListProps) => {
       setShow(false);
     }
   });
-  const { toast } = useToast();
+
   const ctx = api.useUtils();
 
   const { mutate: createList, isPending } = api.list.create.useMutation({
@@ -45,15 +45,10 @@ const CreateList = ({ boardId }: CreateListProps) => {
         return oldList && createdList ? [...oldList, createdList] : oldList;
       });
       form.reset();
-      toast({
-        description: "Your list was created.",
-      });
+      toast.success("Your list was created.");
     },
     onError: () => {
-      toast({
-        variant: "destructive",
-        description: "Something went wrong.",
-      });
+      toast.error("Something went wrong.");
     },
   });
 
@@ -87,7 +82,7 @@ const CreateList = ({ boardId }: CreateListProps) => {
   return (
     <Card
       ref={innerRef}
-      className="flex max-h-full w-full shrink-0 flex-col bg-card/60 lg:w-72"
+      className="bg-card/60 flex max-h-full w-full shrink-0 flex-col lg:w-72"
     >
       <CardContent className="flex flex-col gap-2 overflow-hidden p-3">
         <Form {...form}>
