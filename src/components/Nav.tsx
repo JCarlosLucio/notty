@@ -32,7 +32,7 @@ const Nav = ({ board }: NavProps) => {
 
         <div className="flex items-center">
           <div className={!board ? "inline-block" : "hidden xl:inline-block"}>
-            <div className="mr-5 h-7 items-center border-r pr-5">
+            <div className="mr-5 border-r pr-5">
               <ThemeToggle />
             </div>
           </div>
