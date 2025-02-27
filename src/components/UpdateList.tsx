@@ -3,6 +3,7 @@ import { Cross1Icon } from "@radix-ui/react-icons";
 import { type ComponentPropsWithoutRef, type MouseEventHandler } from "react";
 import { HexAlphaColorPicker, HexColorInput } from "react-colorful";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,7 +15,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterInputs, type RouterOutputs } from "@/utils/api";
 import { updateListSchema } from "@/utils/schemas";
 
@@ -33,7 +33,6 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
       color: list.color,
     },
   });
-  const { toast } = useToast();
   const ctx = api.useUtils();
 
   const { mutate: updateList, isPending } = api.list.update.useMutation({
@@ -44,16 +43,11 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
           : oldList;
       });
       form.reset();
-      toast({
-        description: "Your list was updated.",
-      });
+      toast.success("Your list was updated.");
       cb?.();
     },
     onError: () => {
-      toast({
-        variant: "destructive",
-        description: "Something went wrong.",
-      });
+      toast.error("Something went wrong.");
     },
   });
 

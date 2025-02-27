@@ -6,7 +6,7 @@ import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/sonner";
 import { api } from "@/utils/api";
 
 const MyApp: AppType<{ session: Session | null }> = ({

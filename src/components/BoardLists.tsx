@@ -11,12 +11,12 @@ import {
 import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { useState } from "react";
 import { createPortal } from "react-dom";
+import { toast } from "sonner";
 
 import BoardsSkeleton from "@/components/BoardsSkeleton";
 import CreateList from "@/components/CreateList";
 import List from "@/components/List";
 import Note from "@/components/Note";
-import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterOutputs } from "@/utils/api";
 import {
   customCollisionDetectionAlgorithm,
@@ -32,8 +32,6 @@ const BoardLists = ({ boardId }: BoardProps) => {
   const [activeList, setActiveList] = useState<ActiveList | null>(null);
   const [activeNote, setActiveNote] = useState<ActiveNote | null>(null);
   const [prevOverListId, setPrevOverListId] = useState<string | null>(null);
-
-  const { toast } = useToast();
 
   const { data: lists, isLoading } = api.list.getAll.useQuery({ boardId });
 
@@ -55,10 +53,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
       });
     },
     onError: (_err) => {
-      toast({
-        variant: "destructive",
-        description: "Something went wrong.",
-      });
+      toast.error("Something went wrong.");
       void ctx.list.invalidate();
     },
   });
@@ -79,10 +74,7 @@ const BoardLists = ({ boardId }: BoardProps) => {
       });
     },
     onError: (_err) => {
-      toast({
-        variant: "destructive",
-        description: "Something went wrong.",
-      });
+      toast.error("Something went wrong.");
       void ctx.note.invalidate();
     },
   });

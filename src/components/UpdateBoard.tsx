@@ -3,6 +3,7 @@ import { Cross1Icon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { type ComponentPropsWithoutRef, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import ColorsTab from "@/components/ColorsTab";
 import PhotosTab from "@/components/PhotosTab";
@@ -17,7 +18,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterInputs, type RouterOutputs } from "@/utils/api";
 import { updateBoardSchema } from "@/utils/schemas";
 
@@ -37,7 +37,6 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
       thumb: "",
     },
   });
-  const { toast } = useToast();
   const ctx = api.useUtils();
 
   const [bg, setBg] = useState<{ full: string | null; thumb: string | null }>({
@@ -88,16 +87,11 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
         return updatedBoard;
       });
       form.reset();
-      toast({
-        description: "Your board was updated.",
-      });
+      toast.success("Your board was updated.");
       cb?.();
     },
     onError: () => {
-      toast({
-        variant: "destructive",
-        description: "Something went wrong.",
-      });
+      toast.error("Something went wrong.");
     },
   });
 

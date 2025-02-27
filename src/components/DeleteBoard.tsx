@@ -1,6 +1,7 @@
 import { TrashIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/router";
 import { type ComponentPropsWithoutRef } from "react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +14,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterOutputs } from "@/utils/api";
 
 type DeleteBoardProps = {
@@ -23,7 +23,6 @@ type DeleteBoardProps = {
 
 const DeleteBoard = ({ board, cb }: DeleteBoardProps) => {
   const ctx = api.useUtils();
-  const { toast } = useToast();
   const router = useRouter();
 
   const { mutate: deleteBoard, isPending } = api.board.delete.useMutation({
@@ -55,19 +54,14 @@ const DeleteBoard = ({ board, cb }: DeleteBoardProps) => {
           },
         },
       );
-      toast({
-        description: "Your board was deleted.",
-      });
+      toast.success("Your board was deleted.");
       cb?.();
       void router.push(`/dashboard`, undefined, {
         shallow: true,
       });
     },
     onError: () => {
-      toast({
-        variant: "destructive",
-        description: "Something went wrong.",
-      });
+      toast.error("Something went wrong.");
     },
   });
 

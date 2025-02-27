@@ -1,5 +1,6 @@
 import { TrashIcon } from "@radix-ui/react-icons";
 import { type ComponentPropsWithoutRef } from "react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -12,7 +13,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useToast } from "@/components/ui/use-toast";
 import { api, type RouterOutputs } from "@/utils/api";
 
 type DeleteNoteProps = {
@@ -22,23 +22,17 @@ type DeleteNoteProps = {
 
 const DeleteNote = ({ note, cb }: DeleteNoteProps) => {
   const ctx = api.useUtils();
-  const { toast } = useToast();
 
   const { mutate: deleteNote, isPending } = api.note.delete.useMutation({
     onSuccess: () => {
       ctx.note.getAll.setData({ listId: note.listId }, (oldNotes) => {
         return oldNotes ? oldNotes.filter((n) => n.id !== note.id) : oldNotes;
       });
-      toast({
-        description: "Your note was deleted.",
-      });
+      toast.success("Your note was deleted.");
       cb?.();
     },
     onError: () => {
-      toast({
-        variant: "destructive",
-        description: "Something went wrong.",
-      });
+      toast.error("Something went wrong.");
     },
   });
 
