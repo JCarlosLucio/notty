@@ -43,8 +43,9 @@ const Note = ({ note, className, ...props }: NoteProps) => {
     >
       <Card
         className={cn(
-          "bg-secondary/60 hover:bg-secondary/70 rounded-md",
-          isDragging && "border-destructive border-2 opacity-50",
+          "bg-secondary/60 hover:bg-secondary/70 cursor-grab rounded-md",
+          isDragging &&
+            "border-destructive cursor-grabbing border-2 opacity-50",
           className,
         )}
         data-testid="note"
