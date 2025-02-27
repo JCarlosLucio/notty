@@ -47,9 +47,7 @@ test.describe("Dashboard", () => {
     await page.getByTestId("board-input").fill(title);
     await page.getByTestId("create-board-btn").click();
 
-    await expect(page.getByTestId("toast")).toHaveText(
-      "Your board was created.",
-    );
+    await expect(page.getByText("Your board was created.")).toBeVisible();
     await expect(page).toHaveTitle(title);
   });
 });
@@ -70,9 +68,7 @@ test.describe("Boards", () => {
     await page.getByLabel("My Boards").getByTestId("board-input").fill(title);
     await page.getByLabel("My Boards").getByTestId("create-board-btn").click();
 
-    await expect(page.getByTestId("toast")).toHaveText(
-      "Your board was created.",
-    );
+    await expect(page.getByText("Your board was created.")).toBeVisible();
     await expect(page).toHaveTitle(title);
   });
 
@@ -193,9 +189,7 @@ test.describe("Boards", () => {
       "Your dashboard",
     );
     await expect(page.getByTestId("board-link")).toHaveCount(0);
-    await expect(page.getByTestId("toast")).toHaveText(
-      "Your board was deleted.",
-    );
+    await expect(page.getByText("Your board was deleted.")).toBeVisible();
   });
 });
 
@@ -212,9 +206,7 @@ test.describe("Lists", () => {
     await page.getByTestId("list-input").fill(title);
     await page.getByTestId("create-list-btn").click();
 
-    await expect(page.getByTestId("toast")).toHaveText(
-      "Your list was created.",
-    );
+    await expect(page.getByText("Your list was created.")).toBeVisible();
     await expect(page.getByTestId("list")).toHaveCount(4);
     await expect(page.getByTestId("list").last()).toContainText(title);
   });
@@ -238,9 +230,7 @@ test.describe("Lists", () => {
 
     await expect(page.getByTestId("list")).toHaveCount(2);
     await expect(page.getByTestId("list").last()).not.toContainText(/3rd LIST/);
-    await expect(page.getByTestId("toast")).toHaveText(
-      "Your list was deleted.",
-    );
+    await expect(page.getByText("Your list was deleted.")).toBeVisible();
   });
 
   /** Drag n' Drop tests need double .hover() since dnd implementation uses dragover event.
@@ -340,9 +330,7 @@ test.describe("Notes", () => {
     await page.getByTestId("note-input").fill(title);
     await page.getByTestId("create-note-btn").click();
 
-    await expect(page.getByTestId("toast")).toHaveText(
-      "Your note was created.",
-    );
+    await expect(page.getByText("Your note was created.")).toBeVisible();
     await expect(
       page.getByTestId("list").first().getByTestId("note"),
     ).toHaveCount(5);
@@ -386,9 +374,7 @@ test.describe("Notes", () => {
 
     await expect(page.getByTestId("note")).toHaveCount(3);
     await expect(page.getByTestId("note").last()).not.toContainText(/4th NOTE/);
-    await expect(page.getByTestId("toast")).toHaveText(
-      "Your note was deleted.",
-    );
+    await expect(page.getByText("Your note was deleted.")).toBeVisible();
   });
 
   /** Again Drag n' Drop tests need double .hover() */
