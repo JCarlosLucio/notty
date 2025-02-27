@@ -11,27 +11,27 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-sm hover:bg-primary/90",
+          "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
         destructive:
-          "bg-destructive text-destructive-foreground shadow-xs hover:bg-destructive/90",
+          "bg-destructive text-destructive-foreground shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40",
         outline:
           "border border-input bg-transparent shadow-xs hover:bg-accent hover:text-accent-foreground",
         secondary:
           "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        blur: "bg-secondary/60 text-secondary-foreground shadow-sm hover:bg-secondary/90 backdrop-blur-md",
+        blur: "bg-secondary/60 text-secondary-foreground shadow-xs hover:bg-secondary/90 backdrop-blur-md",
         gradient:
           "bg-primary-gradient text-secondary-foreground dark:text-primary-foreground ",
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
+        default: "h-9 px-4 py-2 has-[>svg]:px-3",
+        sm: "h-8 rounded-md px-3 text-xs has-[>svg]:px-2.5",
+        lg: "h-10 rounded-md px-8 has-[>svg]:px-4",
         xl: "h-28 rounded-md",
         "2xl": "h-44 rounded-md",
-        icon: "h-9 w-9 px-3",
-        avatar: "h-9 w-9 rounded-full",
+        icon: "size-9 px-3",
+        avatar: "size-12 rounded-full",
       },
     },
     defaultVariants: {
@@ -41,38 +41,32 @@ const buttonVariants = cva(
   },
 );
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean;
-  isLoading?: boolean;
-}
+export type ButtonProps = React.ComponentProps<"button"> &
+  VariantProps<typeof buttonVariants> & {
+    asChild?: boolean;
+    isLoading?: boolean;
+  };
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      className,
-      variant,
-      size,
-      asChild = false,
-      isLoading = false,
-      children,
-      ...props
-    },
-    ref,
-  ) => {
-    const Comp = asChild ? Slot : "button";
-    return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      >
-        {isLoading ? <Spinner /> : children}
-      </Comp>
-    );
-  },
-);
-Button.displayName = "Button";
+function Button({
+  className,
+  variant,
+  size,
+  asChild = false,
+  isLoading = false,
+  children,
+  ...props
+}: ButtonProps) {
+  const Comp = asChild ? Slot : "button";
+
+  return (
+    <Comp
+      data-slot="button"
+      className={cn(buttonVariants({ variant, size, className }))}
+      {...props}
+    >
+      {isLoading ? <Spinner /> : children}
+    </Comp>
+  );
+}
 
 export { Button, buttonVariants };
