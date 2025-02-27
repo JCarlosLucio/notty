@@ -59,7 +59,10 @@ const PhotosTab = ({ setBg }: PhotosTabProps) => {
                   size="xl"
                   variant="outline"
                   className="group flex shrink-0 flex-col justify-end"
-                  style={{ background: `url(${photo.urls.thumb})` }}
+                  style={{
+                    background: `url(${photo.urls.thumb})`,
+                    backgroundSize: "cover",
+                  }}
                   onClick={() =>
                     setBg({
                       full: `url(${photo.urls.full})`,

@@ -28,7 +28,7 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild data-testid="open-list-details-btn">
         <CardHeader
-          className="group bg-secondary/70 flex shrink-0 cursor-pointer flex-row rounded-t-xl p-3"
+          className="group bg-secondary/70 flex shrink-0 cursor-pointer flex-row items-center rounded-t-xl p-3"
           style={{ backgroundColor: list.color ?? "" }}
           {...props}
         >

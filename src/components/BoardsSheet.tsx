@@ -48,7 +48,7 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
     <Sheet key="boards-sheet">
       <SheetTrigger asChild>
         <Button
-          className="absolute ml-5 mt-3 inline-flex px-5 md:px-8"
+          className="absolute mt-3 ml-5 inline-flex px-5 md:px-8"
           variant="gradient"
           size="lg"
           data-testid="open-boards-btn"
@@ -77,7 +77,7 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
             <CreateBoard />
           </div>
         </SheetHeader>
-        <div className="flex flex-col overflow-hidden pt-3 hover:overflow-y-scroll">
+        <div className="flex flex-col overflow-hidden p-4 hover:overflow-y-scroll">
           <div className="flex w-full flex-col gap-1">
             {data?.pages.map((pageData) =>
               pageData.boards.map((board) => (
@@ -91,8 +91,8 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
                     <Link
                       href={`/b/${board.id}`}
                       className={cn(
-                        "overflow-hidden hover:border hover:border-primary",
-                        currentBoardId === board.id && "border border-primary",
+                        "hover:border-primary overflow-hidden hover:border",
+                        currentBoardId === board.id && "border-primary border",
                       )}
                       style={{
                         backgroundImage: board.thumb ?? "",
@@ -100,7 +100,7 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
                       }}
                       data-testid="board-link"
                     >
-                      <div className="flex h-full w-full items-center justify-center bg-card/70 px-8 hover:backdrop-blur-xs">
+                      <div className="bg-card/70 flex h-full w-full items-center justify-center px-8 hover:backdrop-blur-xs">
                         <span className="truncate">{board.title}</span>
                       </div>
                     </Link>
@@ -117,7 +117,7 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
                 variant="outline"
                 size="sm"
                 disabled={isFetching}
-                className="w-max self-center text-muted-foreground"
+                className="text-muted-foreground w-max self-center"
                 onClick={() => fetchNextPage()}
               >
                 Show More
