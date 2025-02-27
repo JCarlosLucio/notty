@@ -1,4 +1,4 @@
-import { DiscordLogoIcon } from "@radix-ui/react-icons";
+import { SiDiscord } from "@icons-pack/react-simple-icons";
 import { type GetServerSideProps } from "next";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
@@ -81,8 +81,8 @@ function AuthShowcase() {
             })
           }
         >
-          <DiscordLogoIcon width={28} height={28} className="pr-2" /> Continue
-          with Discord
+          <SiDiscord width={28} height={28} className="pr-2" /> Continue with
+          Discord
         </Button>
       )}
     </div>
