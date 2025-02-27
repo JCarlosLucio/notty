@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type ComponentPropsWithoutRef } from "react";
+import { type ComponentProps } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -22,7 +22,7 @@ import { updateNoteSchema } from "@/utils/schemas";
 type UpdateNoteProps = {
   note: RouterOutputs["note"]["getById"];
   cb?: () => void;
-} & ComponentPropsWithoutRef<"div">;
+} & ComponentProps<"div">;
 type UpdateNoteInput = RouterInputs["note"]["update"];
 
 const UpdateNote = ({ note, cb }: UpdateNoteProps) => {

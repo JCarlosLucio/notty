@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { XIcon } from "lucide-react";
 import Link from "next/link";
-import { type ComponentPropsWithoutRef, useState } from "react";
+import { type ComponentProps, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -24,7 +24,7 @@ import { updateBoardSchema } from "@/utils/schemas";
 type UpdateBoardProps = {
   board: RouterOutputs["board"]["getById"];
   cb?: () => void;
-} & ComponentPropsWithoutRef<"div">;
+} & ComponentProps<"div">;
 type UpdateBoardInput = RouterInputs["board"]["update"];
 
 const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {

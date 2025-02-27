@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { XIcon } from "lucide-react";
-import { type ComponentPropsWithoutRef, type MouseEventHandler } from "react";
+import { type ComponentProps, type MouseEventHandler } from "react";
 import { HexAlphaColorPicker, HexColorInput } from "react-colorful";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -21,7 +21,7 @@ import { updateListSchema } from "@/utils/schemas";
 type UpdateListProps = {
   list: RouterOutputs["list"]["getById"];
   cb?: () => void;
-} & ComponentPropsWithoutRef<"div">;
+} & ComponentProps<"div">;
 type UpdateListInput = RouterInputs["list"]["update"];
 
 const UpdateList = ({ list, cb }: UpdateListProps) => {

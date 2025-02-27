@@ -1,5 +1,5 @@
 import { PencilIcon } from "lucide-react";
-import { type ComponentPropsWithoutRef, useState } from "react";
+import { type ComponentProps, useState } from "react";
 
 import CreateBoard from "@/components/CreateBoard";
 import DeleteBoard from "@/components/DeleteBoard";
@@ -19,7 +19,7 @@ import { type RouterOutputs } from "@/utils/api";
 
 type BoardDetailsProps = {
   board?: RouterOutputs["board"]["getById"];
-} & ComponentPropsWithoutRef<"div">;
+} & ComponentProps<"div">;
 
 const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
   const [open, setOpen] = useState(false);

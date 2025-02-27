@@ -1,5 +1,5 @@
 import { PencilIcon } from "lucide-react";
-import { type ComponentPropsWithoutRef, useState } from "react";
+import { type ComponentProps, useState } from "react";
 
 import DeleteList from "@/components/DeleteList";
 import { Button } from "@/components/ui/button";
@@ -18,7 +18,7 @@ import { type RouterOutputs } from "@/utils/api";
 
 type ListDetailsProps = {
   list: RouterOutputs["list"]["getById"];
-} & ComponentPropsWithoutRef<"div">;
+} & ComponentProps<"div">;
 
 const ListDetails = ({ list, ...props }: ListDetailsProps) => {
   const [open, setOpen] = useState(false);

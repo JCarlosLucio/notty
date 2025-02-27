@@ -1,5 +1,5 @@
 import { XIcon } from "lucide-react";
-import { type ComponentPropsWithoutRef } from "react";
+import { type ComponentProps } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -7,7 +7,7 @@ import { api, type RouterOutputs } from "@/utils/api";
 
 type ListItemProps = {
   list: RouterOutputs["list"]["create"];
-} & ComponentPropsWithoutRef<"p">;
+} & ComponentProps<"p">;
 
 const ListItem = ({ list, ...props }: ListItemProps) => {
   const ctx = api.useUtils();

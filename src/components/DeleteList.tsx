@@ -1,5 +1,5 @@
 import { Trash2Icon } from "lucide-react";
-import { type ComponentPropsWithoutRef } from "react";
+import { type ComponentProps } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -18,7 +18,7 @@ import { api, type RouterOutputs } from "@/utils/api";
 type DeleteListProps = {
   list: RouterOutputs["list"]["getById"];
   cb?: () => void;
-} & ComponentPropsWithoutRef<"div">;
+} & ComponentProps<"div">;
 
 const DeleteList = ({ list, cb }: DeleteListProps) => {
   const ctx = api.useUtils();
