@@ -57,7 +57,11 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
           <ChevronRightIcon className="h-[1.5rem] w-[1.5rem]" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="flex flex-col overflow-hidden">
+      <SheetContent
+        side="left"
+        className="flex flex-col overflow-hidden"
+        onOpenAutoFocus={(e) => e.preventDefault()}
+      >
         <SheetHeader>
           <SheetTitle>My Boards</SheetTitle>
           <SheetDescription>
