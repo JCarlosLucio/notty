@@ -30,7 +30,7 @@ const NoteDetails = ({ note, ...props }: NoteDetailsProps) => {
           <PencilIcon />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-2xl lg:max-w-3xl" data-no-dnd="true">
+      <DialogContent className="sm:max-w-2xl lg:max-w-5xl" data-no-dnd="true">
         {showUpdateNote ? (
           <>
             <DialogTitle className="hidden">

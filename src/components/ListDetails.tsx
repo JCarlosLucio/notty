@@ -41,7 +41,7 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
         </DialogTrigger>
       </CardHeader>
       <DialogContent
-        className="flex max-h-full shrink-0 p-0 sm:max-w-2xl lg:max-w-3xl"
+        className="flex max-h-full shrink-0 p-0 sm:max-w-2xl lg:max-w-4xl"
         data-no-dnd="true"
       >
         {showUpdateList ? (
