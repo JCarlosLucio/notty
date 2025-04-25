@@ -40,10 +40,13 @@ function UserSessionPopover() {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="mt-3 flex w-72 flex-col gap-6 border">
-        <div className="flex gap-2">
-          <p className="w-full truncate text-xl font-bold">
-            {sessionData?.user.name}
-          </p>
+        <div className="flex justify-between">
+          <div>
+            <p className="w-full truncate text-xl font-bold">
+              {sessionData?.user.name}
+            </p>
+            <small>v.0.1.1</small>
+          </div>
           <div className="ml-2 flex h-7 items-center pl-2">
             <ThemeToggle />
           </div>

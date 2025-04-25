@@ -1,14 +1,13 @@
-import { createClient } from "@libsql/client";
 import { PrismaLibSQL } from "@prisma/adapter-libsql";
 import { PrismaClient } from "@prisma/client";
 
 import { env } from "@/env.mjs";
 
-const libsql = createClient({
+const libsql = {
   url: env.DATABASE_URL,
   authToken:
     env.NODE_ENV === "production" ? env.DATABASE_AUTH_TOKEN : undefined,
-});
+};
 
 const adapter = new PrismaLibSQL(libsql);
 
