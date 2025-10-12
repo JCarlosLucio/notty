@@ -1,9 +1,9 @@
 import { type SVGProps } from "react";
 
-interface LogoProps extends SVGProps<SVGSVGElement> {
+type LogoProps = {
   title?: string;
   titleId?: string;
-}
+} & SVGProps<SVGSVGElement>;
 
 function Logo({ title = "logo", titleId = "logo", ...props }: LogoProps) {
   return (
