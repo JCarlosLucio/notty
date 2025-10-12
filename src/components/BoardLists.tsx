@@ -28,7 +28,7 @@ type BoardProps = { boardId: string };
 type ActiveList = RouterOutputs["list"]["getById"];
 type ActiveNote = RouterOutputs["note"]["create"];
 
-const BoardLists = ({ boardId }: BoardProps) => {
+function BoardLists({ boardId }: BoardProps) {
   const [activeList, setActiveList] = useState<ActiveList | null>(null);
   const [activeNote, setActiveNote] = useState<ActiveNote | null>(null);
   const [prevOverListId, setPrevOverListId] = useState<string | null>(null);
@@ -300,6 +300,6 @@ const BoardLists = ({ boardId }: BoardProps) => {
       )}
     </DndContext>
   );
-};
+}
 
 export default BoardLists;

@@ -19,7 +19,7 @@ type NoteDetailsProps = {
   note: RouterOutputs["note"]["getById"];
 } & ButtonProps;
 
-const NoteDetails = ({ note, ...props }: NoteDetailsProps) => {
+function NoteDetails({ note, ...props }: NoteDetailsProps) {
   const [open, setOpen] = useState(false);
   const [showUpdateNote, setShowUpdateNote] = useState(false);
 
@@ -73,6 +73,6 @@ const NoteDetails = ({ note, ...props }: NoteDetailsProps) => {
       </DialogContent>
     </Dialog>
   );
-};
+}
 
 export default NoteDetails;

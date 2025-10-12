@@ -13,7 +13,7 @@ type ListProps = {
   className?: string;
 };
 
-const List = ({ list, className }: ListProps) => {
+function List({ list, className }: ListProps) {
   const {
     setNodeRef,
     attributes,
@@ -57,6 +57,6 @@ const List = ({ list, className }: ListProps) => {
       </CardFooter>
     </Card>
   );
-};
+}
 
 export default List;

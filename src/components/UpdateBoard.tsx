@@ -27,7 +27,7 @@ type UpdateBoardProps = {
 } & ComponentProps<"div">;
 type UpdateBoardInput = RouterInputs["board"]["update"];
 
-const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
+function UpdateBoard({ board, cb }: UpdateBoardProps) {
   const form = useForm<UpdateBoardInput>({
     resolver: zodResolver(updateBoardSchema),
     defaultValues: {
@@ -213,6 +213,6 @@ const UpdateBoard = ({ board, cb }: UpdateBoardProps) => {
       </div>
     </div>
   );
-};
+}
 
 export default UpdateBoard;

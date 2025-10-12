@@ -20,7 +20,7 @@ type ListDetailsProps = {
   list: RouterOutputs["list"]["getById"];
 } & ComponentProps<"div">;
 
-const ListDetails = ({ list, ...props }: ListDetailsProps) => {
+function ListDetails({ list, ...props }: ListDetailsProps) {
   const [open, setOpen] = useState(false);
   const [showUpdateList, setShowUpdateList] = useState(false);
 
@@ -84,6 +84,6 @@ const ListDetails = ({ list, ...props }: ListDetailsProps) => {
       </DialogContent>
     </Dialog>
   );
-};
+}
 
 export default ListDetails;

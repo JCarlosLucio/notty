@@ -24,7 +24,7 @@ type BoardsProps = {
   currentBoardId?: string;
 };
 
-const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
+function BoardsSheet({ currentBoardId }: BoardsProps) {
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query, 1000);
 
@@ -132,6 +132,6 @@ const BoardsSheet = ({ currentBoardId }: BoardsProps) => {
       </SheetContent>
     </Sheet>
   );
-};
+}
 
 export default BoardsSheet;

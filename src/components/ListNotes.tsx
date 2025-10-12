@@ -7,7 +7,7 @@ import { getRandomArbitrary } from "@/utils/utils";
 
 type ListNotesProps = { listId: string };
 
-const ListNotes = ({ listId }: ListNotesProps) => {
+function ListNotes({ listId }: ListNotesProps) {
   const { data: notes, isLoading } = api.note.getAll.useQuery({ listId });
 
   if (isLoading) {
@@ -40,6 +40,6 @@ const ListNotes = ({ listId }: ListNotesProps) => {
       )}
     </>
   );
-};
+}
 
 export default ListNotes;

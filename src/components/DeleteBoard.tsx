@@ -21,7 +21,7 @@ type DeleteBoardProps = {
   cb?: () => void;
 } & ComponentProps<"div">;
 
-const DeleteBoard = ({ board, cb }: DeleteBoardProps) => {
+function DeleteBoard({ board, cb }: DeleteBoardProps) {
   const ctx = api.useUtils();
   const router = useRouter();
 
@@ -105,6 +105,6 @@ const DeleteBoard = ({ board, cb }: DeleteBoardProps) => {
       </DialogContent>
     </Dialog>
   );
-};
+}
 
 export default DeleteBoard;

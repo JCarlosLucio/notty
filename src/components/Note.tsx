@@ -11,7 +11,7 @@ type NoteProps = {
   note: RouterOutputs["note"]["create"];
 } & ComponentProps<"div">;
 
-const Note = ({ note, className, ...props }: NoteProps) => {
+function Note({ note, className, ...props }: NoteProps) {
   const {
     setNodeRef,
     attributes,
@@ -62,6 +62,6 @@ const Note = ({ note, className, ...props }: NoteProps) => {
       </Card>
     </div>
   );
-};
+}
 
 export default Note;

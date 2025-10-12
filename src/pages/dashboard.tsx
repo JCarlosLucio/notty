@@ -27,7 +27,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return { props: { session } };
 };
 
-const Dashboard = () => {
+function Dashboard() {
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query, 1000);
 
@@ -121,6 +121,6 @@ const Dashboard = () => {
       </main>
     </>
   );
-};
+}
 
 export default Dashboard;

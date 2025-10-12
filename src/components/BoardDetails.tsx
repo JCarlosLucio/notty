@@ -21,7 +21,7 @@ type BoardDetailsProps = {
   board?: RouterOutputs["board"]["getById"];
 } & ComponentProps<"div">;
 
-const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
+function BoardDetails({ board, ...props }: BoardDetailsProps) {
   const [open, setOpen] = useState(false);
   const [showUpdateBoard, setShowUpdateBoard] = useState(false);
 
@@ -92,6 +92,6 @@ const BoardDetails = ({ board, ...props }: BoardDetailsProps) => {
       )}
     </Card>
   );
-};
+}
 
 export default BoardDetails;

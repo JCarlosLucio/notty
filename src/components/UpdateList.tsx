@@ -24,7 +24,7 @@ type UpdateListProps = {
 } & ComponentProps<"div">;
 type UpdateListInput = RouterInputs["list"]["update"];
 
-const UpdateList = ({ list, cb }: UpdateListProps) => {
+function UpdateList({ list, cb }: UpdateListProps) {
   const form = useForm<UpdateListInput>({
     resolver: zodResolver(updateListSchema),
     defaultValues: {
@@ -160,6 +160,6 @@ const UpdateList = ({ list, cb }: UpdateListProps) => {
       </div>
     </div>
   );
-};
+}
 
 export default UpdateList;

@@ -10,7 +10,7 @@ type ColorsTabProps = {
   >;
 };
 
-const ColorsTab = ({ setBg }: ColorsTabProps) => {
+function ColorsTab({ setBg }: ColorsTabProps) {
   return (
     <TabsContent value="colors" className="flex xl:overflow-y-hidden">
       <div className="flex h-max w-full gap-3 pt-2 xl:h-auto xl:overflow-hidden">
@@ -46,6 +46,6 @@ const ColorsTab = ({ setBg }: ColorsTabProps) => {
       </div>
     </TabsContent>
   );
-};
+}
 
 export default ColorsTab;

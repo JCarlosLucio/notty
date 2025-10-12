@@ -20,7 +20,7 @@ type DeleteNoteProps = {
   cb?: () => void;
 } & ComponentProps<"div">;
 
-const DeleteNote = ({ note, cb }: DeleteNoteProps) => {
+function DeleteNote({ note, cb }: DeleteNoteProps) {
   const ctx = api.useUtils();
 
   const { mutate: deleteNote, isPending } = api.note.delete.useMutation({
@@ -75,6 +75,6 @@ const DeleteNote = ({ note, cb }: DeleteNoteProps) => {
       </DialogContent>
     </Dialog>
   );
-};
+}
 
 export default DeleteNote;

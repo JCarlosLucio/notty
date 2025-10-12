@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 
-const ThemeToggle = () => {
+function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -27,6 +27,6 @@ const ThemeToggle = () => {
       <span className="sr-only">Toggle theme</span>
     </Button>
   );
-};
+}
 
 export default ThemeToggle;

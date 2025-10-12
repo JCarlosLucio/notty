@@ -25,7 +25,7 @@ type UpdateNoteProps = {
 } & ComponentProps<"div">;
 type UpdateNoteInput = RouterInputs["note"]["update"];
 
-const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
+function UpdateNote({ note, cb }: UpdateNoteProps) {
   const form = useForm<UpdateNoteInput>({
     resolver: zodResolver(updateNoteSchema),
     defaultValues: {
@@ -132,6 +132,6 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
       </div>
     </div>
   );
-};
+}
 
 export default UpdateNote;
