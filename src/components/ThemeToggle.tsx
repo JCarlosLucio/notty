@@ -10,6 +10,7 @@ function ThemeToggle() {
 
   // only render if mounted to avoid hydration mismatch - next-themes
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
