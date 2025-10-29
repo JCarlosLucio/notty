@@ -9,28 +9,28 @@ A simple Kanban board app to help you stay organized anywhere.
 ## Getting Started
 
 1. Install the dependencies:
+
    ```sh
    pnpm install
    ```
-2. Create environment files:
 
+2. Create environment files:
    - `.env.development.local` used for `next dev`.
    - `.env` should mimic `.env.development.local` for the most part.
      - Prisma and Playwright prefer `.env` so it can be modified accordingly.
    - `.env.test.local` used for `vitest`. Check [SQLite Local Database](#sqlite-local-database) section for more info.
-   - `.env.production.local` used for `next start`. Check [SQLite Database from Turso](#sqlite-database-from-turso-🫎) section for more info.
+   - `.env.production.local` used for `next start`. Check [SQLite Database from Turso](#sqlite-database-from-turso) section for more info.
 
 3. Add environment variables to environment files following `.env.example`.
-
    - For `DATASOURCE_URL` and `DATABASE_URL` see:
      - [SQLite Local Database](#sqlite-local-database) section.
-     - [SQLite Database from Turso](#sqlite-database-from-turso-🫎) section.
+     - [SQLite Database from Turso](#sqlite-database-from-turso) section.
    - For `DATABASE_AUTH_TOKEN` see:
-     - [SQLite Database from Turso](#sqlite-database-from-turso-🫎) section.
+     - [SQLite Database from Turso](#sqlite-database-from-turso) section.
    - For `UNSPLASH_ACCESS_KEY` see:
      - [Unsplash API](https://unsplash.com/documentation#getting-started)
    - For `DISCORD_CLIENT_ID` and `DISCORD_CLIENT_SECRET` see:
-     - [NextAuth with the default DiscordProvider](#nextauth-with-the-default-discordprovider-🔒) section.
+     - [NextAuth with the default DiscordProvider](#nextauth-with-the-default-discordprovider) section.
    - For `NEXT_AUTH_SECRET` see:
      - [Next Auth Secret](https://next-auth.js.org/configuration/options#secret)
 
@@ -41,6 +41,7 @@ A simple Kanban board app to help you stay organized anywhere.
    ```
 
 5. Run the application:
+
    ```sh
    pnpm dev
    ```
@@ -151,7 +152,7 @@ DATABASE_URL="file:./prisma/test.sqlite"
 
 `DATABASE_AUTH_TOKEN` is not needed for local development or testing.
 
-## SQLite Database from [Turso](https://turso.tech/) 🫎
+## SQLite Database from [Turso](https://turso.tech/)
 
 [Turso](https://turso.tech/) is a SQLite-compatible database built on [libSQL](https://github.com/tursodatabase/libsql/), the Open Contribution fork of SQLite.
 
@@ -190,14 +191,19 @@ turso db create <DATABASE_NAME>
    ```
 
 5. Make an migration to sync with the Prisma schema.
+
    ```sh
    turso db shell <DATABASE_NAME> < <MIGRATION_FILE_PATH>
    ```
+
 6. Make a production build:
+
    ```sh
    pnpm build
    ```
+
 7. Run the production build, connected to Turso database:
+
    ```sh
    pnpm start
    ```
@@ -211,24 +217,25 @@ turso db create <DATABASE_NAME>
 
 Turso doesn't support Prisma Migrate. To update your database schema:
 
-1.  Generate a migration file using prisma migrate dev against a local SQLite database:
+1. Generate a migration file using prisma migrate dev against a local SQLite database:
 
-    ```sh
-    npx prisma migrate dev --name <NAME>
-    ```
+   ```sh
+   npx prisma migrate dev --name <NAME>
+   ```
 
-2.  Apply the migration using Turso's CLI:
-    ```sh
-    turso db shell <DATABASE_NAME> < ./prisma/migrations/<DATE_NAME>/migration.sql
-    ```
+2. Apply the migration using Turso's CLI:
+
+   ```sh
+   turso db shell <DATABASE_NAME> < ./prisma/migrations/<DATE_NAME>/migration.sql
+   ```
 
 For subsequent migrations, repeat the above steps to apply changes to your database.
 
-#### More on Turso:
+#### More on Turso
 
 - [Manage Schema Changes](https://www.prisma.io/docs/orm/overview/databases/turso#how-to-manage-schema-changes)
 
-## NextAuth with the default DiscordProvider 🔒
+## NextAuth with the default DiscordProvider
 
 [Setting up the default DiscordProvider](https://create.t3.gg/en/usage/next-auth#setting-up-the-default-discordprovider)
 
@@ -258,42 +265,42 @@ This project uses [dotenv](https://github.com/motdotla/dotenv) to load the `.env
 
 #### Setup testing
 
-1.  Create `.env.test.local` file. Following `.env.example` template.
-2.  Set `DATABASE_URL` to `"file:./prisma/test.sqlite"` in `.env.test.local`.
-3.  Set `DATASOURCE_URL` to `file:./test.sqlite` in `pretest` script in `package.json`.
-4.  Set `NODE_ENV` to `test` in `.env.test.local`.
+1. Create `.env.test.local` file. Following `.env.example` template.
+2. Set `DATABASE_URL` to `"file:./prisma/test.sqlite"` in `.env.test.local`.
+3. Set `DATASOURCE_URL` to `file:./test.sqlite` in `pretest` script in `package.json`.
+4. Set `NODE_ENV` to `test` in `.env.test.local`.
 
 #### Running Unit/Integration tests
 
-1.  For the first time, use:
+1. For the first time, use:
 
-    ```sh
-    pnpm test
-    ```
+   ```sh
+   pnpm test
+   ```
 
-    This will run the `pretest` script first and then `test` script.
-    Or run directly:
+   This will run the `pretest` script first and then `test` script.
+   Or run directly:
 
-    ```sh
-    pnpm pretest
-    pnpm vitest src
-    ```
+   ```sh
+   pnpm pretest
+   pnpm vitest src
+   ```
 
-    The `pretest` script syncs the database with the Prisma schema.
+   The `pretest` script syncs the database with the Prisma schema.
 
-    `Pretest` uses the `DATABASE_URL` explicitly since prisma cli would only read `.env` file. (https://github.com/prisma/prisma/issues/3865). Also the difference between `DATABASE_URL` in `.env.test.local` and `pretest` script comes from where they load the datasource `url`. `pretest` uses `schema.prisma` location but everything else use the `root`.
+   `Pretest` uses the `DATABASE_URL` explicitly since prisma cli would only read `.env` file. (<https://github.com/prisma/prisma/issues/3865>). Also the difference between `DATABASE_URL` in `.env.test.local` and `pretest` script comes from where they load the datasource `url`. `pretest` uses `schema.prisma` location but everything else use the `root`.
 
-2.  Subsequently, tests can be run simply using:
+2. Subsequently, tests can be run simply using:
 
-    ```sh
-    pnpm vitest src
-    ```
+   ```sh
+   pnpm vitest src
+   ```
 
-    or use:
+   or use:
 
-    ```sh
-    pnpm test:unit
-    ```
+   ```sh
+   pnpm test:unit
+   ```
 
 ##### More Info
 
