@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Square, SquareCheck } from "lucide-react";
 import { type ComponentProps } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -15,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Toggle } from "@/components/ui/toggle";
 import { api, type RouterInputs, type RouterOutputs } from "@/utils/api";
 import { MAX_CONTENT_LENGTH } from "@/utils/constants";
 import { updateNoteSchema } from "@/utils/schemas";
@@ -31,6 +33,7 @@ function UpdateNote({ note, cb }: UpdateNoteProps) {
     defaultValues: {
       title: note.title,
       content: note.content,
+      done: note.done,
       id: "",
     },
   });
@@ -81,6 +84,26 @@ function UpdateNote({ note, cb }: UpdateNoteProps) {
                     </div>
                   </FormControl>
                   <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="done"
+              render={({ field: { value, onChange, ...fieldRest } }) => (
+                <FormItem className="w-fit">
+                  <FormControl>
+                    <Toggle
+                      pressed={value}
+                      size="sm"
+                      onPressedChange={onChange}
+                      className="bg-accent data-[state=on]:bg-emerald-500"
+                      {...fieldRest}
+                    >
+                      {value ? <SquareCheck /> : <Square />}
+                      DONE
+                    </Toggle>
+                  </FormControl>
                 </FormItem>
               )}
             />

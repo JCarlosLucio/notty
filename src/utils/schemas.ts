@@ -126,6 +126,7 @@ export const updateNoteSchema = z.object({
     .string()
     .trim()
     .max(MAX_CONTENT_LENGTH, errorMessage.maxContentLength),
+  done: z.boolean(),
 });
 
 export const deleteNoteSchema = z.object({
