@@ -12,6 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Toggle } from "@/components/ui/toggle";
 import UpdateNote from "@/components/UpdateNote";
 import { type RouterOutputs } from "@/utils/api";
 
@@ -61,6 +62,17 @@ function NoteDetails({ note, ...props }: NoteDetailsProps) {
               <span className="text-muted-foreground text-sm">
                 {note.updatedAt.toDateString()}
               </span>
+              <div className="flex gap-2">
+                <Toggle
+                  pressed={note.done}
+                  size="sm"
+                  className="bg-accent data-[state=on]:bg-emerald-500"
+                  disabled
+                >
+                  {note.done ? "" : "NOT "}
+                  DONE
+                </Toggle>
+              </div>
               <DialogDescription className="text-start">
                 {note.content}
               </DialogDescription>
