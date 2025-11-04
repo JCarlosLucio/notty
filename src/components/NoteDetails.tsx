@@ -66,6 +66,7 @@ function NoteDetails({ note, ...props }: NoteDetailsProps) {
                 <Badge
                   variant="secondary"
                   className={note.done ? "bg-emerald-500" : ""}
+                  data-testid="note-done-badge"
                 >
                   {!note.done && "NOT "}
                   DONE
