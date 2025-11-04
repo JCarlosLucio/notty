@@ -2,6 +2,7 @@ import { PencilIcon } from "lucide-react";
 import { useState } from "react";
 
 import DeleteNote from "@/components/DeleteNote";
+import { Badge } from "@/components/ui/badge";
 import { Button, type ButtonProps } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,7 +13,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Toggle } from "@/components/ui/toggle";
 import UpdateNote from "@/components/UpdateNote";
 import { type RouterOutputs } from "@/utils/api";
 
@@ -63,15 +63,13 @@ function NoteDetails({ note, ...props }: NoteDetailsProps) {
                 {note.updatedAt.toDateString()}
               </span>
               <div className="flex gap-2">
-                <Toggle
-                  pressed={note.done}
-                  size="sm"
-                  className="bg-accent data-[state=on]:bg-emerald-500"
-                  disabled
+                <Badge
+                  variant="secondary"
+                  className={note.done ? "bg-emerald-500" : ""}
                 >
-                  {note.done ? "" : "NOT "}
+                  {!note.done && "NOT "}
                   DONE
-                </Toggle>
+                </Badge>
               </div>
               <DialogDescription className="text-start">
                 {note.content}
