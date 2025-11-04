@@ -1,5 +1,5 @@
 import js from "@eslint/js";
-import { flatConfig as nextFlatConfig } from "@next/eslint-plugin-next";
+import nextFlatConfig from "@next/eslint-plugin-next";
 import { defineConfig, globalIgnores } from "eslint/config";
 import eslintConfigPrettier from "eslint-config-prettier";
 import importPlugin from "eslint-plugin-import";
@@ -28,9 +28,8 @@ export default defineConfig(
   reactPlugin.configs.flat.recommended ?? {},
   reactPlugin.configs.flat["jsx-runtime"] ?? {},
   reactHooks.configs.flat["recommended-latest"] ?? {},
-  // @ts-expect-error nextFlatConfig types are wrong but works
-  nextFlatConfig.recommended,
-  nextFlatConfig.coreWebVitals,
+  nextFlatConfig.configs.recommended,
+  nextFlatConfig.configs["core-web-vitals"],
   {
     files: ["**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
     languageOptions: {
