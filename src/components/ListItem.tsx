@@ -9,7 +9,7 @@ type ListItemProps = {
   list: RouterOutputs["list"]["create"];
 } & ComponentProps<"p">;
 
-const ListItem = ({ list, ...props }: ListItemProps) => {
+function ListItem({ list, ...props }: ListItemProps) {
   const ctx = api.useUtils();
 
   const { mutate: deleteList, isPending } = api.list.delete.useMutation({
@@ -39,6 +39,6 @@ const ListItem = ({ list, ...props }: ListItemProps) => {
       </Button>
     </p>
   );
-};
+}
 
 export default ListItem;

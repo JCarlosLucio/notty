@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Square, SquareCheck } from "lucide-react";
 import { type ComponentProps } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -15,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Toggle } from "@/components/ui/toggle";
 import { api, type RouterInputs, type RouterOutputs } from "@/utils/api";
 import { MAX_CONTENT_LENGTH } from "@/utils/constants";
 import { updateNoteSchema } from "@/utils/schemas";
@@ -25,12 +27,13 @@ type UpdateNoteProps = {
 } & ComponentProps<"div">;
 type UpdateNoteInput = RouterInputs["note"]["update"];
 
-const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
+function UpdateNote({ note, cb }: UpdateNoteProps) {
   const form = useForm<UpdateNoteInput>({
     resolver: zodResolver(updateNoteSchema),
     defaultValues: {
       title: note.title,
       content: note.content,
+      done: note.done,
       id: "",
     },
   });
@@ -86,6 +89,27 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
             />
             <FormField
               control={form.control}
+              name="done"
+              render={({ field: { value, onChange, ...fieldRest } }) => (
+                <FormItem className="w-fit">
+                  <FormControl>
+                    <Toggle
+                      pressed={value}
+                      size="sm"
+                      onPressedChange={onChange}
+                      className="bg-accent data-[state=on]:bg-emerald-500"
+                      data-testid="note-done-toggle-btn"
+                      {...fieldRest}
+                    >
+                      {value ? <SquareCheck /> : <Square />}
+                      DONE
+                    </Toggle>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="content"
               render={({ field: { value, ...fieldRest } }) => (
                 <FormItem className="w-full">
@@ -132,6 +156,6 @@ const UpdateNote = ({ note, cb }: UpdateNoteProps) => {
       </div>
     </div>
   );
-};
+}
 
 export default UpdateNote;

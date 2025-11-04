@@ -21,7 +21,7 @@ import { createBoardSchema } from "@/utils/schemas";
 
 type CreateBoardInput = RouterInputs["board"]["create"];
 
-const CreateBoard = () => {
+function CreateBoard() {
   const form = useForm<CreateBoardInput>({
     resolver: zodResolver(createBoardSchema),
     defaultValues: {
@@ -137,6 +137,6 @@ const CreateBoard = () => {
       </Form>
     </div>
   );
-};
+}
 
 export default CreateBoard;

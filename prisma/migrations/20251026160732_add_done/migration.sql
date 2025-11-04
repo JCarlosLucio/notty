@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Note" ADD COLUMN "done" BOOLEAN NOT NULL DEFAULT false;

@@ -8,12 +8,7 @@ import { cn } from "@/utils/utils";
 
 type SearchInputProps = InputProps & { clear?: () => void };
 
-const SearchInput = ({
-  className,
-  value,
-  clear,
-  ...props
-}: SearchInputProps) => {
+function SearchInput({ className, value, clear, ...props }: SearchInputProps) {
   const ref = useRef<HTMLInputElement>(null);
 
   return (
@@ -40,6 +35,6 @@ const SearchInput = ({
       )}
     </search>
   );
-};
+}
 
 export default SearchInput;

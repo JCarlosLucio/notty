@@ -2,8 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider        = "prisma-client-js"
-    previewFeatures = ["driverAdapters"]
+    provider = "prisma-client-js"
 }
 
 datasource db {
@@ -93,10 +92,11 @@ model List {
 }
 
 model Note {
-    id       String @id @default(cuid())
+    id       String  @id @default(cuid())
     title    String
-    content  String @default("")
+    content  String  @default("")
     position String
+    done     Boolean @default(false)
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

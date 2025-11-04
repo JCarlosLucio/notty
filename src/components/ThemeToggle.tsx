@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 
-const ThemeToggle = () => {
+function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   // only render if mounted to avoid hydration mismatch - next-themes
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -27,6 +28,6 @@ const ThemeToggle = () => {
       <span className="sr-only">Toggle theme</span>
     </Button>
   );
-};
+}
 
 export default ThemeToggle;

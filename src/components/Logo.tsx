@@ -1,11 +1,11 @@
 import { type SVGProps } from "react";
 
-interface LogoProps extends SVGProps<SVGSVGElement> {
+type LogoProps = {
   title?: string;
   titleId?: string;
-}
+} & SVGProps<SVGSVGElement>;
 
-const Logo = ({ title = "logo", titleId = "logo", ...props }: LogoProps) => {
+function Logo({ title = "logo", titleId = "logo", ...props }: LogoProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -25,6 +25,6 @@ const Logo = ({ title = "logo", titleId = "logo", ...props }: LogoProps) => {
       </g>
     </svg>
   );
-};
+}
 
 export default Logo;

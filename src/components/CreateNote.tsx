@@ -20,7 +20,7 @@ import { createNoteSchema } from "@/utils/schemas";
 type CreateNoteInput = RouterInputs["note"]["create"];
 type CreateNoteProps = { listId: string };
 
-const CreateNote = ({ listId }: CreateNoteProps) => {
+function CreateNote({ listId }: CreateNoteProps) {
   const form = useForm<CreateNoteInput>({
     resolver: zodResolver(createNoteSchema),
     defaultValues: {
@@ -111,6 +111,6 @@ const CreateNote = ({ listId }: CreateNoteProps) => {
       </Form>
     </div>
   );
-};
+}
 
 export default CreateNote;

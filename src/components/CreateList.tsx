@@ -22,7 +22,7 @@ import { createListSchema } from "@/utils/schemas";
 type CreateListInput = RouterInputs["list"]["create"];
 type CreateListProps = { boardId: string };
 
-const CreateList = ({ boardId }: CreateListProps) => {
+function CreateList({ boardId }: CreateListProps) {
   const form = useForm<CreateListInput>({
     resolver: zodResolver(createListSchema),
     defaultValues: {
@@ -120,6 +120,6 @@ const CreateList = ({ boardId }: CreateListProps) => {
       </CardContent>
     </Card>
   );
-};
+}
 
 export default CreateList;

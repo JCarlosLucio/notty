@@ -23,6 +23,7 @@ const partialCreateInput: Omit<NoteCreateInput, "listId"> = {
 const partialUpdateInput: Omit<NoteUpdateInput, "id"> = {
   title: "Updated note title",
   content: "Updated note content",
+  done: true,
 };
 
 describe("Notes", () => {
@@ -132,6 +133,9 @@ describe("Notes", () => {
 
       const contents = notesAfter.map((n) => n.content);
       expect(contents).toContain(testUpdateInput.content);
+
+      const dones = notesAfter.map((n) => n.done);
+      expect(dones).toContain(testUpdateInput.done);
     });
 
     test("should throw UNAUTHORIZED when updating note without session", async () => {

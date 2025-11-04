@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { BOARD_SKELETON_LIMIT } from "@/utils/constants";
 import { getRandomArbitrary } from "@/utils/utils";
 
-const BoardsSkeleton = () => {
+function BoardsSkeleton() {
   return (
     <div className="flex h-full items-start gap-2 overflow-x-hidden px-5 pt-16">
       {Array.from({ length: BOARD_SKELETON_LIMIT }, (_, index) => (
@@ -15,6 +15,6 @@ const BoardsSkeleton = () => {
       ))}
     </div>
   );
-};
+}
 
 export default BoardsSkeleton;

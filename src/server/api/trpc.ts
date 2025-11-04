@@ -24,9 +24,9 @@ import { db } from "@/server/db";
  * These allow you to access things when processing a request, like the database, the session, etc.
  */
 
-interface CreateContextOptions {
+type CreateContextOptions = {
   session: Session | null;
-}
+};
 
 /**
  * This helper generates the "internals" for a tRPC context. If you need to use it, you can export

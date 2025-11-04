@@ -366,6 +366,23 @@ test.describe("Notes", () => {
     await expect(page.getByText(updatedContent)).toContainText(updatedContent);
   });
 
+  test("should update note done", async ({ page }) => {
+    await page.getByTestId("note").last().hover();
+    await page.getByTestId("open-note-details-btn").last().click();
+    await page.getByTestId("show-update-note-btn").click();
+    await page.getByTestId("note-done-toggle-btn").click();
+    await page.getByTestId("save-note-btn").click();
+
+    await expect(page.getByTestId("note-done-badge")).toContainText("DONE");
+
+    await page.getByRole("button", { name: "Close" }).click();
+
+    await expect(page.getByText("4th NOTE seed").first()).toHaveCSS(
+      "text-decoration",
+      "line-through",
+    );
+  });
+
   test("should delete note", async ({ page }) => {
     await page.getByTestId("note").last().hover();
     await page.getByTestId("open-note-details-btn").last().click();

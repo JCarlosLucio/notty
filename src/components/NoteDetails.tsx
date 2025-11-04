@@ -2,6 +2,7 @@ import { PencilIcon } from "lucide-react";
 import { useState } from "react";
 
 import DeleteNote from "@/components/DeleteNote";
+import { Badge } from "@/components/ui/badge";
 import { Button, type ButtonProps } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,7 +20,7 @@ type NoteDetailsProps = {
   note: RouterOutputs["note"]["getById"];
 } & ButtonProps;
 
-const NoteDetails = ({ note, ...props }: NoteDetailsProps) => {
+function NoteDetails({ note, ...props }: NoteDetailsProps) {
   const [open, setOpen] = useState(false);
   const [showUpdateNote, setShowUpdateNote] = useState(false);
 
@@ -61,6 +62,16 @@ const NoteDetails = ({ note, ...props }: NoteDetailsProps) => {
               <span className="text-muted-foreground text-sm">
                 {note.updatedAt.toDateString()}
               </span>
+              <div className="flex gap-2">
+                <Badge
+                  variant="secondary"
+                  className={note.done ? "bg-emerald-500" : ""}
+                  data-testid="note-done-badge"
+                >
+                  {!note.done && "NOT "}
+                  DONE
+                </Badge>
+              </div>
               <DialogDescription className="text-start">
                 {note.content}
               </DialogDescription>
@@ -73,6 +84,6 @@ const NoteDetails = ({ note, ...props }: NoteDetailsProps) => {
       </DialogContent>
     </Dialog>
   );
-};
+}
 
 export default NoteDetails;

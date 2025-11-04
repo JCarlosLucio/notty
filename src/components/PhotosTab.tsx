@@ -14,7 +14,7 @@ type PhotosTabProps = {
   >;
 };
 
-const PhotosTab = ({ setBg }: PhotosTabProps) => {
+function PhotosTab({ setBg }: PhotosTabProps) {
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query, 1000);
 
@@ -139,6 +139,6 @@ const PhotosTab = ({ setBg }: PhotosTabProps) => {
       </div>
     </TabsContent>
   );
-};
+}
 
 export default PhotosTab;

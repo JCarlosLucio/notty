@@ -20,7 +20,7 @@ type DeleteListProps = {
   cb?: () => void;
 } & ComponentProps<"div">;
 
-const DeleteList = ({ list, cb }: DeleteListProps) => {
+function DeleteList({ list, cb }: DeleteListProps) {
   const ctx = api.useUtils();
 
   const { mutate: deleteList, isPending } = api.list.delete.useMutation({
@@ -76,6 +76,6 @@ const DeleteList = ({ list, cb }: DeleteListProps) => {
       </DialogContent>
     </Dialog>
   );
-};
+}
 
 export default DeleteList;

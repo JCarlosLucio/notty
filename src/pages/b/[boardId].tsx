@@ -23,7 +23,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return { props: { session } };
 };
 
-const BoardPage = () => {
+function BoardPage() {
   const router = useRouter();
   const boardId = router.query.boardId ?? "";
   const id = Array.isArray(boardId) ? (boardId[0] ?? "") : boardId;
@@ -50,6 +50,6 @@ const BoardPage = () => {
       </main>
     </>
   );
-};
+}
 
 export default BoardPage;
