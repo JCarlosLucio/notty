@@ -98,6 +98,7 @@ function UpdateNote({ note, cb }: UpdateNoteProps) {
                       size="sm"
                       onPressedChange={onChange}
                       className="bg-accent data-[state=on]:bg-emerald-500"
+                      data-testid="note-done-toggle-btn"
                       {...fieldRest}
                     >
                       {value ? <SquareCheck /> : <Square />}
