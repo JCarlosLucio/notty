@@ -47,9 +47,9 @@
     "next": "16.0.10",
     "next-auth": "^4.24.13",
     "next-themes": "^0.4.6",
-    "react": "19.2.1",
+    "react": "19.2.3",
     "react-colorful": "^5.6.1",
-    "react-dom": "19.2.1",
+    "react-dom": "19.2.3",
     "react-hook-form": "^7.66.0",
     "sonner": "^2.0.7",
     "superjson": "^2.2.5",
@@ -59,8 +59,8 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.1",
-    "@next/eslint-plugin-next": "^16.0.7",
+    "@eslint/js": "^9.39.2",
+    "@next/eslint-plugin-next": "^16.0.10",
     "@playwright/test": "^1.56.1",
     "@tailwindcss/postcss": "^4.1.16",
     "@tanstack/react-query-devtools": "^5.90.2",
@@ -69,7 +69,7 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "dotenv": "^17.2.3",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
@@ -83,7 +83,7 @@
     "prisma": "^6.18.0",
     "tailwindcss": "^4.1.16",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.46.3",
+    "typescript-eslint": "^8.49.0",
     "vitest": "^4.0.7"
   },
   "ct3aMetadata": {
