@@ -15,6 +15,7 @@ type CircularProgressProps = {
   labelClassName?: string;
   showLabel?: boolean;
   tooltip?: string;
+  testId?: string;
 };
 
 function CircularProgress({
@@ -30,6 +31,7 @@ function CircularProgress({
   circleStrokeWidth = 10,
   progressStrokeWidth = 10,
   tooltip,
+  testId,
 }: CircularProgressProps) {
   const radius =
     (size - (strokeWidth ?? Math.max(circleStrokeWidth, progressStrokeWidth))) /
@@ -40,7 +42,11 @@ function CircularProgress({
   const viewBox = `${0} ${0} ${size} ${size}`;
 
   return (
-    <div className="relative" title={tooltip ?? value.toString()}>
+    <div
+      className="relative"
+      title={tooltip ?? value.toString()}
+      data-testid={testId}
+    >
       <svg
         role="progressbar"
         width={size}
