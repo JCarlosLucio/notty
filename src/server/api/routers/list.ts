@@ -7,6 +7,7 @@ import {
   getAllListSchema,
   getByIdListSchema,
   moveListSchema,
+  toggleListNotesDone,
   updateListSchema,
 } from "@/utils/schemas";
 import { midString } from "@/utils/sorting";
@@ -129,6 +130,28 @@ export const listRouter = createTRPCRouter({
         data: {
           title: input.title,
           color: input.color,
+        },
+      });
+    }),
+
+  toggleListNotesDone: protectedProcedure
+    .input(toggleListNotesDone)
+    .mutation(async ({ ctx, input }) => {
+      const notes = await ctx.db.note.findMany({
+        where: {
+          listId: input.id,
+        },
+      });
+
+      const someNotDone = notes.some((n) => !n.done);
+
+      return await ctx.db.note.updateManyAndReturn({
+        where: {
+          listId: input.id,
+          done: !someNotDone,
+        },
+        data: {
+          done: someNotDone,
         },
       });
     }),
