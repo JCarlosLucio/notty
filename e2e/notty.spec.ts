@@ -233,6 +233,25 @@ test.describe("Lists", () => {
     await expect(page.getByText("Your list was deleted.")).toBeVisible();
   });
 
+  test("should mark all notes as done", async ({ page }) => {
+    await page.getByTestId("open-list-details-btn").first().click();
+    await page.getByTestId("show-update-list-btn").click();
+    await page.getByTestId("list-notes-done-toggle-btn").click();
+    await page.getByRole("button", { name: "Close" }).click();
+
+    // check all notes are done
+    const notes = await page.getByText("NOTE seed").all();
+    for (const note of notes) {
+      await expect(note).toHaveCSS("text-decoration", "line-through");
+    }
+
+    // check progressbar has correct value
+    await expect(page.getByTestId("list-progress")).toHaveAttribute(
+      "title",
+      `${notes.length}/${notes.length}`,
+    );
+  });
+
   /** Drag n' Drop tests need double .hover() since dnd implementation uses dragover event.
    *  More info: https://playwright.dev/docs/input#drag-and-drop
    */
