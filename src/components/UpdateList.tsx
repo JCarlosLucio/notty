@@ -72,7 +72,7 @@ function UpdateList({ list, cb }: UpdateListProps) {
               control={form.control}
               name="title"
               render={({ field }) => (
-                <FormItem className="w-full px-[1px]">
+                <FormItem className="w-full px-px">
                   <FormLabel>Update Title</FormLabel>
                   <FormControl>
                     <div className="flex items-center gap-2">
