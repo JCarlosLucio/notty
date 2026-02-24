@@ -91,6 +91,10 @@ export const updateListSchema = z.object({
   color: z.string().nullable(),
 });
 
+export const toggleListNotesDone = z.object({
+  id: z.string(),
+});
+
 // NOTE
 export const getByIdNoteSchema = z.object({
   id: z.string(),
