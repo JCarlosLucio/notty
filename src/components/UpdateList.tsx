@@ -64,11 +64,11 @@ function UpdateList({ list, cb }: UpdateListProps) {
   };
 
   return (
-    <div className="flex max-h-full w-full shrink-0 p-6">
-      <div className="flex max-h-full w-full">
+    <div className="flex max-h-full w-full shrink-0 overflow-y-scroll p-6 xl:overflow-auto">
+      <div className="flex max-h-full w-full flex-col gap-4">
         <Form {...form}>
           <form
-            className="flex max-h-full w-full flex-col gap-4 overflow-y-scroll xl:overflow-auto"
+            className="flex max-h-full w-full flex-col gap-4"
             onSubmit={form.handleSubmit(onSubmit)}
           >
             <FormField
