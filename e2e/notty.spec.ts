@@ -400,6 +400,13 @@ test.describe("Notes", () => {
       "text-decoration",
       "line-through",
     );
+
+    // check progressbar has correct value
+    const notes = await page.getByTestId("note").all();
+    await expect(page.getByTestId("list-progress")).toHaveAttribute(
+      "title",
+      `1/${notes.length}`,
+    );
   });
 
   test("should delete note", async ({ page }) => {
