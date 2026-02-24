@@ -98,9 +98,9 @@ function UpdateList({ list, cb }: UpdateListProps) {
                   <FormLabel>Update Color</FormLabel>
                   <div className="flex flex-col justify-evenly gap-6 rounded-lg border p-6 md:flex-row">
                     <div className="flex flex-col justify-center gap-3">
-                      <h6 className="text-sm">Preview</h6>
+                      <Label>Preview</Label>
                       <div
-                        className="flex h-24 w-full items-start justify-end rounded-lg border md:w-40"
+                        className="flex h-14 w-full items-start justify-end rounded-lg border md:h-24 md:w-40"
                         style={{ backgroundColor: value ?? undefined }}
                       >
                         {value ? (
