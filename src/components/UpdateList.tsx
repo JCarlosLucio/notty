@@ -5,6 +5,7 @@ import { HexAlphaColorPicker, HexColorInput } from "react-colorful";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import ToggleListNotesDoneBtn from "@/components/ToggleListNotesDoneBtn";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,6 +16,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import { api, type RouterInputs, type RouterOutputs } from "@/utils/api";
 import { updateListSchema } from "@/utils/schemas";
 
@@ -157,6 +160,21 @@ function UpdateList({ list, cb }: UpdateListProps) {
             </div>
           </form>
         </Form>
+
+        <Separator className="md:my-4" />
+
+        <div className="flex flex-col gap-4">
+          <Label>Modify all notes in List</Label>
+          <div className="rounded-lg border p-6">
+            <div className="flex flex-col items-start justify-center gap-3">
+              <Label>Mark ALL NOTES as DONE</Label>
+              <ToggleListNotesDoneBtn
+                listId={list.id}
+                className="text-nowrap"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
