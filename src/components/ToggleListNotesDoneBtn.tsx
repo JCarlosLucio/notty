@@ -48,7 +48,7 @@ function ToggleListNotesDoneBtn({
       size="sm"
       onPressedChange={handleToggleListNotesDone}
       className={cn("bg-accent data-[state=on]:bg-emerald-500", className)}
-      data-testid="note-done-toggle-btn"
+      data-testid="list-notes-done-toggle-btn"
       disabled={isToggling}
     >
       {isLoading || isToggling ? (
