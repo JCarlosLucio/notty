@@ -1,8 +1,7 @@
 import { Loader2 } from "lucide-react";
 
+import { CircularProgress } from "@/components/ui/circular-progress";
 import { api } from "@/utils/api";
-
-import { CircularProgress } from "./ui/circular-progress";
 
 type ListProgressProps = { listId: string };
 
@@ -30,6 +29,7 @@ function ListProgress({ listId }: ListProgressProps) {
       size={20}
       strokeWidth={3}
       tooltip={notesProgressTooltip}
+      testId="list-progress"
     />
   );
 }
