@@ -45,7 +45,7 @@ function UserSessionPopover() {
             <p className="w-full truncate text-xl font-bold">
               {sessionData?.user.name}
             </p>
-            <small>v.0.1.1</small>
+            <small>v.0.1.2</small>
           </div>
           <div className="ml-2 flex h-7 items-center pl-2">
             <ThemeToggle />
