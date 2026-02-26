@@ -17,6 +17,9 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  env: {
+    npm_package_version: process.env.npm_package_version,
+  },
 };
 
 export default config;

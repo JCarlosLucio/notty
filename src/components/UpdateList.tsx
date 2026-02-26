@@ -5,6 +5,7 @@ import { HexAlphaColorPicker, HexColorInput } from "react-colorful";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import ToggleListNotesDoneBtn from "@/components/ToggleListNotesDoneBtn";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,6 +16,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import { api, type RouterInputs, type RouterOutputs } from "@/utils/api";
 import { updateListSchema } from "@/utils/schemas";
 
@@ -61,18 +64,18 @@ function UpdateList({ list, cb }: UpdateListProps) {
   };
 
   return (
-    <div className="flex max-h-full w-full shrink-0 p-6">
-      <div className="flex max-h-full w-full">
+    <div className="flex max-h-full w-full shrink-0 overflow-y-scroll p-6 xl:overflow-auto">
+      <div className="flex max-h-full w-full flex-col gap-4">
         <Form {...form}>
           <form
-            className="flex max-h-full w-full flex-col gap-4 overflow-y-scroll xl:overflow-auto"
+            className="flex max-h-full w-full flex-col gap-4"
             onSubmit={form.handleSubmit(onSubmit)}
           >
             <FormField
               control={form.control}
               name="title"
               render={({ field }) => (
-                <FormItem className="w-full px-[1px]">
+                <FormItem className="w-full px-px">
                   <FormLabel>Update Title</FormLabel>
                   <FormControl>
                     <div className="flex items-center gap-2">
@@ -95,9 +98,9 @@ function UpdateList({ list, cb }: UpdateListProps) {
                   <FormLabel>Update Color</FormLabel>
                   <div className="flex flex-col justify-evenly gap-6 rounded-lg border p-6 md:flex-row">
                     <div className="flex flex-col justify-center gap-3">
-                      <h6 className="text-sm">Preview</h6>
+                      <Label>Preview</Label>
                       <div
-                        className="flex h-24 w-full items-start justify-end rounded-lg border md:w-40"
+                        className="flex h-14 w-full items-start justify-end rounded-lg border md:h-24 md:w-40"
                         style={{ backgroundColor: value ?? undefined }}
                       >
                         {value ? (
@@ -124,7 +127,7 @@ function UpdateList({ list, cb }: UpdateListProps) {
                           onBlur={onBlur}
                         />
                         <HexColorInput
-                          className="border-input placeholder:text-muted-foreground focus-visible:ring-ring flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-1 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
+                          className="border-input placeholder:text-muted-foreground focus-visible:ring-ring hidden h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-1 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 md:flex"
                           alpha
                           prefixed
                           color={value ?? undefined}
@@ -157,6 +160,21 @@ function UpdateList({ list, cb }: UpdateListProps) {
             </div>
           </form>
         </Form>
+
+        <Separator className="md:my-4" />
+
+        <div className="flex flex-col gap-4">
+          <Label>Modify all notes in List</Label>
+          <div className="rounded-lg border p-6">
+            <div className="flex flex-col items-start justify-center gap-3">
+              <Label>Mark ALL NOTES as DONE</Label>
+              <ToggleListNotesDoneBtn
+                listId={list.id}
+                className="text-nowrap"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

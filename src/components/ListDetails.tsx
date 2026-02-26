@@ -2,6 +2,7 @@ import { PencilIcon } from "lucide-react";
 import { type ComponentProps, useState } from "react";
 
 import DeleteList from "@/components/DeleteList";
+import ListProgress from "@/components/ListProgress";
 import { Button } from "@/components/ui/button";
 import { CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -31,6 +32,7 @@ function ListDetails({ list, ...props }: ListDetailsProps) {
         style={{ backgroundColor: list.color ?? "" }}
         {...props}
       >
+        <ListProgress listId={list.id} />
         <CardTitle className="w-full truncate pl-3 text-center text-lg md:text-xl">
           {list.title}
         </CardTitle>
