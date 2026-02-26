@@ -8,6 +8,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { env } from "@/env.mjs";
 
 function UserSessionPopover() {
   const { data: sessionData } = useSession();
@@ -45,7 +46,7 @@ function UserSessionPopover() {
             <p className="w-full truncate text-xl font-bold">
               {sessionData?.user.name}
             </p>
-            <small>v.0.1.2</small>
+            <small>v.{env.NEXT_PUBLIC_APP_VERSION}</small>
           </div>
           <div className="ml-2 flex h-7 items-center pl-2">
             <ThemeToggle />
