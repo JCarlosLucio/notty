@@ -17,7 +17,7 @@ function MyApp({
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <SessionProvider session={session}>
         <Component {...pageProps} />
-        <Toaster />
+        <Toaster closeButton />
         <ReactQueryDevtools initialIsOpen={false} />
       </SessionProvider>
     </ThemeProvider>
