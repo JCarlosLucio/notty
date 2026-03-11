@@ -54,7 +54,7 @@ function BoardsSheet({ currentBoardId }: BoardsProps) {
           data-testid="open-boards-btn"
         >
           <span className="hidden md:inline-block">My Boards</span>
-          <ChevronRightIcon className="h-[1.5rem] w-[1.5rem]" />
+          <ChevronRightIcon className="h-6 w-6" />
         </Button>
       </SheetTrigger>
       <SheetContent
