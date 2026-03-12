@@ -14,7 +14,7 @@ function ColorsTab({ setBg }: ColorsTabProps) {
   return (
     <TabsContent value="colors" className="flex xl:overflow-y-hidden">
       <div className="flex h-max w-full gap-3 pt-2 xl:h-auto xl:overflow-hidden">
-        <div className="grid w-2/3 grid-cols-2 content-start gap-2 md:grid-cols-3">
+        <div className="grid w-2/3 grid-cols-2 content-start gap-2 md:grid-cols-3 xl:grid-cols-4">
           {gradients.map((gradient) => (
             <Button
               type="button"
@@ -29,7 +29,7 @@ function ColorsTab({ setBg }: ColorsTabProps) {
           ))}
         </div>
         <div className="h-full border-l" />
-        <div className="grid w-1/3 grid-cols-1 content-start gap-2 md:grid-cols-2">
+        <div className="grid w-1/3 grid-cols-1 content-start gap-2 md:grid-cols-2 xl:grid-cols-3">
           {colors.map((color) => (
             <Button
               type="button"
