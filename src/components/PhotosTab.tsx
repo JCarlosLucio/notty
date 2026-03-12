@@ -109,7 +109,7 @@ function PhotosTab({ setBg }: PhotosTabProps) {
         <div className="text-xs">
           By using images from{" "}
           <Link
-            className="hover:underline"
+            className="underline md:no-underline hover:md:underline"
             href="https://unsplash.com/"
             rel="noreferrer"
             target="_blank"
@@ -118,7 +118,7 @@ function PhotosTab({ setBg }: PhotosTabProps) {
           </Link>
           , you agree to their{" "}
           <Link
-            className="hover:underline"
+            className="underline md:no-underline hover:md:underline"
             href="https://unsplash.com/license"
             rel="noreferrer"
             target="_blank"
@@ -127,7 +127,7 @@ function PhotosTab({ setBg }: PhotosTabProps) {
           </Link>{" "}
           and{" "}
           <Link
-            className="hover:underline"
+            className="underline md:no-underline hover:md:underline"
             href="https://unsplash.com/terms"
             rel="noreferrer"
             target="_blank"
