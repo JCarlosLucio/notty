@@ -50,7 +50,7 @@ function PhotosTab({ setBg }: PhotosTabProps) {
 
         {/* Photos */}
         <div className="flex flex-col gap-2 overflow-y-scroll hover:overflow-y-scroll xl:overflow-hidden">
-          <div className="grid w-full grid-cols-3 gap-2">
+          <div className="grid w-full grid-cols-3 gap-2 md:grid-cols-4">
             {data?.pages.map((pageData) =>
               pageData.photos?.map((photo) => (
                 <Button
@@ -86,7 +86,7 @@ function PhotosTab({ setBg }: PhotosTabProps) {
           </div>
 
           {(isLoading || isFetchingNextPage) && (
-            <div className="grid w-full grid-cols-3 gap-2">
+            <div className="grid w-full grid-cols-3 gap-2 md:grid-cols-4">
               {Array.from({ length: 9 }, (_, index) => (
                 <Skeleton key={index} className="h-28 rounded-md" />
               ))}
