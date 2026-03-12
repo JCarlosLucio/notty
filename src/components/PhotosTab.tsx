@@ -73,7 +73,7 @@ function PhotosTab({ setBg }: PhotosTabProps) {
                   data-testid="select-photo-btn"
                 >
                   <Link
-                    className="bg-card/50 invisible w-full px-1 text-start text-xs group-hover:visible"
+                    className="bg-card/50 visible w-full truncate px-1 text-start text-xs md:invisible group-hover:md:visible"
                     href={photo.user.links.html}
                     rel="noreferrer"
                     target="_blank"
