@@ -6,6 +6,7 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import ColorsTab from "@/components/ColorsTab";
+import DeleteBoard from "@/components/DeleteBoard";
 import PhotosTab from "@/components/PhotosTab";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +18,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { api, type RouterInputs, type RouterOutputs } from "@/utils/api";
 import { updateBoardSchema } from "@/utils/schemas";
@@ -103,113 +106,122 @@ function UpdateBoard({ board, cb }: UpdateBoardProps) {
   };
 
   return (
-    <div className="flex max-h-full w-full shrink-0">
-      <div className="flex max-h-full w-full">
-        <Form {...form}>
-          <form
-            className="flex max-h-full w-full flex-col gap-4 overflow-y-scroll xl:overflow-auto"
-            onSubmit={form.handleSubmit(onSubmit)}
-          >
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem className="w-full px-px">
-                  <FormLabel>Update Title</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Your new board title..."
-                      autoFocus
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+    <div className="flex h-full w-full flex-col gap-4">
+      <Form {...form}>
+        <form
+          className="flex flex-col gap-4"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
+          <small className="text-muted-foreground">
+            {board.updatedAt.toDateString()}
+          </small>
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem className="w-full px-px">
+                <FormLabel>Update Title</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Your new board title..."
+                    autoFocus
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            {/* Update bg (gradient / photos) */}
-            <div className="flex flex-col items-center gap-2">
-              <h6 className="text-sm">Current background</h6>
-              <div
-                className="flex h-36 w-full items-start justify-end rounded-lg border xl:h-52"
-                style={{
-                  backgroundImage: bg.thumb ?? "",
-                  backgroundSize: "cover",
-                }}
-                data-testid="bg-preview"
-              >
-                {bg.thumb ? (
-                  <Button
-                    type="button"
-                    size="icon"
-                    variant="destructive"
-                    className="m-3"
-                    onClick={() => setBg({ full: null, thumb: null })}
-                    aria-label="Remove background"
-                  >
-                    <XIcon />
-                  </Button>
-                ) : (
-                  <span className="m-auto text-xs italic">None</span>
-                )}
-              </div>
-            </div>
-
-            <Tabs
-              defaultValue="colors"
-              className="flex flex-col xl:overflow-y-hidden"
+          {/* Update bg (gradient / photos) */}
+          <div className="flex flex-col items-center gap-2">
+            <h6 className="text-sm">Background Preview</h6>
+            <div
+              className="flex h-36 w-full items-start justify-end rounded-lg border xl:h-52"
+              style={{
+                backgroundImage: bg.thumb ?? "",
+                backgroundSize: "cover",
+              }}
+              data-testid="bg-preview"
             >
-              <TabsList className="w-full">
-                <TabsTrigger
-                  value="colors"
-                  className="w-full"
-                  data-testid="colors-tab"
+              {bg.thumb ? (
+                <Button
+                  type="button"
+                  size="icon"
+                  variant="destructive"
+                  className="m-3"
+                  onClick={() => setBg({ full: null, thumb: null })}
+                  aria-label="Remove selected background"
                 >
-                  Colors
-                </TabsTrigger>
-                <TabsTrigger
-                  value="photos"
-                  className="w-full"
-                  data-testid="photos-tab"
-                >
-                  <span>
-                    Photos by{" "}
-                    <Link
-                      className="hover:underline"
-                      href="https://unsplash.com/"
-                      rel="noreferrer"
-                      target="_blank"
-                    >
-                      Unsplash
-                    </Link>
-                  </span>
-                </TabsTrigger>
-              </TabsList>
-              <ColorsTab setBg={setBg} />
-              <PhotosTab setBg={setBg} />
-            </Tabs>
-            <div className="flex flex-col gap-2 md:flex-row">
-              <Button
-                type="submit"
-                disabled={isPending}
-                isLoading={isPending}
-                className="w-full"
-                data-testid="save-board-btn"
-              >
-                Save
-              </Button>
-              <Button
-                variant="ghost"
-                onClick={cb}
-                className=""
-                data-testid="cancel-update-board-btn"
-              >
-                Cancel
-              </Button>
+                  <XIcon />
+                </Button>
+              ) : (
+                <span className="m-auto text-xs italic">None</span>
+              )}
             </div>
-          </form>
-        </Form>
+          </div>
+
+          <Tabs defaultValue="colors" className="flex flex-col">
+            <TabsList className="w-full">
+              <TabsTrigger
+                value="colors"
+                className="w-full"
+                data-testid="colors-tab"
+              >
+                Colors
+              </TabsTrigger>
+              <TabsTrigger
+                value="photos"
+                className="w-full"
+                data-testid="photos-tab"
+              >
+                <span>
+                  Photos by{" "}
+                  <Link
+                    className="hover:underline"
+                    href="https://unsplash.com/"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    Unsplash
+                  </Link>
+                </span>
+              </TabsTrigger>
+            </TabsList>
+            <ColorsTab setBg={setBg} />
+            <PhotosTab setBg={setBg} />
+          </Tabs>
+          <div className="flex flex-col gap-2 md:flex-row">
+            <Button
+              type="submit"
+              disabled={isPending}
+              isLoading={isPending}
+              className="w-full"
+              data-testid="save-board-btn"
+            >
+              Save
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={cb}
+              data-testid="cancel-update-board-btn"
+            >
+              Cancel
+            </Button>
+          </div>
+        </form>
+      </Form>
+
+      <Separator className="md:my-4" />
+
+      <div className="flex flex-col gap-2">
+        <Label>DANGER ZONE</Label>
+        <div className="rounded-lg border p-4">
+          <div className="flex flex-col items-center justify-start gap-3 md:flex-row">
+            <DeleteBoard board={board} cb={cb} />
+          </div>
+        </div>
       </div>
     </div>
   );
