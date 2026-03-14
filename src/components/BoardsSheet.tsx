@@ -101,6 +101,7 @@ function BoardsSheet({ currentBoardId }: BoardsProps) {
                       style={{
                         backgroundImage: board.thumb ?? "",
                         backgroundSize: "cover",
+                        backgroundPosition: "center",
                       }}
                       data-testid="board-link"
                     >

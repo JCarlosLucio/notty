@@ -141,6 +141,7 @@ function UpdateBoard({ board, cb }: UpdateBoardProps) {
               style={{
                 backgroundImage: bg.thumb ?? "",
                 backgroundSize: "cover",
+                backgroundPosition: "center",
               }}
               data-testid="bg-preview"
             >

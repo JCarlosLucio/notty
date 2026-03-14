@@ -62,6 +62,7 @@ function PhotosTab({ setBg }: PhotosTabProps) {
                   style={{
                     background: `url(${photo.urls.thumb})`,
                     backgroundSize: "cover",
+                    backgroundPosition: "center",
                   }}
                   onClick={() =>
                     setBg({
