@@ -137,7 +137,7 @@ function UpdateBoard({ board, cb }: UpdateBoardProps) {
           <div className="flex flex-col items-center gap-2">
             <h6 className="text-sm">Background Preview</h6>
             <div
-              className="flex h-36 w-full items-start justify-end rounded-lg border xl:h-52"
+              className="flex aspect-video h-36 items-start justify-end rounded-lg border xl:h-52"
               style={{
                 backgroundImage: bg.thumb ?? "",
                 backgroundSize: "cover",
