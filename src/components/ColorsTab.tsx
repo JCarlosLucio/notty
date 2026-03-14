@@ -12,8 +12,8 @@ type ColorsTabProps = {
 
 function ColorsTab({ setBg }: ColorsTabProps) {
   return (
-    <TabsContent value="colors" className="flex xl:overflow-y-hidden">
-      <div className="flex h-max w-full gap-3 pt-2 xl:h-auto xl:overflow-hidden">
+    <TabsContent value="colors">
+      <div className="flex h-max w-full gap-3 pt-2 xl:h-auto">
         <div className="grid w-2/3 grid-cols-2 content-start gap-2 md:grid-cols-3 xl:grid-cols-4">
           {gradients.map((gradient) => (
             <Button

@@ -35,7 +35,7 @@ function PhotosTab({ setBg }: PhotosTabProps) {
   );
 
   return (
-    <TabsContent value="photos" className="flex overflow-y-hidden">
+    <TabsContent value="photos">
       <div className="flex w-full flex-col gap-3 pt-2">
         {/* Search input */}
         <SearchInput
@@ -49,7 +49,7 @@ function PhotosTab({ setBg }: PhotosTabProps) {
         />
 
         {/* Photos */}
-        <div className="flex flex-col gap-2 overflow-y-scroll hover:overflow-y-scroll xl:overflow-hidden">
+        <div className="flex flex-col gap-2">
           <div className="grid w-full grid-cols-3 gap-2 md:grid-cols-4">
             {data?.pages.map((pageData) =>
               pageData.photos?.map((photo) => (
