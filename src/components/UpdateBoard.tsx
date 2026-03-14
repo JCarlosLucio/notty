@@ -179,7 +179,7 @@ function UpdateBoard({ board, cb }: UpdateBoardProps) {
                 <span>
                   Photos by{" "}
                   <Link
-                    className="hover:underline"
+                    className="underline md:no-underline hover:md:underline"
                     href="https://unsplash.com/"
                     rel="noreferrer"
                     target="_blank"
