@@ -54,7 +54,7 @@ function BoardsSheet({ currentBoardId }: BoardsProps) {
           data-testid="open-boards-btn"
         >
           <span className="hidden md:inline-block">My Boards</span>
-          <ChevronRightIcon className="h-[1.5rem] w-[1.5rem]" />
+          <ChevronRightIcon className="h-6 w-6" />
         </Button>
       </SheetTrigger>
       <SheetContent
@@ -101,6 +101,7 @@ function BoardsSheet({ currentBoardId }: BoardsProps) {
                       style={{
                         backgroundImage: board.thumb ?? "",
                         backgroundSize: "cover",
+                        backgroundPosition: "center",
                       }}
                       data-testid="board-link"
                     >

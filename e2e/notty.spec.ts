@@ -76,7 +76,6 @@ test.describe("Boards", () => {
     const updatedTitle = "Updated title";
 
     await page.getByTestId("open-board-details-btn").click();
-    await page.getByTestId("show-update-board-btn").click();
     await page.getByPlaceholder("Your new board title...").fill(updatedTitle);
     await page.getByTestId("save-board-btn").click();
     await page.getByRole("button", { name: "Close" }).click();
@@ -85,7 +84,6 @@ test.describe("Boards", () => {
 
   test("should update board bg to a color", async ({ page }) => {
     await page.getByTestId("open-board-details-btn").click();
-    await page.getByTestId("show-update-board-btn").click();
 
     const colorBtn = page.getByTestId("select-color-btn").first();
     const colorBg = await colorBtn.evaluate((el) =>
@@ -105,7 +103,6 @@ test.describe("Boards", () => {
 
   test("should update board bg to a photo", async ({ page }) => {
     await page.getByTestId("open-board-details-btn").click();
-    await page.getByTestId("show-update-board-btn").click();
     await page.getByTestId("photos-tab").click();
 
     await page.getByTestId("select-photo-btn").first().click();
@@ -134,7 +131,6 @@ test.describe("Boards", () => {
 
   test("should update board bg with a searched photo", async ({ page }) => {
     await page.getByTestId("open-board-details-btn").click();
-    await page.getByTestId("show-update-board-btn").click();
     await page.getByTestId("photos-tab").click();
 
     const initialPhotoBg = await page
@@ -215,7 +211,6 @@ test.describe("Lists", () => {
     const updatedTitle = "Updated title";
 
     await page.getByTestId("open-list-details-btn").last().click();
-    await page.getByTestId("show-update-list-btn").click();
     await page.getByPlaceholder("Your new list title...").fill(updatedTitle);
     await page.getByTestId("save-list-btn").click();
     await page.getByRole("button", { name: "Close" }).click();
@@ -235,7 +230,6 @@ test.describe("Lists", () => {
 
   test("should mark all notes as done", async ({ page }) => {
     await page.getByTestId("open-list-details-btn").first().click();
-    await page.getByTestId("show-update-list-btn").click();
     await page.getByTestId("list-notes-done-toggle-btn").click();
     await page.getByRole("button", { name: "Close" }).click();
 
@@ -363,7 +357,6 @@ test.describe("Notes", () => {
 
     await page.getByTestId("note").last().hover();
     await page.getByTestId("open-note-details-btn").last().click();
-    await page.getByTestId("show-update-note-btn").click();
     await page.getByPlaceholder("Your new note title...").fill(updatedTitle);
     await page.getByTestId("save-note-btn").click();
     await page.getByRole("button", { name: "Close" }).click();
@@ -376,7 +369,6 @@ test.describe("Notes", () => {
 
     await page.getByTestId("note").last().hover();
     await page.getByTestId("open-note-details-btn").last().click();
-    await page.getByTestId("show-update-note-btn").click();
     await page
       .getByPlaceholder("Your new note content...")
       .fill(updatedContent);
@@ -388,11 +380,8 @@ test.describe("Notes", () => {
   test("should update note done", async ({ page }) => {
     await page.getByTestId("note").last().hover();
     await page.getByTestId("open-note-details-btn").last().click();
-    await page.getByTestId("show-update-note-btn").click();
     await page.getByTestId("note-done-toggle-btn").click();
     await page.getByTestId("save-note-btn").click();
-
-    await expect(page.getByTestId("note-done-badge")).toContainText("DONE");
 
     await page.getByRole("button", { name: "Close" }).click();
 

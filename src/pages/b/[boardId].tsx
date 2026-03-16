@@ -40,6 +40,7 @@ function BoardPage() {
           currentBoard && {
             backgroundImage: currentBoard.bg ?? "",
             backgroundSize: "cover",
+            backgroundPosition: "center",
           }
         }
         data-testid="current-board"

@@ -35,7 +35,7 @@ function PhotosTab({ setBg }: PhotosTabProps) {
   );
 
   return (
-    <TabsContent value="photos" className="flex overflow-y-hidden">
+    <TabsContent value="photos">
       <div className="flex w-full flex-col gap-3 pt-2">
         {/* Search input */}
         <SearchInput
@@ -49,8 +49,8 @@ function PhotosTab({ setBg }: PhotosTabProps) {
         />
 
         {/* Photos */}
-        <div className="flex flex-col gap-2 overflow-y-scroll hover:overflow-y-scroll xl:overflow-hidden">
-          <div className="grid w-full grid-cols-3 gap-2">
+        <div className="flex flex-col gap-2">
+          <div className="grid w-full grid-cols-3 gap-2 md:grid-cols-4">
             {data?.pages.map((pageData) =>
               pageData.photos?.map((photo) => (
                 <Button
@@ -62,6 +62,7 @@ function PhotosTab({ setBg }: PhotosTabProps) {
                   style={{
                     background: `url(${photo.urls.thumb})`,
                     backgroundSize: "cover",
+                    backgroundPosition: "center",
                   }}
                   onClick={() =>
                     setBg({
@@ -73,7 +74,7 @@ function PhotosTab({ setBg }: PhotosTabProps) {
                   data-testid="select-photo-btn"
                 >
                   <Link
-                    className="bg-card/50 invisible w-full px-1 text-start text-xs group-hover:visible"
+                    className="bg-card/50 visible w-full truncate px-1 text-start text-xs md:invisible group-hover:md:visible"
                     href={photo.user.links.html}
                     rel="noreferrer"
                     target="_blank"
@@ -86,7 +87,7 @@ function PhotosTab({ setBg }: PhotosTabProps) {
           </div>
 
           {(isLoading || isFetchingNextPage) && (
-            <div className="grid w-full grid-cols-3 gap-2">
+            <div className="grid w-full grid-cols-3 gap-2 md:grid-cols-4">
               {Array.from({ length: 9 }, (_, index) => (
                 <Skeleton key={index} className="h-28 rounded-md" />
               ))}
@@ -109,7 +110,7 @@ function PhotosTab({ setBg }: PhotosTabProps) {
         <div className="text-xs">
           By using images from{" "}
           <Link
-            className="hover:underline"
+            className="underline md:no-underline hover:md:underline"
             href="https://unsplash.com/"
             rel="noreferrer"
             target="_blank"
@@ -118,7 +119,7 @@ function PhotosTab({ setBg }: PhotosTabProps) {
           </Link>
           , you agree to their{" "}
           <Link
-            className="hover:underline"
+            className="underline md:no-underline hover:md:underline"
             href="https://unsplash.com/license"
             rel="noreferrer"
             target="_blank"
@@ -127,7 +128,7 @@ function PhotosTab({ setBg }: PhotosTabProps) {
           </Link>{" "}
           and{" "}
           <Link
-            className="hover:underline"
+            className="underline md:no-underline hover:md:underline"
             href="https://unsplash.com/terms"
             rel="noreferrer"
             target="_blank"

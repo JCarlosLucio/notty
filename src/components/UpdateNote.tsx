@@ -4,6 +4,7 @@ import { type ComponentProps } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import DeleteNote from "@/components/DeleteNote";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,6 +16,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { Toggle } from "@/components/ui/toggle";
 import { api, type RouterInputs, type RouterOutputs } from "@/utils/api";
@@ -61,98 +64,110 @@ function UpdateNote({ note, cb }: UpdateNoteProps) {
   };
 
   return (
-    <div className="flex flex-row items-end gap-2">
-      <div className="w-full">
-        <Form {...form}>
-          <form
-            className="flex flex-col gap-4"
-            onSubmit={form.handleSubmit(onSubmit)}
-          >
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Update Title</FormLabel>
-                  <FormControl>
-                    <div className="flex items-center gap-2">
-                      <Input
-                        placeholder="Your new note title..."
-                        autoFocus
-                        {...field}
-                      />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="done"
-              render={({ field: { value, onChange, ...fieldRest } }) => (
-                <FormItem className="w-fit">
-                  <FormControl>
-                    <Toggle
-                      pressed={value}
-                      size="sm"
-                      onPressedChange={onChange}
-                      className="bg-accent data-[state=on]:bg-emerald-500"
-                      data-testid="note-done-toggle-btn"
-                      {...fieldRest}
-                    >
-                      {value ? <SquareCheck /> : <Square />}
-                      DONE
-                    </Toggle>
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="content"
-              render={({ field: { value, ...fieldRest } }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Update Content</FormLabel>
-                  <FormControl>
-                    <div className="flex items-center gap-2">
-                      <Textarea
-                        className="h-56 md:h-96"
-                        placeholder="Your new note content..."
-                        value={value}
-                        {...fieldRest}
-                      />
-                    </div>
-                  </FormControl>
-                  <FormDescription
-                    style={
-                      MAX_CONTENT_LENGTH - value.length < 1
-                        ? { color: "red" }
-                        : undefined
-                    }
+    <div className="flex h-full w-full flex-col gap-4">
+      <Form {...form}>
+        <form
+          className="flex flex-col gap-4"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
+          <small className="text-muted-foreground">
+            {note.updatedAt.toDateString()}
+          </small>
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Update Title</FormLabel>
+                <FormControl>
+                  <div className="flex items-center gap-2">
+                    <Input
+                      placeholder="Your new note title..."
+                      autoFocus
+                      {...field}
+                    />
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="done"
+            render={({ field: { value, onChange, ...fieldRest } }) => (
+              <FormItem className="w-fit">
+                <FormControl>
+                  <Toggle
+                    pressed={value}
+                    size="sm"
+                    onPressedChange={onChange}
+                    className="bg-accent data-[state=on]:bg-emerald-500"
+                    data-testid="note-done-toggle-btn"
+                    {...fieldRest}
                   >
-                    {`${MAX_CONTENT_LENGTH - value.length} character${MAX_CONTENT_LENGTH - value.length !== 1 ? "s" : ""} left.`}
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div className="flex flex-col gap-2 md:flex-row">
-              <Button
-                type="submit"
-                disabled={isPending || !form.formState.isDirty}
-                isLoading={isPending}
-                className="w-full"
-                data-testid="save-note-btn"
-              >
-                Save
-              </Button>
-              <Button type="button" variant="ghost" onClick={cb}>
-                Cancel
-              </Button>
-            </div>
-          </form>
-        </Form>
+                    {value ? <SquareCheck /> : <Square />}
+                    DONE
+                  </Toggle>
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="content"
+            render={({ field: { value, ...fieldRest } }) => (
+              <FormItem className="w-full">
+                <FormLabel>Update Content</FormLabel>
+                <FormControl>
+                  <div className="flex items-center gap-2">
+                    <Textarea
+                      className="h-56 md:h-96"
+                      placeholder="Your new note content..."
+                      value={value}
+                      {...fieldRest}
+                    />
+                  </div>
+                </FormControl>
+                <FormDescription
+                  style={
+                    MAX_CONTENT_LENGTH - value.length < 1
+                      ? { color: "red" }
+                      : undefined
+                  }
+                >
+                  {`${MAX_CONTENT_LENGTH - value.length} character${MAX_CONTENT_LENGTH - value.length !== 1 ? "s" : ""} left.`}
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className="flex flex-col gap-2 md:flex-row">
+            <Button
+              type="submit"
+              disabled={isPending || !form.formState.isDirty}
+              isLoading={isPending}
+              className="w-full"
+              data-testid="save-note-btn"
+            >
+              Save
+            </Button>
+            <Button type="button" variant="ghost" onClick={cb}>
+              Cancel
+            </Button>
+          </div>
+        </form>
+      </Form>
+
+      <Separator className="md:my-4" />
+
+      <div className="flex flex-col gap-2">
+        <Label>DANGER ZONE</Label>
+        <div className="rounded-lg border p-4">
+          <div className="flex flex-col items-center justify-start gap-3 md:flex-row">
+            <DeleteNote note={note} cb={cb} />
+          </div>
+        </div>
       </div>
     </div>
   );

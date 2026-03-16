@@ -1,15 +1,11 @@
 import { PencilIcon } from "lucide-react";
 import { useState } from "react";
 
-import DeleteNote from "@/components/DeleteNote";
-import { Badge } from "@/components/ui/badge";
 import { Button, type ButtonProps } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
-  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
@@ -22,7 +18,6 @@ type NoteDetailsProps = {
 
 function NoteDetails({ note, ...props }: NoteDetailsProps) {
   const [open, setOpen] = useState(false);
-  const [showUpdateNote, setShowUpdateNote] = useState(false);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -31,56 +26,17 @@ function NoteDetails({ note, ...props }: NoteDetailsProps) {
           <PencilIcon />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-2xl lg:max-w-5xl" data-no-dnd="true">
-        {showUpdateNote ? (
-          <>
-            <DialogTitle className="hidden">
-              Updating &quot;{note.title}&quot;
-            </DialogTitle>
-            <DialogDescription className="hidden">
-              Update note title and content.
-            </DialogDescription>
-            <UpdateNote note={note} cb={() => setShowUpdateNote(false)} />
-          </>
-        ) : (
-          <>
-            <DialogHeader>
-              <div className="mr-2 flex flex-row gap-2">
-                <DialogTitle className="text-start text-2xl">
-                  {note.title}
-                </DialogTitle>
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  onClick={() => setShowUpdateNote(true)}
-                  aria-label="Show update note form"
-                  data-testid="show-update-note-btn"
-                >
-                  <PencilIcon />
-                </Button>
-              </div>
-              <span className="text-muted-foreground text-sm">
-                {note.updatedAt.toDateString()}
-              </span>
-              <div className="flex gap-2">
-                <Badge
-                  variant="secondary"
-                  className={note.done ? "bg-emerald-500" : ""}
-                  data-testid="note-done-badge"
-                >
-                  {!note.done && "NOT "}
-                  DONE
-                </Badge>
-              </div>
-              <DialogDescription className="text-start">
-                {note.content}
-              </DialogDescription>
-            </DialogHeader>
-            <DialogFooter>
-              <DeleteNote note={note} cb={() => setOpen(false)} />
-            </DialogFooter>
-          </>
-        )}
+      <DialogContent
+        className="flex max-h-full shrink-0 overflow-y-scroll sm:max-w-2xl lg:max-w-5xl xl:overflow-auto"
+        data-no-dnd="true"
+      >
+        <DialogTitle className="hidden">
+          Updating &quot;{note.title}&quot;
+        </DialogTitle>
+        <DialogDescription className="hidden">
+          Update note title and content.
+        </DialogDescription>
+        <UpdateNote note={note} cb={() => setOpen(false)} />
       </DialogContent>
     </Dialog>
   );
